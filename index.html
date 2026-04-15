@@ -104,7 +104,10 @@
                     <button onclick="gantiHalaman('guru')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-slate-600 hover:text-sekolah-biru hover:bg-blue-50 transition-colors">Guru</button>
                     <button onclick="gantiHalaman('berita')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-slate-600 hover:text-sekolah-biru hover:bg-blue-50 transition-colors">Berita</button>
                     <button onclick="gantiHalaman('kontak')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-slate-600 hover:text-sekolah-biru hover:bg-blue-50 transition-colors">Kontak</button>
-                    <button onclick="gantiHalaman('galeri')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-slate-600 hover:text-sekolah-biru hover:bg-blue-50 transition-colors">Galeri</button>
+                    <!-- <button onclick="gantiHalaman('galeri')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-slate-600 hover:text-sekolah-biru hover:bg-blue-50 transition-colors">Galeri</button> -->
+                    <a href="https://drive.google.com/file/d/1jH0X-2yWYa816c_l5fRN2RQ6boKgUioU/view?usp=sharing" target="_blank" class="ml-2 bg-yellow-400 text-slate-900 px-5 py-2 rounded-full text-sm font-bold hover:bg-yellow-300 transition-colors shadow-lg shadow-yellow-500/30 flex items-center">
+                        <i class="fa-solid fa-download mr-2"></i> Brosur
+                    </a>
                     <button onclick="gantiHalaman('ppdb')" class="ml-4 bg-sekolah-biru text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-blue-800 transition-colors shadow-lg shadow-blue-500/30">
                         <i class="fa-solid fa-user-plus mr-2"></i> SPMB
                     </button>
@@ -127,9 +130,15 @@
                 <button onclick="gantiHalaman('visimisi'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-600 hover:text-sekolah-biru hover:bg-blue-50">Visi Misi</button>
                 <button onclick="gantiHalaman('guru'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-600 hover:text-sekolah-biru hover:bg-blue-50">Data Guru</button>
                 <button onclick="gantiHalaman('berita'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-600 hover:text-sekolah-biru hover:bg-blue-50">Berita</button>
-                <button onclick="gantiHalaman('galeri'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-600 hover:text-sekolah-biru hover:bg-blue-50">Galeri</button>
                 <button onclick="gantiHalaman('kontak'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-600 hover:text-sekolah-biru hover:bg-blue-50">Kontak</button>
-                <button onclick="gantiHalaman('ppdb'); toggleMobileMenu()" class="block w-full text-center mt-4 bg-sekolah-biru text-white px-3 py-2 rounded-md text-base font-medium hover:bg-blue-800">Daftar SPMB</button>
+                <div class="mt-6 pt-4 border-t border-slate-100 space-y-3">
+                    <a href="https://drive.google.com/file/d/1jH0X-2yWYa816c_l5fRN2RQ6boKgUioU/view?usp=sharing" target="_blank" class="block w-full text-center bg-yellow-400 text-slate-900 px-3 py-3 rounded-md text-base font-bold hover:bg-yellow-300 transition-colors shadow-md shadow-yellow-500/20">
+                        <i class="fa-solid fa-download mr-2"></i> Download Brosur
+                    </a>
+                    <button onclick="gantiHalaman('ppdb'); toggleMobileMenu()" class="block w-full text-center bg-sekolah-biru text-white px-3 py-3 rounded-md text-base font-medium hover:bg-blue-800 transition-colors shadow-md shadow-blue-500/20">
+                        <i class="fa-solid fa-user-plus mr-2"></i> Daftar PPDB
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
@@ -279,57 +288,7 @@
                         <p class="text-slate-600 mt-4 max-w-2xl mx-auto">Kami menyediakan kurikulum khusus untuk mempersiapkan siswa bersaing di tingkat global dengan keimanan yang teguh.</p>
                     </div>
                     <div id="program-unggulan" class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                        <!-- Kartu Unggulan 1 -->
-                        <div class="relative rounded-2xl overflow-hidden shadow-lg kartu-hover group h-80 flex flex-col justify-end border border-slate-200">
-                            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80" alt="Kelas Bilingual" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent"></div>
-                            <div class="relative p-6 z-10">
-                                <div class="w-12 h-12 bg-blue-500/30 backdrop-blur-md text-blue-200 rounded-xl flex items-center justify-center text-2xl mb-4 border border-blue-400/30">
-                                    <i class="fa-solid fa-earth-americas"></i>
-                                </div>
-                                <h3 class="text-xl font-bold text-white mb-2">Kelas Bilingual</h3>
-                                <p class="text-slate-300 text-sm leading-relaxed">Penyampaian materi menggunakan Bahasa Indonesia dan Bahasa Inggris untuk mengasah kemampuan bahasa asing siswa secara aktif.</p>
-                            </div>
-                        </div>
-                        
-                        <!-- Kartu Unggulan 2 -->
-                        <div class="relative rounded-2xl overflow-hidden shadow-lg kartu-hover group h-80 flex flex-col justify-end border border-slate-200">
-                            <img src="https://images.unsplash.com/photo-1609599006353-e629aaab31ce?auto=format&fit=crop&w=600&q=80" alt="Tahfidz Qur'an" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent"></div>
-                            <div class="relative p-6 z-10">
-                                <div class="w-12 h-12 bg-yellow-500/30 backdrop-blur-md text-yellow-300 rounded-xl flex items-center justify-center text-2xl mb-4 border border-yellow-400/30">
-                                    <i class="fa-solid fa-book-quran"></i>
-                                </div>
-                                <h3 class="text-xl font-bold text-white mb-2">Tahfidz Qur'an</h3>
-                                <p class="text-slate-300 text-sm leading-relaxed">Program bimbingan menghafal Al-Qur'an terstruktur dengan target lulusan minimal menghafal 3-5 Juz bersertifikat.</p>
-                            </div>
-                        </div>
-
-                        <!-- Kartu Unggulan 3 -->
-                        <div class="relative rounded-2xl overflow-hidden shadow-lg kartu-hover group h-80 flex flex-col justify-end border border-slate-200">
-                            <img src="https://images.unsplash.com/photo-1561557944-6e7860d1a7eb?auto=format&fit=crop&w=600&q=80" alt="Science & Robotika" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent"></div>
-                            <div class="relative p-6 z-10">
-                                <div class="w-12 h-12 bg-green-500/30 backdrop-blur-md text-green-300 rounded-xl flex items-center justify-center text-2xl mb-4 border border-green-400/30">
-                                    <i class="fa-solid fa-microchip"></i>
-                                </div>
-                                <h3 class="text-xl font-bold text-white mb-2">Science & Robotika</h3>
-                                <p class="text-slate-300 text-sm leading-relaxed">Fokus pada pembekalan teknologi masa depan, pemrograman dasar, dan riset sains untuk mencetak inovator muda.</p>
-                            </div>
-                        </div>
-
-                        <!-- Kartu Unggulan 3 -->
-                        <div class="relative rounded-2xl overflow-hidden shadow-lg kartu-hover group h-80 flex flex-col justify-end border border-slate-200">
-                            <img src="https://images.unsplash.com/photo-1561557944-6e7860d1a7eb?auto=format&fit=crop&w=600&q=80" alt="Science & Robotika" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent"></div>
-                            <div class="relative p-6 z-10">
-                                <div class="w-12 h-12 bg-green-500/30 backdrop-blur-md text-green-300 rounded-xl flex items-center justify-center text-2xl mb-4 border border-green-400/30">
-                                    <i class="fa-solid fa-microchip"></i>
-                                </div>
-                                <h3 class="text-xl font-bold text-white mb-2">Science & Robotika</h3>
-                                <p class="text-slate-300 text-sm leading-relaxed">Fokus pada pembekalan teknologi masa depan, pemrograman dasar, dan riset sains untuk mencetak inovator muda.</p>
-                            </div>
-                        </div>
+                        <!-- Diisi oleh JS -->
                     </div>
                 </div>
             </div>
@@ -340,7 +299,7 @@
                     <h2 class="text-3xl font-bold text-sekolah-biru mb-4">Ekstrakurikuler</h2>
                     <p class="text-slate-600 mb-12 max-w-2xl mx-auto">Wadah bagi para siswa untuk menyalurkan dan mengembangkan bakat, minat, serta kepemimpinan di luar jam pelajaran kelas.</p>
                     
-                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
                         <!-- Ekskul Items -->
                         <div class="flex flex-col items-center group cursor-pointer">
                             <div class="w-20 h-20 bg-slate-50 border border-slate-200 rounded-full flex items-center justify-center text-3xl text-slate-600 group-hover:bg-sekolah-biru group-hover:text-white group-hover:border-sekolah-biru transition-all duration-300 shadow-sm mb-3">
@@ -353,6 +312,12 @@
                                 <i class="fa-solid fa-flag"></i>
                             </div>
                             <span class="font-medium text-slate-700 group-hover:text-red-500 transition-colors">Paskibra</span>
+                        </div>
+                        <div class="flex flex-col items-center group cursor-pointer">
+                            <div class="w-20 h-20 bg-slate-50 border border-slate-200 rounded-full flex items-center justify-center text-3xl text-slate-600 group-hover:bg-red-500 group-hover:text-white group-hover:border-red-500 transition-all duration-300 shadow-sm mb-3">
+                                <i class="fa-solid fa-book-quran"></i>
+                            </div>
+                            <span class="font-medium text-slate-700 group-hover:text-red-500 transition-colors">BBQS</span>
                         </div>
                         <div class="flex flex-col items-center group cursor-pointer">
                             <div class="w-20 h-20 bg-slate-50 border border-slate-200 rounded-full flex items-center justify-center text-3xl text-slate-600 group-hover:bg-orange-500 group-hover:text-white group-hover:border-orange-500 transition-all duration-300 shadow-sm mb-3">
@@ -408,9 +373,8 @@
                 </div>
             </div>
 
-            <!-- Ulasan Alumni (Auto Slider) -->
+            <!-- Ulasan Alumni (Infinity Slider) -->
             <div class="bg-sekolah-biru py-16 relative overflow-hidden">
-                <!-- Ornamen Latar -->
                 <div class="absolute top-0 right-0 opacity-10">
                     <i class="fa-solid fa-quote-right text-[15rem]"></i>
                 </div>
@@ -419,12 +383,11 @@
                     <div class="text-center mb-12">
                         <h2 class="text-3xl font-bold text-white mb-4">Kata Alumni Kami</h2>
                         <div class="w-20 h-1 bg-yellow-400 mx-auto rounded-full"></div>
-                        <p class="text-blue-200 mt-4 max-w-2xl mx-auto">Kisah sukses dan kesan-pesan dari mereka yang pernah menjadi bagian dari keluarga besar Madrasah Aliyah Bi'rul Ulum.</p>
+                        <p class="text-blue-200 mt-4 max-w-2xl mx-auto">Kisah sukses dan kesan-pesan dari mereka yang pernah menjadi bagian dari keluarga besar SMA Nusantara.</p>
                     </div>
                     
-                    <!-- Kontainer Slider Alumni (Auto Slide) -->
-                    <div class="relative w-full">
-                        <div id="slider-alumni" class="flex gap-6 overflow-x-auto hide-scrollbar snap-x snap-mandatory pb-4">
+                    <div class="relative w-full overflow-hidden pb-4">
+                        <div id="track-alumni" class="flex gap-6 w-max animate-scroll-ulasan hover-pause">
                             <!-- Kartu Alumni Di-generate JS -->
                         </div>
                     </div>
