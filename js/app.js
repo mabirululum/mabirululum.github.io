@@ -258,53 +258,84 @@ function renderBerandaBerita(beritaData) {
 
 // E. Render Data Alumni
 function renderAlumniSlider(alumniData) {
-    const container = document.getElementById('slider-alumni');
+    // const container = document.getElementById('slider-alumni');
+    // let html = '';
+    // alumniData.forEach((alumni) => {
+    //     // Men-generate bintang sesuai jumlah (maksimal 5)
+    //     let bintangHtml = '';
+    //     for(let i=0; i<5; i++) {
+    //         if(i < alumni.bintang) {
+    //             bintangHtml += `<i class="fa-solid fa-star text-yellow-400"></i>`;
+    //         } else {
+    //             bintangHtml += `<i class="fa-regular fa-star text-yellow-400"></i>`;
+    //         }
+    //     }
+
+    //     html += `
+    //         <div class="min-w-[300px] max-w-[300px] sm:min-w-[400px] sm:max-w-[400px] snap-center bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 flex flex-col flex-shrink-0">
+    //             <div class="flex items-center mb-6">
+    //                 <img src="${alumni.foto}" alt="${alumni.nama}" class="w-16 h-16 rounded-full object-cover border-2 border-yellow-400 mr-4">
+    //                 <div>
+    //                     <h4 class="font-bold text-lg text-white">${alumni.nama}</h4>
+    //                     <p class="text-blue-200 text-xs">${alumni.status}</p>
+    //                 </div>
+    //             </div>
+    //             <div class="mb-4 text-sm">
+    //                 ${bintangHtml}
+    //             </div>
+    //             <p class="text-blue-50 italic flex-grow">"${alumni.ulasan}"</p>
+    //         </div>
+    //     `;
+    // });
+    // container.innerHTML = html;
+
+    // // Logika Auto-Slide
+    // setInterval(() => {
+    //     // Memastikan container masih ada dan sedang di halaman beranda
+    //     if (container && document.getElementById('beranda').classList.contains('block')) {
+    //         const scrollRightLimit = container.scrollWidth - container.clientWidth;
+            
+    //         // Jika sudah mencapai ujung kanan (dengan toleransi 5px), kembali ke awal
+    //         if (container.scrollLeft >= scrollRightLimit - 5) {
+    //             container.scrollTo({ left: 0, behavior: 'smooth' });
+    //         } else {
+    //             // Geser sebesar 300px ke kanan
+    //             container.scrollBy({ left: 300, behavior: 'smooth' });
+    //         }
+    //     }
+    // }, 3500); // Geser setiap 3.5 detik
+
+    const track = document.getElementById('track-alumni');
+    if(!track) return;
+    
     let html = '';
 
-    alumniData.forEach((alumni) => {
-        // Men-generate bintang sesuai jumlah (maksimal 5)
+    const buatKartu = (alumni) => {
         let bintangHtml = '';
         for(let i=0; i<5; i++) {
-            if(i < alumni.bintang) {
-                bintangHtml += `<i class="fa-solid fa-star text-yellow-400"></i>`;
-            } else {
-                bintangHtml += `<i class="fa-regular fa-star text-yellow-400"></i>`;
-            }
+            bintangHtml += `<i class="fa-${i < alumni.bintang ? 'solid' : 'regular'} fa-star text-yellow-400"></i>`;
         }
 
-        html += `
-            <div class="min-w-[300px] max-w-[300px] sm:min-w-[400px] sm:max-w-[400px] snap-center bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 flex flex-col flex-shrink-0">
+        return `
+            <div class="w-[300px] sm:w-[400px] bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 flex flex-col flex-shrink-0 cursor-pointer group hover:bg-white/20 transition-colors">
                 <div class="flex items-center mb-6">
-                    <img src="${alumni.foto}" alt="${alumni.nama}" class="w-16 h-16 rounded-full object-cover border-2 border-yellow-400 mr-4">
+                    <img src="${alumni.foto}" alt="${alumni.nama}" class="w-16 h-16 rounded-full object-cover border-2 border-yellow-400 mr-4 transition-transform duration-300 group-hover:scale-110">
                     <div>
                         <h4 class="font-bold text-lg text-white">${alumni.nama}</h4>
                         <p class="text-blue-200 text-xs">${alumni.status}</p>
                     </div>
                 </div>
-                <div class="mb-4 text-sm">
-                    ${bintangHtml}
-                </div>
+                <div class="mb-4 text-sm">${bintangHtml}</div>
                 <p class="text-blue-50 italic flex-grow">"${alumni.ulasan}"</p>
             </div>
         `;
-    });
-    container.innerHTML = html;
+    };
 
-    // Logika Auto-Slide
-    setInterval(() => {
-        // Memastikan container masih ada dan sedang di halaman beranda
-        if (container && document.getElementById('beranda').classList.contains('block')) {
-            const scrollRightLimit = container.scrollWidth - container.clientWidth;
-            
-            // Jika sudah mencapai ujung kanan (dengan toleransi 5px), kembali ke awal
-            if (container.scrollLeft >= scrollRightLimit - 5) {
-                container.scrollTo({ left: 0, behavior: 'smooth' });
-            } else {
-                // Geser sebesar 300px ke kanan
-                container.scrollBy({ left: 300, behavior: 'smooth' });
-            }
-        }
-    }, 3500); // Geser setiap 3.5 detik
+    // Render array 2x agar animasi infinity scroll menyambung mulus
+    alumniData.forEach(alumni => { html += buatKartu(alumni); });
+    alumniData.forEach(alumni => { html += buatKartu(alumni); });
+
+    track.innerHTML = html;
 }
 
 // --- FUNGSI BARU: HITUNG MUNDUR (COUNTDOWN) ---
@@ -457,6 +488,7 @@ function renderSaranaSlider(saranaData) {
     track.innerHTML = html;
 }
 
+// --- FUNGSI BARU: RENDER PROGRAM UNGGULAN ---
 function renderProgamUnggulan(programData) {
     const container = document.getElementById('program-unggulan');
     let html = '';
