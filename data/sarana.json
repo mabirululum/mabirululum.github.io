@@ -1,0 +1,32 @@
+[
+    {
+        "nama": "Laboratorium Komputer",
+        "deskripsi": "Dilengkapi dengan PC spesifikasi terkini dan akses internet berkecepatan tinggi.",
+        "gambar": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+        "nama": "Perpustakaan Digital",
+        "deskripsi": "Koleksi ribuan e-book literatur dan ruang baca yang senyap nan nyaman.",
+        "gambar": "https://images.unsplash.com/photo-1568667256549-094345857637?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+        "nama": "Laboratorium Sains",
+        "deskripsi": "Peralatan praktikum Fisika, Kimia, dan Biologi lengkap dengan standar nasional.",
+        "gambar": "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+        "nama": "Lapangan Olahraga",
+        "deskripsi": "Fasilitas olahraga multifungsi *outdoor* untuk futsal, basket, voli, dan tenis.",
+        "gambar": "https://images.unsplash.com/photo-1526676037777-05a232554f77?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+        "nama": "Masjid Sekolah",
+        "deskripsi": "Tempat ibadah yang luas dan bersih untuk memfasilitasi kegiatan keagamaan.",
+        "gambar": "https://images.unsplash.com/photo-1564683214965-3619addd900d?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+        "nama": "Ruang Kelas Modern",
+        "deskripsi": "Ruang kelas *full* AC, dilengkapi proyektor interaktif, dan pencahayaan optimal.",
+        "gambar": "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=400&q=80"
+    }
+]

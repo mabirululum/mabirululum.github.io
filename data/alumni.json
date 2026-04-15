@@ -1,0 +1,30 @@
+[
+    {
+        "nama": "Farhan Al-Fatih",
+        "status": "Alumni 2021 - Mahasiswa ITB",
+        "foto": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80",
+        "ulasan": "Belajar di SMA Nusantara adalah pengalaman terbaik. Guru-gurunya sangat suportif terutama saat saya mempersiapkan ujian masuk PTN. Kelas Robotika-nya juga luar biasa!",
+        "bintang": 5
+    },
+    {
+        "nama": "Sarah Amalia",
+        "status": "Alumni 2020 - Dokter Muda",
+        "foto": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80",
+        "ulasan": "Disiplin dan kedokteran itu sejalan. Nilai-nilai kedisiplinan dan religiusitas yang ditanamkan sekolah sangat membantu karakter saya hingga ke dunia kerja sekarang.",
+        "bintang": 5
+    },
+    {
+        "nama": "Dian Pratama",
+        "status": "Alumni 2022 - Software Engineer",
+        "foto": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
+        "ulasan": "Fasilitas laboratorium komputer dan kelas bilingual-nya sangat *up-to-date*. Bekal bahasa Inggris dari sini membuat saya mudah adaptasi belajar koding global.",
+        "bintang": 5
+    },
+    {
+        "nama": "Nisa Sabyan",
+        "status": "Alumni 2023 - Mahasiswi UI",
+        "foto": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=80",
+        "ulasan": "Lingkungan pertemanan sangat positif dan aman. Ekstrakurikuler Paskibra melatih saya menjadi lebih berani tampil di depan publik dan mengasah jiwa kepemimpinan.",
+        "bintang": 5
+    }
+]

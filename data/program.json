@@ -1,0 +1,30 @@
+[
+    {
+        "nama": "Tahfidz Al-Qur'an",
+        "ringkasan": "Membentuk siswa hafal, paham, dan mengamalkan Al-Qur’an dalam keseharian.",
+        "gambar": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80",
+        "icon": "earth-americas",
+        "warna": "blue"
+    },
+    {
+        "nama": "Public Speaking",
+        "ringkasan": "Melatih percaya diri berbicara, komunikasi efektif, dan jiwa kepemimpinan.",
+        "gambar": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80",
+        "icon": "head-side-cough",
+        "warna": "yellow"
+    },
+    {
+        "nama": "Desain Grafis",
+        "ringkasan": "Mengasah kreativitas desain grafis untuk media digital dan industri kreatif.",
+        "gambar": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80",
+        "icon": "pen-ruler",
+        "warna": "green"
+    },
+    {
+        "nama": "Internship",
+        "ringkasan": "Memberi pengalaman kerja nyata untuk meningkatkan skill dan kesiapan karier.",
+        "gambar": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80",
+        "icon": "people-carry-box",
+        "warna": "red"
+    }
+]

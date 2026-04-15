@@ -1,0 +1,112 @@
+[
+    { 
+        "nama": "Yusuf Muzaidi, S.Pd.", 
+        "mapel": "Guru Matematika", 
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/yusuf_j2by6a.jpg" 
+    },
+    { 
+        "nama": "H. Moh. Ikhwan, S.Pd.", 
+        "mapel": "Guru Bahasa Inggris", 
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/ikhwan_bfpkyn.jpg" 
+    },
+    { 
+        "nama": "Lailil Farohah, S.S.", 
+        "mapel": "Guru Bahasa Indonesia", 
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/ilil_bfofwv.jpg" 
+    },
+    { 
+        "nama": "Ainur Rofiq, M.Pd.I", 
+        "mapel": "Guru Bahasa Arab", 
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/rofiq_u3ykvt.jpg" 
+    },
+    { 
+        "nama": "Dahlan As'ari, S.Pd.", 
+        "mapel": "Guru Informatika", 
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/ari_sgu4gw.jpg" 
+    },
+    { 
+        "nama": "Hj. Maft. Choiriyah, M.Pd.I", 
+        "mapel": "Guru Geografi", 
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/user-solid_htynzw.png" 
+    },
+    { 
+        "nama": "Nur Makiyah, S.Pd.", 
+        "mapel": "Guru Matematika", 
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/kiki_grtngc.jpg" 
+    },
+    { 
+        "nama": "Fatkhun Ni'mah, S.Pd.", 
+        "mapel": "Guru Sosiologi", 
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/nikmah_ozni1r.jpg" 
+    },
+    { 
+        "nama": "Rahayu Ratih Ningtyas, S.Pd.", 
+        "mapel": "Guru Kimia", 
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/rara_mczt1l.jpg" 
+    },
+    { 
+        "nama": "Moh. Faridh, S.Ag.", 
+        "mapel": "Guru Bahasa Indonesia", 
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/farid_xpqogd.jpg" 
+    },
+    { 
+        "nama": "Thoifah, S.Si.", 
+        "mapel": "Guru Fisika", 
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/ifa_xhrh9p.jpg" 
+    },
+    { 
+        "nama": "Anita Rahayu, S.Pd.", 
+        "mapel": "Guru PPKN", 
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/anita_bnvavw.jpg" 
+    },
+    { 
+        "nama": "Hj. Shofiyah", 
+        "mapel": "Guru Al Qur'an Hadits", 
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/user-solid_htynzw.png" 
+    },
+    { 
+        "nama": "H. Sholihuddin", 
+        "mapel": "Guru Fiqih", 
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/user-solid_htynzw.png" 
+    },
+    { 
+        "nama": "H. Misbahul Munir, S.Pd.I.", 
+        "mapel": "Guru Al Qur'an Hadits", 
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/munir_obdqjm.jpg" 
+    },
+    { 
+        "nama": "Uswatun Chasanah, S.Ag.", 
+        "mapel": "Guru Akidah Akhlak", 
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/uswatun_mc9qbg.jpg" 
+    },
+    { 
+        "nama": "Hj. Fatimatuz Zahro, M.Pd.", 
+        "mapel": "Guru Seni Rupa", 
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/fatim_qkcgri.jpg" 
+    },
+    { 
+        "nama": "Moh. Alfan, S.H.", 
+        "mapel": "Guru Sejarah", 
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/alfan_yballp.jpg" 
+    },
+    { 
+        "nama": "M. Muhibuddin, S.H.", 
+        "mapel": "Guru Sejarah", 
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/user-solid_htynzw.png" 
+    },
+    { 
+        "nama": "Abidy Harnanditya, S.Pd.", 
+        "mapel": "Guru PJOK", 
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/user-solid_htynzw.png" 
+    },
+    { 
+        "nama": "Ririn Jauharin, S.Ak.", 
+        "mapel": "Guru Ekonomi", 
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/ririn_wxkek8.jpg" 
+    },
+    { 
+        "nama": "Moh. Aflah Azzaky, S.Kom.", 
+        "mapel": "Guru Informatika", 
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/aflah_lsr1dm.jpg" 
+    }
+]
