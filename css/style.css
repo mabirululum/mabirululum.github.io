@@ -52,7 +52,7 @@
     animation: scrollInfinity 30s linear infinite;
 }
 .animate-scroll-ulasan {
-    animation: scrollInfinity 150s linear infinite;
+    animation: scrollInfinity 30s linear infinite;
 }
 .hover-pause:hover {
     animation-play-state: paused;
