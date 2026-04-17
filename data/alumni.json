@@ -1,30 +1,37 @@
 [
     {
-        "nama": "Farhan Al-Fatih",
-        "status": "Alumni 2021 - Mahasiswa ITB",
-        "foto": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80",
-        "ulasan": "Belajar di SMA Nusantara adalah pengalaman terbaik. Guru-gurunya sangat suportif terutama saat saya mempersiapkan ujian masuk PTN. Kelas Robotika-nya juga luar biasa!",
+        "nama": "Mohammad Nanang Prastyawan",
+        "status": "Alumni 2018 - Guru",
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/nanang2018_wim5zs.jpg",
+        "ulasan": "Sebagai alumni MA BIRUL ULUM, saya bersyukur mendapat lingkungan belajar nyaman dengan guru kompeten dan peduli. Tidak hanya akademik, sekolah ini membentuk karakter, disiplin, dan kerja sama. Pengalaman belajar dan ekstrakurikuler sangat berharga serta bermanfaat dalam kehidupan.",
         "bintang": 5
     },
     {
-        "nama": "Sarah Amalia",
-        "status": "Alumni 2020 - Dokter Muda",
-        "foto": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80",
-        "ulasan": "Disiplin dan kedokteran itu sejalan. Nilai-nilai kedisiplinan dan religiusitas yang ditanamkan sekolah sangat membantu karakter saya hingga ke dunia kerja sekarang.",
+        "nama": "Tarisa Lailiyah",
+        "status": "Alumni 2018 - Guru",
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/tarisa2018_aflyym.jpg",
+        "ulasan": "MA BI’RUL ULUM tidak hanya fokus akademik, tapi juga iman, akhlak, disiplin, dan berpikir kritis. Dukungan guru, fasilitas, dan kegiatan membantu saya lanjut S1 gratis di PTN Surabaya hingga S2. Ilmu dan keberkahan dari guru mengantarkan saya menjadi guru untuk bermanfaat.",
         "bintang": 5
     },
     {
-        "nama": "Dian Pratama",
-        "status": "Alumni 2022 - Software Engineer",
-        "foto": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
-        "ulasan": "Fasilitas laboratorium komputer dan kelas bilingual-nya sangat *up-to-date*. Bekal bahasa Inggris dari sini membuat saya mudah adaptasi belajar koding global.",
+        "nama": "Dewi Sabrina Amelina",
+        "status": "Alumni 2025 - Mahasiswi",
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/sabrina2025_jj0n4o.jpg",
+        "ulasan": "Masa MA mengajarkan saya mengenal diri, sabar, jatuh bangkit, dan memahami orang lain. Banyak kenangan sederhana kini dirindukan. Bukan sekadar nilai, tapi proses membentuk diri. Terima kasih kepada guru atas bimbingan dan dedikasinya yang tak ternilai.",
         "bintang": 5
     },
     {
-        "nama": "Nisa Sabyan",
-        "status": "Alumni 2023 - Mahasiswi UI",
-        "foto": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=80",
-        "ulasan": "Lingkungan pertemanan sangat positif dan aman. Ekstrakurikuler Paskibra melatih saya menjadi lebih berani tampil di depan publik dan mengasah jiwa kepemimpinan.",
+        "nama": "Ahmad Zubaidi",
+        "status": "Alumni 2020 - Mahasiswa",
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/zubaidi2020_dayng3.jpg",
+        "ulasan": "Hasil bersekolah di MA Bi 'rul Ulum ini luar biasa kita tidak hanya handal di Dunia kerja saja akan juga bisa mengimplementasikan ilmu agama yang pernah kita dapat di bangku sekolah dulu diterapkan ditengah-tengah masyarakat.",
+        "bintang": 5
+    },
+    {
+        "nama": "Iin Junaidah ",
+        "status": "Alumni 2016 - Guru",
+        "foto": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/iin2016_xzs6kv.jpg",
+        "ulasan": "Belajar di MA Bi’rul Ulum menjadi pengalaman berharga dalam akademik, keagamaan, dan organisasi. Ilmu yang didapat sangat bermanfaat hingga saya menjadi pendidik dan aktif memimpin saat kuliah. Guru menjadi teladan. Semoga MA Bi’rul Ulum semakin maju dan jaya.",
         "bintang": 5
     }
 ]
