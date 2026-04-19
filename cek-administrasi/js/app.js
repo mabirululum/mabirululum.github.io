@@ -33,16 +33,31 @@ const kolomTagihan = [
  * Dipanggil saat user menekan tombol cari untuk pertama kalinya.
  */
 async function fetchLaluCari() {
+    const btnCari = document.getElementById('btnCari');
+    // Nonaktifkan tombol sementara untuk mencegah SPAM KLIK (Melindungi Limit API)
+    // btnCari.disabled = true; 
     // Tampilkan popup loading
     document.getElementById('loadingModal').style.display = 'flex';
 
     try {
         // UNTUK PRODUKSI (Hapus komennya jika URL sudah dimasukkan):
-        const response = await fetch(SPREADSHEET_API_URL);
+        // const response = await fetch(SPREADSHEET_API_URL);
+        // const jsonResult = await response.json();
+        // dataGlobal = jsonResult.data;
+
+        // isDataLoaded = true;
+
+        // 1. Cache Busting: Menggunakan waktu saat ini (milidetik) agar URL selalu unik
+        const timestamp = new Date().getTime(); 
+        const fetchUrl = `${SPREADSHEET_API_URL}?t=${timestamp}`;
+        
+        // 2. Opsi cache: "no-store" memaksa browser TIDAK MENGGUNAKAN data simpanan lama
+        const response = await fetch(fetchUrl, { 
+            cache: "no-store",
+            redirect: "follow"
+        });
         const jsonResult = await response.json();
         dataGlobal = jsonResult.data;
-
-        isDataLoaded = true;
         
         // Tutup popup loading dan jalankan pencarian
         document.getElementById('loadingModal').style.display = 'none';
@@ -51,6 +66,7 @@ async function fetchLaluCari() {
     } catch (error) {
         console.error(error);
         document.getElementById('loadingModal').style.display = 'none';
+        // btnCari.disabled = false;
         tampilkanModal("Gagal mengambil data dari server. Periksa koneksi atau URL API Anda.");
     }
 }
@@ -69,16 +85,18 @@ function cariDataSiswa() {
     document.getElementById('resultContainer').style.display = 'none';
 
     // Jika data belum pernah di-fetch, fetch dulu. Jika sudah, langsung cari.
-    if (!isDataLoaded) {
-        fetchLaluCari();
-    } else {
-        // Tampilkan loading sebentar agar ada efek proses (opsional)
-        document.getElementById('loadingModal').style.display = 'flex';
-        setTimeout(() => {
-            document.getElementById('loadingModal').style.display = 'none';
-            prosesPencarian();
-        }, 400); // delay 400ms
-    }
+    // if (!isDataLoaded) {
+    //     fetchLaluCari();
+    // } else {
+    //     // Tampilkan loading sebentar agar ada efek proses (opsional)
+    //     document.getElementById('loadingModal').style.display = 'flex';
+    //     setTimeout(() => {
+    //         document.getElementById('loadingModal').style.display = 'none';
+    //         prosesPencarian();
+    //     }, 400); // delay 400ms
+    // }
+    // Selalu panggil fungsi API terbaru setiap kali diklik agar auto-refresh
+    fetchLaluCari();
 }
 
 /**
