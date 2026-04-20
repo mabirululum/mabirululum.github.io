@@ -5,16 +5,22 @@
 
 let dataSiswa = [];
 
-async function loadData() {
-    try {
-        const res = await fetch('data/lulusan.json');
-        dataSiswa = await res.json();
-    } catch (err) {
-        console.error(err);
-    }
-}
+// async function loadData() {
+//     try {
+//         const res = await fetch('data/lulusan.json');
+//         dataSiswa = await res.json();
+//     } catch (err) {
+//         console.error(err);
+//     }
+// }
 
-loadData();
+// loadData();
+
+/**
+ * 1. KONFIGURASI GOOGLE APPS SCRIPT
+ * Ganti teks di bawah ini dengan URL Web App dari Google Apps Script Anda.
+ */
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxn_Y5EVukvW0o_muDhfy_PREuMfXsJ-yEB4Jrf95V5K4ApYXeg7I7Qi8IjAAz_ttDLXQ/exec';
 
 /**
  * 2. MENGAMBIL ELEMEN HTML
@@ -45,6 +51,7 @@ const statusSubtitle = document.getElementById('status-subtitle');
 // Kontainer Konten (Untuk menyembunyikan biodata)
 const biodataContent = document.getElementById('biodata-content');
 const adminFailedContent = document.getElementById('admin-failed-content');
+const examFailedContent = document.getElementById('exam-failed-content');
 
 // Elemen Data Diri
 const resNama = document.getElementById('res-nama');
@@ -100,34 +107,63 @@ closeModal.addEventListener('click', hideError);
 /**
  * 3. LOGIKA KETIKA FORM DISUBMIT (Tombol Lihat Hasil ditekan)
  */
-searchForm.addEventListener('submit', function(event) {
+searchForm.addEventListener('submit', async function(event) {
     // Mencegah halaman reload (bawaan browser saat form submit)
     event.preventDefault(); 
     
     // Ambil nilai yang diketik, hilangkan spasi berlebih, jadikan huruf besar (Kapital)
     const kodeDicari = inputKode.value.trim().toUpperCase();
-    
-    // Mencari data siswa di dalam array dataSiswa berdasarkan kode
-    const siswaDitemukan = dataSiswa.find(siswa => siswa.kode === kodeDicari);
 
-    if (siswaDitemukan) {
-        // Jika ketemu, sembunyikan error (jika sebelumnya ada)
-        // errorMessage.classList.add('hidden');
-        
-        // Transisi memunculkan Loading State
-        searchPage.classList.add('hidden');
-        loadingPage.classList.remove('hidden');
+    // Transisi memunculkan Loading State
+    searchPage.classList.add('hidden');
+    loadingPage.classList.remove('hidden');
 
-        // Simulasi Fake Loading selama 1.5 detik
+    // Pengecekan apakah URL Script sudah dikonfigurasi dengan benar
+    if (SCRIPT_URL === 'URL_WEB_APP_SCRIPT_ANDA_DI_SINI' || !SCRIPT_URL.startsWith('http')) {
         setTimeout(() => {
             loadingPage.classList.add('hidden');
-            tampilkanHasil(siswaDitemukan);
-        }, 3000);
+            alert('Sistem belum terhubung. Harap masukkan URL Google Apps Script yang valid pada baris "const SCRIPT_URL" di dalam kode Anda.');
+            searchPage.classList.remove('hidden');
+        }, 1000);
+        return; // Menghentikan eksekusi kode di bawahnya agar tidak terjadi error Invalid URL
+    }
+
+    try {
+        // Menyiapkan URL API dengan Cache Busting
+        // Parameter 't' dengan Date.now() memastikan URL selalu unik tiap kali diklik
+        const url = new URL(SCRIPT_URL);
+        url.searchParams.append('action', 'getSiswa');
+        url.searchParams.append('kode', kodeDicari);
+        url.searchParams.append('t', Date.now()); 
+
+        // Mengambil data dari Google Sheet via API Google Apps Script
+        const response = await fetch(url.toString(), {
+            method: 'GET',
+            mode: 'cors'
+        });
         
-    } else {
-        // Jika tidak ketemu, munculkan pesan error
-        // errorMessage.classList.remove('hidden');
-        showError();
+        const result = await response.json();
+
+        // Sembunyikan Loading Page
+        loadingPage.classList.add('hidden');
+
+        if (result.success && result.data) {
+            // Jika data ditemukan, tampilkan ke layar
+            tampilkanHasil(result.data);
+        } else {
+            // Jika tidak ketemu, munculkan Pop-up Error
+            showError();
+            // Munculkan form kembali di belakang modal
+            searchPage.classList.remove('hidden'); 
+        }
+
+    } catch (error) {
+        console.error('Error Fetch Data:', error);
+        loadingPage.classList.add('hidden');
+        
+        // Fallback peringatan jika URL salah / Tidak ada koneksi internet
+        alert('Terjadi kesalahan jaringan atau SCRIPT_URL belum dikonfigurasi. Silakan periksa koneksi atau hubungi admin.');
+        searchPage.classList.remove('hidden');
     }
 });
 
@@ -159,6 +195,7 @@ function tampilkanHasil(siswa) {
     // Kembalikan visibilitas kontainer ke setelan awal
     biodataContent.classList.remove('hidden');
     adminFailedContent.classList.add('hidden');
+    examFailedContent.classList.add('hidden');
 
     // Reset semua class warna bawaan terlebih dahulu (Reset State)
     resultCard.className = "bg-white rounded-2xl shadow-xl overflow-hidden border-t-8";
@@ -176,16 +213,20 @@ function tampilkanHasil(siswa) {
         statusSubtitle.innerText = "Selamat atas pencapaian ini. Semoga ilmu yang diperoleh menjadi bekal yang bermanfaat untuk jenjang pendidikan selanjutnya";
         statusSubtitle.className = "text-sm text-blue-600 font-medium";
         
-    } else if (siswa.status === "DINYATAKAN TIDAK LULUS") {
+    } else if (siswa.status === "TIDAK LULUS") {
         // Tema Merah (Tidak Lulus)
         resultCard.classList.add("border-red-500");
         resultHeader.classList.add("bg-red-100");
         
-        statusTitle.innerText = "TIDAK LULUS";
-        statusTitle.className = "text-3xl font-extrabold text-red-800 mb-1 tracking-wider uppercase";
+        statusTitle.innerText = "BELUM LOLOS UJIAN & ADMINISTRASI";
+        statusTitle.className = "text-xl md:text-2xl font-extrabold text-red-800 mb-1 tracking-wider uppercase";
         
-        statusSubtitle.innerText = "Tetap semangat dan jangan menyerah!";
+        statusSubtitle.innerText = "Silakan hubungi pihak Waka. Kurikulum.";
         statusSubtitle.className = "text-sm text-red-600 font-medium";
+
+        // Sembunyikan biodata, munculkan pesan peringatan
+        biodataContent.classList.add('hidden');
+        examFailedContent.classList.remove('hidden');
 
     } else if (siswa.status === "BELUM LOLOS") {
         // Tema Oranye (Belum Lolos Administrasi)
