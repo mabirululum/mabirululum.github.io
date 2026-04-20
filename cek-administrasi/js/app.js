@@ -41,12 +41,6 @@ async function fetchLaluCari() {
 
     try {
         // UNTUK PRODUKSI (Hapus komennya jika URL sudah dimasukkan):
-        // const response = await fetch(SPREADSHEET_API_URL);
-        // const jsonResult = await response.json();
-        // dataGlobal = jsonResult.data;
-
-        // isDataLoaded = true;
-
         // 1. Cache Busting: Menggunakan waktu saat ini (milidetik) agar URL selalu unik
         const timestamp = new Date().getTime(); 
         const fetchUrl = `${SPREADSHEET_API_URL}?t=${timestamp}`;
@@ -84,18 +78,6 @@ function cariDataSiswa() {
     // Sembunyikan hasil lama
     document.getElementById('resultContainer').style.display = 'none';
 
-    // Jika data belum pernah di-fetch, fetch dulu. Jika sudah, langsung cari.
-    // if (!isDataLoaded) {
-    //     fetchLaluCari();
-    // } else {
-    //     // Tampilkan loading sebentar agar ada efek proses (opsional)
-    //     document.getElementById('loadingModal').style.display = 'flex';
-    //     setTimeout(() => {
-    //         document.getElementById('loadingModal').style.display = 'none';
-    //         prosesPencarian();
-    //     }, 400); // delay 400ms
-    // }
-    // Selalu panggil fungsi API terbaru setiap kali diklik agar auto-refresh
     fetchLaluCari();
 }
 
