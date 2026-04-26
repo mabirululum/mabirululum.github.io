@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presensi QR Code | MA Bi'rul Ulum</title>
+    <!-- Open Graph -->
+    <!-- HTML Meta Tags -->
+    <meta name="description" content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
+    <meta name="google-site-verification" content="M6vZYhRJ30dMCAMGu2gD8UNov_Kdcsku6pcai8gGknI" />
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://mabirululum.github.io/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Madrasah Aliyah Bi'rul Ulum">
+    <meta property="og:description" content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
+    <meta property="og:image" content="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/img-meta_ysxamu.jpg">
+    
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:domain" content="mabirululum.github.io">
+    <meta property="twitter:url" content="https://mabirululum.github.io/">
+    <meta name="twitter:title" content="Madrasah Aliyah Bi'rul Ulum">
+    <meta name="twitter:description" content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
+    <meta name="twitter:image" content="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/img-meta_ysxamu.jpg">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- Tambahan Library: Supabase JS dan MD5 Hash -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>
+
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="MA Bi'rul Ulum" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<!-- Mengubah body menjadi h-screen dan overflow-hidden agar layar terkunci tanpa scroll -->
+<body class="text-gray-800 antialiased font-sans flex flex-col h-screen overflow-hidden bg-gray-100">
+
+    <div id="printArea" class="hidden"></div>
+
+    <!-- NAVBAR (Teks di Tengah) -->
+    <nav id="mainNavbar" class="bg-blue-600 text-white shadow-md no-print transition-colors duration-300 z-20 flex-none h-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+            <div class="flex items-center justify-center h-full relative">
+                <div class="flex items-center space-x-2 select-none">
+                    <span class="font-bold text-xl tracking-wide">Presensi QR Code | MA Bi'rul Ulum</span>
+                </div>
+                <div id="adminTopMenu" class="hidden absolute right-0 flex items-center gap-3 text-sm font-medium">
+                     <span id="adminTitleBadge" class="bg-blue-800 px-3 py-1 rounded-full shadow-inner"><i class="ph ph-shield-check"></i> Mode Admin</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT (Memenuhi Sisa Layar Flex-Grow) -->
+    <main class="w-full flex-grow flex flex-col relative z-10 overflow-hidden">
+        
+        <!-- ======================= 1. SCANNER VIEW (SPLIT LAYOUT FULL SCREEN) ======================= -->
+        <div id="view-scanner" class="view-section w-full max-w-7xl mx-auto flex-grow flex items-center justify-center h-full p-4 lg:p-6">
+            
+            <div class="w-full bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row h-full">
+                
+                <!-- KIRI: Informasi Sekolah & Jam -->
+                <div class="w-full md:w-1/2 bg-blue-600 text-white p-8 lg:p-12 flex flex-col items-center justify-center text-center relative overflow-hidden h-full">
+                    <!-- Dekorasi Lingkaran Latar Belakang -->
+                    <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+                        <i class="ph ph-circles-four text-[400px] absolute -top-20 -left-20"></i>
+                        <i class="ph ph-intersect text-[300px] absolute -bottom-10 -right-10"></i>
+                    </div>
+                    
+                    <div class="relative z-10 flex flex-col items-center w-full">
+                        <div class="bg-white text-blue-600 p-5 rounded-full mb-6 shadow-lg">
+                            <!-- <i class="ph ph-graduation-cap text-6xl"></i> -->
+                            <img src="https://res.cloudinary.com/dkfcuwuas/image/upload/v1776176510/icon-mabu_yuwogg.png" style="width: 70px;" alt="" srcset="">
+                        </div>
+                        <h1 class="text-3xl lg:text-4xl font-extrabold tracking-widest uppercase mb-2">MA Bi'rul Ulum</h1>
+                        <p class="text-blue-200 text-lg font-medium mb-10 tracking-wide">Sistem Kehadiran Guru Digital</p>
+
+                        <div class="mb-12">
+                            <p id="realtimeDay" class="text-xl font-medium text-blue-100 uppercase tracking-widest mb-2"></p>
+                            <p id="realtimeClock" class="text-7xl lg:text-8xl font-bold font-mono tracking-tighter drop-shadow-md text-white transition-colors duration-300"></p>
+                        </div>
+
+                        <div class="bg-blue-700 bg-opacity-60 border border-blue-500 p-5 rounded-xl text-sm flex items-center gap-4 text-left w-full backdrop-blur-sm shadow-inner">
+                            <i class="ph ph-info text-4xl text-blue-300 flex-shrink-0"></i>
+                            <p class="text-blue-50 leading-relaxed text-base">Sistem mendeteksi <b class="text-white">Masuk</b> atau <b class="text-white">Pulang</b> secara otomatis. Hadapkan QR Code Anda ke layar sebelah kanan.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KANAN: Kamera Scanner yang Memenuhi Ruang -->
+                <div class="w-full md:w-1/2 bg-gray-50 flex flex-col items-center justify-center p-8 lg:p-12 relative h-full">
+                    <div class="w-full max-w-md flex flex-col items-center h-full justify-center">
+                        <div class="flex items-center gap-3 mb-6 flex-none">
+                            <i class="ph ph-scan text-3xl text-blue-600"></i>
+                            <h2 class="text-2xl font-bold text-gray-700 uppercase tracking-wider">Area Pemindai</h2>
+                        </div>
+                        
+                        <!-- Kotak Kamera Dibuat Flex-Grow agar mengambil sisa ruang maksimal -->
+                        <div class="w-full bg-white p-3 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-100 flex-grow flex flex-col max-h-[500px]">
+                            <div id="reader" class="rounded-2xl overflow-hidden w-full h-full relative bg-black flex flex-col items-center justify-center">
+                                <!-- Area ini akan diisi oleh video kamera dari library -->
+                            </div>
+                        </div>
+                        
+                        <p class="mt-6 text-gray-400 text-sm font-medium flex items-center gap-2 flex-none">
+                            <i class="ph ph-camera text-lg"></i> Kamera otomatis menyala
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ======================= 2. LOGIN VIEW ======================= -->
+        <div id="view-login" class="view-section hidden w-full h-full flex items-center justify-center">
+            <div class="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
+                <h2 class="text-2xl font-bold text-center mb-6">Login Sistem</h2>
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 mb-6 rounded text-xs text-yellow-700">
+                    Ini adalah jalur darurat. Gunakan QR Code Admin untuk login lebih cepat.
+                </div>
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-1">Username</label>
+                        <input type="text" id="username" class="w-full border rounded-lg p-2 focus:ring focus:ring-blue-200" required value="admin">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-1">Password</label>
+                        <input type="password" id="password" class="w-full border rounded-lg p-2 focus:ring focus:ring-blue-200" required value="admin123">
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Login Manual</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ======================= 3. ADMIN DASHBOARD VIEW ======================= -->
+        <!-- Menambahkan overflow-y-auto di dalam Admin View agar scroll hanya berlaku di Dashboard Admin -->
+        <div id="view-admin" class="view-section hidden w-full max-w-7xl mx-auto h-full overflow-y-auto p-4 pb-8">
+            <div class="flex justify-between items-center border-b mb-6 pb-2">
+                <div class="flex">
+                    <button onclick="switchAdminTab('dataGuru')" id="tabGuru" class="py-2 px-4 tab-active">Data Guru</button>
+                    <button onclick="switchAdminTab('dataAbsensi')" id="tabAbsen" class="py-2 px-4 text-gray-600 hover:text-blue-500">Laporan Absensi</button>
+                    <button onclick="switchAdminTab('manajemenPengguna')" id="tabUser" class="py-2 px-4 text-gray-600 hover:text-blue-500">Manajemen Pengguna</button>
+                </div>
+                <button onclick="handleLogout()" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 flex items-center gap-2 shadow text-sm font-medium transition">
+                    <i class="ph ph-sign-out text-lg"></i> Logout
+                </button>
+            </div>
+
+            <!-- TAB: Data Guru -->
+            <div id="tab-dataGuru">
+                <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+                    <h3 class="text-xl font-bold">Manajemen Guru</h3>
+                    <div class="flex gap-2 flex-wrap">
+                        <button onclick="cetakSemuaIDCard()" class="bg-indigo-600 text-white px-3 py-2 rounded-lg hover:bg-indigo-700 flex items-center gap-2 shadow-sm text-sm font-medium transition"><i class="ph ph-printer"></i> Cetak Semua QR</button>
+                        <button onclick="deleteAllGuru()" class="bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700 flex items-center gap-2 shadow-sm text-sm font-medium transition"><i class="ph ph-trash"></i> Hapus Semua</button>
+                        <button onclick="downloadTemplateGuru()" class="bg-gray-200 text-gray-700 px-3 py-2 rounded-lg hover:bg-gray-300 flex items-center gap-2 shadow-sm text-sm font-medium transition"><i class="ph ph-download-simple"></i> Template</button>
+                        <button onclick="document.getElementById('importFile').click()" class="bg-orange-500 text-white px-3 py-2 rounded-lg hover:bg-orange-600 flex items-center gap-2 shadow-sm text-sm font-medium transition"><i class="ph ph-upload-simple"></i> Import</button>
+                        <input type="file" id="importFile" class="hidden" accept=".xlsx, .xls, .csv" onchange="handleImportGuru(event)">
+                        <button onclick="openModalGuru()" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 flex items-center gap-2 shadow-sm text-sm font-medium transition"><i class="ph ph-plus-circle"></i> Tambah Guru</button>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 text-sm">
+                                <th class="p-3 border-b">NIP</th>
+                                <th class="p-3 border-b">Nama</th>
+                                <th class="p-3 border-b">Jadwal (Masuk - Pulang)</th>
+                                <th class="p-3 border-b text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableGuruBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB: Laporan Absensi -->
+            <div id="tab-dataAbsensi" class="hidden">
+                <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+                    <h3 class="text-xl font-bold">Laporan Kehadiran</h3>
+                    <div class="flex items-center gap-3">
+                        <div class="flex items-center border rounded-lg bg-white px-2 py-1 shadow-sm">
+                            <i class="ph ph-calendar-blank text-gray-500 mr-2"></i>
+                            <input type="month" id="filterMonth" class="outline-none" onchange="currentPage = 1; renderAbsensi()">
+                        </div>
+                        <button onclick="openModalIzin()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2 shadow text-sm font-medium"><i class="ph ph-note-pencil"></i> Input Manual (Sakit/Izin)</button>
+                        <button id="btnExportExcel" onclick="exportToExcel()" class="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 flex items-center gap-2 shadow text-sm font-medium"><i class="ph ph-file-xls"></i> Export Excel</button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 text-sm">
+                                <th class="p-3 border-b">Tanggal</th>
+                                <th class="p-3 border-b">Hari</th>
+                                <th class="p-3 border-b">Nama Guru</th>
+                                <th class="p-3 border-b text-center">Jam Masuk</th>
+                                <th class="p-3 border-b text-center">Jam Pulang</th>
+                                <th class="p-3 border-b">Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableAbsensiBody"></tbody>
+                    </table>
+                </div>
+                
+                <div class="flex justify-between items-center mt-4 text-sm" id="paginationControls">
+                    <span id="pageInfo" class="text-gray-600">Menampilkan 0 dari 0 data</span>
+                    <div class="flex gap-2">
+                        <button onclick="changePage(-1)" id="btnPrevPage" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50 transition">Sebelumnya</button>
+                        <button onclick="changePage(1)" id="btnNextPage" class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 transition">Selanjutnya</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: Manajemen Pengguna -->
+            <div id="tab-manajemenPengguna" class="hidden">
+                <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+                    <h3 class="text-xl font-bold">Manajemen Akses (Admin & Piket)</h3>
+                    <button onclick="openModalUser()" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 flex items-center gap-2 shadow-sm text-sm font-medium transition">
+                        <i class="ph ph-plus-circle"></i> Tambah Pengguna
+                    </button>
+                </div>
+                <div class="bg-white rounded-xl shadow overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 text-sm">
+                                <th class="p-3 border-b">Nama Pengguna</th>
+                                <th class="p-3 border-b">Peran (Role)</th>
+                                <th class="p-3 border-b text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableUserBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER (Sangat Minimalis) flex-none menjaganya tetap di bawah tanpa tertimpa konten -->
+    <footer class="py-3 text-center text-gray-400 text-xs no-print flex-none border-t bg-white z-20">
+        <p>&copy; <span id="currentYear"></span> Sistem Kehadiran MA Bi'rul Ulum.</p>
+    </footer>
+
+    <!-- Modal Tambah Guru -->
+    <div id="modalGuru" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50 no-print">
+        <div class="bg-white p-6 rounded-xl shadow-xl w-full max-w-lg">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold">Tambah Data Guru</h3>
+                <button onclick="closeModalGuru()" class="text-gray-500 hover:text-red-500"><i class="ph ph-x text-xl"></i></button>
+            </div>
+            <form onsubmit="saveGuru(event)">
+                <div class="grid grid-cols-2 gap-4 mb-3">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">NIP</label>
+                        <input type="text" id="guruNip" required class="w-full border border-gray-300 rounded p-2 focus:ring focus:ring-blue-200">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Nama Lengkap</label>
+                        <input type="text" id="guruNama" required class="w-full border border-gray-300 rounded p-2 focus:ring focus:ring-blue-200">
+                    </div>
+                </div>
+                
+                <div class="mb-5">
+                    <label class="block text-sm font-medium mb-2">Jadwal Mengajar (Kosongkan jika libur)</label>
+                    <div class="grid grid-cols-1 gap-2 text-sm max-h-[250px] overflow-y-auto pr-2">
+                        <div class="flex items-center gap-2 bg-gray-50 p-2 rounded border"><span class="w-16 font-bold">Senin</span><input type="time" id="jamSeninM" class="border rounded p-1 w-full"><span>-</span><input type="time" id="jamSeninP" class="border rounded p-1 w-full"></div>
+                        <div class="flex items-center gap-2 bg-gray-50 p-2 rounded border"><span class="w-16 font-bold">Selasa</span><input type="time" id="jamSelasaM" class="border rounded p-1 w-full"><span>-</span><input type="time" id="jamSelasaP" class="border rounded p-1 w-full"></div>
+                        <div class="flex items-center gap-2 bg-gray-50 p-2 rounded border"><span class="w-16 font-bold">Rabu</span><input type="time" id="jamRabuM" class="border rounded p-1 w-full"><span>-</span><input type="time" id="jamRabuP" class="border rounded p-1 w-full"></div>
+                        <div class="flex items-center gap-2 bg-gray-50 p-2 rounded border"><span class="w-16 font-bold">Kamis</span><input type="time" id="jamKamisM" class="border rounded p-1 w-full"><span>-</span><input type="time" id="jamKamisP" class="border rounded p-1 w-full"></div>
+                        <div class="flex items-center gap-2 bg-gray-50 p-2 rounded border"><span class="w-16 font-bold">Jumat</span><input type="time" id="jamJumatM" class="border rounded p-1 w-full"><span>-</span><input type="time" id="jamJumatP" class="border rounded p-1 w-full"></div>
+                        <div class="flex items-center gap-2 bg-gray-50 p-2 rounded border"><span class="w-16 font-bold">Sabtu</span><input type="time" id="jamSabtuM" class="border rounded p-1 w-full"><span>-</span><input type="time" id="jamSabtuP" class="border rounded p-1 w-full"></div>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 font-medium">Simpan & Generate QR</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Edit Guru -->
+    <div id="modalEditGuru" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50 no-print">
+        <div class="bg-white p-6 rounded-xl shadow-xl w-full max-w-lg">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold">Edit Data Guru</h3>
+                <button onclick="closeEditModal()" class="text-gray-500 hover:text-red-500"><i class="ph ph-x text-xl"></i></button>
+            </div>
+            <form onsubmit="updateGuru(event)">
+                <input type="hidden" id="editGuruId">
+                <div class="grid grid-cols-2 gap-4 mb-3">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">NIP</label>
+                        <input type="text" id="editGuruNip" required class="w-full border border-gray-300 rounded p-2 focus:ring focus:ring-blue-200 bg-gray-100" readonly title="NIP tidak dapat diubah">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Nama Lengkap</label>
+                        <input type="text" id="editGuruNama" required class="w-full border border-gray-300 rounded p-2 focus:ring focus:ring-blue-200">
+                    </div>
+                </div>
+                <div class="mb-5">
+                    <label class="block text-sm font-medium mb-2">Jadwal Mengajar</label>
+                    <div class="grid grid-cols-1 gap-2 text-sm max-h-[250px] overflow-y-auto pr-2">
+                        <div class="flex items-center gap-2 bg-gray-50 p-2 rounded border"><span class="w-16 font-bold">Senin</span><input type="time" id="editJamSeninM" class="border rounded p-1 w-full"><span>-</span><input type="time" id="editJamSeninP" class="border rounded p-1 w-full"></div>
+                        <div class="flex items-center gap-2 bg-gray-50 p-2 rounded border"><span class="w-16 font-bold">Selasa</span><input type="time" id="editJamSelasaM" class="border rounded p-1 w-full"><span>-</span><input type="time" id="editJamSelasaP" class="border rounded p-1 w-full"></div>
+                        <div class="flex items-center gap-2 bg-gray-50 p-2 rounded border"><span class="w-16 font-bold">Rabu</span><input type="time" id="editJamRabuM" class="border rounded p-1 w-full"><span>-</span><input type="time" id="editJamRabuP" class="border rounded p-1 w-full"></div>
+                        <div class="flex items-center gap-2 bg-gray-50 p-2 rounded border"><span class="w-16 font-bold">Kamis</span><input type="time" id="editJamKamisM" class="border rounded p-1 w-full"><span>-</span><input type="time" id="editJamKamisP" class="border rounded p-1 w-full"></div>
+                        <div class="flex items-center gap-2 bg-gray-50 p-2 rounded border"><span class="w-16 font-bold">Jumat</span><input type="time" id="editJamJumatM" class="border rounded p-1 w-full"><span>-</span><input type="time" id="editJamJumatP" class="border rounded p-1 w-full"></div>
+                        <div class="flex items-center gap-2 bg-gray-50 p-2 rounded border"><span class="w-16 font-bold">Sabtu</span><input type="time" id="editJamSabtuM" class="border rounded p-1 w-full"><span>-</span><input type="time" id="editJamSabtuP" class="border rounded p-1 w-full"></div>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 font-medium">Update Data</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Input Manual -->
+    <div id="modalIzin" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50 no-print">
+        <div class="bg-white p-6 rounded-xl shadow-xl w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold">Input Kehadiran Manual</h3>
+                <button onclick="closeModalIzin()" class="text-gray-500 hover:text-red-500"><i class="ph ph-x text-xl"></i></button>
+            </div>
+            <form onsubmit="saveIzin(event)">
+                <div class="mb-3">
+                    <label class="block text-sm font-medium mb-1">Pilih Guru</label>
+                    <select id="izinGuru" required class="w-full border border-gray-300 rounded p-2 focus:ring focus:ring-blue-200"></select>
+                </div>
+                <div class="mb-3 grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Dari Tanggal</label>
+                        <input type="date" id="izinTanggalMulai" required class="w-full border border-gray-300 rounded p-2 focus:ring focus:ring-blue-200">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Sampai Tanggal</label>
+                        <input type="date" id="izinTanggalSelesai" required class="w-full border border-gray-300 rounded p-2 focus:ring focus:ring-blue-200">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-medium mb-1">Status Kehadiran</label>
+                    <select id="izinStatus" required class="w-full border border-gray-300 rounded p-2 focus:ring focus:ring-blue-200">
+                        <option value="Sakit">Sakit</option>
+                        <option value="Izin">Izin</option>
+                        <option value="Cuti">Cuti</option>
+                        <option value="Dinas Luar">Dinas Luar</option>
+                        <option value="Alpha">Alpha</option>
+                    </select>
+                </div>
+                <div class="mb-5">
+                    <label class="block text-sm font-medium mb-1">Keterangan (Opsional)</label>
+                    <input type="text" id="izinKeterangan" placeholder="Contoh: Surat dokter terlampir" class="w-full border border-gray-300 rounded p-2 focus:ring focus:ring-blue-200">
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 font-medium">Simpan Data</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Tambah Pengguna -->
+    <div id="modalUser" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50 no-print">
+        <div class="bg-white p-6 rounded-xl shadow-xl w-full max-w-sm">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold">Tambah Pengguna</h3>
+                <button onclick="closeModalUser()" class="text-gray-500 hover:text-red-500"><i class="ph ph-x text-xl"></i></button>
+            </div>
+            <form onsubmit="saveUser(event)">
+                <div class="mb-3">
+                    <label class="block text-sm font-medium mb-1">Nama Pengguna</label>
+                    <input type="text" id="userNama" required placeholder="Misal: Pak Joko (Piket)" class="w-full border border-gray-300 rounded p-2 focus:ring focus:ring-blue-200">
+                </div>
+                <div class="mb-5">
+                    <label class="block text-sm font-medium mb-1">Peran (Role)</label>
+                    <select id="userRoleSelect" required class="w-full border border-gray-300 rounded p-2 focus:ring focus:ring-blue-200">
+                        <option value="admin">Administrator (Akses Penuh)</option>
+                        <option value="piket">Guru Piket (Input Izin Saja)</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 font-medium">Simpan & Buat QR</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Tampil QR -->
+    <div id="modalQR" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50 no-print">
+        <div class="bg-white p-6 rounded-xl shadow-xl w-full max-w-sm text-center">
+            <h3 class="text-lg font-bold mb-4" id="qrTitleName">QR Code Guru</h3>
+            <div id="qrcodeBox" class="flex justify-center mb-4"></div>
+            <p class="text-sm text-gray-500 mb-4 font-mono" id="qrStringText"></p>
+            <button onclick="closeModalQR()" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300 w-full font-medium">Tutup</button>
+        </div>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+</html>
