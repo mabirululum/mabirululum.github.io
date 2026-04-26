@@ -199,12 +199,40 @@ function handleLogout() {
 }
 
 // ================= CORE SCANNER LOGIC (LANGSUNG KE SUPABASE) =================
+// function startScanner() {
+//     if (html5QrcodeScanner) return; 
+//     html5QrcodeScanner = new Html5QrcodeScanner("reader", { 
+//         fps: 10, qrbox: {width: 250, height: 250}, aspectRatio: 1.0, supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA]
+//     }, false);
+//     html5QrcodeScanner.render(onScanSuccess, () => {});
+// }
+
 function startScanner() {
     if (html5QrcodeScanner) return; 
-    html5QrcodeScanner = new Html5QrcodeScanner("reader", { 
-        fps: 10, qrbox: {width: 250, height: 250}, aspectRatio: 1.0, supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA]
-    }, false);
-    html5QrcodeScanner.render(onScanSuccess, () => {});
+    
+    // Tambahkan delay kecil agar render DOM sempurna sebelum memanggil kamera
+    setTimeout(() => {
+        try {
+            html5QrcodeScanner = new Html5QrcodeScanner("reader", { 
+                fps: 10, 
+                qrbox: {width: 250, height: 250}, 
+                aspectRatio: 1.0, 
+                supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA]
+            }, false);
+            
+            html5QrcodeScanner.render(onScanSuccess, (error) => {
+                // Jangan biarkan error diam saja, log ke console jika terjadi masalah render
+                console.warn("Scanner Error/Ignored:", error);
+            });
+        } catch (err) {
+            console.error("Gagal menginisialisasi kamera:", err);
+            Swal.fire({
+                icon: 'error',
+                title: 'Kamera Gagal',
+                text: 'Pastikan Anda telah memberikan izin akses kamera pada browser.'
+            });
+        }
+    }, 500); // Tunda setengah detik
 }
 
 function stopScanner() {
