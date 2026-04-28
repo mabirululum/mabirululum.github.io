@@ -218,10 +218,10 @@ function tampilkanHasil(siswa) {
         resultCard.classList.add("border-red-500");
         resultHeader.classList.add("bg-red-100");
         
-        statusTitle.innerText = "BELUM LOLOS UJIAN & ADMINISTRASI";
+        statusTitle.innerText = "BELUM TUNTAS UJIAN & ADMINISTRASI";
         statusTitle.className = "text-xl md:text-2xl font-extrabold text-red-800 mb-1 tracking-wider uppercase";
         
-        statusSubtitle.innerText = "Silakan hubungi pihak Waka. Kurikulum.";
+        statusSubtitle.innerText = "Silakan hubungi pihak Madrasah";
         statusSubtitle.className = "text-sm text-red-600 font-medium";
 
         // Sembunyikan biodata, munculkan pesan peringatan
@@ -233,10 +233,10 @@ function tampilkanHasil(siswa) {
         resultCard.classList.add("border-orange-500");
         resultHeader.classList.add("bg-orange-100");
         
-        statusTitle.innerText = "BELUM LOLOS ADMINISTRASI";
+        statusTitle.innerText = "BELUM TUNTAS ADMINISTRASI";
         statusTitle.className = "text-xl md:text-2xl font-extrabold text-orange-800 mb-1 tracking-wider uppercase";
         
-        statusSubtitle.innerText = "Silakan hubungi pihak Waka. Kurikulum.";
+        statusSubtitle.innerText = "Silakan hubungi pihak Madrasah";
         statusSubtitle.className = "text-sm text-orange-600 font-medium";
 
         // Sembunyikan biodata, munculkan pesan peringatan
