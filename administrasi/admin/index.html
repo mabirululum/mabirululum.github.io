@@ -22,12 +22,38 @@
     <meta name="twitter:title" content="Madrasah Aliyah Bi'rul Ulum">
     <meta name="twitter:description" content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
     <meta name="twitter:image" content="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/img-meta_ysxamu.jpg">
+
+    <!-- script online / offline -->
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script> if (typeof tailwind === 'undefined') { document.write('<script src="/assets/js/tailwind.min.js"><\/script>'); }
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script> if (typeof tailwind === 'undefined') { document.write('<script src="/assets/js/tailwind.browser.min.js"><\/script>'); }
+    </script>
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web" crossorigin="anonymous"></script>
+    <script> if (typeof PhosphorIcons === 'undefined') { document.write('<link rel="stylesheet" href="/assets/css/phosphor.css">'); }
+    </script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script> if (typeof Chart === 'undefined') { document.write('<script src="/assets/js/chart.min.js"><\/script>'); }
+    </script>
+
+    <!-- Chartjs Plugin Datalabels -->
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script> if (typeof ChartDataLabels === 'undefined') { document.write('<script src="/assets/js/chartjs-plugin-datalabels.min.js"><\/script>'); }
+    </script>
+
+    <!-- html2canvas -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script> if (typeof html2canvas === 'undefined') { document.write('<script src="/assets/js/html2canvas.min.js"><\/script>'); }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js" integrity="sha512-01CJ9/g7e8cUmY0DFTMcUw/ikS799FHiOA0eyHsUWfOetgbx/t6oV4otQ5zXKQyIrQGTHSmRVPIgrgLcZi/WMA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
@@ -35,29 +61,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="MA Bi'rul Ulum" />
     <link rel="manifest" href="/favicon/site.webmanifest" />
-    <style>
-        /* CSS Khusus untuk Print Kwitansi (Sembunyikan saat layar normal) */
-        @media screen {
-            #print-area { display: none; }
-        }
-        @media print {
-            body * { visibility: hidden; }
-            #print-area, #print-area * { visibility: visible; }
-            #print-area { position: absolute; left: 0; top: 0; width: 100%; color: black !important; background: white !important;}
-            /* Ukuran kertas spesifik 21 x 11 cm */
-            @page { size: 21cm 33cm; margin: 0.5cm; }
-            .print-table th, .print-table td { border: 1px solid black; padding: 4px 8px; }
-            .border-b-2-black { border-bottom: 2px solid black; }
-        }
-        .hide-scroll::-webkit-scrollbar { height: 4px; }
-        .hide-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        /* Style Tabel Laporan */
-        .table-rekap { width: 100%; border-collapse: collapse; font-size: 11px; }
-        .table-rekap th, .table-rekap td { border: 1px solid #d1d5db; padding: 6px; vertical-align: middle; }
-        .table-rekap th { background-color: #f3f4f6; font-weight: bold; text-align: center; }
-        .bg-lunas { background-color: #d1fae5; color: #047857; font-weight: bold; text-align: center;}
-        .text-tunggak { color: #dc2626; font-weight: bold; text-align: right;}
-    </style>
+    <link rel="stylesheet" href="/administrasi/assets/css/style.css">
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans h-screen overflow-hidden">
 
@@ -71,7 +75,7 @@
     <div id="print-area" class="font-sans text-xs bg-white w-full">
         <!-- Header / Kop Surat -->
         <div class="flex items-center justify-center border-b-2-black pb-2 mb-2">
-            <img src="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/icon-mabu_yuwogg.png" class="w-16 h-16 mr-4 rounded-full" alt="Logo">
+            <img src="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/icon-mabu_yuwogg.png" onerror="this.onerror=null; this.src='/administrasi/assets/img/icon-mabu.webp';" class="w-16 h-16 mr-4 rounded-full" alt="Logo">
             <div class="text-center">
                 <h1 class="text-lg font-bold uppercase tracking-wide">MADRASAH ALIYAH BI'RUL ULUM GEDANGAN</h1>
                 <p class="text-[10px]">Jl. KH. Sulaiman No. 39 Desa Gemurung Kecamatan Gedangan Kabupaten Sidoarjo 61254</p>
@@ -158,18 +162,14 @@
         <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm"></div>
         <div class="bg-white rounded-2xl shadow-2xl w-[90%] max-w-md overflow-hidden relative z-10">
             <div class="bg-blue-600 p-6 text-center text-white">
-                <img src="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/icon-mabu_yuwogg.png" alt="Logo Sekolah" class="w-20 h-20 mx-auto mb-3 rounded-full">
+                <img src="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/icon-mabu_yuwogg.png" onerror="this.onerror=null; this.src='/administrasi/assets/img/icon-mabu.webp';" alt="Logo Sekolah" class="w-20 h-20 mx-auto mb-3 rounded-full">
                 <h2 class="text-2xl font-bold">Aplikasi Administrasi Madrasah</h2>
                 <p class="text-blue-200 text-sm mt-1">Sistem Administrasi MA Bi'rul Ulum</p>
                 <p class="text-blue-200 text-sm mt-1">Tahun Pelajaran <span id="tahun-ppdb"></span></p>
             </div>
-            <div class="flex border-b">
-                <button onclick="setLoginTab('siswa')" id="tab-siswa" class="flex-1 py-3 text-center font-semibold text-blue-600 border-b-2 border-blue-600 transition-colors">Login Siswa</button>
-                <button onclick="setLoginTab('admin')" id="tab-admin" class="flex-1 py-3 text-center font-semibold text-gray-400 border-b-2 border-transparent transition-colors">Login Admin</button>
-            </div>
             <div class="p-8">
                 <!-- Form Siswa -->
-                <form id="form-login-siswa" onsubmit="handleLoginSiswa(event)" class="space-y-4">
+                <form id="form-login-siswa" onsubmit="handleLoginSiswa(event)" class="space-y-4 hidden">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Nomor Induk Siswa (NIS)</label>
                         <div class="relative">
@@ -182,7 +182,7 @@
                     </button>
                 </form>
                 <!-- Form Admin -->
-                <form id="form-login-admin" onsubmit="handleLoginAdmin(event)" class="space-y-4 hidden">
+                <form id="form-login-admin" onsubmit="handleLoginAdmin(event)" class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
                         <div class="relative">
@@ -203,6 +203,12 @@
                 </form>
             </div>
         </div>
+        <!-- WATERMARK -->
+        <div class="absolute bottom-6 w-full text-center z-10 ">
+            <p class="text-white/60 text-sm font-medium tracking-wide">
+                Dikembangkan oleh <a href="https://instagram.com/aflah.design" target="_blank" rel="noopener noreferrer" class="text-amber-400 font-bold opacity-90 hover:opacity-100 hover:underline transition">@aflah.design</a>
+            </p>
+        </div>
     </div>
 
     <!-- ==================== VIEW: ADMIN DASHBOARD ==================== -->
@@ -212,7 +218,7 @@
         <aside id="admin-sidebar" class="w-64 bg-slate-900 text-white flex flex-col z-50 fixed md:relative inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
             <div class="h-16 flex items-center justify-between px-6 border-b border-slate-800 shrink-0">
                 <div class="flex items-center">
-                    <img src="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/icon-mabu_yuwogg.png" alt="Logo" class="w-8 h-8 mr-3 rounded-full">
+                    <img src="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/icon-mabu_yuwogg.png" onerror="this.onerror=null; this.src='/administrasi/assets/img/icon-mabu.webp';" alt="Logo" class="w-8 h-8 mr-3 rounded-full">
                     <h1 class="text-lg font-bold">Panel Admin</h1>
                 </div>
                 <button onclick="toggleSidebar()" class="md:hidden text-gray-400 hover:text-white focus:outline-none"><i class="ph ph-x text-2xl"></i></button>
@@ -322,7 +328,15 @@
                 <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-6 mt-6">
                     <div class="lg:col-span-3 bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:p-6">
                         <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center"><i class="ph ph-chart-bar mr-2 text-blue-500"></i> Statistik Siswa per Kelas</h3>
-                        <div class="relative h-64 w-full"><canvas id="chart-kelas"></canvas></div>
+                        <!-- <div class="relative h-64 w-full"><canvas id="chart-kelas"></canvas></div> -->
+                         <!-- Kumpulan Tombol Tab Filter Grafik -->
+                        <div class="flex space-x-2 bg-gray-50 p-1 rounded-lg border border-gray-100">
+                            <button onclick="setChartSiswaTab('aktif')" id="tab-chart-aktif" class="px-4 py-1.5 text-sm font-semibold rounded-md bg-blue-600 text-white shadow-sm transition-all">Aktif</button>
+                            <button onclick="setChartSiswaTab('lulus')" id="tab-chart-lulus" class="px-4 py-1.5 text-sm font-semibold rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-200 transition-all">Alumni</button>
+                            <button onclick="setChartSiswaTab('keluar')" id="tab-chart-keluar" class="px-4 py-1.5 text-sm font-semibold rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-200 transition-all">Keluar</button>
+                        </div>
+                        <!-- Area Canvas Grafik -->
+                        <canvas id="chart-kelas" height="100"></canvas>
                     </div>
                     <div class="lg:col-span-1 bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:p-6">
                         <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center"><i class="ph ph-chart-pie mr-2 text-pink-500"></i> Jumlah Siswa Siswi</h3>
@@ -331,31 +345,6 @@
                 </div>
             </div>
 
-            <!-- TAB DATA SISWA -->
-            <!-- <div id="admin-view-datasiswa" class="hidden flex-1 overflow-y-auto p-4 md:p-8 flex-col gap-4 md:gap-8">
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden h-full flex flex-col">
-                    <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                        <h3 class="text-lg font-semibold text-gray-800">Direktori Data Siswa</h3>
-                        <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-                            <select id="filter-kelas" onchange="handleFilterKelas()" class="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"></select>
-                            <input type="text" id="search-datasiswa" onkeyup="handleSearch('datasiswa')" placeholder="Cari NIS atau Nama..." class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg">
-                        </div>
-                    </div>
-                    <div class="flex-1 overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
-                            <thead><tr class="bg-gray-50 text-gray-500 text-sm border-b border-gray-100"><th class="p-4">NIS</th><th class="p-4">Nama Lengkap</th><th class="p-4 text-center">L/P</th><th class="p-4">Kelas</th></tr></thead>
-                            <tbody id="table-admin-datasiswa" class="text-sm divide-y divide-gray-100"></tbody>
-                        </table>
-                    </div>
-                    <div class="p-4 border-t border-gray-100 flex justify-between items-center bg-gray-50 text-sm">
-                        <span id="page-info-datasiswa" class="text-gray-500"></span>
-                        <div class="flex space-x-2">
-                            <button onclick="changeAdminPage('datasiswa', -1)" id="btn-prev-datasiswa" class="px-3 py-1 border rounded bg-white">Sebelumnya</button>
-                            <button onclick="changeAdminPage('datasiswa', 1)" id="btn-next-datasiswa" class="px-3 py-1 border rounded bg-white">Selanjutnya</button>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
             <div id="admin-view-datasiswa" class="flex-1 overflow-y-auto p-4 md:p-8 flex-col gap-4 flex block">
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col h-full">
                     <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -469,12 +458,12 @@
                 </div>
             </div>
 
-            <!-- 3. TAB CETAK LAPORAN KELAS -->
+            <!-- TAB CETAK LAPORAN KELAS -->
             <div id="admin-view-cetak" class="hidden flex-1 overflow-y-auto p-4 md:p-8 flex-col gap-4">
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col md:flex-row items-end gap-4">
-                    <div class="w-full md:w-1/3"><label class="block text-sm font-medium text-gray-700 mb-1">Pilih Tahun Ajaran</label><select id="cetak-tahun" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg"><option value="2025/2026">2025/2026</option></select></div>
-                    <div class="w-full md:w-1/3"><label class="block text-sm font-medium text-gray-700 mb-1">Pilih Kelas</label><select id="cetak-kelas" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg"></select></div>
-                    <div class="w-full md:w-1/3 flex space-x-2"><button onclick="generateLaporanCetak()" class="w-full bg-emerald-600 text-white font-medium py-2.5 rounded-lg flex items-center justify-center"><i class="ph ph-table mr-2"></i> Tampilkan Rekap</button></div>
+                    <div class="w-full md:w-1/3"><label class="block text-sm font-medium text-gray-700 mb-1">Pilih Tahun Ajaran</label><select id="cetak-tahun" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"><option value="2025/2026">2025/2026</option></select></div>
+                    <div class="w-full md:w-1/3"><label class="block text-sm font-medium text-gray-700 mb-1">Pilih Kelas</label><select id="cetak-kelas" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"></select></div>
+                    <div class="w-full md:w-1/3 flex space-x-2"><button onclick="generateLaporanCetak()" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-lg flex items-center justify-center"><i class="ph ph-table mr-2"></i> Tampilkan Rekap</button></div>
                 </div>
                 <!-- Area Render Hasil Rekap -->
                 <div id="cetak-result-container" class="hidden bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex-col h-full">
@@ -484,9 +473,20 @@
                     </div>
                     <div class="p-6 overflow-x-auto w-full flex-1">
                         <div id="capture-area" class="w-max min-w-full bg-white p-6 border border-gray-200">
-                            <div class="text-center mb-6"><h2 class="text-xl font-bold uppercase text-gray-800">LAPORAN REKAPITULASI PEMBAYARAN</h2><p id="cap-subtitle" class="text-sm font-semibold text-gray-600">KELAS: - | TAHUN AJARAN: -</p></div>
+                            <div class="flex items-center justify-center border-b-2-black pb-2 mb-2">
+                                <img src="/favicon/favicon-96x96.png" class="w-16 h-16 mr-4 rounded-full" alt="Logo">
+                                <div class="text-center">
+                                    <h1 class="text-lg font-bold uppercase tracking-wide">MADRASAH ALIYAH BI'RUL ULUM GEDANGAN</h1>
+                                    <p class="text-[10px]">Jl. KH. Sulaiman No. 39 Desa Gemurung Kecamatan Gedangan Kabupaten Sidoarjo 61254</p>
+                                    <p class="text-[10px] font-bold">WA : 0838-3313-3913 | Email : ma.birululum@gmail.com | Web : mabirululum-sda.sch.id</p>
+                                </div>
+                            </div>
                             <div id="cap-table-container"></div>
-                            <div class="mt-6 flex justify-between text-xs text-gray-500"><p>Sistem ERP MA Bi'rul Ulum</p><p id="cap-date">Dicetak pada: -</p></div>
+                            <div id="footer-cetak" class="mt-6 flex justify-between text-xs text-gray-500">
+                                <p>Sistem ERP MA Bi'rul Ulum</p>
+                                <p id="cap-subtitle">KELAS: - | TAHUN AJARAN: -</p>
+                                <p id="cap-date">Dicetak pada: -</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -744,9 +744,6 @@
                         <button onclick="switchRestoreTab('pengeluaran-non')" id="rtab-pengeluaran-non" class="flex-none px-6 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors flex items-center">
                             Non Ops <span id="badge-res-pengeluaran-non" class="ml-2 bg-rose-500 text-white text-[10px] px-2 py-0.5 rounded-full hidden">0</span>
                         </button>
-                        <button onclick="switchRestoreTab('tarif')" id="rtab-tarif" class="flex-none px-6 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors flex items-center">
-                            Tarif <span id="badge-res-tarif" class="ml-2 bg-rose-500 text-white text-[10px] px-2 py-0.5 rounded-full hidden">0</span>
-                        </button>
                     </div>
                     
                     <div class="flex-1 overflow-x-auto">
@@ -831,7 +828,7 @@
     </div>
 
     <!-- TAMPILAN VIEW SISWA -->
-    <div id="view-siswa" class="hidden h-screen flex flex-col bg-gray-50">
+    <div id="view-siswa" class="hidden h-screen flex flex-col bg-gray-50 overflow-hidden">
         <header class="h-16 bg-blue-600 text-white shadow-md flex items-center justify-between px-4 md:px-8 z-10 shrink-0">
             <div class="flex items-center">
                 <img src="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/icon-mabu_yuwogg.png" alt="Logo" class="w-8 h-8 mr-3 rounded-full">
@@ -844,73 +841,61 @@
 
         <main class="flex-1 overflow-y-auto p-4 md:p-8 w-full max-w-6xl mx-auto">
             
-            <!-- SMART EXAM WIDGET -->
-            <div id="widget-ujian" class="hidden bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl shadow-md p-6 mb-6 text-white flex flex-col md:flex-row items-center justify-between transform transition-all duration-500 hover:scale-[1.01]">
+            <!-- HIGHLIGHT: SMART EXAM WIDGET -->
+            <div id="widget-ujian" class="hidden bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl shadow-md p-6 mb-6 text-white flex flex-col md:flex-row items-center justify-between transform transition-all duration-500">
                 <div class="flex items-center mb-4 md:mb-0">
                     <div class="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center mr-4 shrink-0">
-                        <i class="ph ph-exam text-3xl text-white"></i>
+                        <i class="ph ph-exam text-3xl text-white animate-pulse"></i>
                     </div>
                     <div>
-                        <p class="text-amber-100 text-sm font-medium mb-0.5 tracking-wide uppercase">Persyaratan Mengikuti Ujian</p>
+                        <p class="text-amber-100 text-sm font-medium mb-0.5 tracking-wide uppercase">Kalkulasi Otomatis Sistem</p>
                         <h2 id="widget-exam-title" class="text-2xl font-bold">Syarat -</h2>
                     </div>
                 </div>
                 <div class="text-center md:text-right bg-white/10 px-6 py-3 rounded-lg border border-white/20 w-full md:w-auto">
-                    <p class="text-amber-100 text-xs mb-1">Total Akumulasi Tagihan Berjalan</p>
+                    <p class="text-amber-100 text-xs mb-1">Total Tagihan yg Wajib Lunas</p>
                     <h3 id="widget-exam-amount" class="text-3xl font-bold tracking-tight">Rp0</h3>
                 </div>
             </div>
 
+            <!-- PROFIL SISWA -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6 flex flex-col md:flex-row items-center justify-between">
                 <div class="flex items-center mb-4 md:mb-0">
-                    <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mr-6 shrink-0">
-                        <i class="ph ph-student text-3xl"></i>
-                    </div>
+                    <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mr-6 shrink-0"><i class="ph ph-student text-3xl"></i></div>
                     <div>
-                        <p class="text-sm text-gray-500 mb-1">Data Siswa</p>
+                        <p class="text-sm text-gray-500 mb-1">Identitas Siswa</p>
                         <h2 id="siswa-nama" class="text-2xl font-bold text-gray-800">Nama Siswa</h2>
-                        <p id="siswa-nis-kelas" class="text-gray-600 font-medium">NIS: - | Kelas: - | L/P: -</p>
+                        <p id="siswa-nis-kelas" class="text-gray-600 font-medium">NIS: - | Kelas: - | L/P: - | Mulai Tagihan: -</p>
                     </div>
                 </div>
-                
                 <div class="flex flex-col items-center md:items-end gap-3 w-full md:w-auto">
                     <div id="box-kekurangan" class="bg-red-50 border border-red-100 rounded-lg p-4 text-center min-w-[200px] w-full">
-                        <p id="title-kekurangan" class="text-sm text-red-600 font-medium mb-1">Total Hutang Keseluruhan</p>
+                        <p id="title-kekurangan" class="text-sm text-red-600 font-medium mb-1">Total Hutang Berjalan</p>
                         <h3 id="siswa-total-kekurangan" class="text-2xl font-bold text-red-700">Rp0</h3>
                     </div>
                 </div>
             </div>
 
+            <!-- TABEL TAGIHAN -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col max-h-[600px]">
                     <div class="p-5 border-b border-gray-100 bg-gray-50 shrink-0">
-                        <h3 class="text-lg font-semibold text-gray-800"><i class="ph ph-calendar-check mr-2"></i> Rekap SPP Bulanan</h3>
+                        <h3 class="text-lg font-semibold text-gray-800"><i class="ph ph-calendar-check mr-2"></i> Rekap SPP Bulanan (2025/2026)</h3>
                     </div>
                     <div class="overflow-x-auto overflow-y-auto flex-1">
                         <table class="w-full text-left border-collapse">
-                            <thead>
-                                <tr class="text-gray-500 text-sm border-b border-gray-100 bg-white sticky top-0">
-                                    <th class="p-4 font-medium">Tagihan Bulan</th>
-                                    <th class="p-4 font-medium text-center">Status / Tunggakan</th>
-                                </tr>
-                            </thead>
+                            <thead><tr class="text-gray-500 text-sm border-b border-gray-100 bg-white sticky top-0"><th class="p-4 font-medium">Bulan</th><th class="p-4 font-medium text-center">Status / Tunggakan</th></tr></thead>
                             <tbody id="table-rekap-bulanan" class="text-sm divide-y divide-gray-100"></tbody>
                         </table>
                     </div>
                 </div>
-
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col max-h-[600px]">
                     <div class="p-5 border-b border-gray-100 bg-gray-50 shrink-0">
                         <h3 class="text-lg font-semibold text-gray-800"><i class="ph ph-file-text mr-2"></i> Rincian Tagihan Lainnya</h3>
                     </div>
                     <div class="overflow-x-auto overflow-y-auto flex-1">
                         <table class="w-full text-left border-collapse">
-                            <thead>
-                                <tr class="text-gray-500 text-sm border-b border-gray-100 bg-white sticky top-0">
-                                    <th class="p-4 font-medium">Jenis Tagihan</th>
-                                    <th class="p-4 font-medium text-right">Kekurangan / Status</th>
-                                </tr>
-                            </thead>
+                            <thead><tr class="text-gray-500 text-sm border-b border-gray-100 bg-white sticky top-0"><th class="p-4 font-medium">Jenis Tagihan</th><th class="p-4 font-medium text-right">Kekurangan / Status</th></tr></thead>
                             <tbody id="table-rekap-tagihan" class="text-sm divide-y divide-gray-100"></tbody>
                         </table>
                     </div>
@@ -933,6 +918,6 @@
             </div>
         </div>
     </div>
-    <script src="/administrasi/js/admin.js"></script>
+    <script src="/administrasi/assets/js/admin.js"></script>
 </body>
 </html>
