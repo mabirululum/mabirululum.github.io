@@ -62,6 +62,8 @@
     <meta name="apple-mobile-web-app-title" content="MA Bi'rul Ulum" />
     <link rel="manifest" href="/favicon/site.webmanifest" />
     <link rel="stylesheet" href="/administrasi/assets/css/style.css">
+
+    <style id="dynamic-print-style"></style>
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans h-[100dvh] overflow-hidden">
 
@@ -227,7 +229,7 @@
                 <button onclick="switchAdminTab('dashboard')" id="nav-dashboard" class="w-full flex items-center px-4 py-3 rounded-lg bg-blue-600 text-white transition-colors"><i class="ph ph-squares-four text-xl mr-3"></i> Dashboard</button>
                 <button onclick="switchAdminTab('datasiswa')" id="nav-datasiswa" class="w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-users text-xl mr-3"></i> Data Siswa</button>
                 <button onclick="switchAdminTab('pemasukan')" id="nav-pemasukan" class="w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-download-simple text-xl mr-3"></i> Pemasukan Siswa</button>
-                <button onclick="switchAdminTab('cetak')" id="nav-cetak" class="w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-printer text-xl mr-3"></i> Cetak Laporan</button>
+                <button onclick="switchAdminTab('cetak')" id="nav-cetak" class="w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-printer text-xl mr-3"></i> Laporan & Surat</button>
                 <button onclick="switchAdminTab('bantuan')" id="nav-bantuan" class="w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-bank text-xl mr-3"></i> Dana Bantuan</button>
                 <button onclick="switchAdminTab('infaq')" id="nav-infaq" class="w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-hand-heart text-xl mr-3"></i> Kas Infaq</button>
                 <button onclick="switchAdminTab('pengeluaran')" id="nav-pengeluaran" class="w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-upload-simple text-xl mr-3"></i> Operasional</button>
@@ -460,32 +462,136 @@
 
             <!-- TAB CETAK LAPORAN KELAS -->
             <div id="admin-view-cetak" class="hidden flex-1 overflow-y-auto p-4 md:p-8 flex-col gap-4">
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col md:flex-row items-end gap-4">
-                    <div class="w-full md:w-1/3"><label class="block text-sm font-medium text-gray-700 mb-1">Pilih Tahun Ajaran</label><select id="cetak-tahun" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"><option value="2025/2026">2025/2026</option></select></div>
-                    <div class="w-full md:w-1/3"><label class="block text-sm font-medium text-gray-700 mb-1">Pilih Kelas</label><select id="cetak-kelas" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"></select></div>
-                    <div class="w-full md:w-1/3 flex space-x-2"><button onclick="generateLaporanCetak()" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-lg flex items-center justify-center"><i class="ph ph-table mr-2"></i> Tampilkan Rekap</button></div>
-                </div>
-                <!-- Area Render Hasil Rekap -->
-                <div id="cetak-result-container" class="hidden bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex-col h-full">
-                    <div class="p-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
-                        <div><h3 class="text-sm font-bold text-gray-800">Preview Laporan (Horizontal)</h3><p class="text-xs text-gray-500">Akan di-generate otomatis dari perhitungan dinamis.</p></div>
-                        <button onclick="downloadLaporanImage()" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center"><i class="ph ph-image mr-2"></i> Unduh Screenshot (WA)</button>
+                <!-- Header Tabs Container -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 shrink-0">
+                    <div class="flex gap-6 border-b border-gray-100">
+                        <button onclick="setLaporanTab('rekap')" id="tab-laporan-rekap" class="pb-3 text-sm font-bold border-b-2 border-emerald-600 text-emerald-600 transition-colors"><i class="ph ph-table mr-1"></i> Rekapitulasi Kelas</button>
+                        <button onclick="setLaporanTab('surat')" id="tab-laporan-surat" class="pb-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors"><i class="ph ph-envelope-open mr-1"></i> Surat Tagihan Siswa</button>
                     </div>
-                    <div class="p-6 overflow-x-auto w-full flex-1">
-                        <div id="capture-area" class="w-max min-w-full bg-white p-6 border border-gray-200">
-                            <div class="flex items-center justify-center border-b-2-black pb-2 mb-2">
-                                <img src="/favicon/favicon-96x96.png" class="w-16 h-16 mr-4 rounded-full" alt="Logo">
-                                <div class="text-center">
-                                    <h1 class="text-lg font-bold uppercase tracking-wide">MADRASAH ALIYAH BI'RUL ULUM GEDANGAN</h1>
-                                    <p class="text-[10px]">Jl. KH. Sulaiman No. 39 Desa Gemurung Kecamatan Gedangan Kabupaten Sidoarjo 61254</p>
-                                    <p class="text-[10px] font-bold">WA : 0838-3313-3913 | Email : ma.birululum@gmail.com | Web : mabirululum-sda.sch.id</p>
+                </div>
+                <!-- SUB-TAB: REKAP KELAS -->
+                <div id="laporan-content-rekap" class="flex flex-col gap-4">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                        <div class="mb-6 border-b border-gray-100 pb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">Rekapitulasi Keuangan Kelas</h3>
+                            <p class="text-sm text-gray-500">Pilih tahun ajaran dan kelas untuk melihat laporan rekap tagihan secara horizontal.</p>
+                        </div>
+                        <div class="flex flex-col md:flex-row items-end gap-4">
+                            <div class="w-full md:w-1/3"><label class="block text-sm font-medium text-gray-700 mb-1">Pilih Tahun Ajaran</label><select id="cetak-tahun" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg"><option value="2024/2025">2024/2025</option><option value="2025/2026">2025/2026</option></select></div>
+                            <div class="w-full md:w-1/3"><label class="block text-sm font-medium text-gray-700 mb-1">Pilih Kelas</label><select id="cetak-kelas" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg"></select></div>
+                            <div class="w-full md:w-1/3 flex space-x-2"><button onclick="generateLaporanCetak()" class="w-full bg-emerald-600 text-white font-medium py-2.5 rounded-lg flex items-center justify-center hover:bg-emerald-700 transition-colors"><i class="ph ph-table mr-2"></i> Tampilkan Rekap</button></div>
+                        </div>
+                    </div>
+                    
+                    <div id="cetak-result-container" class="hidden bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex-col h-full">
+                        <div class="p-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+                            <div><h3 class="text-sm font-bold text-gray-800">Preview Laporan (Horizontal)</h3><p class="text-xs text-gray-500">Otomatis di-generate dari master tarif dan pembayaran.</p></div>
+                            <button onclick="downloadLaporanImage()" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center"><i class="ph ph-image mr-2"></i> Unduh Gambar (WA)</button>
+                        </div>
+                        <div class="p-6 overflow-x-auto w-full flex-1">
+                            <div id="capture-area" class="w-max min-w-full bg-white p-6 border border-gray-200">
+                                <div class="flex items-center justify-center border-b-2-black pb-2 mb-2">
+                                    <img src="/favicon/favicon-96x96.png" class="w-16 h-16 mr-4 rounded-full" alt="Logo">
+                                    <div class="text-center">
+                                        <h1 class="text-lg font-bold uppercase tracking-wide">MADRASAH ALIYAH BI'RUL ULUM GEDANGAN</h1>
+                                        <p class="text-[10px]">Jl. KH. Sulaiman No. 39 Desa Gemurung Kecamatan Gedangan Kabupaten Sidoarjo 61254</p>
+                                        <p class="text-[10px] font-bold">WA : 0838-3313-3913 | Email : ma.birululum@gmail.com | Web : mabirululum-sda.sch.id</p>
+                                    </div>
+                                </div>
+                                <div id="cap-table-container"></div>
+                                <div id="footer-cetak" class="mt-6 flex justify-between text-xs text-gray-500">
+                                    <p>Sistem ERP MA Bi'rul Ulum</p>
+                                    <p id="cap-subtitle">KELAS: - | TAHUN AJARAN: -</p>
+                                    <p id="cap-date">Dicetak pada: -</p>
                                 </div>
                             </div>
-                            <div id="cap-table-container"></div>
-                            <div id="footer-cetak" class="mt-6 flex justify-between text-xs text-gray-500">
-                                <p>Sistem ERP MA Bi'rul Ulum</p>
-                                <p id="cap-subtitle">KELAS: - | TAHUN AJARAN: -</p>
-                                <p id="cap-date">Dicetak pada: -</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUB-TAB: SURAT TAGIHAN -->
+                <div id="laporan-content-surat" class="hidden flex-col gap-4">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4 border-b border-gray-100 pb-4">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">Generate Surat Tagihan Resmi</h3>
+                                <p class="text-sm text-gray-500">Cetak surat pemberitahuan ukuran Folio/F4 (21 x 33 cm).</p>
+                            </div>
+                            <div class="flex bg-gray-100 p-1 rounded-lg">
+                                <button onclick="setSuratMode('individu')" id="btn-mode-individu" class="px-4 py-2 text-sm font-medium rounded-md bg-white text-blue-600 shadow-sm transition-all">Per NIS</button>
+                                <button onclick="setSuratMode('massal')" id="btn-mode-massal" class="px-4 py-2 text-sm font-medium rounded-md text-gray-500 hover:text-gray-700 transition-all">Massal (Per Kelas)</button>
+                            </div>
+                        </div>
+
+                        <!-- Form Individu -->
+                        <div id="form-surat-individu" class="flex flex-col md:flex-row items-end gap-4">
+                            <div class="w-full md:w-1/3">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nomor Induk Siswa (NIS)</label>
+                                <input type="text" id="surat-nis" placeholder="Masukkan NIS..." class="w-full px-3 py-2.5 border border-gray-300 rounded-lg">
+                            </div>
+                            <div class="w-full md:w-1/3">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Keperluan Surat (Filter Tagihan)</label>
+                                <select id="surat-keperluan-indv" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg">
+                                    <option value="Umum">Tampilkan Semua Tunggakan</option>
+                                    <option value="Syarat Ujian PTS 1">Syarat Ujian PTS 1</option>
+                                    <option value="Syarat Ujian PAS 1">Syarat Ujian PAS 1</option>
+                                    <option value="Syarat Ujian PTS 2">Syarat Ujian PTS 2</option>
+                                    <option value="Syarat Ujian PAS 2 / Kenaikan Kelas">Syarat Ujian PAS 2 / Kenaikan</option>
+                                </select>
+                            </div>
+                            <div class="w-full md:w-32">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Mulai No.</label>
+                                <input type="number" id="surat-mulai-indv" value="1" min="1" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg" placeholder="1">
+                            </div>
+                            <div class="w-full md:w-1/3 flex space-x-2">
+                                <button onclick="generateSuratIndividu()" class="w-full bg-blue-600 text-white font-medium py-2.5 rounded-lg flex items-center justify-center hover:bg-blue-700 transition"><i class="ph ph-magic-wand mr-2"></i> Buat Surat</button>
+                            </div>
+                        </div>
+
+                        <!-- Form Massal -->
+                        <div id="form-surat-massal" class="hidden flex flex-col lg:flex-row items-end gap-4 w-full">
+                            <div class="flex-1 w-full">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Pilih Kelas</label>
+                                <select id="surat-kelas-massal" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg"></select>
+                            </div>
+                            <div class="flex-1 w-full">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Minimal Tunggakan (Rp)</label>
+                                <input type="number" id="surat-limit" value="300000" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg" placeholder="Misal: 300000">
+                            </div>
+                            <div class="flex-1 w-full">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Keperluan (Filter Tagihan)</label>
+                                <select id="surat-keperluan-massal" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg">
+                                    <option value="Umum">Tampilkan Semua Tunggakan</option>
+                                    <option value="Syarat Ujian PTS 1">Syarat PTS 1</option>
+                                    <option value="Syarat Ujian PAS 1">Syarat PAS 1</option>
+                                    <option value="Syarat Ujian PTS 2">Syarat PTS 2</option>
+                                    <option value="Syarat Ujian PAS 2 / Kenaikan Kelas">Syarat PAS 2</option>
+                                </select>
+                            </div>
+                            <div class="w-full md:w-32">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Mulai No.</label>
+                                <input type="number" id="surat-mulai-massal" value="1" min="1" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg" placeholder="1">
+                            </div>
+                            <div class="w-full lg:w-auto">
+                                <button onclick="generateSuratMassal()" class="w-full lg:w-max px-6 bg-indigo-600 text-white font-medium py-2.5 rounded-lg flex items-center justify-center hover:bg-indigo-700 transition whitespace-nowrap"><i class="ph ph-users-three mr-2"></i> Buat Surat Massal</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Preview Area Surat -->
+                    <div id="surat-preview-container" class="hidden bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex-col items-center">
+                        <div class="w-full flex justify-between items-center border-b border-gray-200 pb-4 mb-4">
+                            <div>
+                                <h3 class="font-bold text-gray-800" id="surat-result-info">Preview Surat</h3>
+                                <p class="text-xs text-gray-500">Klik cetak untuk menyimpan sebagai PDF atau mem-print langsung.</p>
+                            </div>
+                            <button onclick="printSurat()" class="bg-emerald-600 text-white px-6 py-2.5 rounded-lg font-medium flex items-center hover:bg-emerald-700 transition shadow-sm"><i class="ph ph-printer mr-2"></i> Cetak (Print / PDF)</button>
+                        </div>
+                        
+                        <!-- Kertas Surat Virtual -->
+                        <div id="surat-print-wrapper" class="bg-gray-200 w-full p-4 md:p-8 flex justify-center overflow-x-auto rounded-lg">
+                            <div id="surat-print-area" class="bg-white shadow-lg p-8 md:p-10 w-full max-w-[215mm] mx-auto min-h-[330mm] text-black">
+                                <!-- Konten surat di-inject ke sini -->
                             </div>
                         </div>
                     </div>
