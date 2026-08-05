@@ -8,6 +8,13 @@ function badge(label, tipe) { return `<span class="badge ${TIPE_CLASS[tipe] || '
 
 let dataTerakhir = [];
 
+function tanggalLokal(dateObj = new Date()) {
+  const y = dateObj.getFullYear();
+  const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const t = String(dateObj.getDate()).padStart(2, '0');
+  return `${y}-${m}-${t}`;
+}
+
 async function isiDropdownGuru() {
   const guruList = await DB.listGuru();
   const select = document.getElementById('filter-guru');
@@ -83,7 +90,7 @@ document.getElementById('btn-export').addEventListener('click', exportExcel);
 (async () => {
   const skrg = new Date();
   const enamHariLalu = new Date(skrg); enamHariLalu.setDate(skrg.getDate() - 6);
-  const dari = tanggalLokal().call(null) ?? ''; // lihat catatan di bawah
+  const dari = tanggalLokal.call(null) ?? ''; // lihat catatan di bawah
   document.getElementById('filter-dari').value = dari;
   document.getElementById('filter-sampai').value = enamHariLalu;
 
