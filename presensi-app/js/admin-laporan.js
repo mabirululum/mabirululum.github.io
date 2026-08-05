@@ -83,7 +83,7 @@ document.getElementById('btn-export').addEventListener('click', exportExcel);
 (async () => {
   const skrg = new Date();
   const enamHariLalu = new Date(skrg); enamHariLalu.setDate(skrg.getDate() - 6);
-  const dari = tanggalLokal.call(null) ?? ''; // lihat catatan di bawah
+  const dari = tanggalLokal().call(null) ?? ''; // lihat catatan di bawah
   document.getElementById('filter-dari').value = dari;
   document.getElementById('filter-sampai').value = enamHariLalu;
 
