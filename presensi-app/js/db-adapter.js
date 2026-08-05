@@ -61,6 +61,18 @@ const DB = (() => {
     if (guruId) q = q.eq('id', guruId);
     const { data: guruList } = await q;
 
+    /*
+    DUGAAN ERROR TIDAK TAMPIL LAPORAN
+    - Input jadwal guru rabu tapi tampil di laporan presensi jadi hari selasa menyebabkan hasil alpha
+    - Failed to load resource: the server responded with a status of 400 () 
+      supabase_url/presensi/select=*&tanggal=gte.2026-08-05&tanggal=lte
+    
+    - Hasil Filter aneh, saat pilih rentang tgl 1-31 agustus 2026 hasil sesuai presensi di tanggal hari ini, tapi tampilan tabel dari tanggal 31/7/2026, 02/08/2026-30/08/2026
+    - tapi saat filter rentang di tanggal hari ini saja yg muncul data hari kemarin hasilnya alpha, dan saat filter tanggal besoknya hasil keluar tanggal sekarang tapi hasil alpha
+
+    contoh filter dari tanggal 6 - 8 output tabelnya tanggal 5,6,7 jadinya tidak sesuai form filter
+    contoh filter dari tanggal 6 - 6 output tabelnya tanggal 5 tapi hasil alpha, padahal sudah presensi hadir
+    */
     const { data: presensiRows } = await sb.from('presensi')
       .select('*').gte('tanggal', dari).lte('tanggal', sampai);
 
@@ -109,7 +121,7 @@ const DB = (() => {
           ket_pulang: kp.label, ket_pulang_tipe: kp.tipe,
         });
       });
-      cursor.setDate(cursor.getDate() + 1);
+      cursor.setDate(cursor.getDate());
     }
 
     hasil.sort((a, b) => b.tanggal.localeCompare(a.tanggal));
