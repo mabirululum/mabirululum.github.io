@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Presensi Barcode</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="kiosk-shell">
+
+    <header class="kiosk-header-bar">
+      <div class="sekolah-nama">SEKOLAH — SISTEM PRESENSI GURU</div>
+      <div class="header-clock">
+        <span id="clock-time">00:00:00</span>
+        <span id="clock-date" class="header-date">-</span>
+      </div>
+    </header>
+
+    <main class="kiosk-main">
+      <section class="panel-kiri">
+        <div id="camera-view"></div>
+        <div class="status-box" id="status-box">
+          <strong>Menunggu scan…</strong>
+          Arahkan barcode kartu ke kamera
+        </div>
+      </section>
+
+      <section class="panel-kanan">
+        <h4 class="riwayat-title">Riwayat Presensi Hari Ini</h4>
+        <div id="riwayat-list" class="riwayat-list-full">
+          <div class="list-row"><span>Memuat…</span></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="kiosk-footer">
+      Dikembangkan oleh Tim IT Sekolah · &copy; 2026
+    </footer>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/db-adapter.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/scanner.js"></script>
+</body>
+</html>
