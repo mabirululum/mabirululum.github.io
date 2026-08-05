@@ -57,6 +57,9 @@ const DB = (() => {
 
   // ---------- laporan (online) ----------
   async function laporanOnline(dari, sampai, guruId, status) {
+    if (!dari || !sampai) {                                    // <-- TAMBAHAN BARU, taruh di sini
+      throw new Error('Tanggal filter belum lengkap. Pilih Dari Tanggal dan Sampai Tanggal.');
+    }
     let q = sb.from('guru').select('id, nama, guru_jadwal(*)').eq('aktif', true);
     if (guruId) q = q.eq('id', guruId);
     const { data: guruList } = await q;
@@ -315,11 +318,6 @@ const DB = (() => {
 
     // ---- LAPORAN ----
     async laporanRentang(dari, sampai, guruId = '', status = '') {
-      if (!dari || !sampai) {
-        throw new Error('Tanggal filter belum lengkap. Pilih Dari Tanggal dan Sampai Tanggal.');
-      }
-      let q = sb.from('guru').select('id, nama, guru_jadwal(*)').eq('aktif', true);
-      
       if (isOnline) return laporanOnline(dari, sampai, guruId ? Number(guruId) : null, status);
       const q = new URLSearchParams({ dari, sampai });
       if (guruId) q.set('guru_id', guruId);
