@@ -32,15 +32,6 @@ const DB = (() => {
     return d.toTimeString().slice(0, 8);
   }
 
-  // Format tanggal LOKAL (bukan UTC) - penting karena WIB = UTC+7,
-  // toISOString() akan menggeser tanggal mundur 1 hari
-  function tanggalLokalStr(dateObj) {
-    const y = dateObj.getFullYear();
-    const m = String(dateObj.getMonth() + 1).padStart(2, '0');
-    const t = String(dateObj.getDate()).padStart(2, '0');
-    return `${y}-${m}-${t}`;
-  }
-
   // ---------- helper laporan (dipakai versi online, meniru logic laporan.php) ----------
   function formatDurasiLaporan(totalMenit) {
     const jam = Math.floor(totalMenit / 60);
@@ -96,7 +87,7 @@ const DB = (() => {
 
     while (cursor <= akhir) {
       // const tanggalStr = cursor.toISOString().slice(0, 10);
-      const tanggalStr = tanggalLokalStr(cursor);
+      const tanggalStr = tanggalLokal(cursor);
       const hariIni = HARI_MAP[cursor.getDay()];
 
       (guruList || []).forEach(g => {
@@ -212,7 +203,7 @@ const DB = (() => {
       .select('*').eq('guru_id', guru.id).eq('hari', hariIni).maybeSingle();
     if (!jadwal) return { error: `${guru.nama} tidak memiliki jadwal masuk pada hari ${hariIni}` };
 
-    const tanggal = new Date().toISOString().slice(0, 10);
+    const tanggal = tanggalLokal(new Date());
     const jamSekarang = new Date().toTimeString().slice(0, 8);
 
     const { data: existing } = await sb.from('presensi')
