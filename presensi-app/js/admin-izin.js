@@ -52,6 +52,6 @@ async function hapusIzin(id) {
   muatRiwayat();
 }
 
-document.getElementById('izin-tanggal').value = new Date().toISOString().slice(0, 10);
+document.getElementById('izin-tanggal').value = tanggalLokal(new Date());
 isiDropdownGuru();
 muatRiwayat();
