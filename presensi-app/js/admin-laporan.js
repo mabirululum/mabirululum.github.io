@@ -29,6 +29,10 @@ async function isiDropdownGuru() {
 async function muat() {
   const dari = document.getElementById('filter-dari').value;
   const sampai = document.getElementById('filter-sampai').value;
+  if (!dari || !sampai) {
+    toast('Pilih Dari Tanggal dan Sampai Tanggal terlebih dahulu.', 'warn');
+    return;
+  }
   let guruId = document.getElementById('filter-guru').value;
   const status = document.getElementById('filter-status').value;
   if (guruId && !/^\d+$/.test(guruId)) guruId = '';
@@ -88,12 +92,21 @@ function exportExcel() {
 document.getElementById('btn-tampilkan').addEventListener('click', muat);
 document.getElementById('btn-export').addEventListener('click', exportExcel);
 
+// (async () => {
+//   const skrg = new Date();
+//   const enamHariLalu = new Date(skrg); enamHariLalu.setDate(skrg.getDate() - 6);
+//   const dari = tanggalLokal.call(null) ?? ''; // lihat catatan di bawah
+//   document.getElementById('filter-dari').value = dari;
+//   document.getElementById('filter-sampai').value = enamHariLalu;
+
+//   await isiDropdownGuru();
+//   await muat();
+// })();
 (async () => {
-  const skrg = new Date();
-  const enamHariLalu = new Date(skrg); enamHariLalu.setDate(skrg.getDate() - 6);
-  const dari = tanggalLokal.call(null) ?? ''; // lihat catatan di bawah
+  const dari = tanggalLokal(new Date(Date.now() - 6*86400000));
+  const sampai = tanggalLokal(new Date());
   document.getElementById('filter-dari').value = dari;
-  document.getElementById('filter-sampai').value = enamHariLalu;
+  document.getElementById('filter-sampai').value = sampai;
 
   await isiDropdownGuru();
   await muat();
