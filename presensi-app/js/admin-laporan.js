@@ -47,7 +47,7 @@ async function muat() {
 
     document.getElementById('tbody-laporan').innerHTML = rows.map(r => `
       <tr>
-        <td>${new Date(r.tanggal).toLocaleDateString('id-ID')}</td>
+        <td>${r.tanggal.split('-').reverse().join('/')}</td>
         <td>${r.nama_guru}</td>
         <td>${r.jam_scan_masuk || '-'}</td>
         <td>${badge(r.ket_masuk, r.ket_masuk_tipe)}</td>
@@ -64,7 +64,8 @@ function exportExcel() {
   if (!dataTerakhir.length) { toast('Tidak ada data untuk di-export. Klik "Tampilkan" dulu.', 'warn'); return; }
 
   const sheetData = dataTerakhir.map(r => ({
-    'Tanggal': new Date(r.tanggal).toLocaleDateString('id-ID'),
+    // 'Tanggal': new Date(r.tanggal).toLocaleDateString('id-ID'),
+    'Tanggal': r.tanggal.split('-').reverse().join('/'),
     'Nama Guru': r.nama_guru,
     'Jam Masuk': r.jam_scan_masuk || '-',
     'Keterangan Masuk': r.ket_masuk,

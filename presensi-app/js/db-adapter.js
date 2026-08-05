@@ -32,6 +32,15 @@ const DB = (() => {
     return d.toTimeString().slice(0, 8);
   }
 
+  // Format tanggal LOKAL (bukan UTC) - penting karena WIB = UTC+7,
+  // toISOString() akan menggeser tanggal mundur 1 hari
+  function tanggalLokalStr(dateObj) {
+    const y = dateObj.getFullYear();
+    const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const t = String(dateObj.getDate()).padStart(2, '0');
+    return `${y}-${m}-${t}`;
+  }
+
   // ---------- helper laporan (dipakai versi online, meniru logic laporan.php) ----------
   function formatDurasiLaporan(totalMenit) {
     const jam = Math.floor(totalMenit / 60);
@@ -64,14 +73,16 @@ const DB = (() => {
     /*
     DUGAAN ERROR TIDAK TAMPIL LAPORAN
     - Input jadwal guru rabu tapi tampil di laporan presensi jadi hari selasa menyebabkan hasil alpha
-    - Failed to load resource: the server responded with a status of 400 () 
-      supabase_url/presensi/select=*&tanggal=gte.2026-08-05&tanggal=lte
+    - Failed to load resource: the server responded with a status of 400 ()
+      supabase_url/presensi/select=*&tanggal=gte.2026-08-05&tanggal=lte 
     
     - Hasil Filter aneh, saat pilih rentang tgl 1-31 agustus 2026 hasil sesuai presensi di tanggal hari ini, tapi tampilan tabel dari tanggal 31/7/2026, 02/08/2026-30/08/2026
     - tapi saat filter rentang di tanggal hari ini saja yg muncul data hari kemarin hasilnya alpha, dan saat filter tanggal besoknya hasil keluar tanggal sekarang tapi hasil alpha
-
+    
     contoh filter dari tanggal 6 - 8 output tabelnya tanggal 5,6,7 jadinya tidak sesuai form filter
     contoh filter dari tanggal 6 - 6 output tabelnya tanggal 5 tapi hasil alpha, padahal sudah presensi hadir
+
+    diatas masalah dari online, untuk mode offline sudah sesuai
     */
     const { data: presensiRows } = await sb.from('presensi')
       .select('*').gte('tanggal', dari).lte('tanggal', sampai);
@@ -84,7 +95,8 @@ const DB = (() => {
     const akhir = new Date(sampai + 'T00:00:00');
 
     while (cursor <= akhir) {
-      const tanggalStr = cursor.toISOString().slice(0, 10);
+      // const tanggalStr = cursor.toISOString().slice(0, 10);
+      const tanggalStr = tanggalLokalStr(cursor);
       const hariIni = HARI_MAP[cursor.getDay()];
 
       (guruList || []).forEach(g => {
@@ -121,7 +133,7 @@ const DB = (() => {
           ket_pulang: kp.label, ket_pulang_tipe: kp.tipe,
         });
       });
-      cursor.setDate(cursor.getDate());
+      cursor.setDate(cursor.getDate() + 1);
     }
 
     hasil.sort((a, b) => b.tanggal.localeCompare(a.tanggal));
