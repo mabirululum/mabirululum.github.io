@@ -310,28 +310,41 @@ const DB = (() => {
 
     // ---- USERS (admin) ----
     async listUsers() {
-      if (isOnline) { const { data } = await sb.from('users').select('id, username, nama, role, barcode_id, aktif').order('username'); return data; }
+      if (isOnline) {
+        const { data, error } = await sb.rpc('list_admin_users');
+        if (error) throw new Error(error.message);
+        return data;
+      }
       return (await callPhp('users.php')).data;
     },
     async addUser(user) {
       if (isOnline) {
-        const { error } = await sb.rpc('set_admin_password', { p_username: user.username, p_new_password: user.password });
+        const { error } = await sb.rpc('create_admin_user', {
+          p_username: user.username, p_password: user.password,
+          p_nama: user.nama, p_role: user.role || 'admin', p_barcode: user.barcode_id || '',
+        });
         if (error) throw new Error(error.message);
-        await sb.from('users').update({ nama: user.nama, barcode_id: user.barcode_id || null }).eq('username', user.username);
         return;
       }
       return callPhp('users.php', { method: 'POST', body: user });
     },
     async updateUser(user) {
       if (isOnline) {
-        if (user.password) await sb.rpc('set_admin_password', { p_username: user.username, p_new_password: user.password });
-        await sb.from('users').update({ nama: user.nama, barcode_id: user.barcode_id || null, aktif: user.aktif }).eq('id', user.id);
+        const { error } = await sb.rpc('update_admin_user', {
+          p_id: user.id, p_nama: user.nama, p_role: user.role || 'admin',
+          p_barcode: user.barcode_id || '', p_aktif: user.aktif !== 0, p_new_password: user.password || '',
+        });
+        if (error) throw new Error(error.message);
         return;
       }
       return callPhp('users.php', { method: 'PUT', body: user });
     },
     async deleteUser(id) {
-      if (isOnline) { await sb.from('users').delete().eq('id', id); return; }
+      if (isOnline) {
+        const { error } = await sb.rpc('delete_admin_user', { p_id: id });
+        if (error) throw new Error(error.message);
+        return;
+      }
       return callPhp('users.php', { method: 'DELETE', query: `?id=${id}` });
     },
 
