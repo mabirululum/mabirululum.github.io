@@ -103,10 +103,9 @@ document.getElementById('btn-export').addEventListener('click', exportExcel);
 //   await muat();
 // })();
 (async () => {
-  const dari = tanggalLokal(new Date(Date.now() - 6*86400000));
-  const sampai = tanggalLokal(new Date());
-  document.getElementById('filter-dari').value = dari;
-  document.getElementById('filter-sampai').value = sampai;
+  const hariIni = tanggalLokal(new Date());
+  document.getElementById('filter-dari').value = hariIni;
+  document.getElementById('filter-sampai').value = hariIni;
 
   await isiDropdownGuru();
   await muat();
