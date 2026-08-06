@@ -78,6 +78,8 @@ function renderTabelUser() {
 document.getElementById('btn-prev-user').addEventListener('click', () => { halamanUser--; renderTabelUser(); });
 document.getElementById('btn-next-user').addEventListener('click', () => { halamanUser++; renderTabelUser(); });
 
+muatData();
+
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const payload = {

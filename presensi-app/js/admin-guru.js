@@ -132,6 +132,8 @@ function renderTabelGuru() {
 document.getElementById('btn-prev-guru').addEventListener('click', () => { halamanGuru--; renderTabelGuru(); });
 document.getElementById('btn-next-guru').addEventListener('click', () => { halamanGuru++; renderTabelGuru(); });
 
+muatData();
+
 // ---------- Form submit ----------
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
