@@ -3,17 +3,39 @@ require __DIR__ . '/db.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 
-if ($method === 'GET') {
-  $dari = $_GET['dari'] ?? date('Y-m-d', strtotime('-6 days'));
-  $sampai = $_GET['sampai'] ?? date('Y-m-d');
+// if ($method === 'GET') {
+//   $dari = $_GET['dari'] ?? date('Y-m-d', strtotime('-6 days'));
+//   $sampai = $_GET['sampai'] ?? date('Y-m-d');
 
-  $stmt = $pdo->prepare(
-    "SELECT i.*, g.nama AS nama_guru FROM izin i
-     JOIN guru g ON g.id = i.guru_id
-     WHERE i.tanggal BETWEEN ? AND ?
-     ORDER BY i.tanggal DESC"
-  );
-  $stmt->execute([$dari, $sampai]);
+//   $stmt = $pdo->prepare(
+//     "SELECT i.*, g.nama AS nama_guru FROM izin i
+//      JOIN guru g ON g.id = i.guru_id
+//      WHERE i.tanggal BETWEEN ? AND ?
+//      ORDER BY i.tanggal DESC"
+//   );
+//   $stmt->execute([$dari, $sampai]);
+//   respond(['data' => $stmt->fetchAll()]);
+// }
+
+if ($method === 'GET') {
+  $dari = $_GET['dari'] ?? null;
+  $sampai = $_GET['sampai'] ?? null;
+
+  if ($dari && $sampai) {
+    $stmt = $pdo->prepare(
+      "SELECT i.*, g.nama AS nama_guru FROM izin i
+       JOIN guru g ON g.id = i.guru_id
+       WHERE i.tanggal BETWEEN ? AND ?
+       ORDER BY i.tanggal DESC"
+    );
+    $stmt->execute([$dari, $sampai]);
+  } else {
+    $stmt = $pdo->query(
+      "SELECT i.*, g.nama AS nama_guru FROM izin i
+       JOIN guru g ON g.id = i.guru_id
+       ORDER BY i.tanggal DESC"
+    );
+  }
   respond(['data' => $stmt->fetchAll()]);
 }
 
