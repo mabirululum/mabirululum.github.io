@@ -77,23 +77,25 @@
 
       <div class="card">
         <div class="card-title"><i class="bi bi-person-plus"></i> Form Tambah / Edit Guru</div>
-        <form id="form-guru">
-          <input type="hidden" id="guru-id">
-          <div class="form-row">
-            <label>Nama Guru<input type="text" id="guru-nama" required></label>
-            <label>NIP (opsional)<input type="text" id="guru-nip"></label>
-          </div>
+        <div id="form-guru-wrap" style="display:none;">
+          <form id="form-guru">
+            <input type="hidden" id="guru-id">
+            <div class="form-row">
+              <label>Nama Guru<input type="text" id="guru-nama" required></label>
+              <label>NIP (opsional)<input type="text" id="guru-nip"></label>
+            </div>
 
-          <div class="table-wrap">
-            <table style="margin-bottom:14px;">
-              <thead><tr><th></th><th>Hari</th><th>Jam Masuk</th><th>Jam Pulang</th><th>Toleransi (menit)</th></tr></thead>
-              <tbody id="tbody-jadwal-input"></tbody>
-            </table>
-          </div>
+            <div class="table-wrap">
+              <table style="margin-bottom:14px;">
+                <thead><tr><th></th><th>Hari</th><th>Jam Masuk</th><th>Jam Pulang</th><th>Toleransi (menit)</th></tr></thead>
+                <tbody id="tbody-jadwal-input"></tbody>
+              </table>
+            </div>
 
-          <button type="submit" class="btn"><i class="bi bi-save"></i> Simpan Guru</button>
-          <button type="button" class="btn btn-secondary" id="btn-batal-edit" style="display:none;"><i class="bi bi-x-circle"></i> Batal Edit</button>
-        </form>
+            <button type="submit" class="btn"><i class="bi bi-save"></i> Simpan Guru</button>
+            <button type="button" class="btn btn-secondary" id="btn-batal-edit" style="display:none;"><i class="bi bi-x-circle"></i> Batal Edit</button>
+          </form>
+        </div>
       </div>
 
       <!-- <div class="card">
@@ -107,21 +109,21 @@
       </div> -->
 
       <div class="card">
-      <div class="card-title"><i class="bi bi-list-ul"></i> Daftar Guru</div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Nama</th><th>NIP</th><th>Barcode</th><th>Jadwal</th><th>Status</th><th>Aksi</th></tr></thead>
-          <tbody id="tbody-guru"><tr><td colspan="6">Memuat…</td></tr></tbody>
-        </table>
-      </div>
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
-        <span id="info-halaman-guru" style="font-size:12px; color:var(--muted);">-</span>
-        <div style="display:flex; gap:8px;">
-          <button type="button" class="btn btn-secondary btn-sm" id="btn-prev-guru"><i class="bi bi-chevron-left"></i> Sebelumnya</button>
-          <button type="button" class="btn btn-secondary btn-sm" id="btn-next-guru">Selanjutnya <i class="bi bi-chevron-right"></i></button>
+        <div class="card-title"><i class="bi bi-list-ul"></i> Daftar Guru</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Nama</th><th>NIP</th><th>Barcode</th><th>Jadwal</th><th>Status</th><th>Aksi</th></tr></thead>
+            <tbody id="tbody-guru"><tr><td colspan="6">Memuat…</td></tr></tbody>
+          </table>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
+          <span id="info-halaman-guru" style="font-size:12px; color:var(--muted);">-</span>
+          <div style="display:flex; gap:8px;">
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-prev-guru"><i class="bi bi-chevron-left"></i> Sebelumnya</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-next-guru">Selanjutnya <i class="bi bi-chevron-right"></i></button>
+          </div>
         </div>
       </div>
-    </div>
     </main>
   </div>
 

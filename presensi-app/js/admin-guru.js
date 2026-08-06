@@ -12,8 +12,27 @@ const inputNama = document.getElementById('guru-nama');
 const inputNip = document.getElementById('guru-nip');
 const tbodyJadwal = document.getElementById('tbody-jadwal-input');
 const btnBatalEdit = document.getElementById('btn-batal-edit');
+const formWrap = document.getElementById('form-guru-wrap');
+const btnToggleForm = document.getElementById('btn-toggle-form-guru');
 
 let dataGuruTerakhir = [];
+
+function bukaForm() {
+  formWrap.style.display = 'block';
+  btnToggleForm.innerHTML = '<i class="bi bi-dash-lg"></i> Tutup Form';
+}
+function tutupForm() {
+  formWrap.style.display = 'none';
+  btnToggleForm.innerHTML = '<i class="bi bi-plus-lg"></i> Tambah Guru';
+}
+
+btnToggleForm.addEventListener('click', () => {
+  if (formWrap.style.display === 'none') {
+    bukaForm();
+  } else {
+    tutupForm();
+  }
+});
 
 // ---------- Form jadwal per hari ----------
 function renderBarisJadwalInput() {
@@ -154,6 +173,7 @@ form.addEventListener('submit', async (e) => {
     inputId.value = '';
     btnBatalEdit.style.display = 'none';
     renderBarisJadwalInput();
+    tutupForm();
     muatData();
   } catch (err) {
     toast(err.message, 'error');
@@ -165,11 +185,13 @@ btnBatalEdit.addEventListener('click', () => {
   inputId.value = '';
   btnBatalEdit.style.display = 'none';
   renderBarisJadwalInput();
+  tutupForm();
 });
 
 function editGuru(id) {
   const g = dataGuruTerakhir.find(x => x.id === id);
   if (!g) return;
+  bukaForm();
   inputId.value = g.id;
   inputNama.value = g.nama;
   inputNip.value = g.nip || '';
