@@ -16,12 +16,46 @@ const f = {
 
 f.role = document.getElementById('user-role');
 
+// let dataUserTerakhir = [];
+
+// async function muatData() {
+//   const data = await DB.listUsers();
+//   dataUserTerakhir = data;
+//   tbody.innerHTML = data.map(u => `
+//     <tr>
+//       <td>${u.username}</td>
+//       <td>${u.nama || '-'}</td>
+//       <td>${u.barcode_id || '-'}</td>
+//       <td>${u.aktif ? 'Aktif' : 'Nonaktif'}</td>
+//       <td>${u.role === 'piket' ? 'Guru Piket' : 'Admin'}</td>
+//       <td>
+//         <div class="table-actions">
+//           <button onclick="editUser(${u.id})"><i class="bi bi-pencil"></i> Edit</button>
+//           <button onclick="hapusUser(${u.id})"><i class="bi bi-trash"></i> Hapus</button>
+//         </div>
+//       </td>
+//     </tr>`).join('') || '<tr><td colspan="5">Belum ada data user</td></tr>';
+// }
+// muatData();
+
 let dataUserTerakhir = [];
+let halamanUser = 1;
+const PER_HALAMAN_USER = 10;
 
 async function muatData() {
-  const data = await DB.listUsers();
-  dataUserTerakhir = data;
-  tbody.innerHTML = data.map(u => `
+  dataUserTerakhir = await DB.listUsers();
+  halamanUser = 1;
+  renderTabelUser();
+}
+
+function renderTabelUser() {
+  const totalHalaman = Math.max(1, Math.ceil(dataUserTerakhir.length / PER_HALAMAN_USER));
+  if (halamanUser > totalHalaman) halamanUser = totalHalaman;
+
+  const mulai = (halamanUser - 1) * PER_HALAMAN_USER;
+  const potong = dataUserTerakhir.slice(mulai, mulai + PER_HALAMAN_USER);
+
+  tbody.innerHTML = potong.map(u => `
     <tr>
       <td>${u.username}</td>
       <td>${u.nama || '-'}</td>
@@ -35,8 +69,14 @@ async function muatData() {
         </div>
       </td>
     </tr>`).join('') || '<tr><td colspan="5">Belum ada data user</td></tr>';
+
+  document.getElementById('info-halaman-user').textContent = `Halaman ${halamanUser} dari ${totalHalaman} (${dataUserTerakhir.length} user)`;
+  document.getElementById('btn-prev-user').disabled = halamanUser <= 1;
+  document.getElementById('btn-next-user').disabled = halamanUser >= totalHalaman;
 }
-muatData();
+
+document.getElementById('btn-prev-user').addEventListener('click', () => { halamanUser--; renderTabelUser(); });
+document.getElementById('btn-next-user').addEventListener('click', () => { halamanUser++; renderTabelUser(); });
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
