@@ -91,7 +91,7 @@ function formatJadwalTampil(jadwalGuru) {
 // }
 // muatData();
 
-let dataGuruTerakhir = [];
+// let dataGuruTerakhir = [];
 let halamanGuru = 1;
 const PER_HALAMAN_GURU = 10;
 
