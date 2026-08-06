@@ -96,7 +96,7 @@
         </form>
       </div>
 
-      <div class="card">
+      <!-- <div class="card">
         <div class="card-title"><i class="bi bi-list-ul"></i> Daftar Guru</div>
         <div class="table-wrap">
           <table>
@@ -104,8 +104,24 @@
             <tbody id="tbody-guru"><tr><td colspan="6">Memuat…</td></tr></tbody>
           </table>
         </div>
-      </div>
+      </div> -->
 
+      <div class="card">
+      <div class="card-title"><i class="bi bi-list-ul"></i> Daftar Guru</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Nama</th><th>NIP</th><th>Barcode</th><th>Jadwal</th><th>Status</th><th>Aksi</th></tr></thead>
+          <tbody id="tbody-guru"><tr><td colspan="6">Memuat…</td></tr></tbody>
+        </table>
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
+        <span id="info-halaman-guru" style="font-size:12px; color:var(--muted);">-</span>
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-prev-guru"><i class="bi bi-chevron-left"></i> Sebelumnya</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-next-guru">Selanjutnya <i class="bi bi-chevron-right"></i></button>
+        </div>
+      </div>
+    </div>
     </main>
   </div>
 
