@@ -76,7 +76,12 @@
       </div>
 
       <div class="card">
-        <div class="card-title"><i class="bi bi-person-plus"></i> Form Tambah / Edit Guru</div>
+        <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
+          <span><i class="bi bi-person-plus"></i> Form Tambah / Edit Guru</span>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-toggle-form-guru">
+            <i class="bi bi-plus-lg"></i> Tambah Guru
+          </button>
+        </div>
         <div id="form-guru-wrap" style="display:none;">
           <form id="form-guru">
             <input type="hidden" id="guru-id">
