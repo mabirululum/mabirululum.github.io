@@ -376,16 +376,28 @@ const DB = (() => {
     },
 
     // GURU PIKET
-    async listIzin(dari, sampai) {
+    // async listIzin(dari, sampai) {
+    //   if (isOnline) {
+    //     const { data, error } = await sb.from('izin')
+    //       .select('*, guru(nama)')
+    //       .gte('tanggal', dari).lte('tanggal', sampai)
+    //       .order('tanggal', { ascending: false });
+    //     if (error) throw new Error(error.message);
+    //     return (data || []).map(r => ({ ...r, nama_guru: r.guru?.nama }));
+    //   }
+    //   const res = await callPhp('izin.php', { query: `?dari=${dari}&sampai=${sampai}` });
+    //   return res.data;
+    // },
+    async listIzin(dari = null, sampai = null) {
       if (isOnline) {
-        const { data, error } = await sb.from('izin')
-          .select('*, guru(nama)')
-          .gte('tanggal', dari).lte('tanggal', sampai)
-          .order('tanggal', { ascending: false });
+        let q = sb.from('izin').select('*, guru(nama)').order('tanggal', { ascending: false });
+        if (dari && sampai) q = q.gte('tanggal', dari).lte('tanggal', sampai);
+        const { data, error } = await q;
         if (error) throw new Error(error.message);
         return (data || []).map(r => ({ ...r, nama_guru: r.guru?.nama }));
       }
-      const res = await callPhp('izin.php', { query: `?dari=${dari}&sampai=${sampai}` });
+      const query = (dari && sampai) ? `?dari=${dari}&sampai=${sampai}` : '';
+      const res = await callPhp('izin.php', { query });
       return res.data;
     },
 
