@@ -235,7 +235,16 @@ const DB = (() => {
       const pulangAwal = jamSekarang < jadwal.jam_pulang;
       let statusBaru = existing.status;
       if (pulangAwal) statusBaru = existing.status === 'telat' ? 'telat_dan_pulang_awal' : 'pulang_awal';
-      await sb.from('presensi').update({ jam_scan_pulang: jamSekarang, status: statusBaru }).eq('id', existing.id);
+      // await sb.from('presensi').update({ jam_scan_pulang: jamSekarang, status: statusBaru }).eq('id', existing.id);
+      // return { jenis: 'pulang', nama: guru.nama, jam: jamSekarang, status: statusBaru };
+      const { data: updated, error: errUpdate } = await sb.from('presensi')
+        .update({ jam_scan_pulang: jamSekarang, status: statusBaru })
+        .eq('id', existing.id)
+        .select();
+
+      if (errUpdate) throw new Error('Gagal menyimpan presensi pulang: ' + errUpdate.message);
+      if (!updated || !updated.length) throw new Error('Presensi pulang tidak tersimpan (kemungkinan diblokir oleh aturan akses database).');
+
       return { jenis: 'pulang', nama: guru.nama, jam: jamSekarang, status: statusBaru };
     }
 
