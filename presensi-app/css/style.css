@@ -1,143 +1,254 @@
-:root{
-  --accent:#2f6f4f;
-  --accent-dark:#1f4d36;
-  --bg:#f4f6f5;
-  --panel:#ffffff;
-  --border:#dfe3e1;
-  --text:#1c2420;
-  --muted:#6b7570;
-  --danger:#b3413c;
-  --warn:#c98a2c;
-  font-family:'Segoe UI', Roboto, sans-serif;
+:root {
+  --accent: #2f6f4f;
+  --accent-dark: #1f4d36;
+  --bg: #f4f6f5;
+  --panel: #ffffff;
+  --border: #dfe3e1;
+  --text: #1c2420;
+  --muted: #6b7570;
+  --danger: #b3413c;
+  --warn: #c98a2c;
+  font-family: "Segoe UI", Roboto, sans-serif;
 }
-*{box-sizing:border-box;}
-html, body{height:100%; margin:0; overflow:hidden;}
-body{background:var(--bg); color:var(--text);}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+body {
+  background: var(--bg);
+  color: var(--text);
+}
 
 /* ---------- KIOSK: layout fixed, tanpa scroll ---------- */
-.kiosk-shell{
-  height:100vh;
-  display:flex;
-  flex-direction:column;
+.kiosk-shell {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.kiosk-header-bar{
-  flex-shrink:0;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:14px 28px;
-  background:var(--accent-dark);
-  color:#fff;
+.kiosk-header-bar {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 28px;
+  background: var(--accent-dark);
+  color: #fff;
 }
-.sekolah-nama{font-size:18px;font-weight:600;letter-spacing:.5px;}
-.header-clock{text-align:right;}
-.header-clock #clock-time{font-size:22px;font-weight:700;letter-spacing:1px;}
-.header-date{display:block;font-size:12px;color:#cfe0d6;}
+.sekolah-nama {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.header-clock {
+  text-align: right;
+}
+.header-clock #clock-time {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.header-date {
+  display: block;
+  font-size: 12px;
+  color: #cfe0d6;
+}
 
-.kiosk-main{
-  flex:1;
-  display:flex;
-  gap:20px;
-  padding:20px 28px;
-  min-height:0;
+.kiosk-main {
+  flex: 1;
+  display: flex;
+  gap: 20px;
+  padding: 20px 28px;
+  min-height: 0;
 }
 
-.panel-kiri{
-  flex:1.1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:16px;
-  min-width:0;
+.panel-kiri {
+  flex: 1.1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-width: 0;
 }
-#camera-view{
-  width:100%;
-  max-width:480px;
+#camera-view {
+  width: 100%;
+  max-width: 480px;
   aspect-ratio: 4 / 3;
-  border-radius:16px;
-  overflow:hidden;
-  border:4px solid var(--accent);
-  background:#000;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 4px solid var(--accent);
+  background: #000;
 }
-#camera-view video{
+#camera-view video {
   transform: scaleX(-1); /* efek cermin, sesuai arah pengguna */
 }
-.status-box{
-  width:100%;
-  max-width:480px;
-  padding:16px 22px;
-  border-radius:12px;
-  background:var(--panel);
-  border:1px solid var(--border);
-  font-size:15px;
-  text-align:center;
+.status-box {
+  width: 100%;
+  max-width: 480px;
+  padding: 16px 22px;
+  border-radius: 12px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  font-size: 15px;
+  text-align: center;
 }
-.status-box strong{display:block;font-size:20px;margin-bottom:4px;}
-.status-hadir{border-color:var(--accent);}
-.status-telat,.status-pulang_awal,.status-telat_dan_pulang_awal{border-color:var(--warn);}
-.status-error{border-color:var(--danger);color:var(--danger);}
+.status-box strong {
+  display: block;
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+.status-hadir {
+  border-color: var(--accent);
+}
+.status-telat,
+.status-pulang_awal,
+.status-telat_dan_pulang_awal {
+  border-color: var(--warn);
+}
+.status-error {
+  border-color: var(--danger);
+  color: var(--danger);
+}
 
-.panel-kanan{
-  flex:0.9;
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:18px 20px;
-  display:flex;
-  flex-direction:column;
-  min-height:0;
+.panel-kanan {
+  flex: 0.9;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
-.riwayat-title{
-  margin:0 0 12px;
-  font-size:13px;
-  letter-spacing:1px;
-  text-transform:uppercase;
-  color:var(--muted);
-  flex-shrink:0;
+.riwayat-title {
+  margin: 0 0 12px;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  flex-shrink: 0;
 }
-.riwayat-list-full{
-  flex:1;
-  overflow-y:auto;
+.riwayat-list-full {
+  flex: 1;
+  overflow-y: auto;
 }
-.riwayat-list-full .list-row{
-  display:flex;
-  justify-content:space-between;
-  padding:10px 4px;
-  border-bottom:1px dotted var(--border);
-  font-size:14px;
+.riwayat-list-full .list-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 4px;
+  border-bottom: 1px dotted var(--border);
+  font-size: 14px;
 }
-.riwayat-list-full .list-row:last-child{border-bottom:none;}
+.riwayat-list-full .list-row:last-child {
+  border-bottom: none;
+}
 
-.kiosk-footer{
-  flex-shrink:0;
-  text-align:center;
-  font-size:12px;
-  color:var(--muted);
-  padding:10px;
-  border-top:1px solid var(--border);
+.kiosk-footer {
+  flex-shrink: 0;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 10px;
+  border-top: 1px solid var(--border);
 }
-.kiosk-footer a{color:var(--muted); text-decoration:none;}
-.kiosk-footer a:hover{text-decoration:underline;}
+.kiosk-footer a {
+  color: var(--muted);
+  text-decoration: none;
+}
+.kiosk-footer a:hover {
+  text-decoration: underline;
+}
 
 /* ---------- LOGIN ---------- */
-.login-shell{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--accent-dark);}
-.login-card{background:#fff;border-radius:16px;padding:32px;width:360px;}
-.login-card h2{margin-top:0;text-align:center;color:var(--accent-dark);}
-.mode-switch{display:flex;margin-bottom:20px;border:1px solid var(--border);border-radius:8px;overflow:hidden;}
-.mode-switch button{flex:1;padding:8px;border:none;background:#fff;cursor:pointer;font-size:13px;}
-.mode-switch button.active{background:var(--accent);color:#fff;}
-.login-card input{width:100%;padding:10px;margin-bottom:12px;border:1px solid var(--border);border-radius:8px;}
-.login-card .btn{width:100%;padding:10px;}
-.error-box{background:#fdecea;color:var(--danger);padding:8px 12px;border-radius:8px;font-size:13px;margin-bottom:12px;display:none;}
-#camera-login{border-radius:12px;overflow:hidden;border:2px solid var(--accent);}
-#camera-login video{transform: scaleX(-1);}
+.login-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-dark);
+}
+.login-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  width: 360px;
+}
+.login-card h2 {
+  margin-top: 0;
+  text-align: center;
+  color: var(--accent-dark);
+}
+.mode-switch {
+  display: flex;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.mode-switch button {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  background: #fff;
+  cursor: pointer;
+  font-size: 13px;
+}
+.mode-switch button.active {
+  background: var(--accent);
+  color: #fff;
+}
+.login-card input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.login-card .btn {
+  width: 100%;
+  padding: 10px;
+}
+.error-box {
+  background: #fdecea;
+  color: var(--danger);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 12px;
+  display: none;
+}
+#camera-login {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid var(--accent);
+}
+#camera-login video {
+  transform: scaleX(-1);
+}
 
-@media (max-width: 860px){
-  html, body{ overflow:auto; }
-  .kiosk-shell{ height:auto; min-height:100vh; }
-  .kiosk-main{ flex-direction:column; padding:16px; }
-  .panel-kanan{ max-height:260px; }
-  #camera-view{ background:#333; }
+@media (max-width: 860px) {
+  html,
+  body {
+    overflow: auto;
+  }
+  .kiosk-shell {
+    height: auto;
+    min-height: 100vh;
+  }
+  .kiosk-main {
+    flex-direction: column;
+    padding: 16px;
+  }
+  .panel-kanan {
+    max-height: 260px;
+  }
+  #camera-view {
+    background: #333;
+  }
 }
