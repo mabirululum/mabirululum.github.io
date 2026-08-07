@@ -1,36 +1,29 @@
-const CACHE_NAME = "presensi-v1";
-
-const FILES = [
-  "/presensi-app/",
-  "/presensi-app/index.html"
+const CACHE_NAME = 'presensi-cache-v1';
+const ASSETS = [
+  './index.html',
+  './css/style.css',
+  './js/config.js',
+  './js/db-adapter.js',
+  './js/auth.js',
+  './js/scanner.js',
 ];
 
-self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(FILES))
-  );
+self.addEventListener('install', (e) => {
+  e.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)));
+  self.skipWaiting();
 });
 
-self.addEventListener("fetch", (event) => {
-
-  event.respondWith(
-    fetch(event.request)
-      .then(response => {
-
-        const clone = response.clone();
-
-        caches.open(CACHE_NAME)
-          .then(cache => cache.put(event.request, clone));
-
-        return response;
-      })
-      .catch(() => {
-        return caches.match(event.request)
-          .then(res => {
-            return res || caches.match("/presensi-app/offline.html");
-          });
-      })
+self.addEventListener('activate', (e) => {
+  e.waitUntil(
+    caches.keys().then((keys) => Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))))
   );
+  self.clients.claim();
+});
 
+self.addEventListener('fetch', (e) => {
+  // Network-first untuk API (data harus selalu terbaru), cache-first untuk file statis
+  if (e.request.url.includes('/api/')) return;
+  e.respondWith(
+    caches.match(e.request).then((cached) => cached || fetch(e.request))
+  );
 });

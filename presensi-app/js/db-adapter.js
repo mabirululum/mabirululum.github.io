@@ -412,5 +412,18 @@ const DB = (() => {
       }
       return (await callPhp('auth.php', { method: 'POST', body: { action: 'login_barcode', barcode } })).user;
     },
+
+    async resetDatabase() {
+      if (isOnline) {
+        const { error: e1 } = await sb.from('presensi').delete().neq('id', 0);
+        const { error: e2 } = await sb.from('izin').delete().neq('id', 0);
+        const { error: e3 } = await sb.from('guru_jadwal').delete().neq('id', 0);
+        const { error: e4 } = await sb.from('guru').delete().neq('id', 0);
+        const err = e1 || e2 || e3 || e4;
+        if (err) throw new Error(err.message);
+        return;
+      }
+      return callPhp('reset-database.php', { method: 'POST', body: { konfirmasi: 'HAPUS SEMUA DATA' } });
+    },
   };
 })();

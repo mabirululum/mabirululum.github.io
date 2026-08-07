@@ -63,6 +63,46 @@ function konfirmasi(pesan, judul = 'Konfirmasi') {
   });
 }
 
+function konfirmasiKeras(pesan, kataKunci) {
+  return new Promise((resolve) => {
+    let overlay = document.querySelector('.modal-overlay-keras');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.className = 'modal-overlay modal-overlay-keras';
+      overlay.innerHTML = `
+        <div class="modal-box">
+          <i class="bi bi-exclamation-triangle-fill modal-icon"></i>
+          <p></p>
+          <input type="text" class="modal-input-keras" placeholder="Ketik: ${kataKunci}"
+            style="width:100%; padding:9px 11px; border:1px solid var(--border); border-radius:8px; margin-bottom:16px; text-align:center;">
+          <div class="modal-actions">
+            <button class="modal-btn-cancel">Batal</button>
+            <button class="modal-btn-confirm" disabled>Ya, Hapus Permanen</button>
+          </div>
+        </div>`;
+      document.body.appendChild(overlay);
+    }
+    overlay.querySelector('p').textContent = pesan;
+    overlay.classList.add('show');
+
+    const input = overlay.querySelector('.modal-input-keras');
+    const btnCancel = overlay.querySelector('.modal-btn-cancel');
+    const btnConfirm = overlay.querySelector('.modal-btn-confirm');
+    input.value = '';
+    btnConfirm.disabled = true;
+
+    input.oninput = () => { btnConfirm.disabled = input.value.trim() !== kataKunci; };
+
+    const tutup = (hasil) => {
+      overlay.classList.remove('show');
+      input.oninput = null; btnCancel.onclick = null; btnConfirm.onclick = null;
+      resolve(hasil);
+    };
+    btnCancel.onclick = () => tutup(false);
+    btnConfirm.onclick = () => tutup(true);
+  });
+}
+
 function initSidebarToggle() {
   const sidebar = document.querySelector('.sidebar');
   const btn = document.querySelector('.btn-hamburger');
