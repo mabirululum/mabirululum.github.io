@@ -412,7 +412,6 @@ const DB = (() => {
       }
       return (await callPhp('auth.php', { method: 'POST', body: { action: 'login_barcode', barcode } })).user;
     },
-
     async resetDatabase() {
       if (isOnline) {
         const { error: e1 } = await sb.from('presensi').delete().neq('id', 0);

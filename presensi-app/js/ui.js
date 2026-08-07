@@ -134,3 +134,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initSidebarToggle();
   applySidebarVisibility();
 });
+
+function keluarFullscreen() {
+  if (document.exitFullscreen) document.exitFullscreen();
+  else if (document.fullscreenElement) document.webkitExitFullscreen?.();
+}

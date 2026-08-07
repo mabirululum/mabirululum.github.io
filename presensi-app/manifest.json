@@ -1,9 +1,10 @@
 {
-  "name": "Sistem Presensi Barcode",
+  "name": "Sistem Presensi QRCode",
   "short_name": "Presensi",
   "start_url": ".",
   "scope": ".",
   "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
   "background_color": "#f4f6f5",
   "theme_color": "#1f4d36",
   "icons": [
