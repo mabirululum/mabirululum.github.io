@@ -11,21 +11,6 @@ async function isiDropdownGuru() {
   selectGuru.innerHTML = guruList.map(g => `<option value="${g.id}">${g.nama}</option>`).join('');
 }
 
-// async function muatRiwayat() {
-//   const sampai = new Date().toISOString().slice(0, 10);
-//   const dari = new Date(Date.now() - 6*86400000).toISOString().slice(0, 10);
-//   const rows = await DB.listIzin(dari, sampai);
-
-//   document.getElementById('tbody-izin').innerHTML = rows.map(r => `
-//     <tr>
-//       <td>${new Date(r.tanggal).toLocaleDateString('id-ID')}</td>
-//       <td>${r.nama_guru}</td>
-//       <td><span class="badge badge-warning">${r.jenis}</span></td>
-//       <td>${r.keterangan || '-'}</td>
-//       <td><div class="table-actions"><button onclick="hapusIzin(${r.id})"><i class="bi bi-trash"></i> Hapus</button></div></td>
-//     </tr>`).join('') || '<tr><td colspan="5">Belum ada data izin</td></tr>';
-// }
-
 let semuaIzin = [];
 let halamanAktif = 1;
 const PER_HALAMAN = 10;

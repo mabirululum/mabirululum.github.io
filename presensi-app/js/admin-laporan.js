@@ -68,7 +68,6 @@ function exportExcel() {
   if (!dataTerakhir.length) { toast('Tidak ada data untuk di-export. Klik "Tampilkan" dulu.', 'warn'); return; }
 
   const sheetData = dataTerakhir.map(r => ({
-    // 'Tanggal': new Date(r.tanggal).toLocaleDateString('id-ID'),
     'Tanggal': r.tanggal.split('-').reverse().join('/'),
     'Nama Guru': r.nama_guru,
     'Jam Masuk': r.jam_scan_masuk || '-',
@@ -92,16 +91,6 @@ function exportExcel() {
 document.getElementById('btn-tampilkan').addEventListener('click', muat);
 document.getElementById('btn-export').addEventListener('click', exportExcel);
 
-// (async () => {
-//   const skrg = new Date();
-//   const enamHariLalu = new Date(skrg); enamHariLalu.setDate(skrg.getDate() - 6);
-//   const dari = tanggalLokal.call(null) ?? ''; // lihat catatan di bawah
-//   document.getElementById('filter-dari').value = dari;
-//   document.getElementById('filter-sampai').value = enamHariLalu;
-
-//   await isiDropdownGuru();
-//   await muat();
-// })();
 (async () => {
   const hariIni = tanggalLokal(new Date());
   document.getElementById('filter-dari').value = hariIni;

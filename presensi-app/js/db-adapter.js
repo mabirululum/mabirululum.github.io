@@ -64,20 +64,6 @@ const DB = (() => {
     if (guruId) q = q.eq('id', guruId);
     const { data: guruList } = await q;
 
-    /*
-    DUGAAN ERROR TIDAK TAMPIL LAPORAN
-    - Input jadwal guru rabu tapi tampil di laporan presensi jadi hari selasa menyebabkan hasil alpha
-    - Failed to load resource: the server responded with a status of 400 ()
-      supabase_url/presensi/select=*&tanggal=gte.2026-08-05&tanggal=lte 
-    
-    - Hasil Filter aneh, saat pilih rentang tgl 1-31 agustus 2026 hasil sesuai presensi di tanggal hari ini, tapi tampilan tabel dari tanggal 31/7/2026, 02/08/2026-30/08/2026
-    - tapi saat filter rentang di tanggal hari ini saja yg muncul data hari kemarin hasilnya alpha, dan saat filter tanggal besoknya hasil keluar tanggal sekarang tapi hasil alpha
-    
-    contoh filter dari tanggal 6 - 8 output tabelnya tanggal 5,6,7 jadinya tidak sesuai form filter
-    contoh filter dari tanggal 6 - 6 output tabelnya tanggal 5 tapi hasil alpha, padahal sudah presensi hadir
-
-    diatas masalah dari online, untuk mode offline sudah sesuai
-    */
     const { data: presensiRows } = await sb.from('presensi')
       .select('*').gte('tanggal', dari).lte('tanggal', sampai);
 
@@ -89,7 +75,6 @@ const DB = (() => {
     const akhir = new Date(sampai + 'T00:00:00');
 
     while (cursor <= akhir) {
-      // const tanggalStr = cursor.toISOString().slice(0, 10);
       const tanggalStr = tanggalLokal(cursor);
       const hariIni = HARI_MAP[cursor.getDay()];
 
@@ -106,7 +91,6 @@ const DB = (() => {
         } else {
           km = ketMasukJS(jadwalHari, p?.jam_scan_masuk);
         }
-        // const km = ketMasukJS(jadwalHari, p?.jam_scan_masuk);
         const kp = ketPulangJS(jadwalHari, p?.jam_scan_masuk, p?.jam_scan_pulang);
 
         let cocok = true;
@@ -114,7 +98,6 @@ const DB = (() => {
         else if (status === 'pulang_awal') cocok = kp.tipe === 'pulang';
         else if (status === 'alpha') cocok = km.tipe === 'alpha';
         else if (status === 'belum_pulang') cocok = kp.tipe === 'warning';
-        // else if (status === 'izin') cocok = km.tipe === 'izin';
         else if (['sakit','izin','kegiatan'].includes(status)) cocok = km.tipe === status;
 
         if (!cocok) return;
@@ -235,8 +218,6 @@ const DB = (() => {
       const pulangAwal = jamSekarang < jadwal.jam_pulang;
       let statusBaru = existing.status;
       if (pulangAwal) statusBaru = existing.status === 'telat' ? 'telat_dan_pulang_awal' : 'pulang_awal';
-      // await sb.from('presensi').update({ jam_scan_pulang: jamSekarang, status: statusBaru }).eq('id', existing.id);
-      // return { jenis: 'pulang', nama: guru.nama, jam: jamSekarang, status: statusBaru };
       const { data: updated, error: errUpdate } = await sb.from('presensi')
         .update({ jam_scan_pulang: jamSekarang, status: statusBaru })
         .eq('id', existing.id)
@@ -375,19 +356,6 @@ const DB = (() => {
       return callPhp('users.php', { method: 'DELETE', query: `?id=${id}` });
     },
 
-    // GURU PIKET
-    // async listIzin(dari, sampai) {
-    //   if (isOnline) {
-    //     const { data, error } = await sb.from('izin')
-    //       .select('*, guru(nama)')
-    //       .gte('tanggal', dari).lte('tanggal', sampai)
-    //       .order('tanggal', { ascending: false });
-    //     if (error) throw new Error(error.message);
-    //     return (data || []).map(r => ({ ...r, nama_guru: r.guru?.nama }));
-    //   }
-    //   const res = await callPhp('izin.php', { query: `?dari=${dari}&sampai=${sampai}` });
-    //   return res.data;
-    // },
     async listIzin(dari = null, sampai = null) {
       if (isOnline) {
         let q = sb.from('izin').select('*, guru(nama)').order('tanggal', { ascending: false });

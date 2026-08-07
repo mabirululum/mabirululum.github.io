@@ -6,7 +6,6 @@ document.getElementById('avatar-admin').textContent = _namaAdmin.charAt(0).toUpp
 const BADGE_CLASS = { hadir:'badge-hadir', telat:'badge-telat', pulang_awal:'badge-pulang', telat_dan_pulang_awal:'badge-telat', sakit:'badge-sakit', izin:'badge-izin', kegiatan:'badge-kegiatan' };
 
 async function muat() {
-  // const tanggal = new Date().toISOString().slice(0, 10);
   const tanggal = tanggalLokal();
   const rows = await DB.riwayatHariIni(tanggal, 200);
   const izinHariIni = await DB.listIzin(tanggal, tanggal);

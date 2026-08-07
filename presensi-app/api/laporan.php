@@ -70,7 +70,6 @@ while ($tgl <= $akhir) {
   $stmt->execute($params);
 
   foreach ($stmt->fetchAll() as $row) {
-    // $km = ket_masuk($row, $row['jam_scan_masuk']);
     $izin = cek_izin($pdo, $row['guru_id'], $tanggal);
     if ($izin && !$row['jam_scan_masuk']) {
       $km = ['label' => $izin['jenis'], 'tipe' => strtolower($izin['jenis'])];
@@ -84,7 +83,6 @@ while ($tgl <= $akhir) {
     elseif ($status === 'pulang_awal') $cocok_status = $kp['tipe'] === 'pulang';
     elseif ($status === 'alpha') $cocok_status = $km['tipe'] === 'alpha';
     elseif ($status === 'belum_pulang') $cocok_status = $kp['tipe'] === 'warning';
-    // elseif ($status === 'izin') $cocok_status = $km['tipe'] === 'izin';
     elseif (in_array($status, ['sakit','izin','kegiatan'])) $cocok_status = $km['tipe'] === $status;
 
     if (!$cocok_status) continue;

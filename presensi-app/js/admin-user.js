@@ -16,28 +16,6 @@ const f = {
 
 f.role = document.getElementById('user-role');
 
-// let dataUserTerakhir = [];
-
-// async function muatData() {
-//   const data = await DB.listUsers();
-//   dataUserTerakhir = data;
-//   tbody.innerHTML = data.map(u => `
-//     <tr>
-//       <td>${u.username}</td>
-//       <td>${u.nama || '-'}</td>
-//       <td>${u.barcode_id || '-'}</td>
-//       <td>${u.aktif ? 'Aktif' : 'Nonaktif'}</td>
-//       <td>${u.role === 'piket' ? 'Guru Piket' : 'Admin'}</td>
-//       <td>
-//         <div class="table-actions">
-//           <button onclick="editUser(${u.id})"><i class="bi bi-pencil"></i> Edit</button>
-//           <button onclick="hapusUser(${u.id})"><i class="bi bi-trash"></i> Hapus</button>
-//         </div>
-//       </td>
-//     </tr>`).join('') || '<tr><td colspan="5">Belum ada data user</td></tr>';
-// }
-// muatData();
-
 let dataUserTerakhir = [];
 let halamanUser = 1;
 const PER_HALAMAN_USER = 10;

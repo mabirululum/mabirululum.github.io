@@ -88,29 +88,6 @@ function formatJadwalTampil(jadwalGuru) {
   ).join('');
 }
 
-// ---------- Tabel daftar guru ----------
-// async function muatData() {
-//   const data = await DB.listGuru();
-//   dataGuruTerakhir = data;
-//   tbody.innerHTML = data.map(g => `
-//     <tr>
-//       <td>${g.nama}</td>
-//       <td>${g.nip || '-'}</td>
-//       <td><code>${g.barcode_id}</code></td>
-//       <td>${formatJadwalTampil(g.jadwal)}</td>
-//       <td>${g.aktif ? 'Aktif' : 'Nonaktif'}</td>
-//       <td>
-//         <div class="table-actions">
-//           <button onclick="cetakBarcode('${g.barcode_id}', '${g.nama.replace(/'/g, "\\'")}')"><i class="bi bi-qr-code-scan"></i> Cetak</button>
-//           <button onclick="editGuru(${g.id})"><i class="bi bi-pencil"></i> Edit</button>
-//           <button onclick="hapusGuru(${g.id})"><i class="bi bi-trash"></i> Hapus</button>
-//         </div>
-//       </td>
-//     </tr>`).join('') || '<tr><td colspan="6">Belum ada data guru</td></tr>';
-// }
-// muatData();
-
-// let dataGuruTerakhir = [];
 let halamanGuru = 1;
 const PER_HALAMAN_GURU = 10;
 
