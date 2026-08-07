@@ -133,13 +133,18 @@ async function onScanSukses(kode) {
   }
 }
 
+function isMobileDevice() {
+  const ua = navigator.userAgent || navigator.vendor || window.opera;
+  return /android|iphone|ipad|ipod|windows phone|mobile/i.test(ua);
+}
+
 function initScanner() {
   const scanner = new Html5Qrcode('camera-view');
   scanner.start(
     { facingMode: 'environment' },
     {
       fps: 10,
-      qrbox: { width: 260, height: 260 },
+      qrbox: { width: 300, height: 300 },
       formatsToSupport: [
         Html5QrcodeSupportedFormats.CODE_128,
         Html5QrcodeSupportedFormats.CODE_39,
@@ -154,4 +159,14 @@ function initScanner() {
     statusBox.innerHTML = `<strong>Kamera tidak bisa diakses</strong>${err}`;
   });
 }
-initScanner();
+// initScanner();
+if (isMobileDevice()) {
+  document.getElementById('camera-view').innerHTML = `
+    <div style="display:flex; align-items:center; justify-content:center; height:100%; color:#fff; text-align:center; padding:20px; font-size:14px;">
+      Presensi hanya dapat dilakukan dari komputer/PC di lokasi Madrasah Aliyah Bi'rul Ulum.
+    </div>`;
+  statusBox.className = 'status-box status-error';
+  statusBox.innerHTML = `<strong>Akses dari perangkat mobile dinonaktifkan</strong>Gunakan komputer/PC untuk melakukan presensi.`;
+} else {
+  initScanner();
+}

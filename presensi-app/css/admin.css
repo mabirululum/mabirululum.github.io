@@ -160,7 +160,9 @@ table tbody tr:hover{background:var(--bg);}
   border-radius:var(--radius); padding:16px 18px; box-shadow:var(--shadow-sm);
 }
 .stat-card.warn{border-left-color:var(--warn);}
-.stat-card.danger{border-left-color:var(--danger);}
+.stat-card.danger{border-left-color:#8a2f26;}
+.stat-card.alpha{border-left-color:var(--danger);}
+.stat-card.izin{border-left-color:#6a2d91;}
 .stat-card .num{font-size:26px; font-weight:700; color:var(--text); line-height:1.2;}
 .stat-card .label{font-size:12px; color:var(--muted); margin-top:2px;}
 

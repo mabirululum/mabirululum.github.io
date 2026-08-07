@@ -139,4 +139,5 @@ body{background:var(--bg); color:var(--text);}
   .kiosk-shell{ height:auto; min-height:100vh; }
   .kiosk-main{ flex-direction:column; padding:16px; }
   .panel-kanan{ max-height:260px; }
+  #camera-view{ background:#333; }
 }
