@@ -90,7 +90,7 @@ function tampilkanStatus(hasil) {
 async function muatRiwayat() {
   try {
     const tanggal = tanggalLokal();
-    const rows = await DB.riwayatHariIni(tanggal, 5);
+    const rows = await DB.riwayatHariIni(tanggal, 22);
     riwayatList.innerHTML = rows.map(r => `
       <div class="list-row">
         <span>${r.nama_guru}</span>
