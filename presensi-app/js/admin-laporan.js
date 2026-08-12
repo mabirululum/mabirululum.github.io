@@ -3,8 +3,20 @@ const _namaAdmin3 = AUTH.current().nama || AUTH.current().username;
 document.getElementById('nama-admin').textContent = _namaAdmin3;
 document.getElementById('avatar-admin').textContent = _namaAdmin3.charAt(0).toUpperCase();
 
-const TIPE_CLASS = { hadir:'badge-hadir', telat:'badge-telat', pulang:'badge-pulang', warning:'badge-warning', alpha:'badge-alpha', sakit:'badge-sakit', izin:'badge-izin', kegiatan:'badge-kegiatan' };
-function badge(label, tipe) { return `<span class="badge ${TIPE_CLASS[tipe] || ''}">${label}</span>`; }
+const TIPE_CLASS = {
+	hadir: 'badge-hadir',
+	telat: 'badge-telat',
+	pulang: 'badge-pulang',
+	warning: 'badge-warning',
+	alpha: 'badge-alpha',
+	sakit: 'badge-sakit',
+	izin: 'badge-izin',
+	kegiatan: 'badge-kegiatan'
+};
+
+function badge(label, tipe) {
+	return `<span class="badge ${TIPE_CLASS[tipe] || ''}">${label}</span>`;
+}
 
 let dataTerakhir = [];
 

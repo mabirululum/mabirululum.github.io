@@ -1,9 +1,17 @@
-AUTH.requireRole(['admin']);
+AUTH.requireRole(['admin','piket']);
 const _namaAdmin = AUTH.current().nama || AUTH.current().username;
 document.getElementById('nama-admin').textContent = _namaAdmin;
 document.getElementById('avatar-admin').textContent = _namaAdmin.charAt(0).toUpperCase();
 
-const BADGE_CLASS = { hadir:'badge-hadir', telat:'badge-telat', pulang_awal:'badge-pulang', telat_dan_pulang_awal:'badge-telat', sakit:'badge-sakit', izin:'badge-izin', kegiatan:'badge-kegiatan' };
+const BADGE_CLASS = {
+	hadir: 'badge-hadir',
+	telat: 'badge-telat',
+	pulang_awal: 'badge-pulang',
+	telat_dan_pulang_awal: 'badge-telat',
+	sakit: 'badge-sakit',
+	izin: 'badge-izin',
+	kegiatan: 'badge-kegiatan'
+};
 
 async function muat() {
   const tanggal = tanggalLokal();
