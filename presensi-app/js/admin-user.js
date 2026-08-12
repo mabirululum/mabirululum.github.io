@@ -124,7 +124,7 @@ document.getElementById('btn-reset-db').addEventListener('click', async () => {
   if (!konfirmasiAwal) return;
 
   const konfirmasiFinal = await konfirmasiKeras(
-    'Konfirmasi terakhir — ketik persis kalimat di bawah untuk melanjutkan penghapusan permanen:',
+    'Konfirmasi terakhir - ketik persis kalimat di bawah untuk melanjutkan penghapusan permanen:',
     'HAPUS SEMUA DATA'
   );
   if (!konfirmasiFinal) return;

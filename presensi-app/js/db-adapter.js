@@ -84,14 +84,25 @@ const DB = (() => {
 
         const p = (presensiRows || []).find(pr => pr.guru_id === g.id && pr.tanggal === tanggalStr);
         const izin = (izinRows || []).find(iz => iz.guru_id === g.id && iz.tanggal === tanggalStr);
-        
-        let km;
-        if (izin && !p?.jam_scan_masuk) {                      // <-- BARU
+
+        let km, kp;
+        if (izin && !p?.jam_scan_masuk) {
           km = { label: izin.jenis, tipe: izin.jenis.toLowerCase() };
+        } else if (jadwalHari.kategori === 'struktural') {
+          km = p?.jam_scan_masuk
+            ? { label: 'Hadir jam ' + p.jam_scan_masuk.slice(0,5), tipe: 'hadir' }
+            : { label: 'Alpha', tipe: 'alpha' };
         } else {
           km = ketMasukJS(jadwalHari, p?.jam_scan_masuk);
         }
-        const kp = ketPulangJS(jadwalHari, p?.jam_scan_masuk, p?.jam_scan_pulang);
+
+        if (jadwalHari.kategori === 'struktural') {
+          kp = !p?.jam_scan_masuk ? { label: '-', tipe: 'alpha' }
+            : !p?.jam_scan_pulang ? { label: 'Belum Scan Pulang', tipe: 'warning' }
+            : { label: 'Pulang jam ' + p.jam_scan_pulang.slice(0,5), tipe: 'hadir' };
+        } else {
+          kp = ketPulangJS(jadwalHari, p?.jam_scan_masuk, p?.jam_scan_pulang);
+        }
 
         let cocok = true;
         if (status === 'telat') cocok = km.tipe === 'telat';
@@ -196,9 +207,14 @@ const DB = (() => {
       .select('*').eq('guru_id', guru.id).eq('tanggal', tanggal).maybeSingle();
 
     if (!existing) {
-      const batasTelat = addMinutes(jadwal.jam_masuk, jadwal.toleransi_telat_menit);
-      const menitTelat = Math.max(0, Math.round((toSeconds(jamSekarang) - toSeconds(jadwal.jam_masuk)) / 60));
-      const status = jamSekarang > batasTelat ? 'telat' : 'hadir';
+      let status, menitTelat = 0;
+      if (jadwal.kategori === 'struktural') {
+        status = 'hadir';
+      } else {
+        const batasTelat = addMinutes(jadwal.jam_masuk, jadwal.toleransi_telat_menit);
+        menitTelat = Math.max(0, Math.round((toSeconds(jamSekarang) - toSeconds(jadwal.jam_masuk)) / 60));
+        status = jamSekarang > batasTelat ? 'telat' : 'hadir';
+      }
       await sb.from('presensi').insert({ guru_id: guru.id, tanggal, jam_scan_masuk: jamSekarang, status });
       return { jenis: 'masuk', nama: guru.nama, jam: jamSekarang, status, menit_telat: status === 'telat' ? menitTelat : 0 };
     }
@@ -215,9 +231,14 @@ const DB = (() => {
         };
       }
 
-      const pulangAwal = jamSekarang < jadwal.jam_pulang;
-      let statusBaru = existing.status;
-      if (pulangAwal) statusBaru = existing.status === 'telat' ? 'telat_dan_pulang_awal' : 'pulang_awal';
+      let statusBaru;
+      if (jadwal.kategori === 'struktural') {
+        statusBaru = 'hadir';
+      } else {
+        const pulangAwal = jamSekarang < jadwal.jam_pulang;
+        statusBaru = existing.status;
+        if (pulangAwal) statusBaru = existing.status === 'telat' ? 'telat_dan_pulang_awal' : 'pulang_awal';
+      }
       const { data: updated, error: errUpdate } = await sb.from('presensi')
         .update({ jam_scan_pulang: jamSekarang, status: statusBaru })
         .eq('id', existing.id)

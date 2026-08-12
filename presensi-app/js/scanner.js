@@ -66,10 +66,10 @@ function tampilkanStatus(hasil) {
 
   let pesan;
   if (hasil.jenis === 'masuk') {
-    pesan = `Presensi masuk pukul ${hasil.jam} — ${label}`;
+    pesan = `Presensi masuk pukul ${hasil.jam} - ${label}`;
     ucapkan(`Halo, ${nama}, selamat datang dan selamat mengajar`);
   } else if (hasil.jenis === 'pulang') {
-    pesan = `Presensi pulang pukul ${hasil.jam} — ${label}`;
+    pesan = `Presensi pulang pukul ${hasil.jam} - ${label}`;
     ucapkan(`Terima kasih, ${nama}, selamat jalan dan hati-hati di jalan`);
   } else if (hasil.jenis === 'terlalu_cepat') {
     pesan = hasil.error;
@@ -143,7 +143,7 @@ function initScanner() {
   scanner.start(
     { facingMode: 'environment' },
     {
-      fps: 10,
+      fps: 60,
       qrbox: { width: 300, height: 300 },
       formatsToSupport: [
         Html5QrcodeSupportedFormats.CODE_128,

@@ -42,6 +42,12 @@ function renderBarisJadwalInput() {
       <td>${hari}</td>
       <td><input type="time" class="in-masuk" data-hari="${hari}" value="07:00" disabled></td>
       <td><input type="time" class="in-pulang" data-hari="${hari}" value="14:00" disabled></td>
+      <td>
+        <select class="in-kategori" data-hari="${hari}" disabled>
+          <option value="pengajar">Pengajar</option>
+          <option value="struktural">Struktural</option>
+        </select>
+      </td>
       <td><input type="number" class="in-toleransi" data-hari="${hari}" value="15" min="0" style="width:70px;" disabled></td>
     </tr>`).join('');
 
@@ -63,6 +69,7 @@ function ambilJadwalDariForm() {
       hari,
       jam_masuk: tbodyJadwal.querySelector(`.in-masuk[data-hari="${hari}"]`).value,
       jam_pulang: tbodyJadwal.querySelector(`.in-pulang[data-hari="${hari}"]`).value,
+      kategori: tbodyJadwal.querySelector(`.in-kategori[data-hari="${hari}"]`).value,
       toleransi_telat_menit: Number(tbodyJadwal.querySelector(`.in-toleransi[data-hari="${hari}"]`).value || 15),
     });
   });
@@ -77,15 +84,28 @@ function isiFormJadwal(jadwalGuru) {
     cb.dispatchEvent(new Event('change'));
     tbodyJadwal.querySelector(`.in-masuk[data-hari="${j.hari}"]`).value = j.jam_masuk.slice(0,5);
     tbodyJadwal.querySelector(`.in-pulang[data-hari="${j.hari}"]`).value = j.jam_pulang.slice(0,5);
+    tbodyJadwal.querySelector(`.in-kategori[data-hari="${j.hari}"]`).value = j.kategori || 'pengajar';
     tbodyJadwal.querySelector(`.in-toleransi[data-hari="${j.hari}"]`).value = j.toleransi_telat_menit;
   });
 }
 
 function formatJadwalTampil(jadwalGuru) {
   if (!jadwalGuru || !jadwalGuru.length) return '<span style="color:var(--muted);">Belum ada jadwal</span>';
-  return jadwalGuru.map(j =>
-    `<span class="chip-hari">${j.hari}: ${j.jam_masuk.slice(0,5)}–${j.jam_pulang.slice(0,5)}</span>`
-  ).join('');
+  return jadwalGuru.map(j => {
+    const tanda = j.kategori === 'struktural'
+      ? ' <b style="color:var(--danger);">(Struktural)</b>'
+      : '';
+    return `<span class="chip-hari">${j.hari}: ${j.jam_masuk.slice(0,5)}–${j.jam_pulang.slice(0,5)}${tanda}</span>`;
+  }).join('');
+}
+
+function ringkasanKategori(jadwalGuru) {
+  if (!jadwalGuru || !jadwalGuru.length) return '-';
+  const adaStruktural = jadwalGuru.some(j => j.kategori === 'struktural');
+  const adaPengajar = jadwalGuru.some(j => j.kategori !== 'struktural');
+  if (adaStruktural && adaPengajar) return '<span class="badge badge-izin">Campuran</span>';
+  if (adaStruktural) return '<span class="badge badge-alpha">Struktural</span>';
+  return '<span class="badge badge-hadir">Pengajar</span>';
 }
 
 let halamanGuru = 1;
@@ -109,11 +129,12 @@ function renderTabelGuru() {
       <td>${g.nama}</td>
       <td>${g.nip || '-'}</td>
       <td><code>${g.barcode_id}</code></td>
+      <td>${ringkasanKategori(g.jadwal)}</td>
       <td>${formatJadwalTampil(g.jadwal)}</td>
       <td>${g.aktif ? 'Aktif' : 'Nonaktif'}</td>
       <td>
         <div class="table-actions">
-          <button onclick="cetakBarcode('${g.barcode_id}', '${g.nama.replace(/'/g, "\\'")}')"><i class="bi bi-upc-scan"></i> Cetak</button>
+          <button onclick="cetakBarcode('${g.barcode_id}', '${g.nama.replace(/'/g, "\\'")}')"><i class="bi bi-qr-code-scan"></i> Cetak</button>
           <button onclick="editGuru(${g.id})"><i class="bi bi-pencil"></i> Edit</button>
           <button onclick="hapusGuru(${g.id})"><i class="bi bi-trash"></i> Hapus</button>
         </div>

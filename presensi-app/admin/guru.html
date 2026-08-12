@@ -37,7 +37,7 @@
     <nav class="sidebar">
       <div class="sidebar-brand"><i class="bi bi-qr-code-scan"></i> Presensi Admin</div>
       <div class="sidebar-nav">
-        <a href="dashboard.html" data-roles="admin,piket"><i class="bi bi-speedometer2"></i> Dashboard</a>
+        <a href="dashboard.html" data-roles="admin"><i class="bi bi-speedometer2"></i> Dashboard</a>
         <a href="izin.html" data-roles="admin,piket"><i class="bi bi-calendar-x"></i> Izin / Sakit</a>
         <a href="guru.html" data-roles="admin" class="active"><i class="bi bi-person-badge"></i> Data Guru</a>
         <a href="user.html" data-roles="admin"><i class="bi bi-people"></i> Data User</a>
@@ -69,7 +69,9 @@
         </button>
         <div class="card-hint">
           Format kolom: <code>nama | kode | jadwal senin | jadwal selasa | jadwal rabu | jadwal kamis | jadwal jum'at | jadwal sabtu | toleransi | status</code><br>
-          Isi jadwal per hari dengan format <code>07:00-14:00</code> (kosongkan kalau hari itu libur). Kolom <code>kode</code> boleh dikosongkan (barcode dibuat otomatis).
+          Isi jadwal dengan format <code>07:00-14:00</code> (default: Pengajar, dihitung telat).
+          Tambahkan <code>,S</code> untuk jabatan struktural - contoh: <code>07:00-15:00,S</code> (hanya dihitung hadir/alpha, tanpa telat).
+          Kosongkan sel kalau hari itu libur. Kolom <code>kode</code> boleh dikosongkan (barcode dibuat otomatis).
         </div>
         <div id="import-hasil" style="margin-top:10px;font-size:12px;"></div>
       </div>
@@ -90,8 +92,17 @@
             </div>
 
             <div class="table-wrap">
-              <table style="margin-bottom:14px;">
-                <thead><tr><th></th><th>Hari</th><th>Jam Masuk</th><th>Jam Pulang</th><th>Toleransi (menit)</th></tr></thead>
+              <table style="margin-bottom:14px; text-align: center;">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Hari</th>
+                    <th>Jam Masuk</th>
+                    <th>Jam Pulang</th>
+                    <th>Kategori</th>
+                    <th>Toleransi (menit)</th>
+                  </tr>
+                </thead>
                 <tbody id="tbody-jadwal-input"></tbody>
               </table>
             </div>
@@ -106,7 +117,17 @@
         <div class="card-title"><i class="bi bi-list-ul"></i> Daftar Guru</div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Nama</th><th>NIP</th><th>Barcode</th><th>Jadwal</th><th>Status</th><th>Aksi</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Nama</th>
+              <th>NIP</th>
+              <th>QR-Code</th>
+              <th>Kategori</th>
+              <th>Jadwal</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
             <tbody id="tbody-guru"><tr><td colspan="6">Memuat…</td></tr></tbody>
           </table>
         </div>

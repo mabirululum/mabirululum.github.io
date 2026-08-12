@@ -1,4 +1,4 @@
-AUTH.requireRole(['admin','piket']);
+AUTH.requireRole(['admin']);
 const _namaAdmin = AUTH.current().nama || AUTH.current().username;
 document.getElementById('nama-admin').textContent = _namaAdmin;
 document.getElementById('avatar-admin').textContent = _namaAdmin.charAt(0).toUpperCase();

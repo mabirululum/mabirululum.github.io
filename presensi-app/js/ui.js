@@ -1,5 +1,5 @@
 // =========================================================
-// UI HELPERS — dipakai di semua halaman admin
+// UI HELPERS - dipakai di semua halaman admin
 // =========================================================
 function tanggalLokal(dateObj = new Date()) {
   const y = dateObj.getFullYear();
