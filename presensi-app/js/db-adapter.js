@@ -88,7 +88,7 @@ const DB = (() => {
         let km, kp;
         if (izin && !p?.jam_scan_masuk) {
           km = { label: izin.jenis, tipe: izin.jenis.toLowerCase() };
-        } else if (jadwalHari.kategori === 'struktural') {
+        } else if (jadwalHari.kategori === 'struktural' || jadwalHari.kategori === 'mengaji') {
           km = p?.jam_scan_masuk
             ? { label: 'Hadir jam ' + p.jam_scan_masuk.slice(0,5), tipe: 'hadir' }
             : { label: 'Alpha', tipe: 'alpha' };
@@ -96,7 +96,9 @@ const DB = (() => {
           km = ketMasukJS(jadwalHari, p?.jam_scan_masuk);
         }
 
-        if (jadwalHari.kategori === 'struktural') {
+        if (jadwalHari.kategori === 'mengaji') {
+          kp = !p?.jam_scan_masuk ? { label: '-', tipe: 'alpha' } : { label: '1x Scan (Selesai)', tipe: 'hadir' };
+        } else if (jadwalHari.kategori === 'struktural') {
           kp = !p?.jam_scan_masuk ? { label: '-', tipe: 'alpha' }
             : !p?.jam_scan_pulang ? { label: 'Belum Scan Pulang', tipe: 'warning' }
             : { label: 'Pulang jam ' + p.jam_scan_pulang.slice(0,5), tipe: 'hadir' };
@@ -207,6 +209,10 @@ const DB = (() => {
       .select('*').eq('guru_id', guru.id).eq('tanggal', tanggal).maybeSingle();
 
     if (!existing) {
+      if (jadwal.kategori === 'mengaji') {
+        await sb.from('presensi').insert({ guru_id: guru.id, tanggal, jam_scan_masuk: jamSekarang, jam_scan_pulang: jamSekarang, status: 'hadir' });
+        return { jenis: 'masuk', nama: guru.nama, jam: jamSekarang, status: 'hadir', menit_telat: 0 };
+      }
       let status, menitTelat = 0;
       if (jadwal.kategori === 'struktural') {
         status = 'hadir';

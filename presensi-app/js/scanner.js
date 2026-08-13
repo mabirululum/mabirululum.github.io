@@ -120,7 +120,7 @@ async function onScanSukses(kode) {
     const admin = await DB.cekAdminBarcode(kode);
     if (admin) {
       AUTH.save(admin);
-      window.location.href = 'admin/dashboard.html';
+      window.location.href = admin.role === 'piket' ? 'admin/izin.html' : 'admin/dashboard.html';
       return;
     }
 

@@ -46,6 +46,7 @@ function renderBarisJadwalInput() {
         <select class="in-kategori" data-hari="${hari}" disabled>
           <option value="pengajar">Pengajar</option>
           <option value="struktural">Struktural</option>
+          <option value="mengaji">Mengaji (1x Scan)</option>
         </select>
       </td>
       <td><input type="number" class="in-toleransi" data-hari="${hari}" value="15" min="0" style="width:70px;" disabled></td>
@@ -92,19 +93,20 @@ function isiFormJadwal(jadwalGuru) {
 function formatJadwalTampil(jadwalGuru) {
   if (!jadwalGuru || !jadwalGuru.length) return '<span style="color:var(--muted);">Belum ada jadwal</span>';
   return jadwalGuru.map(j => {
-    const tanda = j.kategori === 'struktural'
-      ? ' <b style="color:var(--danger);">(Struktural)</b>'
-      : '';
+    let tanda = '';
+    if (j.kategori === 'struktural') tanda = ' <b style="color:var(--danger);">(Struktural)</b>';
+    else if (j.kategori === 'mengaji') tanda = ' <b style="color:#6a2d91;">(Mengaji)</b>';
     return `<span class="chip-hari">${j.hari}: ${j.jam_masuk.slice(0,5)}–${j.jam_pulang.slice(0,5)}${tanda}</span>`;
   }).join('');
 }
 
 function ringkasanKategori(jadwalGuru) {
   if (!jadwalGuru || !jadwalGuru.length) return '-';
-  const adaStruktural = jadwalGuru.some(j => j.kategori === 'struktural');
-  const adaPengajar = jadwalGuru.some(j => j.kategori !== 'struktural');
-  if (adaStruktural && adaPengajar) return '<span class="badge badge-izin">Campuran</span>';
-  if (adaStruktural) return '<span class="badge badge-alpha">Struktural</span>';
+  const set = new Set(jadwalGuru.map(j => j.kategori || 'pengajar'));
+  if (set.size > 1) return '<span class="badge badge-izin">Campuran</span>';
+  const satu = [...set][0];
+  if (satu === 'struktural') return '<span class="badge badge-alpha">Struktural</span>';
+  if (satu === 'mengaji') return '<span class="badge badge-kegiatan">Mengaji</span>';
   return '<span class="badge badge-hadir">Pengajar</span>';
 }
 
