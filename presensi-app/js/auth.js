@@ -24,7 +24,7 @@ const AUTH = {
     const user = this.current();
     if (!user) { window.location.href = 'login.html'; return; }
     if (!allowedRoles.includes(user.role)) {
-      window.location.href = 'dashboard.html';
+      window.location.href = user.role === 'piket' ? 'izin.html' : 'dashboard.html';
     }
   },
 };
