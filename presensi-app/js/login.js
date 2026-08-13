@@ -24,7 +24,7 @@ formEl.addEventListener('submit', async (e) => {
   try {
     const user = await DB.loginAdmin(username, password);
     AUTH.save(user);
-    window.location.href = 'dashboard.html';
+    window.location.href = user.role === 'piket' ? 'izin.html' : 'dashboard.html';
   } catch (err) {
     tampilkanError(err.message);
   }
@@ -46,7 +46,7 @@ function switchMode(mode) {
         try {
           const user = await DB.loginAdminBarcode(kode);
           AUTH.save(user);
-          window.location.href = 'dashboard.html';
+          window.location.href = user.role === 'piket' ? 'izin.html' : 'dashboard.html';
         } catch (err) {
           tampilkanError(err.message);
         }

@@ -27,6 +27,7 @@ function renderTabelIzin() {
 
   const mulai = (halamanAktif - 1) * PER_HALAMAN;
   const potong = semuaIzin.slice(mulai, mulai + PER_HALAMAN);
+  const isAdmin = AUTH.current().role === 'admin';
 
   document.getElementById('tbody-izin').innerHTML = potong.map(r => `
     <tr>
@@ -34,7 +35,12 @@ function renderTabelIzin() {
       <td>${r.nama_guru}</td>
       <td><span class="badge badge-warning">${r.jenis}</span></td>
       <td>${r.keterangan || '-'}</td>
-      <td><div class="table-actions"><button onclick="hapusIzin(${r.id})"><i class="bi bi-trash"></i> Hapus</button></div></td>
+      <td>
+        ${isAdmin
+          ? `<div class="table-actions"><button onclick="hapusIzin(${r.id})"><i class="bi bi-trash"></i> Hapus</button></div>`
+          : `<span style="font-size:11px; color:var(--muted);">Hubungi admin untuk koreksi</span>`
+        }
+      </td>
     </tr>`).join('') || '<tr><td colspan="5">Belum ada data izin</td></tr>';
 
   document.getElementById('info-halaman').textContent = `Halaman ${halamanAktif} dari ${totalHalaman} (${semuaIzin.length} data)`;
@@ -64,6 +70,10 @@ form.addEventListener('submit', async (e) => {
 });
 
 async function hapusIzin(id) {
+  if (AUTH.current().role !== 'admin') {
+    toast('Hanya admin yang bisa menghapus data izin.', 'error');
+    return;
+  }
   const ya = await konfirmasi('Hapus data izin ini?');
   if (!ya) return;
   await DB.deleteIzin(id);
