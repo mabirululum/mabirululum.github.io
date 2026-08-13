@@ -67,20 +67,21 @@
       Dikembangkan oleh <a href="http://www.instagram.com/aflah.design/" target="_blank">Aflah Design</a> · &copy; 2026 · <a id="btn-install-pwa" style="cursor: pointer">Install Aplikasi</a>
     </footer>
 
-  </div>
-
-  <div id="overlay-mulai" style="position:fixed;inset:0;background:#1f4d36;color:#fff;
+    <div id="overlay-mulai" style="position:fixed;inset:0;background:#1f4d36;color:#fff;
     display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;z-index:9999;cursor:pointer;">
-    <div style="font-size:20px;">Klik layar untuk memulai sistem presensi</div>
+      <div style="font-size:20px;">Klik layar untuk memulai sistem presensi</div>
+    </div>
+
+    <div id="overlay-offline" style="display:none; position:fixed; inset:0; z-index:9998;
+    backdrop-filter: blur(6px); background:rgba(28,36,32,.55);
+    display:none; align-items:center; justify-content:center; flex-direction:column; gap:12px; color:#fff; text-align:center; padding:24px;">
+      <!-- <i class="bi bi-wifi-off" style="font-size:40px;"></i> -->
+      <div style="font-size:18px; font-weight:600;">Koneksi internet terputus</div>
+      <div style="font-size:13px; opacity:.85; max-width:320px;">
+        Presensi tidak dapat diproses sampai koneksi kembali normal. Halaman akan otomatis dimuat ulang begitu internet tersambung.
+      </div>
+    </div>
   </div>
-  <script>
-    document.getElementById('overlay-mulai').addEventListener('click', function() {
-      // "Buka kunci" audio dengan ucapan kosong sekali
-      const u = new SpeechSynthesisUtterance(' ');
-      speechSynthesis.speak(u);
-      this.remove();
-    });
-  </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
@@ -90,25 +91,7 @@
   <script src="js/ui.js"></script>
   <script src="js/scanner.js"></script>
   <script src="js/pengumuman.js"></script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').catch(console.error);
-    }
-  </script>
-  <script>
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      document.getElementById('btn-install-pwa').style.display = 'inline-block';
-    });
-    document.getElementById('btn-install-pwa').addEventListener('click', async () => {
-      if (!deferredPrompt) return;
-      deferredPrompt.prompt();
-      await deferredPrompt.userChoice;
-      deferredPrompt = null;
-      document.getElementById('btn-install-pwa').style.display = 'none';
-    });
-  </script>
+  <script src="js/app-shell.js"></script>
+  
 </body>
 </html>
