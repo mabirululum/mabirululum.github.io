@@ -134,10 +134,18 @@ const DB = (() => {
   function parseJadwalCellJS(teks) {
     teks = (teks || '').trim().replace('–', '-');
     if (!teks) return null;
-    const bagian = teks.split('-').map(s => s.trim());
+
+    const parts = teks.split(',').map(s => s.trim());
+    const rentangJam = parts[0];
+    const kategoriMentah = (parts[1] || '').toLowerCase();
+    let kategori = 'pengajar';
+    if (kategoriMentah.startsWith('s')) kategori = 'struktural';
+    else if (kategoriMentah.startsWith('m')) kategori = 'mengaji';
+
+    const bagian = rentangJam.split('-').map(s => s.trim());
     if (bagian.length !== 2) return null;
     for (const j of bagian) if (!/^\d{1,2}:\d{2}$/.test(j)) return null;
-    return [bagian[0] + ':00', bagian[1] + ':00'];
+    return { jam_masuk: bagian[0] + ':00', jam_pulang: bagian[1] + ':00', kategori };
   }
 
   async function importGuruOnline(rows) {
@@ -157,7 +165,15 @@ const DB = (() => {
       const jadwal = [];
       Object.entries(HARI_KOLOM).forEach(([key, hari]) => {
         const parsed = parseJadwalCellJS(r[key]);
-        if (parsed) jadwal.push({ hari, jam_masuk: parsed[0], jam_pulang: parsed[1], toleransi_telat_menit: toleransi });
+        if (parsed) {
+          jadwal.push({
+            hari,
+            jam_masuk: parsed.jam_masuk,
+            jam_pulang: parsed.jam_pulang,
+            kategori: parsed.kategori,
+            toleransi_telat_menit: parsed.kategori === 'pengajar' ? toleransi : 0,
+          });
+        }
       });
       if (!jadwal.length) { gagal.push(`Baris ${barisKe} (${nama}): tidak ada jadwal valid`); continue; }
 
