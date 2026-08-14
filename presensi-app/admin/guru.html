@@ -68,9 +68,9 @@
           <i class="bi bi-upload"></i> Pilih File Excel
         </button>
         <div class="card-hint">
-          Format kolom: <code>nama | kode | jadwal senin | jadwal selasa | jadwal rabu | jadwal kamis | jadwal jum'at | jadwal sabtu | toleransi | status</code><br>
-          Isi jadwal dengan format <code>07:00-14:00</code> (default: Pengajar, dihitung telat).
-          Tambahkan <code>,S</code> untuk jabatan struktural - contoh: <code>07:00-15:00,S</code> (hanya dihitung hadir/alpha, tanpa telat).
+          Format kolom: <code>nama | kode | nama_panggilan | jadwal senin | jadwal selasa | jadwal rabu | jadwal kamis | jadwal jum'at | jadwal sabtu | toleransi | status</code><br>
+          <code>nama_panggilan</code> dipakai khusus untuk suara sapaan presensi (misal "Pak Zaki") — kosongkan kalau mau pakai nama lengkap.<br>
+          Isi jadwal dengan format <code>07:00-14:00</code> (default: Pengajar). Tambahkan <code>,S</code> untuk Struktural atau <code>,M</code> untuk Mengaji.
           Kosongkan sel kalau hari itu libur. Kolom <code>kode</code> boleh dikosongkan (barcode dibuat otomatis).
         </div>
         <div id="import-hasil" style="margin-top:10px;font-size:12px;"></div>
@@ -89,6 +89,10 @@
             <div class="form-row">
               <label>Nama Guru<input type="text" id="guru-nama" required></label>
               <label>NIP (opsional)<input type="text" id="guru-nip"></label>
+              <label>Nama Panggilan untuk Suara<input type="text" id="guru-nama-panggilan" placeholder="Contoh: Pak Zaki"></label>
+            </div>
+            <div class="form-row">
+              
             </div>
 
             <div class="table-wrap">

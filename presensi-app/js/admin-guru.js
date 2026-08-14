@@ -10,6 +10,7 @@ const form = document.getElementById('form-guru');
 const inputId = document.getElementById('guru-id');
 const inputNama = document.getElementById('guru-nama');
 const inputNip = document.getElementById('guru-nip');
+const inputNamaPanggilan = document.getElementById('guru-nama-panggilan');
 const tbodyJadwal = document.getElementById('tbody-jadwal-input');
 const btnBatalEdit = document.getElementById('btn-batal-edit');
 const formWrap = document.getElementById('form-guru-wrap');
@@ -159,7 +160,12 @@ form.addEventListener('submit', async (e) => {
   const jadwal = ambilJadwalDariForm();
   if (!jadwal.length) { toast('Pilih minimal 1 hari jadwal masuk', 'warn'); return; }
 
-  const payload = { nama: inputNama.value.trim(), nip: inputNip.value.trim(), jadwal };
+  const payload = { 
+    nama: inputNama.value.trim(), 
+    nip: inputNip.value.trim(), 
+    nama_panggilan: inputNamaPanggilan.value.trim(),
+    jadwal
+  };
 
   try {
     if (inputId.value) {
@@ -195,6 +201,7 @@ function editGuru(id) {
   inputId.value = g.id;
   inputNama.value = g.nama;
   inputNip.value = g.nip || '';
+  inputNamaPanggilan.value = g.nama_panggilan || '';
   isiFormJadwal(g.jadwal);
   btnBatalEdit.style.display = 'inline-flex';
   form.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -280,6 +287,7 @@ function normalisasiBaris(row) {
   return {
     nama: cari('nama'),
     kode: cari('kode'),
+    nama_panggilan: cari('nama panggilan'),
     senin: cari('jadwal senin'),
     selasa: cari('jadwal selasa'),
     rabu: cari('jadwal rabu'),

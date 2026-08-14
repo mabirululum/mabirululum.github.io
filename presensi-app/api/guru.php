@@ -44,8 +44,8 @@ if ($method === 'POST') {
   if (empty($b['jadwal'])) respond(['error' => 'Minimal 1 hari jadwal wajib diisi'], 400);
 
   $barcode = generate_barcode_guru($pdo);
-  $stmt = $pdo->prepare('INSERT INTO guru (nama, nip, barcode_id) VALUES (?, ?, ?)');
-  $stmt->execute([$nama, trim($b['nip'] ?? ''), $barcode]);
+  $stmt = $pdo->prepare('INSERT INTO guru (nama, nip, nama_panggilan, barcode_id) VALUES (?, ?, ?, ?)');
+  $stmt->execute([$nama, trim($b['nip'] ?? ''), trim($b['nama_panggilan'] ?? ''), $barcode]);
   $guru_id = $pdo->lastInsertId();
 
   simpan_jadwal($pdo, $guru_id, $b['jadwal']);
@@ -58,8 +58,8 @@ if ($method === 'PUT') {
   $id = $b['id'] ?? null;
   if (!$id) respond(['error' => 'id wajib diisi'], 400);
 
-  $stmt = $pdo->prepare('UPDATE guru SET nama = ?, nip = ?, aktif = ? WHERE id = ?');
-  $stmt->execute([$b['nama'] ?? '', $b['nip'] ?? '', $b['aktif'] ?? 1, $id]);
+  $stmt = $pdo->prepare('UPDATE guru SET nama = ?, nip = ?, nama_panggilan = ?, aktif = ? WHERE id = ?');
+  $stmt->execute([$b['nama'] ?? '', $b['nip'] ?? '', trim($b['nama_panggilan'] ?? ''), $b['aktif'] ?? 1, $id]);
 
   if (isset($b['jadwal'])) simpan_jadwal($pdo, $id, $b['jadwal']);
 

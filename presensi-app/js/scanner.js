@@ -67,16 +67,16 @@ function tampilkanStatus(hasil) {
   let pesan;
   if (hasil.jenis === 'masuk') {
     pesan = `Presensi masuk pukul ${hasil.jam} - ${label}`;
-    ucapkan(`Halo, ${nama}, selamat datang dan selamat mengajar`);
+    ucapkan(`Halo, ${hasil.nama_panggilan || nama}, selamat datang dan selamat mengajar`);
   } else if (hasil.jenis === 'pulang') {
     pesan = `Presensi pulang pukul ${hasil.jam} - ${label}`;
-    ucapkan(`Terima kasih, ${nama}, selamat jalan dan hati-hati di jalan`);
+    ucapkan(`Terima kasih, ${hasil.nama_panggilan || nama}, selamat jalan dan hati-hati di jalan`);
   } else if (hasil.jenis === 'terlalu_cepat') {
     pesan = hasil.error;
     ucapkan(`Maaf, anda terlalu cepat melakukan presensi, mohon menunggu sesuai waktu yang ditentukan`);
   } else {
     pesan = `Sudah presensi lengkap hari ini (${label})`;
-    ucapkan(`Maaf, ${nama}, sudah presensi lengkap hari ini`);
+    ucapkan(`Maaf, ${hasil.nama_panggilan || nama}, sudah presensi lengkap hari ini`);
   }
 
   const statusClass = hasil.jenis === 'terlalu_cepat' ? 'telat' : (hasil.status || 'ok');

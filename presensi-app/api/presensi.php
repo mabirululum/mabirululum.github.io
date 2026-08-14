@@ -58,6 +58,7 @@ if ($method === 'POST') {
       respond([
         'jenis' => 'masuk',
         'nama' => $guru['nama'],
+        'nama_panggilan' => $guru['nama_panggilan'] ?: $guru['nama'],
         'jam' => $jam_sekarang,
         'status' => 'hadir',
         'menit_telat' => 0,
@@ -80,11 +81,11 @@ if ($method === 'POST') {
     $stmt->execute([$guru['id'], $tanggal, $jam_sekarang, $status]);
 
     respond([
-      'jenis' => 'masuk',
+      'jenis' => 'pulang',
       'nama' => $guru['nama'],
+      'nama_panggilan' => $guru['nama_panggilan'] ?: $guru['nama'],
       'jam' => $jam_sekarang,
-      'status' => $status,
-      'menit_telat' => $status === 'telat' ? $menit_telat : 0,
+      'status' => $status_baru,
     ]);
   }
 
@@ -98,6 +99,7 @@ if ($method === 'POST') {
       respond([
         'jenis' => 'terlalu_cepat',
         'nama'  => $guru['nama'],
+        'nama_panggilan' => $guru['nama_panggilan'] ?: $guru['nama'],
         'error' => 'Belum bisa presensi pulang. Minimal ' . ceil($MIN_MENIT_PULANG) .
                    ' menit setelah masuk (' . ceil($MIN_MENIT_PULANG - $menit_sejak_masuk) . ' menit lagi).',
       ]);
@@ -120,6 +122,7 @@ if ($method === 'POST') {
     respond([
       'jenis' => 'pulang',
       'nama' => $guru['nama'],
+      'nama_panggilan' => $guru['nama_panggilan'] ?: $guru['nama'],
       'jam' => $jam_sekarang,
       'status' => $status_baru,
     ]);

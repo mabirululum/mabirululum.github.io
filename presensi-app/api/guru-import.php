@@ -44,6 +44,7 @@ foreach ($rows as $i => $r) {
   $baris_ke = $i + 2;
   $nama = trim($r['nama'] ?? '');
   if ($nama === '') { $gagal[] = "Baris $baris_ke: nama kosong"; continue; }
+  $nama_panggilan = trim($r['nama_panggilan'] ?? '') ?: null;
 
   $toleransi = is_numeric($r['toleransi'] ?? '') ? (int)$r['toleransi'] : 15;
   $aktif = in_array(strtolower(trim($r['status'] ?? '')), ['aktif', 'active', '1']) ? 1 : 0;
@@ -77,12 +78,12 @@ foreach ($rows as $i => $r) {
     }
 
     if ($guru_id) {
-      $stmt = $pdo->prepare('UPDATE guru SET nama = ?, aktif = ? WHERE id = ?');
-      $stmt->execute([$nama, $aktif, $guru_id]);
+      $stmt = $pdo->prepare('UPDATE guru SET nama = ?, nama_panggilan = ?, aktif = ? WHERE id = ?');
+      $stmt->execute([$nama, $nama_panggilan, $aktif, $guru_id]);
     } else {
       $barcode = $kode !== '' ? $kode : generate_barcode_guru($pdo);
-      $stmt = $pdo->prepare('INSERT INTO guru (nama, barcode_id, aktif) VALUES (?, ?, ?)');
-      $stmt->execute([$nama, $barcode, $aktif]);
+      $stmt = $pdo->prepare('INSERT INTO guru (nama, nama_panggilan, barcode_id, aktif) VALUES (?, ?, ?, ?)');
+      $stmt->execute([$nama, $nama_panggilan, $barcode, $aktif]);
       $guru_id = $pdo->lastInsertId();
     }
 
