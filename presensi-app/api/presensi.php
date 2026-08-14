@@ -48,10 +48,31 @@ if ($method === 'POST') {
   $existing = $stmtCek->fetch();
 
   if (!$existing) {
+    // ---- Guru Mengaji: cukup 1x scan, langsung Hadir & selesai ----
+    if ($jadwal['kategori'] === 'mengaji') {
+      $stmt = $pdo->prepare(
+        'INSERT INTO presensi (guru_id, tanggal, jam_scan_masuk, jam_scan_pulang, status) VALUES (?, ?, ?, ?, ?)'
+      );
+      $stmt->execute([$guru['id'], $tanggal, $jam_sekarang, $jam_sekarang, 'hadir']);
+
+      respond([
+        'jenis' => 'masuk',
+        'nama' => $guru['nama'],
+        'jam' => $jam_sekarang,
+        'status' => 'hadir',
+        'menit_telat' => 0,
+      ]);
+    }
+    
     // ---- SCAN PERTAMA HARI INI = JAM MASUK ----
-    $batas_telat = date('H:i:s', strtotime($jadwal['jam_masuk']) + $jadwal['toleransi_telat_menit'] * 60);
-    $menit_telat = max(0, round((strtotime($jam_sekarang) - strtotime($jadwal['jam_masuk'])) / 60));
-    $status = ($jam_sekarang > $batas_telat) ? 'telat' : 'hadir';
+    if ($jadwal['kategori'] === 'struktural') {
+      $status = 'hadir';
+      $menit_telat = 0;
+    } else {
+      $batas_telat = date('H:i:s', strtotime($jadwal['jam_masuk']) + $jadwal['toleransi_telat_menit'] * 60);
+      $menit_telat = max(0, round((strtotime($jam_sekarang) - strtotime($jadwal['jam_masuk'])) / 60));
+      $status = ($jam_sekarang > $batas_telat) ? 'telat' : 'hadir';
+    }
 
     $stmt = $pdo->prepare(
       'INSERT INTO presensi (guru_id, tanggal, jam_scan_masuk, status) VALUES (?, ?, ?, ?)'
@@ -83,10 +104,14 @@ if ($method === 'POST') {
     }
 
     // ---- SCAN KEDUA HARI INI = JAM PULANG ----
-    $pulang_awal = $jam_sekarang < $jadwal['jam_pulang'];
-    $status_baru = $existing['status'];
-    if ($pulang_awal) {
-      $status_baru = ($existing['status'] === 'telat') ? 'telat_dan_pulang_awal' : 'pulang_awal';
+    if ($jadwal['kategori'] === 'struktural') {
+      $status_baru = 'hadir';
+    } else {
+      $pulang_awal = $jam_sekarang < $jadwal['jam_pulang'];
+      $status_baru = $existing['status'];
+      if ($pulang_awal) {
+        $status_baru = ($existing['status'] === 'telat') ? 'telat_dan_pulang_awal' : 'pulang_awal';
+      }
     }
 
     $stmt = $pdo->prepare('UPDATE presensi SET jam_scan_pulang = ?, status = ? WHERE id = ?');

@@ -31,6 +31,9 @@ function cek_izin($pdo, $guru_id, $tanggal) {
 
 function ket_masuk($jadwal, $jam_scan_masuk) {
   if (!$jam_scan_masuk) return ['label' => 'Alpha', 'tipe' => 'alpha'];
+  if (in_array($jadwal['kategori'], ['struktural', 'mengaji'])) {
+    return ['label' => 'Hadir jam ' . substr($jam_scan_masuk, 0, 5), 'tipe' => 'hadir'];
+  }
   if ($jam_scan_masuk <= $jadwal['jam_masuk']) return ['label' => 'Hadir Tepat Waktu', 'tipe' => 'hadir'];
   $menit = round((strtotime($jam_scan_masuk) - strtotime($jadwal['jam_masuk'])) / 60);
   return ['label' => 'Telat ' . format_durasi($menit), 'tipe' => 'telat'];
@@ -38,7 +41,11 @@ function ket_masuk($jadwal, $jam_scan_masuk) {
 
 function ket_pulang($jadwal, $jam_scan_masuk, $jam_scan_pulang) {
   if (!$jam_scan_masuk) return ['label' => '-', 'tipe' => 'alpha'];
+  if ($jadwal['kategori'] === 'mengaji') return ['label' => '1x Scan (Selesai)', 'tipe' => 'hadir'];
   if (!$jam_scan_pulang) return ['label' => 'Belum Scan Pulang', 'tipe' => 'warning'];
+  if ($jadwal['kategori'] === 'struktural') {
+    return ['label' => 'Pulang jam ' . substr($jam_scan_pulang, 0, 5), 'tipe' => 'hadir'];
+  }
   if ($jam_scan_pulang >= $jadwal['jam_pulang']) return ['label' => 'Pulang Tepat Waktu', 'tipe' => 'hadir'];
   $menit = round((strtotime($jadwal['jam_pulang']) - strtotime($jam_scan_pulang)) / 60);
   return ['label' => 'Pulang Awal ' . format_durasi($menit), 'tipe' => 'pulang'];
@@ -52,8 +59,8 @@ while ($tgl <= $akhir) {
   $tanggal = $tgl->format('Y-m-d');
   $hari = $HARI_MAP[$tgl->format('l')];
 
-  $sql = "SELECT gj.jam_masuk, gj.jam_pulang, gj.toleransi_telat_menit,
-                 g.id AS guru_id, g.nama AS nama_guru, p.jam_scan_masuk, p.jam_scan_pulang
+  $sql = "SELECT gj.jam_masuk, gj.jam_pulang, gj.toleransi_telat_menit, gj.kategori,
+                g.id AS guru_id, g.nama AS nama_guru, p.jam_scan_masuk, p.jam_scan_pulang
           FROM guru_jadwal gj
           JOIN guru g ON g.id = gj.guru_id AND g.aktif = 1
           LEFT JOIN presensi p ON p.guru_id = gj.guru_id AND p.tanggal = ?

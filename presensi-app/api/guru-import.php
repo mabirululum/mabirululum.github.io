@@ -16,12 +16,20 @@ function parse_jadwal_cell($teks) {
   $teks = trim($teks);
   if ($teks === '') return null;
   $teks = str_replace('–', '-', $teks);
-  $bagian = array_map('trim', explode('-', $teks));
+
+  $parts = array_map('trim', explode(',', $teks));
+  $rentangJam = $parts[0];
+  $kategoriMentah = strtolower($parts[1] ?? '');
+  $kategori = 'pengajar';
+  if (str_starts_with($kategoriMentah, 's')) $kategori = 'struktural';
+  elseif (str_starts_with($kategoriMentah, 'm')) $kategori = 'mengaji';
+
+  $bagian = array_map('trim', explode('-', $rentangJam));
   if (count($bagian) !== 2) return null;
   foreach ($bagian as $j) {
     if (!preg_match('/^\d{1,2}:\d{2}$/', $j)) return null;
   }
-  return [$bagian[0] . ':00', $bagian[1] . ':00'];
+  return ['jam_masuk' => $bagian[0] . ':00', 'jam_pulang' => $bagian[1] . ':00', 'kategori' => $kategori];
 }
 
 $body = input_json();
@@ -43,7 +51,15 @@ foreach ($rows as $i => $r) {
   $jadwal = [];
   foreach ($HARI_KOLOM as $key => $namaHari) {
     $parsed = parse_jadwal_cell($r[$key] ?? '');
-    if ($parsed) $jadwal[] = ['hari' => $namaHari, 'jam_masuk' => $parsed[0], 'jam_pulang' => $parsed[1], 'toleransi_telat_menit' => $toleransi];
+    if ($parsed) {
+      $jadwal[] = [
+        'hari' => $namaHari,
+        'jam_masuk' => $parsed['jam_masuk'],
+        'jam_pulang' => $parsed['jam_pulang'],
+        'kategori' => $parsed['kategori'],
+        'toleransi_telat_menit' => $parsed['kategori'] === 'struktural' ? 0 : $toleransi,
+      ];
+    }
   }
   if (!$jadwal) { $gagal[] = "Baris $baris_ke ($nama): tidak ada jadwal valid"; continue; }
 
@@ -71,9 +87,9 @@ foreach ($rows as $i => $r) {
     }
 
     $pdo->prepare('DELETE FROM guru_jadwal WHERE guru_id = ?')->execute([$guru_id]);
-    $stmtJ = $pdo->prepare('INSERT INTO guru_jadwal (guru_id, hari, jam_masuk, jam_pulang, toleransi_telat_menit) VALUES (?,?,?,?,?)');
+    $stmtJ = $pdo->prepare('INSERT INTO guru_jadwal (guru_id, hari, jam_masuk, jam_pulang, kategori, toleransi_telat_menit) VALUES (?,?,?,?,?,?)');
     foreach ($jadwal as $j) {
-      $stmtJ->execute([$guru_id, $j['hari'], $j['jam_masuk'], $j['jam_pulang'], $j['toleransi_telat_menit']]);
+      $stmtJ->execute([$guru_id, $j['hari'], $j['jam_masuk'], $j['jam_pulang'], $j['kategori'], $j['toleransi_telat_menit']]);
     }
 
     $pdo->commit();

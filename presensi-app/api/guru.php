@@ -15,11 +15,12 @@ function generate_barcode_guru($pdo) {
 function simpan_jadwal($pdo, $guru_id, $jadwal) {
   $pdo->prepare('DELETE FROM guru_jadwal WHERE guru_id = ?')->execute([$guru_id]);
   $stmt = $pdo->prepare(
-    'INSERT INTO guru_jadwal (guru_id, hari, jam_masuk, jam_pulang, toleransi_telat_menit) VALUES (?,?,?,?,?)'
+    'INSERT INTO guru_jadwal (guru_id, hari, jam_masuk, jam_pulang, kategori, toleransi_telat_menit) VALUES (?,?,?,?,?,?)'
   );
   foreach ($jadwal as $j) {
+    $kategori = ($j['kategori'] ?? '') === 'struktural' ? 'struktural' : 'pengajar';
     $stmt->execute([
-      $guru_id, $j['hari'], $j['jam_masuk'], $j['jam_pulang'], $j['toleransi_telat_menit'] ?? 15,
+      $guru_id, $j['hari'], $j['jam_masuk'], $j['jam_pulang'], $kategori, $j['toleransi_telat_menit'] ?? 15,
     ]);
   }
 }
