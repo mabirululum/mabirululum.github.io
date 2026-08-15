@@ -50,39 +50,59 @@ const DB = (() => {
 		return `${totalMenit} Menit`;
 	}
 
+  const MENIT_PER_JAM_PELAJARAN = 40;
+
+  function hitungJamPelajaranIzin(izin, jadwal) {
+    let menit;
+    if (izin.jam_mulai && izin.jam_selesai) {
+      menit = Math.round((toSeconds(izin.jam_selesai) - toSeconds(izin.jam_mulai)) / 60);
+    } else {
+      menit = Math.round((toSeconds(jadwal.jam_pulang) - toSeconds(jadwal.jam_masuk)) / 60);
+    }
+    const jp = Math.max(1, Math.round(menit / MENIT_PER_JAM_PELAJARAN));
+    return { menit, jamPelajaran: jp };
+  }
+
 	function ketMasukJS(jadwal, jamScanMasuk) {
 		if (!jamScanMasuk) return {
 			label: 'Alpha',
-			tipe: 'alpha'
+			tipe: 'alpha',
+      menit: 0
 		};
 		if (jamScanMasuk <= jadwal.jam_masuk) return {
 			label: 'Hadir Tepat Waktu',
-			tipe: 'hadir'
+			tipe: 'hadir',
+      menit: 0
 		};
 		const menit = Math.round((toSeconds(jamScanMasuk) - toSeconds(jadwal.jam_masuk)) / 60);
 		return {
 			label: 'Telat ' + formatDurasiLaporan(menit),
-			tipe: 'telat'
+			tipe: 'telat',
+      menit
 		};
 	}
 
 	function ketPulangJS(jadwal, jamScanMasuk, jamScanPulang) {
 		if (!jamScanMasuk) return {
 			label: '-',
-			tipe: 'alpha'
+			tipe: 'alpha',
+      menit: 0
 		};
 		if (!jamScanPulang) return {
 			label: 'Belum Scan Pulang',
-			tipe: 'warning'
+			tipe: 'warning',
+      menit: 0
 		};
 		if (jamScanPulang >= jadwal.jam_pulang) return {
 			label: 'Pulang Tepat Waktu',
-			tipe: 'hadir'
+			tipe: 'hadir',
+      menit: 0
 		};
 		const menit = Math.round((toSeconds(jadwal.jam_pulang) - toSeconds(jamScanPulang)) / 60);
 		return {
 			label: 'Pulang Awal ' + formatDurasiLaporan(menit),
-			tipe: 'pulang'
+			tipe: 'pulang',
+      menit
 		};
 	}
 
@@ -106,6 +126,11 @@ const DB = (() => {
 			data: izinRows
 		} = await sb.from('izin') // <-- BARU
 			.select('*').gte('tanggal', dari).lte('tanggal', sampai);
+		
+		const { 
+			data: liburRows
+		} = await sb.from('hari_libur')
+			.select('*').gte('tanggal', dari).lte('tanggal', sampai);
 
 		const hasil = [];
 		const cursor = new Date(dari + 'T00:00:00');
@@ -120,14 +145,22 @@ const DB = (() => {
 				if (!jadwalHari) return;
 
 				const p = (presensiRows || []).find(pr => pr.guru_id === g.id && pr.tanggal === tanggalStr);
+        const libur = (liburRows || []).find(l => l.tanggal === tanggalStr);
 				const izin = (izinRows || []).find(iz => iz.guru_id === g.id && iz.tanggal === tanggalStr);
 
-				let km, kp;
-				if (izin && !p?.jam_scan_masuk) {
-					km = {
-						label: izin.jenis,
-						tipe: izin.jenis.toLowerCase()
-					};
+				let km, kp, menitIzin = 0;
+        if (libur && !p?.jam_scan_masuk) {
+          km = { label: 'Libur: ' + libur.keterangan, tipe: 'libur' };
+          kp = { label: 'Libur: ' + libur.keterangan, tipe: 'libur' };
+        } else if (izin && !p?.jam_scan_masuk) {
+          if (izin.jenis === 'Izin') {
+            const hitung = hitungJamPelajaranIzin(izin, jadwalHari);
+            menitIzin = hitung.menit;
+            km = { label: `Izin ${hitung.jamPelajaran} Jam Pelajaran`, tipe: 'izin' };
+          } else {
+            km = { label: izin.jenis, tipe: izin.jenis.toLowerCase() };
+          }
+          kp = ketPulangJS(jadwalHari, p?.jam_scan_masuk, p?.jam_scan_pulang);
 				} else if (jadwalHari.kategori === 'struktural' || jadwalHari.kategori === 'mengaji') {
 					km = p?.jam_scan_masuk ?
 						{
@@ -185,6 +218,9 @@ const DB = (() => {
 					ket_masuk_tipe: km.tipe,
 					ket_pulang: kp.label,
 					ket_pulang_tipe: kp.tipe,
+          menit_telat: km.menit || 0,
+          menit_pulang_awal: kp.menit || 0,
+          menit_izin: menitIzin,
 				});
 			});
 			cursor.setDate(cursor.getDate() + 1);
@@ -692,6 +728,8 @@ const DB = (() => {
 					guru_id: data.guru_id,
 					tanggal: data.tanggal,
 					jenis: data.jenis,
+          jam_mulai: data.jam_mulai || null,
+          jam_selesai: data.jam_selesai || null,
 					keterangan: data.keterangan || null,
 					dicatat_oleh: data.dicatat_oleh || null,
 				}, {
@@ -715,6 +753,52 @@ const DB = (() => {
 				return;
 			}
 			return callPhp('izin.php', {
+				method: 'DELETE',
+				query: `?id=${id}`
+			});
+		},
+
+		// ---- LIBUR ----
+		async listHariLibur(dari, sampai) {
+			if (isOnline) {
+				let q = sb.from('hari_libur').select('*').order('tanggal');
+				if (dari && sampai) q = q.gte('tanggal', dari).lte('tanggal', sampai);
+				const {
+					data,
+					error
+				} = await q;
+				if (error) throw new Error(error.message);
+				return data;
+			}
+			const query = (dari && sampai) ? `?dari=${dari}&sampai=${sampai}` : '';
+			return (await callPhp('hari-libur.php', {
+				query
+			})).data;
+		},
+		async addHariLibur(data) {
+			if (isOnline) {
+				const {
+					error
+				} = await sb.from('hari_libur').upsert(data, {
+					onConflict: 'tanggal'
+				});
+				if (error) throw new Error(error.message);
+				return;
+			}
+			return callPhp('hari-libur.php', {
+				method: 'POST',
+				body: data
+			});
+		},
+		async deleteHariLibur(id) {
+			if (isOnline) {
+				const {
+					error
+				} = await sb.from('hari_libur').delete().eq('id', id);
+				if (error) throw new Error(error.message);
+				return;
+			}
+			return callPhp('hari-libur.php', {
 				method: 'DELETE',
 				query: `?id=${id}`
 			});

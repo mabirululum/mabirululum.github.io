@@ -18,37 +18,60 @@ function format_durasi($total_menit) {
   return "$total_menit Menit";
 }
 
+const MENIT_PER_JAM_PELAJARAN = 40;
+
+function hitung_jam_pelajaran_izin($izin, $jadwal) {
+  if ($izin['jam_mulai'] && $izin['jam_selesai']) {
+    $menit = round((strtotime($izin['jam_selesai']) - strtotime($izin['jam_mulai'])) / 60);
+  } else {
+    // izin sehari penuh -> hitung dari durasi jadwal guru hari itu
+    $menit = round((strtotime($jadwal['jam_pulang']) - strtotime($jadwal['jam_masuk'])) / 60);
+  }
+  $jp = max(1, round($menit / MENIT_PER_JAM_PELAJARAN));
+  return ['menit' => $menit, 'jam_pelajaran' => $jp];
+}
+
 function cek_izin($pdo, $guru_id, $tanggal) {
   static $cache = [];
   $key = "$guru_id|$tanggal";
   if (!array_key_exists($key, $cache)) {
-    $stmt = $pdo->prepare('SELECT jenis, keterangan FROM izin WHERE guru_id = ? AND tanggal = ?');
+    $stmt = $pdo->prepare('SELECT jenis, jam_mulai, jam_selesai, keterangan FROM izin WHERE guru_id = ? AND tanggal = ?');
     $stmt->execute([$guru_id, $tanggal]);
     $cache[$key] = $stmt->fetch();
   }
   return $cache[$key];
 }
 
-function ket_masuk($jadwal, $jam_scan_masuk) {
-  if (!$jam_scan_masuk) return ['label' => 'Alpha', 'tipe' => 'alpha'];
-  if (in_array($jadwal['kategori'], ['struktural', 'mengaji'])) {
-    return ['label' => 'Hadir jam ' . substr($jam_scan_masuk, 0, 5), 'tipe' => 'hadir'];
+function cek_libur($pdo, $tanggal) {
+  static $cache = [];
+  if (!array_key_exists($tanggal, $cache)) {
+    $stmt = $pdo->prepare('SELECT keterangan FROM hari_libur WHERE tanggal = ?');
+    $stmt->execute([$tanggal]);
+    $cache[$tanggal] = $stmt->fetch();
   }
-  if ($jam_scan_masuk <= $jadwal['jam_masuk']) return ['label' => 'Hadir Tepat Waktu', 'tipe' => 'hadir'];
+  return $cache[$tanggal];
+}
+
+function ket_masuk($jadwal, $jam_scan_masuk) {
+  if (!$jam_scan_masuk) return ['label' => 'Alpha', 'tipe' => 'alpha', 'menit' => 0];
+  if (in_array($jadwal['kategori'], ['struktural', 'mengaji'])) {
+    return ['label' => 'Hadir jam ' . substr($jam_scan_masuk, 0, 5), 'tipe' => 'hadir', 'menit' => 0];
+  }
+  if ($jam_scan_masuk <= $jadwal['jam_masuk']) return ['label' => 'Hadir Tepat Waktu', 'tipe' => 'hadir', 'menit' => 0];
   $menit = round((strtotime($jam_scan_masuk) - strtotime($jadwal['jam_masuk'])) / 60);
-  return ['label' => 'Telat ' . format_durasi($menit), 'tipe' => 'telat'];
+  return ['label' => 'Telat ' . format_durasi($menit), 'tipe' => 'telat', 'menit' => $menit];
 }
 
 function ket_pulang($jadwal, $jam_scan_masuk, $jam_scan_pulang) {
-  if (!$jam_scan_masuk) return ['label' => '-', 'tipe' => 'alpha'];
-  if ($jadwal['kategori'] === 'mengaji') return ['label' => '1x Scan (Selesai)', 'tipe' => 'hadir'];
-  if (!$jam_scan_pulang) return ['label' => 'Belum Scan Pulang', 'tipe' => 'warning'];
+  if (!$jam_scan_masuk) return ['label' => '-', 'tipe' => 'alpha', 'menit' => 0];
+  if ($jadwal['kategori'] === 'mengaji') return ['label' => '1x Scan (Selesai)', 'tipe' => 'hadir', 'menit' => 0];
+  if (!$jam_scan_pulang) return ['label' => 'Belum Scan Pulang', 'tipe' => 'warning', 'menit' => 0];
   if ($jadwal['kategori'] === 'struktural') {
-    return ['label' => 'Pulang jam ' . substr($jam_scan_pulang, 0, 5), 'tipe' => 'hadir'];
+    return ['label' => 'Pulang jam ' . substr($jam_scan_pulang, 0, 5), 'tipe' => 'hadir','menit' => 0];
   }
-  if ($jam_scan_pulang >= $jadwal['jam_pulang']) return ['label' => 'Pulang Tepat Waktu', 'tipe' => 'hadir'];
+  if ($jam_scan_pulang >= $jadwal['jam_pulang']) return ['label' => 'Pulang Tepat Waktu', 'tipe' => 'hadir', 'menit' => 0];
   $menit = round((strtotime($jadwal['jam_pulang']) - strtotime($jam_scan_pulang)) / 60);
-  return ['label' => 'Pulang Awal ' . format_durasi($menit), 'tipe' => 'pulang'];
+  return ['label' => 'Pulang Awal ' . format_durasi($menit), 'tipe' => 'pulang', 'menit' => $menit];
 }
 
 $hasil = [];
@@ -77,18 +100,33 @@ while ($tgl <= $akhir) {
   $stmt->execute($params);
 
   foreach ($stmt->fetchAll() as $row) {
+    $libur = cek_libur($pdo, $tanggal);
     $izin = cek_izin($pdo, $row['guru_id'], $tanggal);
-    if ($izin && !$row['jam_scan_masuk']) {
-      $km = ['label' => $izin['jenis'], 'tipe' => strtolower($izin['jenis'])];
+    $menitIzin = 0;
+
+    if ($libur && !$row['jam_scan_masuk']) {
+      $km = ['label' => 'Libur: ' . $libur['keterangan'], 'tipe' => 'libur', 'menit' => 0];
+      $kp = ['label' => 'Libur: ' . $libur['keterangan'], 'tipe' => 'libur', 'menit' => 0];
+    } elseif ($izin && !$row['jam_scan_masuk']) {
+      if ($izin['jenis'] === 'Izin') {
+        $hitung = hitung_jam_pelajaran_izin($izin, $row);
+        $menitIzin = $hitung['menit'];
+        $km = ['label' => 'Izin ' . $hitung['jam_pelajaran'] . ' Jam Pelajaran', 'tipe' => 'izin', 'menit' => 0];
+      } else {
+        // Sakit, Kegiatan, Cuti: tanpa hitungan jam, cukup label biasa
+        $km = ['label' => $izin['jenis'], 'tipe' => strtolower($izin['jenis']), 'menit' => 0];
+      }
+      $kp = ket_pulang($row, $row['jam_scan_masuk'], $row['jam_scan_pulang']);
     } else {
       $km = ket_masuk($row, $row['jam_scan_masuk']);
+      $kp = ket_pulang($row, $row['jam_scan_masuk'], $row['jam_scan_pulang']);
     }
-    $kp = ket_pulang($row, $row['jam_scan_masuk'], $row['jam_scan_pulang']);
 
     $cocok_status = true;
     if ($status === 'telat') $cocok_status = $km['tipe'] === 'telat';
     elseif ($status === 'pulang_awal') $cocok_status = $kp['tipe'] === 'pulang';
     elseif ($status === 'alpha') $cocok_status = $km['tipe'] === 'alpha';
+    elseif ($status === 'libur') $cocok_status = $km['tipe'] === 'libur';
     elseif ($status === 'belum_pulang') $cocok_status = $kp['tipe'] === 'warning';
     elseif (in_array($status, ['sakit','izin','kegiatan'])) $cocok_status = $km['tipe'] === $status;
 
@@ -101,6 +139,9 @@ while ($tgl <= $akhir) {
       'jam_scan_pulang' => $row['jam_scan_pulang'],
       'ket_masuk' => $km['label'], 'ket_masuk_tipe' => $km['tipe'],
       'ket_pulang' => $kp['label'], 'ket_pulang_tipe' => $kp['tipe'],
+      'menit_telat' => $km['menit'] ?? 0,
+      'menit_pulang_awal' => $kp['menit'] ?? 0,
+      'menit_izin' => $menitIzin,
     ];
   }
   $tgl->modify('+1 day');

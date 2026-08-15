@@ -414,6 +414,11 @@ table tbody tr:hover {
   background: #e2f3ee;
   color: #1f6d5a;
 }
+.badge-libur{
+  background:#e6eefb; 
+  color:#1d4e89; 
+  border:1px dashed #1d4e89;
+}
 
 .chip-hari {
   display: block;

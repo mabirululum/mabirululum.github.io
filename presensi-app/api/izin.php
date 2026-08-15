@@ -35,12 +35,16 @@ if ($method === 'POST') {
   }
 
   // Kalau sudah ada izin di tanggal itu, timpa (misal salah input jenis)
+  $jamMulai = $b['jam_mulai'] ?: null;
+  $jamSelesai = $b['jam_selesai'] ?: null;
+
   $stmt = $pdo->prepare(
-    'INSERT INTO izin (guru_id, tanggal, jenis, keterangan, dicatat_oleh)
-     VALUES (?,?,?,?,?)
-     ON DUPLICATE KEY UPDATE jenis = VALUES(jenis), keterangan = VALUES(keterangan), dicatat_oleh = VALUES(dicatat_oleh)'
+    'INSERT INTO izin (guru_id, tanggal, jenis, jam_mulai, jam_selesai, keterangan, dicatat_oleh)
+    VALUES (?,?,?,?,?,?,?)
+    ON DUPLICATE KEY UPDATE jenis = VALUES(jenis), jam_mulai = VALUES(jam_mulai), jam_selesai = VALUES(jam_selesai),
+      keterangan = VALUES(keterangan), dicatat_oleh = VALUES(dicatat_oleh)'
   );
-  $stmt->execute([$guru_id, $tanggal, $jenis, trim($b['keterangan'] ?? ''), trim($b['dicatat_oleh'] ?? '')]);
+  $stmt->execute([$guru_id, $tanggal, $jenis, $jamMulai, $jamSelesai, trim($b['keterangan'] ?? ''), trim($b['dicatat_oleh'] ?? '')]);
 
   respond(['success' => true], 201);
 }

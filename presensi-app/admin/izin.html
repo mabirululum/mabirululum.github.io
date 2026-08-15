@@ -38,6 +38,7 @@
       <div class="sidebar-nav">
         <a href="dashboard.html" data-roles="admin"><i class="bi bi-speedometer2"></i> Dashboard</a>
         <a href="izin.html" class="active" data-roles="admin,piket"><i class="bi bi-calendar-x"></i> Izin / Sakit</a>
+        <a href="libur.html" data-roles="admin"><i class="bi bi-calendar-event"></i> Hari Libur</a>
         <a href="guru.html" data-roles="admin"><i class="bi bi-person-badge"></i> Data Guru</a>
         <a href="user.html" data-roles="admin"><i class="bi bi-people"></i> Data User</a>
         <a href="laporan.html" data-roles="admin"><i class="bi bi-bar-chart-line"></i> Laporan</a>
@@ -64,14 +65,28 @@
         <form id="form-izin">
           <div class="form-row">
             <label>Guru<select id="izin-guru" required></select></label>
-            <label>Tanggal<input type="date" id="izin-tanggal" required></label>
+            <label>Dari Tanggal<input type="date" id="izin-tanggal" required></label>
+            <label>Sampai Tanggal<input type="date" id="izin-tanggal-sampai"></label>
             <label>Jenis
               <select id="izin-jenis">
-                <option>Sakit</option>
                 <option>Izin</option>
+                <option>Sakit</option>
                 <option>Kegiatan</option>
+                <option>Cuti</option>
               </select>
             </label>
+          </div>
+          <div class="form-row" id="wrap-cb-parsial" style="display:none;">
+            <label style="flex-direction:row; align-items:center; gap:8px;">
+              <input type="checkbox" id="izin-parsial" style="width:auto;">
+              Izin sebagian jam saja (bukan seharian penuh)
+            </label>
+          </div>
+          <div class="form-row" id="wrap-jam-parsial" style="display:none;">
+            <div style="font-size:12px; color:var(--muted); margin-bottom:6px;">Pilihan cepat (bisa disesuaikan manual di bawah setelah klik):</div>
+            <div id="preset-jam-pelajaran" style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px;"></div>
+            <label>Jam Mulai<input type="time" id="izin-jam-mulai"></label>
+            <label>Jam Selesai<input type="time" id="izin-jam-selesai"></label>
           </div>
           <div class="form-row">
             <label>Keterangan (opsional)<input type="text" id="izin-keterangan" placeholder="Contoh: Rapat dinas luar"></label>
