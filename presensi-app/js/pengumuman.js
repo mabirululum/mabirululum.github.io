@@ -100,3 +100,21 @@ function resetPengumuman() {
   localStorage.removeItem('pengumuman_pulang_waktu');
   console.log('Penanda pengumuman direset.');
 }
+
+// ---- Tombol manual putar suara pengumuman ----
+function initTombolPengumumanManual() {
+  const btnMasuk = document.getElementById('btn-suara-masuk');
+  const btnPulang = document.getElementById('btn-suara-pulang');
+
+  if (btnMasuk) {
+    btnMasuk.addEventListener('click', () => {
+      ucapkan(JADWAL_PENGUMUMAN[0].teks); // pengumuman presensi masuk
+    });
+  }
+  if (btnPulang) {
+    btnPulang.addEventListener('click', () => {
+      ucapkan(JADWAL_PENGUMUMAN[1].teks); // pengumuman presensi pulang
+    });
+  }
+}
+document.addEventListener('DOMContentLoaded', initTombolPengumumanManual);
