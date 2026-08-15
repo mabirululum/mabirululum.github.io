@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Data User - Admin Presensi</title>
+<title>Hari Libur - Admin Presensi</title>
 <!-- HTML Meta Tags -->
 <meta name="description" content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
 <meta name="google-site-verification" content="M6vZYhRJ30dMCAMGu2gD8UNov_Kdcsku6pcai8gGknI" />
@@ -34,15 +34,14 @@
 </head>
 <body>
   <div class="admin-shell">
-
     <nav class="sidebar">
       <div class="sidebar-brand"><i class="bi bi-qr-code-scan"></i> Presensi Admin</div>
       <div class="sidebar-nav">
         <a href="dashboard.html" data-roles="admin"><i class="bi bi-speedometer2"></i> Dashboard</a>
         <a href="izin.html" data-roles="admin,piket"><i class="bi bi-calendar-x"></i> Izin / Sakit</a>
-        <a href="libur.html" data-roles="admin"><i class="bi bi-calendar-event"></i> Hari Libur</a>
+        <a href="libur.html" class="active" data-roles="admin"><i class="bi bi-calendar-event"></i> Hari Libur</a>
         <a href="guru.html" data-roles="admin"><i class="bi bi-person-badge"></i> Data Guru</a>
-        <a href="user.html" data-roles="admin" class="active"><i class="bi bi-people"></i> Data User</a>
+        <a href="user.html" data-roles="admin"><i class="bi bi-people"></i> Data User</a>
         <a href="laporan.html" data-roles="admin"><i class="bi bi-bar-chart-line"></i> Laporan</a>
       </div>
       <div class="sidebar-foot">
@@ -53,7 +52,7 @@
     <header class="topbar">
       <div class="topbar-left">
         <button class="btn-hamburger"><i class="bi bi-list"></i></button>
-        <h1>Data User (Admin)</h1>
+        <h1>Hari Libur Nasional</h1>
       </div>
       <div class="topbar-user">
         <div class="avatar" id="avatar-admin">A</div>
@@ -62,69 +61,25 @@
     </header>
 
     <main class="admin-content">
-
       <div class="card">
-        <div class="card-title"><i class="bi bi-person-plus"></i> Form Tambah / Edit User</div>
-        <form id="form-user">
-          <input type="hidden" id="user-id">
+        <div class="card-title"><i class="bi bi-calendar-plus"></i> Tambah Hari Libur</div>
+        <form id="form-libur">
           <div class="form-row">
-            <label>Username<input type="text" id="user-username" required placeholder="Ketik username"></label>
-            <label>Nama<input type="text" id="user-nama" placeholder="Ketik nama"></label>
+            <label>Tanggal<input type="date" id="libur-tanggal" required></label>
+            <label>Keterangan<input type="text" id="libur-keterangan" placeholder="Contoh: Hari Kemerdekaan RI" required></label>
           </div>
-          <div class="form-row">
-            <label>Password
-              <input type="password" id="user-password" placeholder="Kosongkan jika tidak ganti">
-            </label>
-            <label>Barcode Login Cepat (opsional)
-              <input type="text" id="user-barcode" placeholder="Scan/ketik kode kartu admin">
-            </label>
-            <label>Role
-            <select id="user-role">
-              <option value="admin">Admin</option>
-              <option value="piket">Guru Piket</option>
-            </select>
-          </label>
-          </div>
-          <button type="submit" class="btn"><i class="bi bi-save"></i> Simpan User</button>
-          <button type="button" class="btn btn-secondary" id="btn-batal-edit-user" style="display:none;"><i class="bi bi-x-circle"></i> Batal Edit</button>
+          <button type="submit" class="btn"><i class="bi bi-save"></i> Simpan</button>
         </form>
       </div>
 
       <div class="card">
-        <div class="card-title"><i class="bi bi-list-ul"></i> Daftar User</div>
+        <div class="card-title"><i class="bi bi-list-ul"></i> Daftar Hari Libur</div>
         <div class="table-wrap">
           <table>
-            <thead>
-              <tr>
-                <th>Username</th>
-                <th>Nama</th>
-                <th>Barcode</th>
-                <th>Status</th>
-                <th>Role</th>
-                <th>Aksi</th>
-              </tr>
-            </thead>
-            <tbody id="tbody-user"><tr><td colspan="5">Memuat…</td></tr></tbody>
+            <thead><tr><th>Tanggal</th><th>Keterangan</th><th>Aksi</th></tr></thead>
+            <tbody id="tbody-libur"><tr><td colspan="3">Memuat…</td></tr></tbody>
           </table>
         </div>
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
-          <span id="info-halaman-user" style="font-size:12px; color:var(--muted);">-</span>
-          <div style="display:flex; gap:8px;">
-            <button type="button" class="btn btn-secondary btn-sm" id="btn-prev-user"><i class="bi bi-chevron-left"></i> Sebelumnya</button>
-            <button type="button" class="btn btn-secondary btn-sm" id="btn-next-user">Selanjutnya <i class="bi bi-chevron-right"></i></button>
-          </div>
-        </div>
-      </div>
-
-      <div class="card" style="border-color:var(--danger);">
-        <div class="card-title" style="color:var(--danger);"><i class="bi bi-exclamation-triangle"></i> Zona Berbahaya</div>
-        <p style="font-size:13px; color:var(--muted); margin-bottom:14px;">
-          Menghapus <b>seluruh</b> data guru, jadwal, presensi, dan izin secara permanen.
-          Akun admin/user <b>tidak</b> akan terhapus. Aksi ini tidak bisa dibatalkan.
-        </p>
-        <button type="button" class="btn btn-danger" id="btn-reset-db">
-          <i class="bi bi-trash3"></i> Reset Database
-        </button>
       </div>
     </main>
   </div>
@@ -134,6 +89,6 @@
   <script src="../js/db-adapter.js"></script>
   <script src="../js/ui.js"></script>
   <script src="../js/auth.js"></script>
-  <script src="../js/admin-user.js"></script>
+  <script src="../js/admin-libur.js"></script>
 </body>
 </html>
