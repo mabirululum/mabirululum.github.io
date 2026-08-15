@@ -59,5 +59,5 @@ function switchMode(mode) {
   }
 }
 
-btnModeForm.addEventListener('click', () => switchMode('form'));
-btnModeBarcode.addEventListener('click', () => switchMode('barcode'));
+// btnModeForm.addEventListener('click', () => switchMode('form'));
+// btnModeBarcode.addEventListener('click', () => switchMode('barcode'));
