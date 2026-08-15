@@ -13,7 +13,7 @@ const AUTH = {
     konfirmasi('Yakin ingin logout dari dashboard admin?').then((ya) => {
       if (!ya) return;
       sessionStorage.removeItem('admin_session');
-      window.location.href = '../index.html';
+      window.location.href = 'login.html';
     });
   },
   // Panggil di setiap halaman admin (kecuali login.html) untuk memastikan sudah login
