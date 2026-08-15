@@ -9,7 +9,7 @@ async function muatData() {
   const data = await DB.listHariLibur();
   document.getElementById('tbody-libur').innerHTML = data.map(l => `
     <tr>
-      <td>${l.tanggal.split('-').reverse().join('/')}</td>
+      <td>${formatTanggalPanjang(l.tanggal)}</td>
       <td>${l.keterangan}</td>
       <td><div class="table-actions"><button onclick="hapusLibur(${l.id})"><i class="bi bi-trash"></i> Hapus</button></div></td>
     </tr>`).join('') || '<tr><td colspan="3">Belum ada data hari libur</td></tr>';

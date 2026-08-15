@@ -64,7 +64,7 @@ async function muat() {
 
     document.getElementById('tbody-laporan').innerHTML = rows.map(r => `
       <tr>
-        <td>${r.tanggal.split('-').reverse().join('/')}</td>
+        <td>${formatTanggalPanjang(r.tanggal)}</td>
         <td>${r.nama_guru}</td>
         <td>${r.jam_scan_masuk || '-'}</td>
         <td>${badge(r.ket_masuk, r.ket_masuk_tipe)}</td>

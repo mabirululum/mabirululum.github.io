@@ -8,6 +8,13 @@ function tanggalLokal(dateObj = new Date()) {
   return `${y}-${m}-${t}`;
 }
 
+function formatTanggalPanjang(tanggalStr) {
+  // Tambahkan T00:00:00 supaya di-parse sebagai waktu LOKAL, bukan UTC
+  // (kalau tidak, tanggal bisa mundur 1 hari di zona WIB — bug yang sama seperti sebelumnya)
+  const d = new Date(tanggalStr + 'T00:00:00');
+  return d.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+}
+
 function ensureToastWrap() {
   let wrap = document.querySelector('.toast-wrap');
   if (!wrap) {

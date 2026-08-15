@@ -123,10 +123,11 @@ function renderTabelIzin() {
 
   document.getElementById('tbody-izin').innerHTML = potong.map(r => `
     <tr>
-      <td>${r.tanggal.split('-').reverse().join('/')}</td>
+      <td>${formatTanggalPanjang(r.tanggal)}</td>
       <td>${r.nama_guru}</td>
       <td><span class="badge badge-warning">${r.jenis}</span></td>
       <td>${r.keterangan || '-'}</td>
+      <td>${r.dicatat_oleh || '-'}</td>
       <td>
         ${isAdmin
           ? `<div class="table-actions"><button onclick="hapusIzin(${r.id})"><i class="bi bi-trash"></i> Hapus</button></div>`

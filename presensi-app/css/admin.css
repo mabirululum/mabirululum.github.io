@@ -431,6 +431,13 @@ table tbody tr:hover {
   width: fit-content;
 }
 
+.table-tengah td, .table-tengah th {
+  text-align: center;
+}
+.table-tengah td:first-child, .table-tengah th:first-child {
+  text-align: left; /* kolom Nama Guru tetap rata kiri, biar tetap nyaman dibaca */
+}
+
 /* ================= TOAST ================= */
 .toast-wrap {
   position: fixed;
