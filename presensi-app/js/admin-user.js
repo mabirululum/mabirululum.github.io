@@ -116,24 +116,3 @@ async function hapusUser(id) {
     toast(err.message, 'error');
   }
 }
-
-document.getElementById('btn-reset-db').addEventListener('click', async () => {
-  const konfirmasiAwal = await konfirmasi(
-    'Anda akan menghapus SEMUA data guru, jadwal, presensi, dan izin secara permanen. Lanjutkan?'
-  );
-  if (!konfirmasiAwal) return;
-
-  const konfirmasiFinal = await konfirmasiKeras(
-    'Konfirmasi terakhir - ketik persis kalimat di bawah untuk melanjutkan penghapusan permanen:',
-    'HAPUS SEMUA DATA'
-  );
-  if (!konfirmasiFinal) return;
-
-  try {
-    await DB.resetDatabase();
-    toast('Semua data berhasil dihapus.');
-    muatData();
-  } catch (err) {
-    toast(err.message, 'error');
-  }
-});

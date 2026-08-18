@@ -135,8 +135,11 @@ function hitungRingkasan() {
 
     if (r.ket_masuk_tipe === 'telat') g.totalMenitTelat += Number(r.menit_telat || 0);
     else if (r.ket_masuk_tipe === 'alpha') g.alpha++;
-    else if (r.ket_masuk_tipe === 'izin') g.totalMenitIzin += Number(r.menit_izin || 0);
     else if (r.ket_masuk_tipe === 'sakit') g.sakit++;
+
+    // Izin dihitung independen dari ket_masuk_tipe -- bisa saja hari itu "telat"
+    // TAPI tetap ada izin sebagian jam di jam lain hari yang sama
+    g.totalMenitIzin += Number(r.menit_izin || 0);
 
     if (r.ket_pulang_tipe === 'pulang') g.totalMenitPulangAwal += Number(r.menit_pulang_awal || 0);
   });
@@ -145,7 +148,7 @@ function hitungRingkasan() {
     .map(([nama, g]) => ({
       nama,
       totalMenitTelat: g.totalMenitTelat,
-      jumlahPotongan: Math.floor(g.totalMenitTelat / MENIT_PER_POTONGAN),
+      jumlahPotonganTelat: Math.floor(g.totalMenitTelat / MENIT_PER_POTONGAN),
       totalMenitPulangAwal: g.totalMenitPulangAwal,
       jumlahPotonganPulangAwal: Math.floor(g.totalMenitPulangAwal / MENIT_PER_POTONGAN),
       totalMenitIzin: g.totalMenitIzin,
@@ -159,18 +162,18 @@ function hitungRingkasan() {
     <tr>
       <td>${g.nama}</td>
       <td>${g.totalMenitTelat} menit</td>
-      <td><b>${g.jumlahPotongan}x</b></td>
+      <td><b>${g.jumlahPotonganTelat}x</b></td>
       <td>${g.totalMenitPulangAwal} menit</td>
       <td><b>${g.jumlahPotonganPulangAwal}x</b></td>
-      <td><b>${g.jumlahIzinJamPelajaran}</b> <span style="color:var(--muted);font-size:11px;">(${g.totalMenitIzin} menit)</span></td>
       <td>${g.alpha}</td>
+      <td><b>${g.jumlahIzinJamPelajaran}</b> <span style="color:var(--muted);font-size:11px;">(${g.totalMenitIzin} menit)</span></td>
       <td>${g.sakit}</td>
     </tr>`).join('');
 
   document.getElementById('card-ringkasan').style.display = 'block';
   document.getElementById('card-ringkasan').scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-  window._dataRingkasanTerakhir = daftar; // disimpan untuk export
+  window._dataRingkasanTerakhir = daftar;
 }
 
 function exportRingkasanExcel() {
@@ -180,17 +183,17 @@ function exportRingkasanExcel() {
   const sheetData = data.map(g => ({
     'Nama Guru': g.nama,
     'Total Menit Telat': g.totalMenitTelat,
-    'Jumlah Potongan Telat': g.jumlahPotongan,
+    'Jumlah Potongan Telat': g.jumlahPotonganTelat,
     'Total Menit Pulang Awal': g.totalMenitPulangAwal,
     'Jumlah Potongan Pulang Awal': g.jumlahPotonganPulangAwal,
+    'Alpha': g.alpha,
     'Izin (Jam Pelajaran)': g.jumlahIzinJamPelajaran,
     'Izin (Total Menit)': g.totalMenitIzin,
-    'Alpha': g.alpha,
     'Sakit (Hari)': g.sakit,
   }));
 
   const ws = XLSX.utils.json_to_sheet(sheetData);
-  ws['!cols'] = [{wch:24},{wch:16},{wch:14},{wch:20},{wch:16},{wch:8},{wch:8},{wch:8}];
+  ws['!cols'] = [{wch:24},{wch:16},{wch:14},{wch:20},{wch:16},{wch:8},{wch:18},{wch:16},{wch:10}];
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, 'Ringkasan');
 

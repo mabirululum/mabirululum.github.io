@@ -103,40 +103,62 @@ async function isiDropdownGuru() {
   selectGuru.innerHTML = guruList.map(g => `<option value="${g.id}">${g.nama}</option>`).join('');
 }
 
-let semuaIzin = [];
+let semuaIzin = [];       // data mentah (flat, 1 baris = 1 record izin)
+let grupIzin = [];        // hasil pengelompokan per guru+tanggal
 let halamanAktif = 1;
 const PER_HALAMAN = 10;
 
 async function muatRiwayat() {
-  semuaIzin = await DB.listIzin(); // tanpa parameter = ambil semua
+  semuaIzin = await DB.listIzin();
+  grupIzin = kelompokkanIzin(semuaIzin);
   halamanAktif = 1;
   renderTabelIzin();
 }
 
+function kelompokkanIzin(rows) {
+  const peta = {};
+  rows.forEach(r => {
+    const key = `${r.guru_id}|${r.tanggal}`;
+    if (!peta[key]) {
+      peta[key] = { guru_id: r.guru_id, tanggal: r.tanggal, nama_guru: r.nama_guru, items: [] };
+    }
+    peta[key].items.push(r);
+  });
+  return Object.values(peta).sort((a, b) => b.tanggal.localeCompare(a.tanggal));
+}
+
+function labelChipIzin(item) {
+  if (item.jam_mulai && item.jam_selesai) {
+    return `${item.jenis} ${item.jam_mulai.slice(0,5)}–${item.jam_selesai.slice(0,5)}`;
+  }
+  return `${item.jenis} (1 Hari Penuh)`;
+}
+
 function renderTabelIzin() {
-  const totalHalaman = Math.max(1, Math.ceil(semuaIzin.length / PER_HALAMAN));
+  const totalHalaman = Math.max(1, Math.ceil(grupIzin.length / PER_HALAMAN));
   if (halamanAktif > totalHalaman) halamanAktif = totalHalaman;
 
   const mulai = (halamanAktif - 1) * PER_HALAMAN;
-  const potong = semuaIzin.slice(mulai, mulai + PER_HALAMAN);
+  const potong = grupIzin.slice(mulai, mulai + PER_HALAMAN);
   const isAdmin = AUTH.current().role === 'admin';
 
-  document.getElementById('tbody-izin').innerHTML = potong.map(r => `
+  document.getElementById('tbody-izin').innerHTML = potong.map(grup => `
     <tr>
-      <td>${formatTanggalPanjang(r.tanggal)}</td>
-      <td>${r.nama_guru}</td>
-      <td><span class="badge badge-warning">${r.jenis}</span></td>
-      <td>${r.keterangan || '-'}</td>
-      <td>${r.dicatat_oleh || '-'}</td>
+      <td>${formatTanggalPanjang(grup.tanggal)}</td>
+      <td>${grup.nama_guru}</td>
       <td>
-        ${isAdmin
-          ? `<div class="table-actions"><button onclick="hapusIzin(${r.id})"><i class="bi bi-trash"></i> Hapus</button></div>`
-          : `<span style="font-size:11px; color:var(--muted);">Hubungi admin untuk koreksi</span>`
-        }
+        ${grup.items.map(item => `
+          <span class="chip-izin">
+            ${labelChipIzin(item)}
+            ${isAdmin ? `<span class="chip-hapus" onclick="hapusIzin(${item.id})" title="Hapus entri ini">&times;</span>` : ''}
+          </span>
+        `).join('')}
       </td>
+      <td>${grup.items.map(i => i.keterangan).filter(Boolean).join(', ') || '-'}</td>
+      <td>${grup.items[grup.items.length - 1].dicatat_oleh || '-'}</td>
     </tr>`).join('') || '<tr><td colspan="5">Belum ada data izin</td></tr>';
 
-  document.getElementById('info-halaman').textContent = `Halaman ${halamanAktif} dari ${totalHalaman} (${semuaIzin.length} data)`;
+  document.getElementById('info-halaman').textContent = `Halaman ${halamanAktif} dari ${totalHalaman} (${grupIzin.length} hari, ${semuaIzin.length} entri izin)`;
   document.getElementById('btn-prev').disabled = halamanAktif <= 1;
   document.getElementById('btn-next').disabled = halamanAktif >= totalHalaman;
 }
@@ -188,9 +210,11 @@ form.addEventListener('submit', async (e) => {
   let berhasil = 0;
   const gagal = [];
 
+  let adaUpdateStatus = false;
   for (const tanggal of daftarTanggal) {
     try {
-      await DB.addIzin({ ...payload, tanggal });
+      const hasil = await DB.addIzin({ ...payload, tanggal });
+      if (hasil && hasil.status_presensi_terupdate) adaUpdateStatus = true;
       berhasil++;
     } catch (err) {
       gagal.push(`${tanggal}: ${err.message}`);
@@ -200,6 +224,8 @@ form.addEventListener('submit', async (e) => {
   if (gagal.length) {
     toast(`${berhasil} hari tersimpan, ${gagal.length} gagal. Cek Console untuk detail.`, 'warn');
     console.error('Gagal simpan izin:', gagal);
+  } else if (adaUpdateStatus) {
+    toast(`Data izin tersimpan. Status presensi yang sudah tercatat otomatis diperbarui.`);
   } else {
     toast(`Data izin tersimpan untuk ${berhasil} hari.`);
   }
