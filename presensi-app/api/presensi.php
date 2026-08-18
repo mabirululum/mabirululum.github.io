@@ -1,5 +1,6 @@
 <?php
 require __DIR__ . '/db.php';
+require __DIR__ . '/helpers-jadwal.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -43,13 +44,18 @@ if ($method === 'POST') {
     respond(['error' => $guru['nama'] . ' tidak memiliki jadwal masuk pada hari ' . $hari_ini], 400);
   }
 
+  $izinHariIni = ambil_izin_guru($pdo, $guru['id'], $tanggal);
+  $jadwalEfektif = jadwal_efektif($jadwal, $izinHariIni);
+  $kegiatanHariIni = cek_hari_kegiatan($pdo, $tanggal);
+
   $stmtCek = $pdo->prepare('SELECT * FROM presensi WHERE guru_id = ? AND tanggal = ?');
   $stmtCek->execute([$guru['id'], $tanggal]);
   $existing = $stmtCek->fetch();
 
   if (!$existing) {
+
     // ---- Guru Mengaji: cukup 1x scan, langsung Hadir & selesai ----
-    if ($jadwal['kategori'] === 'mengaji') {
+    if ($jadwalEfektif['kategori'] === 'mengaji') {
       $stmt = $pdo->prepare(
         'INSERT INTO presensi (guru_id, tanggal, jam_scan_masuk, jam_scan_pulang, status) VALUES (?, ?, ?, ?, ?)'
       );
@@ -64,14 +70,19 @@ if ($method === 'POST') {
         'menit_telat' => 0,
       ]);
     }
-    
+      
     // ---- SCAN PERTAMA HARI INI = JAM MASUK ----
-    if ($jadwal['kategori'] === 'struktural') {
+    if ($kegiatanHariIni) {
+      // Hari kegiatan sekolah: tetap wajib presensi, tapi tanpa vonis telat
+      $status = 'hadir';
+      $menit_telat = 0;
+    }
+    else if ($jadwalEfektif['kategori'] === 'struktural') {
       $status = 'hadir';
       $menit_telat = 0;
     } else {
-      $batas_telat = date('H:i:s', strtotime($jadwal['jam_masuk']) + $jadwal['toleransi_telat_menit'] * 60);
-      $menit_telat = max(0, round((strtotime($jam_sekarang) - strtotime($jadwal['jam_masuk'])) / 60));
+      $batas_telat = date('H:i:s', strtotime($jadwalEfektif['jam_masuk']) + $jadwalEfektif['toleransi_telat_menit'] * 60);
+      $menit_telat = max(0, round((strtotime($jam_sekarang) - strtotime($jadwalEfektif['jam_masuk'])) / 60));
       $status = ($jam_sekarang > $batas_telat) ? 'telat' : 'hadir';
     }
 
@@ -91,7 +102,7 @@ if ($method === 'POST') {
 
   if (!$existing['jam_scan_pulang']) {
     // --- COOLDOWN menyesuaikan durasi sesi guru (maksimal 60 menit) ---
-    $durasi_sesi_menit = (strtotime($jadwal['jam_pulang']) - strtotime($jadwal['jam_masuk'])) / 60;
+    $durasi_sesi_menit = (strtotime($jadwalEfektif['jam_pulang']) - strtotime($jadwalEfektif['jam_masuk'])) / 60;
     $MIN_MENIT_PULANG = max(0, min(60, $durasi_sesi_menit));
     $menit_sejak_masuk = (strtotime($jam_sekarang) - strtotime($existing['jam_scan_masuk'])) / 60;
 
@@ -106,10 +117,10 @@ if ($method === 'POST') {
     }
 
     // ---- SCAN KEDUA HARI INI = JAM PULANG ----
-    if ($jadwal['kategori'] === 'struktural') {
+    if ($kegiatanHariIni || $jadwalEfektif['kategori'] === 'struktural') {
       $status_baru = 'hadir';
     } else {
-      $pulang_awal = $jam_sekarang < $jadwal['jam_pulang'];
+      $pulang_awal = $jam_sekarang < $jadwalEfektif['jam_pulang'];
       $status_baru = $existing['status'];
       if ($pulang_awal) {
         $status_baru = ($existing['status'] === 'telat') ? 'telat_dan_pulang_awal' : 'pulang_awal';

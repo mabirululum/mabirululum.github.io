@@ -1,5 +1,6 @@
 <?php
 require __DIR__ . '/db.php';
+require __DIR__ . '/helpers-jadwal.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -39,14 +40,39 @@ if ($method === 'POST') {
   $jamSelesai = $b['jam_selesai'] ?: null;
 
   $stmt = $pdo->prepare(
-    'INSERT INTO izin (guru_id, tanggal, jenis, jam_mulai, jam_selesai, keterangan, dicatat_oleh)
-    VALUES (?,?,?,?,?,?,?)
-    ON DUPLICATE KEY UPDATE jenis = VALUES(jenis), jam_mulai = VALUES(jam_mulai), jam_selesai = VALUES(jam_selesai),
-      keterangan = VALUES(keterangan), dicatat_oleh = VALUES(dicatat_oleh)'
+    'INSERT INTO izin (guru_id, tanggal, jenis, jam_mulai, jam_selesai, keterangan, dicatat_oleh) VALUES (?,?,?,?,?,?,?)'
   );
   $stmt->execute([$guru_id, $tanggal, $jenis, $jamMulai, $jamSelesai, trim($b['keterangan'] ?? ''), trim($b['dicatat_oleh'] ?? '')]);
 
-  respond(['success' => true], 201);
+  // --- Hitung ulang presensi kalau guru ini SUDAH scan di tanggal itu ---
+  $stmtPresensi = $pdo->prepare('SELECT * FROM presensi WHERE guru_id = ? AND tanggal = ?');
+  $stmtPresensi->execute([$guru_id, $tanggal]);
+  $presensiExisting = $stmtPresensi->fetch();
+
+  $statusTerupdate = null;
+  if ($presensiExisting && $presensiExisting['jam_scan_masuk']) {
+    $HARI_MAP = ['Sunday'=>'Minggu','Monday'=>'Senin','Tuesday'=>'Selasa','Wednesday'=>'Rabu',
+                'Thursday'=>'Kamis','Friday'=>'Jumat','Saturday'=>'Sabtu'];
+    $hariItu = $HARI_MAP[date('l', strtotime($tanggal))];
+
+    $stmtJadwal = $pdo->prepare('SELECT * FROM guru_jadwal WHERE guru_id = ? AND hari = ?');
+    $stmtJadwal->execute([$guru_id, $hariItu]);
+    $jadwal = $stmtJadwal->fetch();
+
+    if ($jadwal) {
+      $semuaIzinHariItu = ambil_izin_guru($pdo, $guru_id, $tanggal); // sudah termasuk izin yang baru saja diinsert
+      $jadwalEfektif = jadwal_efektif($jadwal, $semuaIzinHariItu);
+
+      $statusBaru = hitung_ulang_status_presensi($jadwalEfektif, $presensiExisting['jam_scan_masuk'], $presensiExisting['jam_scan_pulang']);
+
+      if ($statusBaru !== $presensiExisting['status']) {
+        $pdo->prepare('UPDATE presensi SET status = ? WHERE id = ?')->execute([$statusBaru, $presensiExisting['id']]);
+        $statusTerupdate = $statusBaru;
+      }
+    }
+  }
+
+  respond(['success' => true, 'status_presensi_terupdate' => $statusTerupdate], 201);
 }
 
 if ($method === 'DELETE') {
