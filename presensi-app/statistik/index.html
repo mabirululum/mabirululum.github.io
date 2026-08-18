@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Statistik Presensi Guru</title>
+<!-- HTML Meta Tags -->
+<meta name="description" content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
+<meta name="google-site-verification" content="M6vZYhRJ30dMCAMGu2gD8UNov_Kdcsku6pcai8gGknI" />
+<!-- Facebook Meta Tags -->
+<meta property="og:url" content="https://mabirululum.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Madrasah Aliyah Bi'rul Ulum">
+<meta property="og:description" content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
+<meta property="og:image" content="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/img-meta_ysxamu.jpg">
+
+<!-- Twitter Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:domain" content="mabirululum.github.io">
+<meta property="twitter:url" content="https://mabirululum.github.io/">
+<meta name="twitter:title" content="Madrasah Aliyah Bi'rul Ulum">
+<meta name="twitter:description" content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
+<meta name="twitter:image" content="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/img-meta_ysxamu.jpg">
+
+<link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+<link rel="shortcut icon" href="/favicon/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="MA Bi'rul Ulum" />
+<link rel="manifest" href="/favicon/site.webmanifest" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="../css/statistik.css">
+</head>
+<body>
+  <div class="pantau-shell">
+
+    <div class="pantau-header">
+      <div class="pantau-title">
+        Statistik Presensi Guru
+        <span>MA Bi'rul Ulum - Ringkasan Hari Ini</span>
+      </div>
+      <div>
+        <div class="pantau-jam" id="jam-sekarang">00:00:00</div>
+        <div class="pantau-tanggal" id="tanggal-sekarang">-</div>
+      </div>
+    </div>
+
+    <div id="banner-khusus"></div>
+
+    <div class="stat-grid-pantau">
+      <div class="stat-card-pantau total">
+        <div class="num" id="stat-total">0</div>
+        <div class="label">Wajib Hadir Hari Ini</div>
+      </div>
+      <div class="stat-card-pantau hadir">
+        <div class="num" id="stat-hadir">0</div>
+        <div class="label">Sudah Hadir</div>
+      </div>
+      <div class="stat-card-pantau telat">
+        <div class="num" id="stat-telat">0</div>
+        <div class="label">Telat</div>
+      </div>
+      <div class="stat-card-pantau alpha">
+        <div class="num" id="stat-alpha">0</div>
+        <div class="label">Belum Presensi</div>
+      </div>
+      <div class="stat-card-pantau izin">
+        <div class="num" id="stat-izin">0</div>
+        <div class="label">Izin / Sakit / Kegiatan</div>
+      </div>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span>Persentase Kehadiran</span>
+        <span id="progress-persen">0%</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-bar" style="width:0%;"></div>
+      </div>
+    </div>
+
+    <div class="pantau-columns">
+      <div class="panel-pantau">
+        <h3><i class="bi bi-exclamation-circle"></i> Belum Presensi</h3>
+        <div class="daftar-guru-pantau" id="daftar-alpha">
+          <div class="kosong-pantau">Memuat…</div>
+        </div>
+      </div>
+
+      <div class="panel-pantau">
+        <h3><i class="bi bi-clock-history"></i> Telat Hari Ini</h3>
+        <div class="daftar-guru-pantau" id="daftar-telat">
+          <div class="kosong-pantau">Memuat…</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-pantau" id="footer-update">
+      Memuat data…
+    </div>
+
+  </div>
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/db-adapter.js"></script>
+  <script src="statistik.js"></script>
+</body>
+</html>

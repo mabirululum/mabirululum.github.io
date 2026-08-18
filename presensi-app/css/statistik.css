@@ -1,0 +1,60 @@
+:root{
+  --accent:#2f6f4f;
+  --accent-dark:#1f4d36;
+  --bg:#f4f6f5;
+  --panel:#ffffff;
+  --border:#dfe3e1;
+  --text:#1c2420;
+  --muted:#6b7570;
+  --danger:#b3413c;
+  --warn:#c98a2c;
+  --warn-soft:#fdf3e2;
+  --info:#1d4e89;
+  --info-soft:#e6eefb;
+}
+*{box-sizing:border-box;}
+body{margin:0; font-family:'Segoe UI', Roboto, sans-serif; background:var(--bg); color:var(--text);}
+
+.pantau-shell{max-width:1200px; margin:0 auto; padding:28px 24px 60px;}
+
+.pantau-header{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:24px;}
+.pantau-title{font-size:22px; font-weight:700; color:var(--accent-dark);}
+.pantau-title span{display:block; font-size:13px; font-weight:400; color:var(--muted); margin-top:2px;}
+.pantau-jam{text-align:right; font-size:28px; font-weight:700; color:var(--accent-dark);}
+.pantau-tanggal{font-size:13px; color:var(--muted); margin-top:2px;}
+
+.banner-khusus{padding:14px 20px; border-radius:12px; margin-bottom:20px; font-size:14px; font-weight:600; display:flex; align-items:center; gap:10px;}
+.banner-libur{background:var(--info-soft); color:var(--info); border:1px solid var(--info);}
+.banner-kegiatan{background:var(--warn-soft); color:#8a5a00; border:1px solid var(--warn);}
+
+.stat-grid-pantau{display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:16px; margin-bottom:24px;}
+.stat-card-pantau{background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:20px; text-align:center;}
+.stat-card-pantau .num{font-size:36px; font-weight:800; line-height:1;}
+.stat-card-pantau .label{font-size:13px; color:var(--muted); margin-top:8px;}
+.stat-card-pantau.total .num{color:var(--accent-dark);}
+.stat-card-pantau.hadir .num{color:var(--accent);}
+.stat-card-pantau.telat .num{color:var(--warn);}
+.stat-card-pantau.alpha .num{color:var(--danger);}
+.stat-card-pantau.izin .num{color:var(--info);}
+
+.progress-wrap{background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:20px 24px; margin-bottom:24px;}
+.progress-label{display:flex; justify-content:space-between; font-size:13px; color:var(--muted); margin-bottom:8px;}
+.progress-bar-bg{height:14px; background:var(--bg); border-radius:8px; overflow:hidden;}
+.progress-bar-fill{height:100%; background:var(--accent); border-radius:8px; transition:width .4s ease;}
+
+.pantau-columns{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+@media (max-width:800px){
+  .pantau-columns{grid-template-columns:1fr;}
+  .pantau-jam{text-align:left;}
+  .pantau-header{flex-direction:column; align-items:flex-start;}
+}
+
+.panel-pantau{background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:20px;}
+.panel-pantau h3{margin:0 0 14px; font-size:14px; text-transform:uppercase; letter-spacing:.5px; color:var(--muted);}
+.daftar-guru-pantau{max-height:360px; overflow-y:auto;}
+.baris-guru-pantau{display:flex; justify-content:space-between; align-items:center; padding:10px 4px; border-bottom:1px dotted var(--border); font-size:14px;}
+.baris-guru-pantau:last-child{border-bottom:none;}
+.baris-guru-pantau .jam{font-size:12px; color:var(--muted);}
+.kosong-pantau{text-align:center; color:var(--muted); padding:30px 0; font-size:13px;}
+
+.footer-pantau{text-align:center; font-size:12px; color:var(--muted); margin-top:30px;}
