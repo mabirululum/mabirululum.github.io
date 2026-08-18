@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Izin / Sakit - Admin Presensi</title>
+<title>Reset Database - Admin Presensi</title>
 <!-- HTML Meta Tags -->
 <meta name="description" content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
 <meta name="google-site-verification" content="M6vZYhRJ30dMCAMGu2gD8UNov_Kdcsku6pcai8gGknI" />
@@ -37,13 +37,13 @@
       <div class="sidebar-brand"><i class="bi bi-qr-code-scan"></i> Presensi Admin</div>
       <div class="sidebar-nav">
         <a href="dashboard.html" data-roles="admin"><i class="bi bi-speedometer2"></i> Dashboard</a>
-        <a href="izin.html" class="active" data-roles="admin,piket"><i class="bi bi-calendar-x"></i> Izin / Sakit</a>
+        <a href="izin.html" data-roles="admin,piket"><i class="bi bi-calendar-x"></i> Izin / Sakit</a>
         <a href="libur.html" data-roles="admin"><i class="bi bi-calendar-event"></i> Hari Libur</a>
         <a href="kegiatan.html" data-roles="admin"><i class="bi bi-calendar2-check"></i> Kegiatan Sekolah</a>
         <a href="guru.html" data-roles="admin"><i class="bi bi-person-badge"></i> Data Guru</a>
         <a href="user.html" data-roles="admin"><i class="bi bi-people"></i> Data User</a>
         <a href="laporan.html" data-roles="admin"><i class="bi bi-bar-chart-line"></i> Laporan</a>
-        <a href="reset.html" data-roles="admin"><i class="bi bi-trash3"></i> Reset Database</a>
+        <a href="reset.html" class="active" data-roles="admin"><i class="bi bi-trash3"></i> Reset Database</a>
       </div>
       <div class="sidebar-foot">
         <a href="#" onclick="AUTH.logout(); return false;"><i class="bi bi-box-arrow-right"></i> Logout</a>
@@ -53,7 +53,7 @@
     <header class="topbar">
       <div class="topbar-left">
         <button class="btn-hamburger"><i class="bi bi-list"></i></button>
-        <h1>Izin / Sakit</h1>
+        <h1>Reset Database</h1>
       </div>
       <div class="topbar-user">
         <div class="avatar" id="avatar-admin">A</div>
@@ -62,63 +62,62 @@
     </header>
 
     <main class="admin-content">
-      <div class="card">
-        <div class="card-title"><i class="bi bi-calendar-plus"></i> Catat Izin / Sakit Guru</div>
-        <form id="form-izin">
-          <div class="form-row">
-            <label>Guru<select id="izin-guru" required></select></label>
-            <label>Dari Tanggal<input type="date" id="izin-tanggal" required></label>
-            <label>Sampai Tanggal<input type="date" id="izin-tanggal-sampai"></label>
-            <label>Jenis
-              <select id="izin-jenis">
-                <option>Izin</option>
-                <option>Sakit</option>
-                <option>Kegiatan</option>
-                <option>Cuti</option>
-              </select>
-            </label>
-          </div>
-          <div class="form-row" id="wrap-cb-parsial" style="display:none;">
-            <label style="flex-direction:row; align-items:center; gap:8px;">
-              <input type="checkbox" id="izin-parsial" style="width:auto;">
-              Izin sebagian jam saja (bukan seharian penuh)
-            </label>
-          </div>
-          <div class="form-row" id="wrap-jam-parsial" style="display:none;">
-            <div style="font-size:12px; color:var(--muted); margin-bottom:6px;">Pilihan cepat (bisa disesuaikan manual di bawah setelah klik):</div>
-            <div id="preset-jam-pelajaran" style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px;"></div>
-            <label>Jam Mulai<input type="time" id="izin-jam-mulai"></label>
-            <label>Jam Selesai<input type="time" id="izin-jam-selesai"></label>
-          </div>
-          <div class="form-row">
-            <label>Keterangan (opsional)<input type="text" id="izin-keterangan" placeholder="Contoh: Rapat dinas luar"></label>
-          </div>
-          <button type="submit" class="btn"><i class="bi bi-save"></i> Simpan</button>
-        </form>
+
+      <div class="card" style="border-color:var(--danger); background:var(--danger-soft);">
+        <div class="card-title" style="color:var(--danger);"><i class="bi bi-exclamation-triangle"></i> Peringatan</div>
+        <p style="font-size:13px; margin:0;">
+          Semua aksi di halaman ini <b>permanen dan tidak bisa dibatalkan</b>. Akun admin/user
+          <b>tidak pernah</b> ikut terhapus dari menu manapun di halaman ini.
+        </p>
       </div>
 
-      <div class="card">
-        <div class="card-title"><i class="bi bi-list-ul"></i> Riwayat Izin (Semua Data)</div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Tanggal</th>
-                <th>Nama Guru</th>
-                <th>Jenis</th>
-                <th>Keterangan</th>
-                <th>Dicatat Oleh</th>
-              </tr>
-            </thead>
-            <tbody id="tbody-izin"><tr><td colspan="5">Memuat…</td></tr></tbody>
-          </table>
+      <div class="reset-grid">
+        <div class="card">
+          <div class="card-title"><i class="bi bi-calendar-x"></i> Reset Data Izin</div>
+          <p style="font-size:13px; color:var(--muted); margin-bottom:14px;">
+            Menghapus seluruh riwayat izin/sakit/kegiatan/cuti semua guru.
+          </p>
+          <button type="button" class="btn btn-danger" id="btn-reset-izin"><i class="bi bi-trash3"></i> Reset Data Izin</button>
         </div>
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
-          <span id="info-halaman" style="font-size:12px; color:var(--muted);">-</span>
-          <div style="display:flex; gap:8px;">
-            <button type="button" class="btn btn-secondary btn-sm" id="btn-prev"><i class="bi bi-chevron-left"></i> Sebelumnya</button>
-            <button type="button" class="btn btn-secondary btn-sm" id="btn-next">Selanjutnya <i class="bi bi-chevron-right"></i></button>
-          </div>
+
+        <div class="card">
+          <div class="card-title"><i class="bi bi-calendar-event"></i> Reset Data Libur</div>
+          <p style="font-size:13px; color:var(--muted); margin-bottom:14px;">
+            Menghapus seluruh data hari libur nasional yang sudah diinput.
+          </p>
+          <button type="button" class="btn btn-danger" id="btn-reset-libur"><i class="bi bi-trash3"></i> Reset Data Libur</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><i class="bi bi-calendar2-check"></i> Reset Kegiatan Sekolah</div>
+          <p style="font-size:13px; color:var(--muted); margin-bottom:14px;">
+            Menghapus seluruh data kegiatan sekolah yang sudah diinput.
+          </p>
+          <button type="button" class="btn btn-danger" id="btn-reset-kegiatan"><i class="bi bi-trash3"></i> Reset Kegiatan Sekolah</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><i class="bi bi-clock-history"></i> Reset Presensi</div>
+          <p style="font-size:13px; color:var(--muted); margin-bottom:14px;">
+            Menghapus seluruh riwayat scan presensi masuk/pulang semua guru.
+          </p>
+          <button type="button" class="btn btn-danger" id="btn-reset-presensi"><i class="bi bi-trash3"></i> Reset Presensi</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><i class="bi bi-person-x"></i> Reset Data Guru</div>
+          <p style="font-size:13px; color:var(--muted); margin-bottom:14px;">
+            Menghapus <b>seluruh data guru</b> beserta jadwalnya. Barcode guru ikut hilang.
+          </p>
+          <button type="button" class="btn btn-danger" id="btn-reset-guru"><i class="bi bi-trash3"></i> Reset Data Guru</button>
+        </div>
+
+        <div class="card" style="border-color:var(--danger);">
+          <div class="card-title" style="color:var(--danger);"><i class="bi bi-exclamation-octagon"></i> Reset Semua Data</div>
+          <p style="font-size:13px; color:var(--danger); margin-bottom:14px;">
+            Menghapus <b>semua data di atas sekaligus dalam satu aksi,</b> Akun admin/user tidak pernah ikut terhapus.
+          </p>
+          <button type="button" class="btn btn-danger" id="btn-reset-semua"><i class="bi bi-trash3-fill"></i> Reset Semua Data</button>
         </div>
       </div>
     </main>
@@ -126,9 +125,9 @@
 
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <script src="../js/config.js"></script>
-  <script src="../js/db-adapter.js"></script>
   <script src="../js/ui.js"></script>
+  <script src="../js/db-adapter.js"></script>
   <script src="../js/auth.js"></script>
-  <script src="../js/admin-izin.js"></script>
+  <script src="../js/admin-reset.js"></script>
 </body>
 </html>
