@@ -85,7 +85,7 @@ body {
   color: #fff;
 }
 .sidebar-nav a.active {
-  background: var(--accent);
+  background: var(--danger);
   color: #fff;
   font-weight: 600;
 }
@@ -374,6 +374,18 @@ table tbody tr:hover {
   margin-top: 2px;
 }
 
+.reset-grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:16px;
+  margin-bottom:20px;
+}
+.reset-grid .card{ margin-bottom:0; }
+
+@media (max-width: 900px){
+  .reset-grid{ grid-template-columns:1fr; }
+}
+
 .badge {
   font-size: 11px;
   padding: 3px 9px;
@@ -430,6 +442,16 @@ table tbody tr:hover {
   background: var(--bg);
   width: fit-content;
 }
+
+.chip-izin{
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:11px; padding:3px 8px; margin:2px 4px 2px 0;
+  border:1px solid var(--border); border-radius:14px; background:var(--bg);
+}
+.chip-izin .chip-hapus{
+  cursor:pointer; color:var(--danger); font-weight:bold; line-height:1;
+}
+.chip-izin .chip-hapus:hover{ opacity:.6; }
 
 .table-tengah td, .table-tengah th {
   text-align: center;
