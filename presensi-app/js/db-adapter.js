@@ -1071,5 +1071,24 @@ const DB = (() => {
 			}
 			return callPhp('reset-database.php', { method: 'POST', body: { target: 'semua' } });
 		},
+
+		async kirimSinyalSuara(jenis) {
+			const dikirimOleh = AUTH.current()?.nama || AUTH.current()?.username || '';
+			if (isOnline) {
+				await sb.from('sinyal_suara').delete().neq('id', 0); // bersihkan sinyal lama, cuma simpan yang terbaru
+				const { error } = await sb.from('sinyal_suara').insert({ jenis, dikirim_oleh: dikirimOleh });
+				if (error) throw new Error(error.message);
+				return;
+			}
+			return callPhp('sinyal-suara.php', { method: 'POST', body: { jenis, dikirim_oleh: dikirimOleh } });
+		},
+		async ambilSinyalTerbaru() {
+			if (isOnline) {
+				const { data } = await sb.from('sinyal_suara').select('*').order('created_at', { ascending: false }).limit(1).maybeSingle();
+				return data || null;
+			}
+			const res = await callPhp('sinyal-suara.php');
+			return res.data;
+		},
 	};
 })();

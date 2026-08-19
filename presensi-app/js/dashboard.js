@@ -36,3 +36,21 @@ async function muat() {
     </tr>`).join('') || '<tr><td colspan="4">Belum ada presensi hari ini</td></tr>';
 }
 muat();
+
+document.getElementById('btn-sinyal-masuk').addEventListener('click', async () => {
+  try {
+    await DB.kirimSinyalSuara('masuk');
+    toast('Sinyal suara presensi masuk dikirim ke kiosk.');
+  } catch (err) {
+    toast(err.message, 'error');
+  }
+});
+
+document.getElementById('btn-sinyal-pulang').addEventListener('click', async () => {
+  try {
+    await DB.kirimSinyalSuara('pulang');
+    toast('Sinyal suara presensi pulang dikirim ke kiosk.');
+  } catch (err) {
+    toast(err.message, 'error');
+  }
+});

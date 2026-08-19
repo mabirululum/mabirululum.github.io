@@ -118,3 +118,21 @@ function initTombolPengumumanManual() {
   }
 }
 document.addEventListener('DOMContentLoaded', initTombolPengumumanManual);
+
+// ---- Sinyal manual dari admin (dianggap "remote") ----
+let sinyalTerakhirDilihat = new Date().toISOString(); // abaikan sinyal lama saat kiosk baru dibuka
+
+async function cekSinyalSuaraManual() {
+  try {
+    const sinyal = await DB.ambilSinyalTerbaru();
+    if (!sinyal) return;
+    if (new Date(sinyal.created_at) <= new Date(sinyalTerakhirDilihat)) return;
+
+    sinyalTerakhirDilihat = sinyal.created_at;
+    const item = JADWAL_PENGUMUMAN.find(p => p.kunci === `pengumuman_${sinyal.jenis}`);
+    if (item) ucapkan(item.teks);
+  } catch (e) {
+    console.error('Gagal cek sinyal suara:', e);
+  }
+}
+setInterval(cekSinyalSuaraManual, 5000); // cek tiap 5 detik
