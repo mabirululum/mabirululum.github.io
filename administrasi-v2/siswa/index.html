@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIAMA | Sistem Administrasi MA Bi'rul Ulum</title>
+    <!-- Open Graph -->
+    <!-- HTML Meta Tags -->
+    <meta name="description" content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
+    <meta name="google-site-verification" content="M6vZYhRJ30dMCAMGu2gD8UNov_Kdcsku6pcai8gGknI" />
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://mabirululum.github.io/administrasi/siswa/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Sistem Administrasi MA Bi'rul Ulum">
+    <meta property="og:description" content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
+    <meta property="og:image" content="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/img-meta_ysxamu.jpg">
+    
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:domain" content="mabirululum.github.io">
+    <meta property="twitter:url" content="https://mabirululum.github.io/administrasi/siswa/">
+    <meta name="twitter:title" content="Sistem Administrasi MA Bi'rul Ulum">
+    <meta name="twitter:description" content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
+    <meta name="twitter:image" content="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/img-meta_ysxamu.jpg">
+
+    <!-- script online / offline -->
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> if (typeof tailwind === 'undefined') { document.write('<script src="/assets/js/tailwind.min.js"><\/script>'); }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script> if (typeof tailwind === 'undefined') { document.write('<script src="/assets/js/tailwind.browser.min.js"><\/script>'); }
+    </script>
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web" crossorigin="anonymous"></script>
+    <script> if (typeof PhosphorIcons === 'undefined') { document.write('<link rel="stylesheet" href="/assets/css/phosphor.css">'); }
+    </script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script> if (typeof Chart === 'undefined') { document.write('<script src="/assets/js/chart.min.js"><\/script>'); }
+    </script>
+
+    <!-- Chartjs Plugin Datalabels -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script> if (typeof ChartDataLabels === 'undefined') { document.write('<script src="/assets/js/chartjs-plugin-datalabels.min.js"><\/script>'); }
+    </script>
+
+    <!-- html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script> if (typeof html2canvas === 'undefined') { document.write('<script src="/assets/js/html2canvas.min.js"><\/script>'); }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js" integrity="sha512-01CJ9/g7e8cUmY0DFTMcUw/ikS799FHiOA0eyHsUWfOetgbx/t6oV4otQ5zXKQyIrQGTHSmRVPIgrgLcZi/WMA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="MA Bi'rul Ulum" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <link rel="stylesheet" href="/administrasi/assets/css/style.css">
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans h-[100dvh] overflow-hidden">
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="fixed inset-0 bg-slate-900/60 z-[100] hidden flex-col items-center justify-center backdrop-blur-sm transition-opacity">
+        <i class="ph ph-spinner-gap text-5xl text-white animate-spin mb-3"></i>
+        <p id="loading-text" class="text-white font-medium text-lg">Memuat data dari server...</p>
+    </div>
+
+    <!-- ==================== VIEW: LOGIN ==================== -->
+    <div id="view-login" class="flex h-[100dvh] items-center justify-center fixed inset-0 z-50 bg-cover bg-center p-4" style="background-image: url('https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/bg-school_mbrtla.jpg');">
+        <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm"></div>
+        <div class="bg-white rounded-2xl shadow-2xl w-[90%] max-w-md overflow-hidden relative z-10">
+            <div class="bg-blue-600 p-6 text-center text-white">
+                <img src="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/icon-mabu_yuwogg.png" onerror="this.onerror=null; this.src='/administrasi/assets/img/icon-mabu.webp';" alt="Logo Sekolah" class="w-20 h-20 mx-auto mb-3 rounded-full">
+                <h2 class="text-2xl font-bold">Aplikasi Administrasi Madrasah</h2>
+                <p class="text-blue-200 text-sm mt-1">Sistem Administrasi MA Bi'rul Ulum</p>
+                <p class="text-blue-200 text-sm mt-1">Tahun Pelajaran <span id="tahun-ppdb"></span></p>
+            </div>
+            <div class="p-8">
+                <!-- Form Siswa -->
+                <form id="form-login-siswa" onsubmit="handleLoginSiswa(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nomor Induk Siswa (NIS)</label>
+                        <div class="relative">
+                            <i class="ph ph-identification-card absolute left-3 top-3 text-gray-400 text-xl"></i>
+                            <input type="text" id="login-nis" required placeholder="Masukkan NIS Anda" class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg transition-colors flex items-center justify-center">
+                        <i class="ph ph-magnifying-glass mr-2"></i> Cek Data Pembayaran
+                    </button>
+                </form>
+            </div>
+        </div>
+        <!-- WATERMARK -->
+        <div class="fixed bottom-6 left-0 right-0 w-full text-center z-10 ">
+            <p class="text-white/60 text-sm font-medium tracking-wide">
+                Dikembangkan oleh <a href="https://instagram.com/aflah.design" target="_blank" rel="noopener noreferrer" class="text-amber-400 font-bold opacity-90 hover:opacity-100 hover:underline transition">@aflah.design</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- TAMPILAN VIEW SISWA -->
+    <div id="view-siswa" class="hidden h-screen flex flex-col bg-gray-50 overflow-hidden">
+        <header class="h-16 bg-blue-600 text-white shadow-md flex items-center justify-between px-4 md:px-8 z-10 shrink-0">
+            <div class="flex items-center">
+                <img src="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/icon-mabu_yuwogg.png" alt="Logo" class="w-8 h-8 mr-3 rounded-full">
+                <h1 class="text-lg md:text-xl font-bold truncate">Info Pembayaran Siswa</h1>
+            </div>
+            <button onclick="showLogoutModal()" class="flex items-center bg-blue-700 hover:bg-blue-800 px-3 md:px-4 py-2 rounded-lg transition-colors text-sm font-medium">
+                <i class="ph ph-sign-out mr-1 md:mr-2"></i> <span class="hidden md:inline">Keluar</span>
+            </button>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-4 md:p-8 w-full max-w-6xl mx-auto pb-24">
+            
+            <!-- HIGHLIGHT: SMART EXAM WIDGET -->
+            <div id="widget-ujian" class="hidden bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl shadow-md p-6 mb-6 text-white flex flex-col md:flex-row items-center justify-between transform transition-all duration-500">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div class="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center mr-4 shrink-0">
+                        <i class="ph ph-exam text-3xl text-white animate-pulse"></i>
+                    </div>
+                    <div>
+                        <p class="text-amber-100 text-sm font-medium mb-0.5 tracking-wide uppercase">Kalkulasi Otomatis Sistem</p>
+                        <h2 id="widget-exam-title" class="text-2xl font-bold">Syarat -</h2>
+                    </div>
+                </div>
+                <div class="text-center md:text-right bg-white/10 px-6 py-3 rounded-lg border border-white/20 w-full md:w-auto">
+                    <p class="text-amber-100 text-xs mb-1">Total Tagihan yg Wajib Lunas</p>
+                    <h3 id="widget-exam-amount" class="text-3xl font-bold tracking-tight">Rp0</h3>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+                <!-- Bagian Atas: Profil & Status -->
+                <div class="p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                    <div class="flex items-center">
+                        <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mr-5 shrink-0">
+                            <i class="ph ph-student text-3xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500 mb-0.5 uppercase tracking-wide font-semibold">Identitas Siswa</p>
+                            <h2 id="siswa-nama" class="text-2xl font-bold text-gray-800 leading-tight">Nama Siswa</h2>
+                            <div class="flex items-center mt-1.5 space-x-3">
+                                <span class="text-gray-600 font-medium text-sm">NIS: <span id="siswa-nis-text">-</span></span>
+                                <div id="siswa-kelas-badge"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full md:w-auto">
+                        <div id="box-kekurangan" class="bg-red-50 border border-red-100 rounded-lg p-4 text-center min-w-[200px] w-full">
+                            <p id="title-kekurangan" class="text-sm text-red-600 font-medium mb-1">Total Hutang Berjalan</p>
+                            <h3 id="siswa-total-kekurangan" class="text-2xl font-bold text-red-700">Rp0</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bagian Bawah: Navigasi Filter & Refresh -->
+                <div class="bg-gray-50 border-t border-gray-100 p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center text-sm font-medium text-gray-600">
+                        <i class="ph ph-calendar-blank text-lg mr-2 text-blue-600"></i>
+                        <span>Filter Laporan Tahun:</span>
+                        <select id="siswa-tahun-filter" onchange="refreshDataSiswa(true)" class="ml-2 bg-white border border-gray-200 text-blue-700 font-bold rounded-md px-3 py-1.5 focus:ring-2 focus:ring-blue-500 cursor-pointer outline-none shadow-sm"></select>
+                    </div>
+                    <button id="btn-refresh-siswa" onclick="refreshButtonDataSiswa()" class="flex items-center justify-center bg-white border border-gray-200 text-gray-700 hover:bg-gray-100 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-semibold transition-all w-full sm:w-auto shadow-sm">
+                        <i class="ph ph-arrows-clockwise mr-2 text-lg"></i> <span id="text-refresh-siswa">Perbarui Data</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- HIGHLIGHT: Banner Tunggakan Masa Lalu -->
+            <div id="siswa-banner-tunggakan" class="hidden bg-red-50 border border-red-200 rounded-xl p-4 mb-6 flex items-start">
+                <i class="ph ph-warning-circle text-2xl text-red-500 mr-3 mt-0.5"></i>
+                <div>
+                    <h4 class="text-sm font-bold text-red-700">Perhatian: Ada Tunggakan Tahun Sebelumnya!</h4>
+                    <p class="text-xs text-red-600 mt-1">Sistem mendeteksi Anda memiliki sisa tunggakan sebesar <b id="banner-amount">Rp0</b> di tahun ajaran sebelumnya. Silakan ubah <b>Filter Tahun</b> di atas untuk melihat rinciannya.</p>
+                </div>
+            </div>
+
+            <!-- TABEL TAGIHAN -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col max-h-[600px]">
+                    <div class="p-5 border-b border-gray-100 bg-gray-50 shrink-0">
+                        <h3 class="text-lg font-semibold text-gray-800"><i class="ph ph-calendar-check mr-2"></i> Rekap SPP Bulanan <span id="lbl-thn-spp"></span></h3>
+                    </div>
+                    <div class="overflow-x-auto overflow-y-auto flex-1">
+                        <table class="w-full text-left border-collapse">
+                            <thead><tr class="text-gray-500 text-sm border-b border-gray-100 bg-white sticky top-0"><th class="p-4 font-medium">Bulan</th><th class="p-4 font-medium text-center">Status / Tunggakan</th></tr></thead>
+                            <tbody id="table-rekap-bulanan" class="text-sm divide-y divide-gray-100"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col max-h-[600px]">
+                    <div class="p-5 border-b border-gray-100 bg-gray-50 shrink-0">
+                        <h3 class="text-lg font-semibold text-gray-800"><i class="ph ph-file-text mr-2"></i> Rincian Tagihan Lainnya</h3>
+                    </div>
+                    <div class="overflow-x-auto overflow-y-auto flex-1">
+                        <table class="w-full text-left border-collapse">
+                            <thead><tr class="text-gray-500 text-sm border-b border-gray-100 bg-white sticky top-0"><th class="p-4 font-medium">Jenis Tagihan</th><th class="p-4 font-medium text-right">Kekurangan / Status</th></tr></thead>
+                            <tbody id="table-rekap-tagihan" class="text-sm divide-y divide-gray-100"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Konfirmasi Keluar (Siswa) -->
+    <div id="toast" class="fixed bottom-4 right-4 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 flex items-center z-50">
+        <i id="toast-icon" class="ph ph-info text-xl mr-2"></i><span id="toast-msg">Notifikasi</span>
+    </div>
+    <div id="logout-modal" class="fixed inset-0 bg-slate-900/50 z-[70] hidden flex items-center justify-center backdrop-blur-sm transition-opacity">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-sm p-6 text-center mx-4 transform scale-95 transition-transform duration-300" id="logout-modal-content">
+            <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="ph ph-sign-out text-3xl text-red-600"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Konfirmasi Keluar</h3>
+            <p class="text-sm text-gray-500 mb-6">Apakah Anda yakin ingin keluar dari halaman informasi pembayaran?</p>
+            <div class="flex space-x-3 mt-6">
+                <button onclick="closeLogoutModal()" class="flex-1 py-2.5 bg-gray-100 font-medium text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">Batal</button>
+                <button onclick="executeLogoutSiswa()" class="flex-1 py-2.5 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors shadow-sm">Ya, Keluar</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/administrasi/assets/js/config.js"></script>
+    <script src="/administrasi/assets/js/utils.js"></script>
+    <script src="/administrasi/assets/js/api.js"></script>
+    <script src="/administrasi/assets/js/auth.js"></script>
+    <script src="/administrasi/assets/js/cetak.js"></script>
+    <script src="/administrasi/assets/js/siswa.js"></script>
+</body>
+</html>
