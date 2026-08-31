@@ -173,7 +173,7 @@
             </div>
             <div class="p-8">
                 <!-- Form Admin -->
-                <form id="form-login-admin" onsubmit="handleLoginAdmin(event)" class="space-y-4">
+                <form id="form-login-admin" class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
                         <div class="relative">
@@ -197,54 +197,59 @@
         <!-- WATERMARK -->
         <div class="fixed bottom-6 left-0 right-0 w-full text-center z-10 ">
             <p class="text-white/60 text-sm font-medium tracking-wide">
-                Dikembangkan oleh <a href="https://instagram.com/aflah.design" target="_blank" rel="noopener noreferrer" class="text-amber-400 font-bold opacity-90 hover:opacity-100 hover:underline transition">@aflah.design</a>
+                Dikembangkan oleh <a href="https://instagram.com/aflah.design" target="_blank" rel="noopener noreferrer" class="text-amber-400 font-bold opacity-90 hover:opacity-100 hover:underline transition">@aflah.design</a> | V.2
             </p>
         </div>
     </div>
 
     <!-- ==================== VIEW: ADMIN DASHBOARD ==================== -->
     <div id="view-admin" class="hidden h-screen flex relative w-full overflow-hidden">
-        <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/50 z-40 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
+        <div id="sidebar-overlay" class="trigger-sidebar fixed inset-0 bg-slate-900/50 z-40 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
 
-        <aside id="admin-sidebar" class="w-64 bg-slate-900 text-white flex flex-col z-50 fixed md:relative inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
+        <aside id="admin-sidebar" class="trigger-sidebar w-64 bg-slate-900 text-white flex flex-col z-50 fixed md:relative inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
             <div class="h-16 flex items-center justify-between px-6 border-b border-slate-800 shrink-0">
                 <div class="flex items-center">
                     <img src="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/icon-mabu_yuwogg.png" onerror="this.onerror=null; this.src='/administrasi/assets/img/icon-mabu.webp';" alt="Logo" class="w-8 h-8 mr-3 rounded-full">
                     <h1 class="text-lg font-bold">Panel Admin</h1>
                 </div>
-                <button onclick="toggleSidebar()" class="md:hidden text-gray-400 hover:text-white focus:outline-none"><i class="ph ph-x text-2xl"></i></button>
+                <button class="md:hidden text-gray-400 hover:text-white focus:outline-none"><i class="ph ph-x text-2xl"></i></button>
             </div>
             <nav class="flex-1 min-h-0 p-2 space-y-2 overflow-y-auto hide-scroll text-sm">
-                <button onclick="switchAdminTab('dashboard')" id="nav-dashboard" class="w-full flex items-center px-4 py-3 rounded-lg bg-blue-600 text-white transition-colors"><i class="ph ph-squares-four text-xl mr-3"></i> Dashboard</button>
-                <button onclick="switchAdminTab('datasiswa')" id="nav-datasiswa" class="w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-users text-xl mr-3"></i> Data Siswa</button>
-                <button onclick="switchAdminTab('pemasukan')" id="nav-pemasukan" class="w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-download-simple text-xl mr-3"></i> Pemasukan Siswa</button>
-                <button onclick="switchAdminTab('atribut')" id="nav-atribut" class="w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-shopping-bag text-xl mr-3"></i> Pemasukan Atribut</button>
-                <button onclick="switchAdminTab('cetak')" id="nav-cetak" class="w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-printer text-xl mr-3"></i> Laporan & Surat</button>
-                <button onclick="switchAdminTab('bantuan')" id="nav-bantuan" class="w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-bank text-xl mr-3"></i> Dana Bantuan</button>
-                <button onclick="switchAdminTab('infaq')" id="nav-infaq" class="w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-hand-heart text-xl mr-3"></i> Kas Infaq</button>
-                <button onclick="switchAdminTab('pengeluaran')" id="nav-pengeluaran" class="w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-upload-simple text-xl mr-3"></i> Operasional</button>
-                <button onclick="switchAdminTab('pengeluaran-non')" id="nav-pengeluaran-non" class="w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-buildings text-xl mr-3"></i> Non Operasional</button>
+                <button id="nav-dashboard" data-tab="dashboard" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg bg-blue-600 text-white transition-colors"><i class="ph ph-squares-four text-xl mr-3"></i> Dashboard</button>
+                <button id="nav-datasiswa" data-tab="datasiswa" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-users text-xl mr-3"></i> Data Siswa</button>
+                <button id="nav-pemasukan" data-tab="pemasukan" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-download-simple text-xl mr-3"></i> Pemasukan Siswa</button>
+                <button id="nav-atribut" data-tab="atribut" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-shopping-bag text-xl mr-3"></i> Pemasukan Atribut</button>
+                <button id="nav-cetak" data-tab="cetak" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-printer text-xl mr-3"></i> Laporan & Surat</button>
+                <button id="nav-bantuan" data-tab="bantuan" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-bank text-xl mr-3"></i> Dana Bantuan</button>
+                <button id="nav-infaq" data-tab="infaq" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-hand-heart text-xl mr-3"></i> Kas Infaq</button>
+                <button id="nav-pengeluaran" data-tab="pengeluaran" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-upload-simple text-xl mr-3"></i> Operasional</button>
+                <button id="nav-pengeluaran-non" data-tab="pengeluaran-non" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-buildings text-xl mr-3"></i> Non Operasional</button>
                 <div class="" id="nav-tarif-container">
-                    <button onclick="switchAdminTab('tarif')" id="nav-tarif" class="w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors">
+                    <button id="nav-tarif" data-tab="tarif" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors">
                         <i class="ph ph-tag text-xl mr-3"></i> Master Tarif
                     </button>
                 </div>
                 <div class="" id="nav-master_atribut-container">
-                    <button onclick="switchAdminTab('master_atribut')" id="nav-master_atribut" class="w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors">
+                    <button id="nav-master_atribut" data-tab="master_atribut" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors">
                         <i class="ph ph-tag text-xl mr-3"></i> Master Atribut
                     </button>
                 </div>
                 <div class="" id="nav-restore-container">
-                    <button onclick="switchAdminTab('restore')" id="nav-restore" class="w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors">
+                    <button id="nav-restore" data-tab="restore" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors">
                         <i class="ph ph-trash text-xl mr-3"></i> Restore Data
                         <span id="nav-badge-restore" class="ml-auto hidden bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
                     </button>
                 </div>
                 <div class="" id="nav-user-container">
-                    <button onclick="switchAdminTab('user')" id="nav-user" class="w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors">
+                    <button id="nav-user" data-tab="user" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors">
                         <i class="ph ph-users-three text-xl mr-3"></i> Manajemen User
                     </button>
-                </div>                
+                </div>
+                <div class="" id="nav-pengaturan-container">
+                    <button id="nav-pengaturan" data-tab="pengaturan" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors">
+                        <i class="ph ph-gear text-xl mr-3"></i> Pengaturan & Backup
+                    </button>
+                </div>        
             </nav>
             <!-- PROFIL ADMIN -->
             <div class="p-4 border-t border-slate-800 shrink-0 bg-slate-900/50">
@@ -257,18 +262,18 @@
                         <p id="sidebar-role-admin" class="text-xs font-medium">Role Admin</p>
                     </div>
                 </div>
-                <button onclick="showLogoutModal()" class="w-full flex items-center justify-center px-4 py-2 text-red-400 bg-red-400/10 hover:bg-red-500 hover:text-white rounded-lg transition-colors font-semibold"><i class="ph ph-sign-out text-xl mr-2"></i> Keluar</button>
+                <button id="show-logout-modal" class="w-full flex items-center justify-center px-4 py-2 text-red-400 bg-red-400/10 hover:bg-red-500 hover:text-white rounded-lg transition-colors font-semibold"><i class="ph ph-sign-out text-xl mr-2"></i> Keluar</button>
             </div>
         </aside>
 
         <main class="flex-1 flex flex-col h-full min-h-0 overflow-hidden w-full relative">
             <header class="h-16 bg-white shadow-sm flex items-center justify-between px-4 md:px-8 z-10 shrink-0">
                 <div class="flex items-center">
-                    <button onclick="toggleSidebar()" class="md:hidden mr-4 text-gray-600 hover:text-blue-600 focus:outline-none"><i class="ph ph-list text-2xl"></i></button>
+                    <button class="trigger-sidebar md:hidden mr-4 text-gray-600 hover:text-blue-600 focus:outline-none"><i class="ph ph-list text-2xl"></i></button>
                     <h2 id="admin-page-title" class="text-lg md:text-xl font-semibold text-gray-800 truncate">Dashboard Utama</h2>
                 </div>
                 <div class="flex items-center space-x-2 text-sm font-medium">
-                    <button onclick="refreshAdminData()" class="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors mr-2" title="Tarik Data Server"><i class="ph ph-arrows-clockwise text-xl"></i></button>
+                    <button id="btn-refresh-admin" class="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors mr-2" title="Tarik Data Server"><i class="ph ph-arrows-clockwise text-xl"></i></button>
                 </div>
             </header>
 
@@ -283,7 +288,7 @@
                     </div>
                     <div class="flex items-center bg-white px-4 py-2 rounded-lg border border-gray-200 shadow-sm">
                         <i class="ph ph-calendar-blank text-blue-600 text-lg mr-2"></i>
-                        <select id="filter-dash-tahun" onchange="handleDashFilter()" class="bg-transparent border-none text-sm font-bold text-gray-700 focus:ring-0 cursor-pointer outline-none w-48">
+                        <select id="filter-dash-tahun" class="bg-transparent border-none text-sm font-bold text-gray-700 focus:ring-0 cursor-pointer outline-none w-48">
                             <option value="All">Semua Tahun Ajaran</option>
                         </select>
                     </div>
@@ -354,9 +359,9 @@
                             <p class="text-xs text-gray-500 mt-1">Otomatis dibatasi maksimal 6 periode terakhir untuk menjaga visual.</p>
                         </div>
                         <div class="flex space-x-1 bg-gray-100 p-1 rounded-lg border border-gray-200">
-                            <button onclick="setChartSiswaTab('aktif')" id="tab-chart-aktif" class="px-4 py-1.5 text-sm font-semibold rounded-md bg-white text-blue-600 shadow-sm transition-all">Aktif</button>
-                            <button onclick="setChartSiswaTab('lulus')" id="tab-chart-lulus" class="px-4 py-1.5 text-sm font-semibold rounded-md text-gray-500 hover:text-gray-800 transition-all">Alumni</button>
-                            <button onclick="setChartSiswaTab('keluar')" id="tab-chart-keluar" class="px-4 py-1.5 text-sm font-semibold rounded-md text-gray-500 hover:text-gray-800 transition-all">Keluar</button>
+                            <button id="tab-chart-aktif" data-tab="aktif" class="btn-siswa-chart px-4 py-1.5 text-sm font-semibold rounded-md bg-white text-blue-600 shadow-sm transition-all">Aktif</button>
+                            <button id="tab-chart-lulus" data-tab="lulus" class="btn-siswa-chart px-4 py-1.5 text-sm font-semibold rounded-md text-gray-500 hover:text-gray-800 transition-all">Alumni</button>
+                            <button id="tab-chart-keluar" data-tab="keluar" class="btn-siswa-chart px-4 py-1.5 text-sm font-semibold rounded-md text-gray-500 hover:text-gray-800 transition-all">Keluar</button>
                         </div>
                     </div>
                     <div class="relative w-full h-[300px]">
@@ -373,14 +378,14 @@
                             <h3 class="text-lg font-semibold text-gray-800">Database Siswa Aktif/Non Aktif</h3>
                             <div class="flex mt-3 space-x-4 border-b border-gray-200">
                                 <!-- HIGHLIGHT: Tombol Pemisah Aktif/Nonaktif -->
-                                <button onclick="setTabSiswa('aktif')" id="tab-siswa-aktif" class="text-sm font-bold border-b-2 border-sky-600 text-sky-600 pb-2 transition-colors">Siswa Aktif</button>
-                                <button onclick="setTabSiswa('nonaktif')" id="tab-siswa-nonaktif" class="text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 pb-2 transition-colors">Siswa Non-Aktif (Lulus/Keluar)</button>
+                                <button id="tab-siswa-aktif" data-tab="aktif" class="btn-siswa-tab text-sm font-bold border-b-2 border-sky-600 text-sky-600 pb-2 transition-colors">Siswa Aktif</button>
+                                <button id="tab-siswa-nonaktif" data-tab="nonaktif" class="btn-siswa-tab text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 pb-2 transition-colors">Siswa Non-Aktif (Lulus/Keluar)</button>
                             </div>
                         </div>
                         <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto mt-4 sm:mt-0">
                             <!-- HIGHLIGHT: Dropdown Kelas Otomatis Berubah -->
-                            <select id="filter-kelas" onchange="handleFilterKelas()" class="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 bg-white min-w-[150px]"></select>
-                            <input type="text" id="search-datasiswa" onkeyup="handleSearch('datasiswa')" placeholder="Cari NIS atau Nama..." class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500">
+                            <select id="filter-kelas" class="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 bg-white min-w-[150px]"></select>
+                            <input type="text" id="search-datasiswa" placeholder="Cari NIS atau Nama..." data-search="datasiswa" class="searchData w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500">
                         </div>
                     </div>
                     <div class="flex-1 overflow-x-auto">
@@ -401,8 +406,8 @@
                     <div class="p-4 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center bg-gray-50 text-sm shrink-0 gap-3">
                         <span id="page-info-datasiswa" class="text-gray-500 font-medium"></span>
                         <div class="flex space-x-2">
-                            <button onclick="changeAdminPage('datasiswa', -1)" id="btn-prev-datasiswa" class="px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
-                            <button onclick="changeAdminPage('datasiswa', 1)" id="btn-next-datasiswa" class="px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
+                            <button id="btn-prev-datasiswa" data-table="datasiswa" data-page="-1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
+                            <button id="btn-next-datasiswa" data-table="datasiswa" data-page="1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
                         </div>
                     </div>
                 </div>
@@ -412,14 +417,14 @@
             <div id="admin-view-pemasukan" class="hidden flex-1 overflow-y-auto p-4 md:p-8 flex-col lg:flex-row gap-4 md:gap-8 lg:overflow-hidden">
                 <div class="w-full lg:w-1/3 admin-input-form shrink-0 lg:h-full overflow-y-auto hide-scroll">
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                        <div class="flex justify-between items-center cursor-pointer md:cursor-auto" onclick="toggleMobileForm('form-pembayaran-content', 'icon-pembayaran')">
+                        <div data-content="form-pembayaran-content" data-icon="icon-pembayaran" class="trigger-caret flex justify-between items-center cursor-pointer md:cursor-auto">
                             <h3 class="text-lg font-semibold text-gray-800 flex items-center">
                                 <i class="ph ph-plus-circle text-cyan-600 mr-2 text-xl"></i> Input Pembayaran
                             </h3>
                             <i id="icon-pembayaran" class="ph ph-caret-up text-gray-500 md:hidden transition-transform text-xl"></i>
                         </div>
                         <div id="form-pembayaran-content" class="mt-4">
-                            <form id="form-pembayaran" onsubmit="submitPembayaran(event)" class="space-y-4">
+                            <form id="form-pembayaran" class="space-y-4">
                                 <input type="hidden" id="edit-id-pemasukan">
                                 <input type="hidden" id="edit-acuan-pemasukan">
                                 <input type="hidden" id="edit-tgl-pemasukan">
@@ -433,21 +438,21 @@
                                 <div id="alert-tunggakan-pemasukan" class="hidden bg-orange-50 border border-orange-200 text-orange-800 p-3 rounded-lg text-sm mb-4"></div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">NIS Siswa</label>
-                                    <input type="text" id="input-nis" oninput="cekNamaSiswa(this.value)" required placeholder="Ketik NIS..." autocomplete="off" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 transition-colors">
+                                    <input type="text" id="input-nis" required placeholder="Ketik NIS..." autocomplete="off" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 transition-colors">
                                     <p id="info-nama-siswa" class="text-sm mt-1.5 hidden flex items-center transition-all"></p>
                                     <p id="info-harga-tarif-teks" class="text-sm text-cyan-600 hidden"></p>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Pembayaran</label>
-                                    <select id="input-jenis" onchange="cekTarifDanTunggakan()" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500"></select>
+                                    <select id="input-jenis" required class="cekTarif w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500"></select>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Tahun Ajaran</label>
-                                    <select id="input-tahun" onchange="cekTarifDanTunggakan()" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500"></select>
+                                    <select id="input-tahun" required class="cekTarif w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500"></select>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Nominal (Rp)</label>
-                                    <input type="number" id="input-nominal" oninput="evaluasiStatusPemasukan()" required min="1000" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500">
+                                    <input type="number" id="input-nominal" required min="1000" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
@@ -457,7 +462,7 @@
                                     </select>
                                 </div>
                                 <div class="flex space-x-2 pt-2">
-                                    <button type="button" id="btn-cancel-pemasukan" onclick="cancelEdit('pemasukan')" class="hidden w-1/3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2.5 rounded-lg transition-colors">Batal</button>
+                                    <button type="button" id="btn-cancel-pemasukan" data-btn="pemasukan" class="btnCancel hidden w-1/3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2.5 rounded-lg transition-colors">Batal</button>
                                     <button type="submit" id="btn-submit-pemasukan" class="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-medium py-2.5 rounded-lg transition-colors">Simpan Data</button>
                                 </div>
                             </form>
@@ -469,7 +474,7 @@
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex-1 flex flex-col">
                         <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shrink-0">
                             <h3 class="text-lg font-semibold text-gray-800">Riwayat Transaksi Pemasukan</h3>
-                            <input type="text" id="search-pemasukan" onkeyup="handleSearch('pemasukan')" placeholder="Cari NIS atau Jenis..." class="w-full sm:w-64 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500">
+                            <input type="text" id="search-pemasukan" placeholder="Cari NIS atau Jenis..." data-search="pemasukan" class="searchData w-full sm:w-64 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500">
                         </div>
                         <div class="flex-1 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -488,15 +493,15 @@
                         <div class="p-4 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center bg-gray-50 text-sm shrink-0 gap-3">
                             <span id="page-info-pemasukan" class="text-gray-500 font-medium"></span>
                             <div class="flex space-x-2">
-                                <button onclick="changeAdminPage('pemasukan', -1)" id="btn-prev-pemasukan" class="px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
-                                <button onclick="changeAdminPage('pemasukan', 1)" id="btn-next-pemasukan" class="px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
+                                <button id="btn-prev-pemasukan" data-table="pemasukan" data-page="-1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
+                                <button id="btn-next-pemasukan" data-table="pemasukan" data-page="1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- TAB: PEMASUKAN ATRIBUT -->
+            <!-- TAB PEMASUKAN ATRIBUT -->
             <div id="admin-view-atribut" class="hidden flex-1 overflow-y-auto p-4 md:p-8 flex-col lg:flex-row gap-4 md:gap-8 lg:overflow-hidden">
                 <!-- BAGIAN KIRI: FORM INPUT -->
                 <div class="w-full lg:w-1/3 admin-input-form shrink-0 lg:h-full overflow-y-auto hide-scroll">
@@ -505,7 +510,7 @@
                         <h3 id="total-atribut" class="text-3xl font-bold text-indigo-700">Rp0</h3>
                     </div>
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                        <div class="flex justify-between items-center cursor-pointer md:cursor-auto" onclick="toggleMobileForm('form-atribut-content', 'icon-atribut')">
+                        <div data-content="form-atribut-content" data-icon="icon-atribut" class="trigger-caret flex justify-between items-center cursor-pointer md:cursor-auto">
                             <h3 class="text-lg font-semibold text-gray-800 flex items-center">
                                 <i class="ph ph-shopping-bag text-indigo-600 mr-2 text-xl"></i> Pemasukan Atribut
                             </h3>
@@ -513,7 +518,7 @@
                         </div>
                         
                         <div id="form-atribut-content" class="mt-4">
-                            <form id="form-atribut" onsubmit="submitPembayaranAtribut(event)" class="space-y-4">
+                            <form id="form-atribut" class="space-y-4">
                                 <!-- Hidden Inputs untuk tracking cicilan & ID -->
                                 <input type="hidden" id="edit-id-atribut">
                                 <input type="hidden" id="edit-id-nota-referensi">
@@ -526,19 +531,9 @@
                                 
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">NIS Siswa</label>
-                                    <input type="text" id="input-nis-atribut" oninput="cekSiswaDanTunggakan(this.value)" required placeholder="Ketik NIS..." autocomplete="off" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 transition-colors">
+                                    <input type="text" id="input-nis-atribut" required placeholder="Ketik NIS..." autocomplete="off" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 transition-colors">
                                     <p id="info-nama-siswa-atribut" class="text-sm mt-1.5 hidden flex items-center font-medium text-gray-600 transition-all"></p>
                                     
-                                    <!-- Kotak Alert Tunggakan (Sembunyi by default) -->
-                                    <!-- <div id="alert-tunggakan-atribut" class="hidden mt-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg text-sm text-yellow-800">
-                                        <div class="flex items-start">
-                                            <i class="ph ph-warning-circle text-yellow-600 mt-0.5 mr-2 text-lg"></i>
-                                            <div>
-                                                <p class="font-bold mb-1">Ditemukan Tunggakan Atribut!</p>
-                                                <div id="list-tunggakan-atribut" class="space-y-1"></div>
-                                            </div>
-                                        </div>
-                                    </div> -->
                                     <!-- WADAH SMART DEBT PICKER (Alert Tunggakan) -->
                                     <div id="alert-tunggakan-atribut" class="hidden mt-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg text-sm text-yellow-800 transition-all">
                                         <div class="flex items-start">
@@ -554,12 +549,12 @@
 
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Tahun Ajaran</label>
-                                    <select id="input-tahun-atribut" required onchange="kalkulasiHargaAtribut()" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"></select>
+                                    <select id="input-tahun-atribut" required class="inputAtribut w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"></select>
                                 </div>
 
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Atribut</label>
-                                    <select id="input-jenis-atribut" required onchange="kalkulasiHargaAtribut()" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                    <select id="input-jenis-atribut" required class="inputAtribut w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
                                         <option value="">-- Pilih Atribut --</option>
                                         <!-- Akan diisi dari master_atribut -->
                                     </select>
@@ -570,7 +565,7 @@
                                 <div class="flex gap-4">
                                     <div class="w-1/2">
                                         <label class="block text-sm font-medium text-gray-700 mb-1">Status Bayar</label>
-                                        <select id="input-status-atribut" required onchange="kalkulasiHargaAtribut()" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                        <select id="input-status-atribut" required class="inputAtribut w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
                                             <option value="Lunas">Lunas (Penuh)</option>
                                             <option value="Hutang">Hutang (Cicil)</option>
                                         </select>
@@ -582,7 +577,7 @@
                                 </div>
 
                                 <div class="flex space-x-2 pt-2">
-                                    <button type="button" id="btn-cancel-atribut" onclick="cancelEdit('atribut')" class="hidden w-1/3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2.5 rounded-lg transition-colors">Batal</button>
+                                    <button type="button" id="btn-cancel-atribut" data-btn="atribut" class="btnCancel hidden w-1/3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2.5 rounded-lg transition-colors">Batal</button>
                                     <button type="submit" id="btn-submit-atribut" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors">Simpan Transaksi</button>
                                 </div>
                             </form>
@@ -595,7 +590,7 @@
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex-1 flex flex-col">
                         <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shrink-0">
                             <h3 class="text-lg font-semibold text-gray-800">Riwayat Transaksi Atribut</h3>
-                            <input type="text" id="search-atribut" onkeyup="handleSearch('atribut')" placeholder="Cari NIS atau Atribut..." class="w-full sm:w-64 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                            <input type="text" id="search-atribut" placeholder="Cari NIS atau Atribut..." data-search="atribut" class="searchData w-full sm:w-64 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
                         </div>
                         <div class="flex-1 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -614,8 +609,8 @@
                         <div class="p-4 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center bg-gray-50 text-sm shrink-0 gap-3">
                             <span id="page-info-atribut" class="text-gray-500 font-medium"></span>
                             <div class="flex space-x-2">
-                                <button onclick="changeAdminPage('atribut', -1)" id="btn-prev-atribut" class="px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
-                                <button onclick="changeAdminPage('atribut', 1)" id="btn-next-atribut" class="px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
+                                <button id="btn-prev-atribut" data-table="atribut" data-page="-1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
+                                <button id="btn-next-atribut" data-table="atribut" data-page="1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
                             </div>
                         </div>
                     </div>
@@ -627,17 +622,18 @@
                 <!-- Header Tabs Container -->
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 shrink-0">
                     <div class="flex gap-6 border-b border-gray-100">
-                        <button onclick="setLaporanTab('rekap')" id="tab-laporan-rekap" class="pb-3 text-sm font-bold border-b-2 border-emerald-600 text-emerald-600 transition-colors"><i class="ph ph-table mr-1"></i> Rekapitulasi Kelas</button>
-                        <button onclick="setLaporanTab('surat')" id="tab-laporan-surat" class="pb-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors"><i class="ph ph-envelope-open mr-1"></i> Surat Tagihan Siswa</button>
-                        <button onclick="setLaporanTab('operasional')" id="tab-laporan-operasional" class="pb-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors"><i class="ph ph-upload-simple mr-1"></i> Laporan Operasional</button>
-                        <button onclick="setLaporanTab('nonops')" id="tab-laporan-nonops" class="pb-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors"><i class="ph ph-buildings mr-1"></i> Laporan Non Operasional</button>
+                        <button id="tab-laporan-rekap" tab-name="rekap" class="tabLaporan pb-3 text-sm font-bold border-b-2 border-emerald-600 text-emerald-600 transition-colors"><i class="ph ph-table mr-1"></i> Rekapitulasi Kelas</button>
+                        <button id="tab-laporan-surat" tab-name="surat" class="tabLaporan pb-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors"><i class="ph ph-envelope-open mr-1"></i> Surat Tagihan Siswa</button>
+                        <button id="tab-laporan-operasional" tab-name="operasional" class="tabLaporan pb-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors"><i class="ph ph-upload-simple mr-1"></i> Laporan Operasional</button>
+                        <button id="tab-laporan-nonops" tab-name="nonops" class="tabLaporan pb-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors"><i class="ph ph-buildings mr-1"></i> Laporan Non Operasional</button>
+                        <button id="tab-laporan-bukubesar" tab-name="bukubesar" class="tabLaporan pb-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors"><i class="ph ph-books mr-1"></i> Buku Besar Tahunan</button>
                     </div>
                 </div>
                 <!-- SUB-TAB: REKAP KELAS -->
                 <div id="laporan-content-rekap" class="flex flex-col gap-4">
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                         <div class="mb-6 border-b border-gray-100 pb-4">
-                            <div class="flex justify-between items-center cursor-pointer md:cursor-auto" onclick="toggleMobileForm('form-rekap-content', 'icon-rekap')">
+                            <div data-content="form-rekap-content" data-icon="icon-rekap" class="trigger-caret flex justify-between items-center cursor-pointer md:cursor-auto">
                                 <h3 class="text-lg font-semibold text-gray-800">Rekapitulasi Keuangan Kelas</h3>
                                 <i id="icon-rekap" class="ph ph-caret-up text-gray-500 md:hidden transition-transform text-xl"></i>
                             </div>
@@ -647,7 +643,7 @@
                             <div class="flex flex-col md:flex-row items-end gap-4">
                                 <div class="w-full md:w-1/3"><label class="block text-sm font-medium text-gray-700 mb-1">Pilih Tahun Ajaran</label><select id="cetak-tahun" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg"><option value="2024/2025">2024/2025</option><option value="2025/2026">2025/2026</option></select></div>
                                 <div class="w-full md:w-1/3"><label class="block text-sm font-medium text-gray-700 mb-1">Pilih Kelas</label><select id="cetak-kelas" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg"></select></div>
-                                <div class="w-full md:w-1/3 flex space-x-2"><button onclick="generateLaporanCetak()" class="w-full bg-emerald-600 text-white font-medium py-2.5 rounded-lg flex items-center justify-center hover:bg-emerald-700 transition-colors"><i class="ph ph-table mr-2"></i> Tampilkan Rekap</button></div>
+                                <div class="w-full md:w-1/3 flex space-x-2"><button id="generate-cetak" class="w-full bg-emerald-600 text-white font-medium py-2.5 rounded-lg flex items-center justify-center hover:bg-emerald-700 transition-colors"><i class="ph ph-table mr-2"></i> Tampilkan Rekap</button></div>
                             </div>
                         </div>
                     </div>
@@ -655,7 +651,7 @@
                     <div id="cetak-result-container" class="hidden bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex-col h-full">
                         <div class="p-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
                             <div><h3 class="text-sm font-bold text-gray-800">Preview Laporan (Horizontal)</h3><p class="text-xs text-gray-500">Otomatis di-generate dari master tarif dan pembayaran.</p></div>
-                            <button onclick="downloadLaporanImage()" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center"><i class="ph ph-image mr-2"></i> Unduh Gambar (WA)</button>
+                            <button id="generate-img" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center"><i class="ph ph-image mr-2"></i> Unduh Gambar (WA)</button>
                         </div>
                         <div class="p-6 overflow-x-auto w-full flex-1">
                             <div id="capture-area" class="w-max min-w-full bg-white p-6 border border-gray-200">
@@ -688,8 +684,8 @@
                             </div>
                             
                             <div class="flex bg-gray-100 p-1 rounded-lg">
-                                <button onclick="setSuratMode('individu')" id="btn-mode-individu" class="px-4 py-2 text-sm font-medium rounded-md bg-white text-blue-600 shadow-sm transition-all">Per NIS</button>
-                                <button onclick="setSuratMode('massal')" id="btn-mode-massal" class="px-4 py-2 text-sm font-medium rounded-md text-gray-500 hover:text-gray-700 transition-all">Massal (Per Kelas)</button>
+                                <button id="btn-mode-individu" surat="individu" class="btnSurat px-4 py-2 text-sm font-medium rounded-md bg-white text-blue-600 shadow-sm transition-all">Per NIS</button>
+                                <button id="btn-mode-massal" surat="massal" class="btnSurat px-4 py-2 text-sm font-medium rounded-md text-gray-500 hover:text-gray-700 transition-all">Massal (Per Kelas)</button>
                             </div>
                         </div>
 
@@ -714,7 +710,7 @@
                                 <input type="number" id="surat-mulai-indv" value="1" min="1" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg" placeholder="1">
                             </div>
                             <div class="w-full md:w-1/3 flex space-x-2">
-                                <button onclick="generateSuratIndividu()" class="w-full bg-blue-600 text-white font-medium py-2.5 rounded-lg flex items-center justify-center hover:bg-blue-700 transition"><i class="ph ph-magic-wand mr-2"></i> Buat Surat</button>
+                                <button id="surat-individu" class="w-full bg-blue-600 text-white font-medium py-2.5 rounded-lg flex items-center justify-center hover:bg-blue-700 transition"><i class="ph ph-magic-wand mr-2"></i> Buat Surat</button>
                             </div>
                         </div>
 
@@ -744,7 +740,7 @@
                                     <input type="number" id="surat-mulai-massal" value="1" min="1" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg" placeholder="1">
                                 </div>
                                 <div class="w-full lg:w-auto">
-                                    <button onclick="generateSuratMassal()" class="w-full lg:w-max px-6 bg-indigo-600 text-white font-medium py-2.5 rounded-lg flex items-center justify-center hover:bg-indigo-700 transition whitespace-nowrap"><i class="ph ph-users-three mr-2"></i> Buat Surat Massal</button>
+                                    <button id="surat-massal" class="w-full lg:w-max px-6 bg-indigo-600 text-white font-medium py-2.5 rounded-lg flex items-center justify-center hover:bg-indigo-700 transition whitespace-nowrap"><i class="ph ph-users-three mr-2"></i> Buat Surat Massal</button>
                                 </div>
                             </div>
                         </div>
@@ -757,7 +753,7 @@
                                 <h3 class="font-bold text-gray-800" id="surat-result-info">Preview Surat</h3>
                                 <p class="text-xs text-gray-500">Klik cetak untuk menyimpan sebagai PDF atau mem-print langsung.</p>
                             </div>
-                            <button onclick="printSurat()" class="bg-emerald-600 text-white px-6 py-2.5 rounded-lg font-medium flex items-center hover:bg-emerald-700 transition shadow-sm"><i class="ph ph-printer mr-2"></i> Cetak (Print / PDF)</button>
+                            <button id="print-surat" class="bg-emerald-600 text-white px-6 py-2.5 rounded-lg font-medium flex items-center hover:bg-emerald-700 transition shadow-sm"><i class="ph ph-printer mr-2"></i> Cetak (Print / PDF)</button>
                         </div>
                         
                         <!-- Kertas Surat Virtual -->
@@ -770,44 +766,6 @@
                 </div>
                 <!-- SUB-TAB: LAPORAN OPERASIONAL -->
                 <div id="laporan-content-operasional" class="hidden flex-col gap-4">
-                    <!-- <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                        <div class="mb-6 border-b border-gray-100 pb-4">
-                            <h3 class="text-lg font-semibold text-gray-800">Unduh Laporan Keuangan Operasional</h3>
-                            <p class="text-sm text-gray-500">Ekspor rekapitulasi pemasukan dan rincian pengeluaran ke format Excel.</p>
-                        </div>
-                        
-                        <div class="flex flex-col md:flex-row items-end gap-4 mt-4">
-                            <div class="w-full md:w-1/3">
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Pilih Bulan</label>
-                                <select id="filter-bulan-laporan" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg">
-                                    <option value="Juli">Juli</option>
-                                    <option value="Agustus">Agustus</option>
-                                    <option value="September">September</option>
-                                    <option value="Oktober">Oktober</option>
-                                    <option value="November">November</option>
-                                    <option value="Desember">Desember</option>
-                                    <option value="Januari">Januari</option>
-                                    <option value="Februari">Februari</option>
-                                    <option value="Maret">Maret</option>
-                                    <option value="April">April</option>
-                                    <option value="Mei">Mei</option>
-                                    <option value="Juni">Juni</option>
-                                </select>
-                            </div>
-                            <div class="w-full md:w-1/3">
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Tahun Ajaran</label>
-                                <select id="filter-tahun-ajaran" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg">
-                                    <option value="2025/2026">2025/2026</option>
-                                    <option value="2026/2027">2026/2027</option>
-                                </select>
-                            </div>
-                            <div class="w-full md:w-1/3 flex space-x-2">
-                                <button onclick="unduhLaporanExcel()" class="w-full bg-emerald-600 text-white font-medium py-2.5 rounded-lg flex items-center justify-center hover:bg-emerald-700 transition-colors">
-                                    <i class="ph ph-file-xls mr-2 text-lg"></i> Unduh Laporan Operasional
-                                </button>
-                            </div>
-                        </div>
-                    </div> -->
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                         <div class="mb-6 border-b border-gray-100 pb-4">
                             <h3 class="text-lg font-semibold text-gray-800">Unduh Laporan Keuangan Operasional</h3>
@@ -857,7 +815,7 @@
                                 </select>
                             </div>
                             <div class="w-full md:w-1/4 flex space-x-2">
-                                <button id="btn-unduh-laporan" onclick="unduhLaporanExcel()" class="w-full bg-emerald-600 text-white font-medium py-2.5 rounded-lg flex items-center justify-center hover:bg-emerald-700 transition-colors disabled:opacity-75 disabled:cursor-not-allowed">
+                                <button id="btn-unduh-laporan" class="w-full bg-emerald-600 text-white font-medium py-2.5 rounded-lg flex items-center justify-center hover:bg-emerald-700 transition-colors disabled:opacity-75 disabled:cursor-not-allowed">
                                     <i id="icon-unduh-laporan" class="ph ph-file-xls mr-2 text-lg"></i> 
                                     <span id="text-unduh-laporan">Unduh Laporan Operasional</span>
                                 </button>
@@ -891,8 +849,36 @@
                                 </select>
                             </div>
                             <div class="w-full md:w-1/4 flex space-x-2">
-                                <button onclick="unduhLaporanNonOpsExcel()" class="w-full bg-emerald-600 text-white font-medium py-2.5 rounded-lg flex items-center justify-center hover:bg-emerald-700 transition-colors">
+                                <button id="btn-unduh-laporan-non" class="w-full bg-emerald-600 text-white font-medium py-2.5 rounded-lg flex items-center justify-center hover:bg-emerald-700 transition-colors">
                                     <i class="ph ph-file-xls mr-2 text-lg"></i> Unduh Laporan Non Operasional
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- SUB-TAB: LAPORAN BUKU BESAR TAHUNAN -->
+                <div id="laporan-content-bukubesar" class="hidden flex-col gap-4">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                        <div class="mb-6 border-b border-gray-100 pb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">Unduh Buku Besar Tahunan (3 Sheet)</h3>
+                            <p class="text-sm text-gray-500">Ekspor laporan rekapitulasi, operasional, dan non-operasional dalam satu file Excel (Tutup Buku).</p>
+                        </div>
+                        
+                        <div class="flex flex-col md:flex-row items-end gap-4 mt-4">
+                            <div class="w-full md:w-1/3">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Tahun Ajaran</label>
+                                <select id="filter-tahun-bukubesar" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg">
+                                    <!-- Akan diisi otomatis dari master data -->
+                                </select>
+                            </div>
+                            <div class="w-full md:w-1/3">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Cetak TTD</label>
+                                <input type="date" id="filter-tgl-cetak-bukubesar" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg">
+                            </div>
+                            <div class="w-full md:w-1/3 flex space-x-2">
+                                <button id="btn-unduh-bukubesar" class="w-full bg-indigo-600 text-white font-medium py-2.5 rounded-lg flex items-center justify-center hover:bg-indigo-700 transition-colors disabled:opacity-75 disabled:cursor-not-allowed">
+                                    <i id="icon-unduh-bukubesar" class="ph ph-file-xls mr-2 text-lg"></i> 
+                                    <span id="text-unduh-bukubesar">Unduh Buku Besar</span>
                                 </button>
                             </div>
                         </div>
@@ -904,12 +890,12 @@
             <div id="admin-view-bantuan" class="hidden flex-1 overflow-y-auto p-4 md:p-8 flex-col lg:flex-row gap-4 md:gap-8 lg:overflow-hidden">
                 <div class="w-full lg:w-1/3 admin-input-form shrink-0 lg:h-full overflow-y-auto hide-scroll">
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                        <div class="flex justify-between items-center cursor-pointer md:cursor-auto" onclick="toggleMobileForm('form-bantuan-content', 'icon-bantuan')">
+                        <div data-content="form-bantuan-content" data-icon="icon-bantuan" class="trigger-caret flex justify-between items-center cursor-pointer md:cursor-auto">
                             <h3 class="text-lg font-semibold text-gray-800 flex items-center"><i class="ph ph-bank text-teal-500 mr-2 text-xl"></i> Input Dana Bantuan</h3>
                             <i id="icon-bantuan" class="ph ph-caret-up text-gray-500 md:hidden transition-transform text-xl"></i>
                         </div>
                         <div id="form-bantuan-content" class="mt-4">
-                            <form id="form-bantuan" onsubmit="submitBantuan(event)" class="space-y-4">
+                            <form id="form-bantuan" class="space-y-4">
                                 <input type="hidden" id="edit-id-bantuan">
                                 <input type="hidden" id="edit-tgl-bantuan">
                                 <input type="hidden" id="edit-waktu-bantuan">
@@ -934,7 +920,7 @@
                                     <input type="number" id="bantuan-nominal" required min="1000" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500">
                                 </div>
                                 <div class="flex space-x-2 pt-2">
-                                    <button type="button" id="btn-cancel-bantuan" onclick="cancelEdit('bantuan')" class="hidden w-1/3 bg-gray-100 py-2.5 rounded-lg">Batal</button>
+                                    <button type="button" id="btn-cancel-bantuan" data-btn="bantuan" class="btnCancel hidden w-1/3 bg-gray-100 py-2.5 rounded-lg">Batal</button>
                                     <button type="submit" id="btn-submit-bantuan" class="w-full bg-teal-600 hover:bg-teal-700 text-white py-2.5 rounded-lg">Simpan Data</button>
                                 </div>
                             </form>
@@ -945,7 +931,7 @@
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex-1 flex flex-col">
                         <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shrink-0">
                             <h3 class="text-lg font-semibold text-gray-800">Riwayat Dana Bantuan</h3>
-                            <input type="text" id="search-bantuan" onkeyup="handleSearch('bantuan')" placeholder="Cari Keterangan..." class="w-full sm:w-64 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500">
+                            <input type="text" id="search-bantuan" placeholder="Cari Keterangan..." data-search="bantuan" class="searchData w-full sm:w-64 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500">
                         </div>
                         <div class="flex-1 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -964,8 +950,8 @@
                         <div class="p-4 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center bg-gray-50 text-sm shrink-0 gap-3">
                             <span id="page-info-bantuan" class="text-gray-500 font-medium"></span>
                             <div class="flex space-x-2">
-                                <button onclick="changeAdminPage('bantuan', -1)" id="btn-prev-bantuan" class="px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
-                                <button onclick="changeAdminPage('bantuan', 1)" id="btn-next-bantuan" class="px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
+                                <button id="btn-prev-bantuan" data-table="bantuan" data-page="-1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
+                                <button id="btn-next-bantuan" data-table="bantuan" data-page="1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
                             </div>
                         </div>
                     </div>
@@ -980,12 +966,12 @@
                         <h3 id="infaq-total-saldo" class="text-3xl font-bold text-emerald-700">Rp0</h3>
                     </div>
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                        <div class="flex justify-between items-center cursor-pointer md:cursor-auto" onclick="toggleMobileForm('form-infaq-content', 'icon-infaq')">
+                        <div data-content="form-infaq-content" data-icon="icon-infaq" class="trigger-caret flex justify-between items-center cursor-pointer md:cursor-auto">
                             <h3 class="text-lg font-semibold text-gray-800 flex items-center"><i class="ph ph-hand-heart text-emerald-500 mr-2 text-xl"></i> Input Kas Infaq</h3>
                             <i id="icon-infaq" class="ph ph-caret-up text-gray-500 md:hidden transition-transform text-xl"></i>
                         </div>
                         <div id="form-infaq-content" class="mt-4">
-                            <form id="form-infaq" onsubmit="submitInfaq(event)" class="space-y-4">
+                            <form id="form-infaq" class="space-y-4">
                                 <input type="hidden" id="edit-id-infaq">
                                 <input type="hidden" id="edit-tgl-infaq">
                                 <input type="hidden" id="edit-waktu-infaq">
@@ -1009,7 +995,7 @@
                                     <input type="number" id="infaq-nominal" required min="1000" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                                 </div>
                                 <div class="flex space-x-2 pt-2">
-                                    <button type="button" id="btn-cancel-infaq" onclick="cancelEdit('infaq')" class="hidden w-1/3 bg-gray-100 py-2.5 rounded-lg">Batal</button>
+                                    <button type="button" id="btn-cancel-infaq" data-btn="infaq" class="btnCancel hidden w-1/3 bg-gray-100 py-2.5 rounded-lg">Batal</button>
                                     <button type="submit" id="btn-submit-infaq" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-lg">Simpan Data</button>
                                 </div>
                             </form>
@@ -1020,7 +1006,7 @@
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex-1 flex flex-col">
                         <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shrink-0">
                             <h3 class="text-lg font-semibold text-gray-800">Riwayat Mutasi Infaq</h3>
-                            <input type="text" id="search-infaq" onkeyup="handleSearch('infaq')" placeholder="Cari Keterangan..." class="w-full sm:w-64 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                            <input type="text" id="search-infaq" placeholder="Cari Keterangan..." data-search="infaq" class="searchData w-full sm:w-64 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                         </div>
                         <div class="flex-1 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -1039,8 +1025,8 @@
                         <div class="p-4 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center bg-gray-50 text-sm shrink-0 gap-3">
                             <span id="page-info-infaq" class="text-gray-500 font-medium"></span>
                             <div class="flex space-x-2">
-                                <button onclick="changeAdminPage('infaq', -1)" id="btn-prev-infaq" class="px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
-                                <button onclick="changeAdminPage('infaq', 1)" id="btn-next-infaq" class="px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
+                                <button id="btn-prev-infaq" data-table="infaq" data-page="-1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
+                                <button id="btn-next-infaq" data-table="infaq" data-page="1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
                             </div>
                         </div>
                     </div>
@@ -1051,12 +1037,12 @@
             <div id="admin-view-pengeluaran" class="hidden flex-1 overflow-y-auto p-4 md:p-8 flex-col lg:flex-row gap-4 md:gap-8 lg:overflow-hidden">
                 <div class="w-full lg:w-1/3 admin-input-form shrink-0 lg:h-full overflow-y-auto hide-scroll">
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                        <div class="flex justify-between items-center cursor-pointer md:cursor-auto" onclick="toggleMobileForm('form-pengeluaran-content', 'icon-pengeluaran')">
+                        <div data-content="form-pengeluaran-content" data-icon="icon-pengeluaran" class="trigger-caret flex justify-between items-center cursor-pointer md:cursor-auto">
                             <h3 class="text-lg font-semibold text-gray-800 flex items-center"><i class="ph ph-minus-circle text-orange-500 mr-2 text-xl"></i> Input Pengeluaran Ops.</h3>
                             <i id="icon-pengeluaran" class="ph ph-caret-up text-gray-500 md:hidden transition-transform text-xl"></i>
                         </div>
                         <div id="form-pengeluaran-content" class="mt-4">
-                            <form id="form-pengeluaran" onsubmit="submitPengeluaran(event)" class="space-y-4">
+                            <form id="form-pengeluaran" class="space-y-4">
                                 <input type="hidden" id="edit-id-pengeluaran">
                                 <input type="hidden" id="edit-tgl-pengeluaran">
                                 <input type="hidden" id="edit-waktu-pengeluaran">
@@ -1081,7 +1067,7 @@
                                     <input type="number" id="out-nominal" required min="1000" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
                                 </div>
                                 <div class="flex space-x-2 pt-2">
-                                    <button type="button" id="btn-cancel-pengeluaran" onclick="cancelEdit('pengeluaran')" class="hidden w-1/3 bg-gray-100 py-2.5 rounded-lg">Batal</button>
+                                    <button type="button" id="btn-cancel-pengeluaran" data-btn="pengeluaran" class="btnCancel hidden w-1/3 bg-gray-100 py-2.5 rounded-lg">Batal</button>
                                     <button type="submit" id="btn-submit-pengeluaran" class="w-full bg-orange-600 hover:bg-orange-700 text-white py-2.5 rounded-lg">Simpan Data</button>
                                 </div>
                             </form>
@@ -1092,7 +1078,7 @@
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex-1 flex flex-col">
                         <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shrink-0">
                             <h3 class="text-lg font-semibold text-gray-800">Riwayat Pengeluaran Ops</h3>
-                            <input type="text" id="search-pengeluaran" onkeyup="handleSearch('pengeluaran')" placeholder="Cari Keterangan..." class="w-full sm:w-64 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
+                            <input type="text" id="search-pengeluaran" placeholder="Cari Keterangan..." data-search="pengeluaran" class="searchData w-full sm:w-64 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
                         </div>
                         <div class="flex-1 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -1111,8 +1097,8 @@
                         <div class="p-4 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center bg-gray-50 text-sm shrink-0 gap-3">
                             <span id="page-info-pengeluaran" class="text-gray-500 font-medium"></span>
                             <div class="flex space-x-2">
-                                <button onclick="changeAdminPage('pengeluaran', -1)" id="btn-prev-pengeluaran" class="px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
-                                <button onclick="changeAdminPage('pengeluaran', 1)" id="btn-next-pengeluaran" class="px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
+                                <button id="btn-prev-pengeluaran" data-table="pengeluaran" data-page="-1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
+                                <button id="btn-next-pengeluaran" data-table="pengeluaran" data-page="1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
                             </div>
                         </div>
                     </div>
@@ -1123,12 +1109,12 @@
             <div id="admin-view-pengeluaran-non" class="hidden flex-1 overflow-y-auto p-4 md:p-8 flex-col lg:flex-row gap-4 md:gap-8 lg:overflow-hidden">
                 <div class="w-full lg:w-1/3 admin-input-form shrink-0 lg:h-full overflow-y-auto hide-scroll">
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                        <div class="flex justify-between items-center cursor-pointer md:cursor-auto" onclick="toggleMobileForm('form-pengeluaran-non-content', 'icon-pengeluaran-non')">
+                        <div data-content="form-pengeluaran-non-content" data-icon="icon-pengeluaran-non" class="trigger-caret flex justify-between items-center cursor-pointer md:cursor-auto">
                             <h3 class="text-lg font-semibold text-gray-800 flex items-center"><i class="ph ph-buildings text-amber-500 mr-2 text-xl"></i> Input Pengeluaran Non Ops</h3>
                             <i id="icon-pengeluaran-non" class="ph ph-caret-up text-gray-500 md:hidden transition-transform text-xl"></i>
                         </div>
                         <div id="form-pengeluaran-non-content" class="mt-4">
-                            <form id="form-pengeluaran-non" onsubmit="submitPengeluaranNon(event)" class="space-y-4">
+                            <form id="form-pengeluaran-non" class="space-y-4">
                                 <input type="hidden" id="edit-id-pengeluaran-non">
                                 <input type="hidden" id="edit-tgl-pengeluaran-non">
                                 <input type="hidden" id="edit-waktu-pengeluaran-non">
@@ -1153,7 +1139,7 @@
                                     <input type="number" id="out-non-nominal" required min="1000" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500">
                                 </div>
                                 <div class="flex space-x-2 pt-2">
-                                    <button type="button" id="btn-cancel-pengeluaran-non" onclick="cancelEdit('pengeluaran-non')" class="hidden w-1/3 bg-gray-100 py-2.5 rounded-lg">Batal</button>
+                                    <button type="button" id="btn-cancel-pengeluaran-non" data-btn="pengeluaran-non" class="btnCancel hidden w-1/3 bg-gray-100 py-2.5 rounded-lg">Batal</button>
                                     <button type="submit" id="btn-submit-pengeluaran-non" class="w-full bg-amber-600 hover:bg-amber-700 text-white py-2.5 rounded-lg">Simpan Data</button>
                                 </div>
                             </form>
@@ -1164,7 +1150,7 @@
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex-1 flex flex-col">
                         <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shrink-0">
                             <h3 class="text-lg font-semibold text-gray-800">Riwayat Pengeluaran Non Ops</h3>
-                            <input type="text" id="search-pengeluaran-non" onkeyup="handleSearch('pengeluaran-non')" placeholder="Cari Keterangan..." class="w-full sm:w-64 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500">
+                            <input type="text" id="search-pengeluaran-non" placeholder="Cari Keterangan..." data-search="pengeluaran-non" class="searchData w-full sm:w-64 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500">
                         </div>
                         <div class="flex-1 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -1183,8 +1169,8 @@
                         <div class="p-4 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center bg-gray-50 text-sm shrink-0 gap-3">
                             <span id="page-info-pengeluaran-non" class="text-gray-500 font-medium"></span>
                             <div class="flex space-x-2">
-                                <button onclick="changeAdminPage('pengeluaran-non', -1)" id="btn-prev-pengeluaran-non" class="px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
-                                <button onclick="changeAdminPage('pengeluaran-non', 1)" id="btn-next-pengeluaran-non" class="px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
+                                <button id="btn-prev-pengeluaran-non" data-table="pengeluaran-non" data-page="-1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
+                                <button id="btn-next-pengeluaran-non" data-table="pengbtn-next-pengeluaran-non" data-page="1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
                             </div>
                         </div>
                     </div>
@@ -1195,13 +1181,13 @@
             <div id="admin-view-tarif" class="hidden flex-1 overflow-y-auto p-4 md:p-8 flex-col lg:flex-row gap-4 md:gap-8 lg:overflow-hidden">
                 <div class="w-full lg:w-1/3 admin-input-form shrink-0 lg:h-full overflow-y-auto hide-scroll">
                     <div class="bg-white rounded-xl shadow-sm border border-indigo-100 p-6">
-                        <div class="flex justify-between items-center cursor-pointer md:cursor-auto" onclick="toggleMobileForm('form-tarif-content', 'icon-tarif')">
+                        <div data-content="form-tarif-content" data-icon="icon-tarif" class="trigger-caret flex justify-between items-center cursor-pointer md:cursor-auto">
                             <h3 class="text-lg font-semibold text-gray-800 flex items-center"><i class="ph ph-tag text-indigo-600 mr-2 text-xl"></i> Pengaturan Tarif</h3>
                             <i id="icon-tarif" class="ph ph-caret-up text-gray-500 md:hidden transition-transform text-xl"></i>
                         </div>
                         <p class="text-xs text-gray-500">Sistem tagihan dinamis. Tarif otomatis dihitung untuk siswa berdasarkan targetnya.</p>
                         <div id="form-tarif-content" class="mt-4">
-                            <form id="form-tarif" onsubmit="submitTarif(event)" class="space-y-4">
+                            <form id="form-tarif" class="space-y-4">
                                 <input type="hidden" id="edit-id-tarif">
                                 <div>
                                     <label class="block text-sm mb-1 font-medium">Tahun Ajaran</label>
@@ -1220,7 +1206,7 @@
                                     <input type="number" id="tarif-nominal" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
                                 </div>
                                 <div class="flex space-x-2 pt-2">
-                                    <button type="button" id="btn-cancel-tarif" onclick="cancelEdit('tarif')" class="hidden w-1/3 bg-gray-100 text-gray-700 py-2.5 rounded-lg">Batal</button>
+                                    <button type="button" id="btn-cancel-tarif" data-btn="tarif" class="btnCancel hidden w-1/3 bg-gray-100 text-gray-700 py-2.5 rounded-lg">Batal</button>
                                     <button type="submit" id="btn-submit-tarif" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors">Simpan Tarif</button>
                                 </div>
                             </form>
@@ -1231,7 +1217,7 @@
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex-1 flex flex-col">
                         <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shrink-0">
                             <h3 class="text-lg font-semibold text-gray-800">Daftar Master Tarif</h3>
-                            <input type="text" id="search-tarif" onkeyup="handleSearch('tarif')" placeholder="Cari Tahun/Target/Jenis..." class="w-full sm:w-64 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                            <input type="text" id="search-tarif" placeholder="Cari Tahun/Target/Jenis..." data-search="tarif" class="searchData w-full sm:w-64 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
                         </div>
                         <div class="flex-1 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -1250,8 +1236,8 @@
                         <div class="p-4 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center bg-gray-50 text-sm shrink-0 gap-3">
                             <span id="page-info-tarif" class="text-gray-500 font-medium"></span>
                             <div class="flex space-x-2">
-                                <button onclick="changeAdminPage('tarif', -1)" id="btn-prev-tarif" class="px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
-                                <button onclick="changeAdminPage('tarif', 1)" id="btn-next-tarif" class="px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
+                                <button id="btn-prev-tarif" data-table="tarif" data-page="-1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
+                                <button id="btn-next-tarif" data-table="tarif" data-page="1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
                             </div>
                         </div>
                     </div>
@@ -1262,13 +1248,13 @@
             <div id="admin-view-master_atribut" class="hidden flex-1 overflow-y-auto p-4 md:p-8 flex-col lg:flex-row gap-4 md:gap-8 lg:overflow-hidden">
                 <div class="w-full lg:w-1/3 admin-input-form shrink-0 lg:h-full overflow-y-auto hide-scroll">
                     <div class="bg-white rounded-xl shadow-sm border border-indigo-100 p-6">
-                        <div class="flex justify-between items-center cursor-pointer md:cursor-auto" onclick="toggleMobileForm('form-master_atribut-content', 'icon-master_atribut')">
+                        <div data-content="form-master_atribut-content" data-icon="icon-master_atribut" class="trigger-caret flex justify-between items-center cursor-pointer md:cursor-auto">
                             <h3 class="text-lg font-semibold text-gray-800 flex items-center"><i class="ph ph-t-shirt text-indigo-600 mr-2 text-xl"></i> Pengaturan Harga Atribut</h3>
                             <i id="icon-master_atribut" class="ph ph-caret-up text-gray-500 md:hidden transition-transform text-xl"></i>
                         </div>
                         <p class="text-xs text-gray-500">Katalog harga untuk seragam, buku, dan kelengkapan siswa lainnya.</p>
                         <div id="form-master_atribut-content" class="mt-4">
-                            <form id="form-master_atribut" onsubmit="submitMasterAtribut(event)" class="space-y-4">
+                            <form id="form-master_atribut" class="space-y-4">
                                 <input type="hidden" id="edit-id-master_atribut">
                                 <div>
                                     <label class="block text-sm mb-1 font-medium">Tahun Ajaran</label>
@@ -1280,10 +1266,10 @@
                                 </div>
                                 <div>
                                     <label class="block text-sm mb-1 font-medium">Harga Katalog (Rp)</label>
-                                    <input type="number" id="master_atribut-nominal" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                    <input type="number" id="master_atribut-nominal" required placeholder="Isi harga" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
                                 </div>
                                 <div class="flex space-x-2 pt-2">
-                                    <button type="button" id="btn-cancel-master_atribut" onclick="cancelEdit('master_atribut')" class="hidden w-1/3 bg-gray-100 text-gray-700 py-2.5 rounded-lg">Batal</button>
+                                    <button type="button" id="btn-cancel-master_atribut" data-btn="master_atribut" class="btnCancel hidden w-1/3 bg-gray-100 text-gray-700 py-2.5 rounded-lg">Batal</button>
                                     <button type="submit" id="btn-submit-master_atribut" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors">Simpan Atribut</button>
                                 </div>
                             </form>
@@ -1294,7 +1280,7 @@
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex-1 flex flex-col">
                         <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shrink-0">
                             <h3 class="text-lg font-semibold text-gray-800">Katalog Master Atribut</h3>
-                            <input type="text" id="search-master_atribut" onkeyup="handleSearch('master_atribut')" placeholder="Cari Tahun atau Jenis Atribut..." class="w-full sm:w-64 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                            <input type="text" id="search-master_atribut" placeholder="Cari Tahun atau Jenis Atribut..." data-search="master_atribut" class="searchData w-full sm:w-64 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
                         </div>
                         <div class="flex-1 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -1312,8 +1298,8 @@
                         <div class="p-4 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center bg-gray-50 text-sm shrink-0 gap-3">
                             <span id="page-info-master_atribut" class="text-gray-500 font-medium"></span>
                             <div class="flex space-x-2">
-                                <button onclick="changeAdminPage('master_atribut', -1)" id="btn-prev-master_atribut" class="px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
-                                <button onclick="changeAdminPage('master_atribut', 1)" id="btn-next-master_atribut" class="px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
+                                <button id="btn-prev-master_atribut" data-table="master_atribut" data-page="-1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
+                                <button id="btn-next-master_atribut" data-table="master_atribut" data-page="1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
                             </div>
                         </div>
                     </div>
@@ -1331,22 +1317,22 @@
                     </div>
                     <!-- Menu Tab Internal Restore -->
                     <div class="flex border-b overflow-x-auto hide-scroll bg-gray-50">
-                        <button onclick="switchRestoreTab('pemasukan')" id="rtab-pemasukan" class="flex-none px-6 py-3 text-sm font-semibold border-b-2 border-rose-500 text-rose-600 transition-colors flex items-center">
+                        <button id="rtab-pemasukan" class="tabRestore flex-none px-6 py-3 text-sm font-semibold border-b-2 border-rose-500 text-rose-600 transition-colors flex items-center">
                             Pemasukan <span id="badge-res-pemasukan" class="ml-2 bg-rose-500 text-white text-[10px] px-2 py-0.5 rounded-full hidden">0</span>
                         </button>
-                        <button onclick="switchRestoreTab('atribut')" id="rtab-atribut" class="flex-none px-6 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors flex items-center">
+                        <button id="rtab-atribut" class="tabRestore flex-none px-6 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors flex items-center">
                             Atribut <span id="badge-res-atribut" class="ml-2 bg-rose-500 text-white text-[10px] px-2 py-0.5 rounded-full hidden">0</span>
                         </button>
-                        <button onclick="switchRestoreTab('bantuan')" id="rtab-bantuan" class="flex-none px-6 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors flex items-center">
+                        <button id="rtab-bantuan" class="tabRestore flex-none px-6 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors flex items-center">
                             Bantuan <span id="badge-res-bantuan" class="ml-2 bg-rose-500 text-white text-[10px] px-2 py-0.5 rounded-full hidden">0</span>
                         </button>
-                        <button onclick="switchRestoreTab('infaq')" id="rtab-infaq" class="flex-none px-6 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors flex items-center">
+                        <button id="rtab-infaq" class="tabRestore flex-none px-6 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors flex items-center">
                             Infaq <span id="badge-res-infaq" class="ml-2 bg-rose-500 text-white text-[10px] px-2 py-0.5 rounded-full hidden">0</span>
                         </button>
-                        <button onclick="switchRestoreTab('pengeluaran')" id="rtab-pengeluaran" class="flex-none px-6 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors flex items-center">
+                        <button id="rtab-pengeluaran" class="tabRestore flex-none px-6 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors flex items-center">
                             Operasional <span id="badge-res-pengeluaran" class="ml-2 bg-rose-500 text-white text-[10px] px-2 py-0.5 rounded-full hidden">0</span>
                         </button>
-                        <button onclick="switchRestoreTab('pengeluaran-non')" id="rtab-pengeluaran-non" class="flex-none px-6 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors flex items-center">
+                        <button id="rtab-pengeluaran-non" class="tabRestore flex-none px-6 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors flex items-center">
                             Non Ops <span id="badge-res-pengeluaran-non" class="ml-2 bg-rose-500 text-white text-[10px] px-2 py-0.5 rounded-full hidden">0</span>
                         </button>
                     </div>
@@ -1367,8 +1353,8 @@
                     <div class="p-4 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center bg-gray-50 text-sm shrink-0 gap-3">
                         <span id="page-info-restore" class="text-gray-500 font-medium"></span>
                         <div class="flex space-x-2">
-                            <button onclick="changeAdminPage('restore', -1)" id="btn-prev-restore" class="px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
-                            <button onclick="changeAdminPage('restore', 1)" id="btn-next-restore" class="px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
+                            <button id="btn-prev-restore" data-table="restore" data-page="-1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
+                            <button id="btn-next-restore" data-table="restore" data-page="1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
                         </div>
                     </div>
                 </div>
@@ -1378,12 +1364,12 @@
             <div id="admin-view-user" class="hidden flex-1 overflow-y-auto p-4 md:p-8 flex-col lg:flex-row gap-4 md:gap-8 lg:overflow-hidden">
                 <div class="w-full lg:w-1/3 admin-input-form shrink-0 lg:h-full overflow-y-auto hide-scroll">
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                        <div class="flex justify-between items-center cursor-pointer md:cursor-auto" onclick="toggleMobileForm('form-user-content', 'icon-user')">
+                        <div data-content="form-user-content" data-icon="icon-user" class="trigger-caret flex justify-between items-center cursor-pointer md:cursor-auto">
                             <h3 class="text-lg font-semibold text-gray-800 flex items-center"><i class="ph ph-user-plus text-purple-500 mr-2 text-xl"></i> Tambah / Edit User</h3>
                             <i id="icon-user" class="ph ph-caret-up text-gray-500 md:hidden transition-transform text-xl"></i>
                         </div>
                         <div id="form-user-content" class="mt-4">
-                            <form id="form-user" onsubmit="submitUser(event)" class="space-y-4">
+                            <form id="form-user" class="space-y-4">
                                 <input type="hidden" id="edit-id-user">
                                 <input type="hidden" id="edit-old-username">
                                 <div>
@@ -1407,7 +1393,7 @@
                                     </select>
                                 </div>
                                 <div class="flex space-x-2 pt-2">
-                                    <button type="button" id="btn-cancel-user" onclick="cancelEdit('user')" class="hidden w-1/3 bg-gray-100 py-2.5 rounded-lg">Batal</button>
+                                    <button type="button" id="btn-cancel-user" data-btn="user" class="btnCancel hidden w-1/3 bg-gray-100 py-2.5 rounded-lg">Batal</button>
                                     <button type="submit" id="btn-submit-user" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2.5 rounded-lg">Simpan Data</button>
                                 </div>
                             </form>
@@ -1418,7 +1404,7 @@
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex-1 flex flex-col">
                         <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shrink-0">
                             <h3 class="text-lg font-semibold text-gray-800">Daftar Akun Pengguna</h3>
-                            <input type="text" id="search-user" onkeyup="handleSearch('user')" placeholder="Cari Nama/Username..." class="w-full sm:w-64 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                            <input type="text" id="search-user" placeholder="Cari Nama/Username..." data-search="user" class="searchData w-full sm:w-64 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
                         </div>
                         <div class="flex-1 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -1436,8 +1422,102 @@
                         <div class="p-4 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center bg-gray-50 text-sm shrink-0 gap-3">
                             <span id="page-info-user" class="text-gray-500 font-medium"></span>
                             <div class="flex space-x-2">
-                                <button onclick="changeAdminPage('user', -1)" id="btn-prev-user" class="px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
-                                <button onclick="changeAdminPage('user', 1)" id="btn-next-user" class="px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
+                                <button id="btn-prev-user" data-table="user" data-page="-1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
+                                <button id="btn-next-user" data-table="user" data-page="11" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KONTEN: PENGATURAN & BACKUP -->
+            <div id="admin-view-pengaturan" class="hidden flex-1 overflow-y-auto p-4 md:p-8 flex-col lg:flex-row gap-4 md:gap-8 lg:overflow-hidden">
+                
+                <!-- SISI KIRI (1/3): PENGATURAN TAHUN AJARAN -->
+                <div class="w-full lg:w-1/3 admin-input-form shrink-0 lg:h-full overflow-y-auto hide-scroll">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                        <div data-content="form-pengaturan-content" data-icon="icon-pengaturan" class="trigger-caret flex justify-between items-center cursor-pointer md:cursor-auto">
+                            <h3 class="text-lg font-semibold text-gray-800 flex items-center"><i class="ph ph-sliders-horizontal text-indigo-600 mr-2 text-xl"></i> Pengaturan Global</h3>
+                            <i id="icon-pengaturan" class="ph ph-caret-up text-gray-500 md:hidden transition-transform text-xl"></i>
+                        </div>
+                        
+                        <div id="form-pengaturan-content" class="mt-4">
+                            <!-- Indikator Status -->
+                            <div class="bg-indigo-50 text-indigo-700 px-4 py-3 rounded-lg border border-indigo-100 text-sm mb-5">
+                                Tahun Aktif: <span id="label-tahun-aktif-sekarang" class="font-bold text-base block mt-1">Memuat data...</span>
+                            </div>
+
+                            <form id="form-pengaturan" class="space-y-4">
+                                <div>
+                                    <label class="block text-sm mb-1 font-medium text-gray-700">Ubah Tahun Ajaran Aktif</label>
+                                    <select id="setting-tahun-ajaran" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                        <option value="">Pilih Tahun Ajaran...</option>
+                                        <!-- Otomatis ditarik dari tabel master_data -->
+                                    </select>
+                                </div>
+                                <div class="pt-2">
+                                    <button type="submit" id="btn-submit-pengaturan" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-lg transition-colors flex justify-center items-center font-medium">
+                                        <i class="ph ph-floppy-disk mr-2 text-lg"></i> Terapkan & Simpan
+                                    </button>
+                                </div>
+                                <p class="text-xs text-amber-600 mt-2 leading-relaxed text-justify">
+                                    <i class="ph ph-info mr-1"></i> Saat tahun ajaran diubah, antarmuka Kasir hanya akan menampilkan transaksi dari tahun tersebut (Soft Reset) agar aplikasi tetap ringan.
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SISI KANAN (2/3): MANAJEMEN DATABASE & BACKUP -->
+                <div class="w-full lg:w-2/3 admin-table-container min-h-0 flex flex-col flex-1 lg:h-full">
+                    <div class="bg-white rounded-xl shadow-sm border border-red-100 overflow-hidden flex-1 flex flex-col relative">
+                        <!-- Pita merah penanda Danger Zone -->
+                        <div class="absolute top-0 left-0 w-1.5 h-full bg-red-500"></div>
+                        
+                        <div class="p-6 border-b border-gray-100 shrink-0">
+                            <h3 class="text-lg font-semibold text-gray-800 flex items-center"><i class="ph ph-database text-red-500 mr-2 text-xl"></i> Manajemen Database & Keamanan</h3>
+                            <p class="text-sm text-gray-500 mt-1">Area khusus Super Admin untuk mengelola ruang penyimpanan server dan mencadangkan data mentah.</p>
+                        </div>
+                        
+                        <div class="p-6 flex-1 overflow-y-auto">
+                            <!-- Indikator Kapasitas Supabase -->
+                            <div class="mb-8 p-5 bg-gray-50 rounded-xl border border-gray-200">
+                                <div class="flex justify-between items-end mb-3">
+                                    <span class="text-sm font-semibold text-gray-700">Kapasitas Penyimpanan Supabase (Batas 500 MB)</span>
+                                    <span id="badge-status-db" class="text-xs font-bold text-emerald-700 bg-emerald-100 border border-emerald-200 px-2 py-1 rounded-md">Status: memuat</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-3.5 mb-2 overflow-hidden border border-gray-300">
+                                    <div id="progress-bar-db" class="bg-emerald-500 h-full transition-all duration-1000" style="width: 1%"></div>
+                                </div>
+                                <!-- Tambahkan ID: teks-detail-db -->
+                                <div id="teks-detail-db" class="flex justify-between text-xs text-gray-500">
+                                    <span>Menghitung memori server...</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Grid Tombol Aksi -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <!-- Card Backup SQL -->
+                                <div class="border border-gray-200 rounded-xl p-5 flex flex-col justify-between hover:border-indigo-300 hover:shadow-md transition-all">
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800 mb-2 flex items-center"><i class="ph ph-file-sql mr-2 text-indigo-600"></i> Backup SQL (Full Database)</h4>
+                                        <p class="text-sm text-gray-500 mb-6 leading-relaxed">Unduh seluruh isi tabel dan riwayat transaksi sejak awal aplikasi digunakan. Berfungsi sebagai nyawa cadangan untuk Restore Data jika terjadi musibah.</p>
+                                    </div>
+                                    <button id="backup-sql" class="w-full bg-slate-800 text-white font-medium py-2.5 rounded-lg flex items-center justify-center hover:bg-slate-900 transition-colors shadow-sm">
+                                        <i class="ph ph-download-simple mr-2 text-lg"></i> Unduh File .sql
+                                    </button>
+                                </div>
+
+                                <!-- Card Hard Reset -->
+                                <div class="border border-red-200 bg-red-50/50 rounded-xl p-5 flex flex-col justify-between">
+                                    <div>
+                                        <h4 class="font-semibold text-red-800 mb-2 flex items-center"><i class="ph ph-warning-circle mr-2"></i> Hard Reset (Kosongkan Data)</h4>
+                                        <p class="text-sm text-red-600 mb-6 leading-relaxed">Menghapus seluruh riwayat transaksi secara permanen. Tombol ini otomatis terkunci demi keamanan dan hanya akan aktif jika kapasitas mencapai 90%.</p>
+                                    </div>
+                                    <button disabled id="btn-hard-reset" class="w-full bg-gray-300 text-gray-500 font-medium py-2.5 rounded-lg flex items-center justify-center cursor-not-allowed border border-gray-300">
+                                        <i class="ph ph-lock mr-2 text-lg"></i> Tombol Terkunci
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1455,8 +1535,8 @@
             <h3 class="text-xl font-bold text-gray-800 mb-2">Konfirmasi Hapus</h3>
             <p class="text-sm text-gray-500 mb-6">Apakah Anda yakin ingin menghapus data ini?</p>
             <div class="flex space-x-3 mt-6">
-                <button onclick="closeDeleteModal()" class="flex-1 py-2.5 bg-gray-100 font-medium rounded-lg">Batal</button>
-                <button onclick="confirmDelete()" class="flex-1 py-2.5 bg-red-600 text-white font-medium rounded-lg">Ya, Hapus</button>
+                <button id="btn-delete-cancel" class="flex-1 py-2.5 bg-gray-100 font-medium rounded-lg">Batal</button>
+                <button id="btn-delete-confirm" class="flex-1 py-2.5 bg-red-600 text-white font-medium rounded-lg">Ya, Hapus</button>
             </div>
         </div>
     </div>
@@ -1466,8 +1546,8 @@
             <h3 class="text-xl font-bold text-gray-800 mb-2">Konfirmasi Keluar</h3>
             <p class="text-sm text-gray-500 mb-6">Apakah Anda yakin ingin keluar dari aplikasi?</p>
             <div class="flex space-x-3 mt-6">
-                <button onclick="closeLogoutModal()" class="flex-1 py-2.5 bg-gray-100 hover:bg-gray-200 transition-colors font-medium rounded-lg">Batal</button>
-                <button onclick="confirmLogout()" class="flex-1 py-2.5 bg-red-600 hover:bg-red-700 transition-colors text-white font-medium rounded-lg">Ya, Keluar</button>
+                <button id="btn-logout-cancel" class="flex-1 py-2.5 bg-gray-100 hover:bg-gray-200 transition-colors font-medium rounded-lg">Batal</button>
+                <button id="btn-logout-confirm" class="flex-1 py-2.5 bg-red-600 hover:bg-red-700 transition-colors text-white font-medium rounded-lg">Ya, Keluar</button>
             </div>
         </div>
     </div>
@@ -1487,22 +1567,13 @@
             <p id="notif-message" class="text-sm text-gray-500 mb-6">Pesan notifikasi...</p>
             
             <!-- Tombol Aksi (Otomatis Sembunyi saat Loading) -->
-            <button id="notif-btn" onclick="tutupModalNotif()" class="w-full py-2.5 rounded-lg font-medium text-white transition-colors hidden">
+            <button id="notif-btn" class="w-full py-2.5 rounded-lg font-medium text-white transition-colors hidden">
                 Tutup
             </button>
         </div>
     </div>
-    <!-- <script src="/administrasi/assets/js/admin.js"></script> -->
-    <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Library SheetJS untuk Export Excel -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
-    <!-- Kumpulan Script Aplikasi -->
-    <script src="/administrasi-v2/assets/js/config.js"></script>
-    <script src="/administrasi-v2/assets/js/utils.js"></script>
-    <script src="/administrasi-v2/assets/js/api.js"></script>
-    <script src="/administrasi-v2/assets/js/auth.js"></script>
-    <script src="/administrasi-v2/assets/js/cetak.js"></script>
-    <script src="/administrasi-v2/assets/js/ui.js"></script>
+    <script src="/administrasi-v2/assets/js/app.js"></script>
 </body>
 </html>
