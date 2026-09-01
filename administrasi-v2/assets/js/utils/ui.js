@@ -261,45 +261,43 @@ function getItemsPerPage() {
 function validasiDanTampilkanSiswa(nis, prefixForm = '') {
 	// prefixForm berguna untuk membedakan ID HTML. 
 	// SPP pakai prefix '', Atribut pakai prefix '-atribut'
+	const isSpp = (prefixForm === '');
 
 	if (!nis) {
-		nis = document.getElementById(`input-nis${prefixForm}`).value.trim();
-	}
+    nis = document.getElementById(isSpp ? 'input-nis' : 'input-nis-atribut').value.trim();
+  }
 
 	const siswa = dbSiswa.find(s => String(s.nis).trim() === nis);
-	const elNama = document.getElementById(`info-nama-siswa${prefixForm}`);
-	const alertBox = document.getElementById(`alert-tunggakan${prefixForm}`);
-	const btnSubmit = document.getElementById(`btn-submit${prefixForm}`);
+	const elNama = document.getElementById(isSpp ? 'info-nama-siswa' : 'info-nama-siswa-atribut');
+  const alertBox = document.getElementById(isSpp ? 'alert-tunggakan-pemasukan' : 'alert-tunggakan-atribut');
+  const btnSubmit = document.getElementById(isSpp ? 'btn-submit-pemasukan' : 'btn-submit-atribut');
+  const inputNominal = document.getElementById(isSpp ? 'input-nominal' : 'input-nominal-atribut');
 
-	// Buka kunci form standar
-	if (btnSubmit) {
-		btnSubmit.disabled = false;
-		btnSubmit.classList.remove('opacity-50');
-	}
+	// Buka kunci HANYA JIKA nominal tidak sedang dikunci (bukan status Lunas)
+  if (btnSubmit && inputNominal && !inputNominal.readOnly) {
+    btnSubmit.disabled = false;
+    btnSubmit.classList.remove('opacity-50');
+  }
 
 	// Kosongkan form referensi
 	const refId = prefixForm === '' ? 'edit-id-nota-referensi-pemasukan' : 'edit-id-nota-referensi';
 	document.getElementById(refId).value = "";
 
 	if (siswa) {
-		elNama.innerHTML = `<i class="ph ph-user-circle mr-1 text-lg"></i> ${siswa.nama} (${siswa.kelas})`;
-		elNama.classList.remove('hidden', 'text-red-600');
-		elNama.classList.add(prefixForm === '' ? 'text-cyan-600' : 'text-indigo-600');
+    elNama.innerHTML = `<i class="ph ph-user-circle mr-1 text-lg"></i> ${siswa.nama} (${siswa.kelas})`;
+    elNama.classList.remove('hidden', 'text-red-600');
+    elNama.classList.add(isSpp ? 'text-cyan-600' : 'text-indigo-600');
 
-		// Isi form tersembunyi
-		document.getElementById(`edit-nama${prefixForm === '' ? '-pemasukan' : '-atribut'}`).value = siswa.nama;
-		document.getElementById(`edit-lp${prefixForm === '' ? '-pemasukan' : '-atribut'}`).value = siswa.lp;
-	} else {
-		elNama.innerHTML = '<i class="ph ph-x-circle mr-1 text-lg"></i> Siswa tidak ditemukan';
-		elNama.classList.remove('hidden', 'text-cyan-600', 'text-indigo-600');
-		elNama.classList.add('text-red-600');
-		if (alertBox) alertBox.classList.add('hidden');
-	}
+    document.getElementById(isSpp ? 'edit-nama-pemasukan' : 'edit-nama-atribut').value = siswa.nama;
+    document.getElementById(isSpp ? 'edit-lp-pemasukan' : 'edit-lp-atribut').value = siswa.lp;
+  } else {
+    elNama.innerHTML = '<i class="ph ph-x-circle mr-1 text-lg"></i> Siswa tidak ditemukan';
+    elNama.classList.remove('hidden', 'text-cyan-600', 'text-indigo-600');
+    elNama.classList.add('text-red-600');
+    if (alertBox) alertBox.classList.add('hidden');
+  }
 
-	return {
-		siswa,
-		nisFinal: nis
-	}; // Kembalikan datanya untuk dipakai menghitung hutang
+  return { siswa, nisFinal: nis };
 }
 
 // Inisialisasi Script Tahun PPDB

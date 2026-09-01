@@ -318,6 +318,11 @@ function cekTarifDanTunggakan(skipCekTunggakan = false) {
 			inputNominal.value = hargaTarif;
 			inputNominal.readOnly = false;
 			inputNominal.classList.remove('bg-gray-200');
+			// 🚀 PENAMBAHAN: Pastikan tombol terbuka jika statusnya tidak lunas
+      if (btnSubmit) {
+        btnSubmit.disabled = false;
+        btnSubmit.classList.remove('opacity-50');
+      }
 		}
 		evaluasiStatusPemasukan();
 	}
