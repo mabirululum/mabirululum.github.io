@@ -14,11 +14,16 @@ const appScripts = [
   "/administrasi-v2/assets/js/modules/transactions/pengeluaran.js",
   "/administrasi-v2/assets/js/modules/transactions/lainnya.js",
   "/administrasi-v2/assets/js/modules/transactions/master-data.js",
+  "/administrasi-v2/assets/js/modules/transactions/master-guru.js",
+  "/administrasi-v2/assets/js/modules/transactions/hr-tendik.js",
+  "/administrasi-v2/assets/js/modules/transactions/hr-ekstra-bbqs.js",
+  "/administrasi-v2/assets/js/modules/transactions/potongan-tendik.js",
   "/administrasi-v2/assets/js/modules/reports/export-excel.js",
   "/administrasi-v2/assets/js/modules/reports/laporan-cetak.js",
   "/administrasi-v2/assets/js/modules/reports/surat-tagihan.js",
   "/administrasi-v2/assets/js/modules/dashboard/dashboard.js",
   "/administrasi-v2/assets/js/modules/portal-siswa/siswa-app.js",
+  "/administrasi-v2/assets/js/modules/dashboard/changelog.js",
 ];
 
 function loadScripts(index) {
@@ -32,7 +37,9 @@ function loadScripts(index) {
             "setupPemasukanAtributEvents", "setupBantuanInfaqEvents", 
             "setupPengeluaranEvents", "setupTarifEvents", "setupCrudEvents", 
             "setupAcademicEvents", "setupLaporanCetakEvents", 
-            "setupSuratCetakEvents", "setupExcelEvents", "setupSiswaEvents"
+            "setupSuratCetakEvents", "setupExcelEvents", "setupSiswaEvents",
+            "setupHRTendikEvents", "setupMasterGuruEvents", "setupPotonganEvents",
+            "setupChangelogEvents", "setupHREkstraBBQSEvents"
         ];
 
         // 🚀 PUTAR (LOOPING) DAN JALANKAN DENGAN AMAN
