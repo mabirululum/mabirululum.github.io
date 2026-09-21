@@ -438,6 +438,83 @@ function loadAdminMasterAtributTable() {
     updatePaginationUI('master_atribut', tItems, pData.length); 
 }
 
+// TABEL RENDER DATA MASTER GURU
+function loadAdminMasterGuruTable() { 
+    const tbody = document.getElementById('table-admin-master_guru');
+    const q = adminTableState.master_guru.query; 
+    
+    // Filter data: Cek pencarian di Nama atau Kode Guru
+    const { pData, tItems } = getPaginatedData(dbMasterGuru, 'master_guru', t => 
+        !t.isDeleted && (!q || String(t.nama).toLowerCase().includes(q) || String(t.kode_guru).toLowerCase().includes(q))
+    );
+    
+    buildTableRow(tbody, pData, 'master_guru', t => {
+        // Indikator sinkronisasi jika data masih berstatus TEMP (Offline-first)
+        let statusSync = t.id && String(t.id).includes('TEMP-') ? '<i class="ph ph-spinner-gap animate-spin text-orange-500 ml-2"></i>' : '';
+        
+        // Memanggil fungsi standar dari crud-handler.js
+        let btnEdit = `<button type="button" onclick="editData('master_guru', '${t.id}')" class="text-blue-500 hover:text-blue-700 mr-2"><i class="ph ph-pencil-simple text-lg"></i></button>`;
+        let btnDelete = `<button type="button" onclick="deleteData('master_guru', '${t.id}')" class="text-red-500 hover:text-red-700"><i class="ph ph-trash text-lg"></i></button>`;
+        
+        // Logika pembuatan Badge Kategori (Multi-Peran)
+        let badges = [];
+        if (t.is_tendik) badges.push('<span class="bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold border border-indigo-200">Tendik</span>');
+        if (t.is_bbqs) badges.push('<span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded text-xs font-semibold border border-amber-200">BBQS</span>');
+        if (t.is_ekstra) badges.push('<span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded text-xs font-semibold border border-emerald-200">Ekstra</span>');
+
+        tbody.innerHTML += `
+        <tr class="hover:bg-gray-50">
+            <td class="p-4 text-gray-800 font-medium flex items-center whitespace-nowrap">${t.kode_guru} ${statusSync}</td>
+            <td class="p-4 text-indigo-700 font-bold whitespace-nowrap">${t.nama}</td>
+            <td class="p-4 text-gray-600 whitespace-nowrap">${t.jabatan || '-'}</td>
+            <td class="p-4 text-gray-600 whitespace-nowrap">${t.tugas_tambahan || '-'}</td>
+            <td class="p-4 text-center text-gray-600 whitespace-nowrap">${t.tahun_masuk || '-'}</td>
+            <td class="p-4 flex flex-wrap gap-1.5 whitespace-nowrap">${badges.join('')}</td>
+            <td class="p-4 text-center whitespace-nowrap">${btnEdit}${btnDelete}</td>
+        </tr>`;
+    });
+    
+    updatePaginationUI('master_guru', tItems, pData.length); 
+}
+
+function loadAdminTarifTunjanganTable() { 
+    const tbody = document.getElementById('table-admin-tarif_tunjangan');
+    const q = adminTableState.tarif_tunjangan.query; 
+    
+    // Filter data: Cek pencarian di Nama Jabatan/Tugas atau Tahun Ajaran
+    const { pData, tItems } = getPaginatedData(dbMasterTarifTunjangan, 'tarif_tunjangan', t => 
+        !t.isDeleted && (!q || String(t.namaTugas).toLowerCase().includes(q) || String(t.tahunAjaran).toLowerCase().includes(q))
+    );
+    
+    buildTableRow(tbody, pData, 'tarif_tunjangan', t => {
+        // Indikator sinkronisasi jika data masih berstatus TEMP (Offline-first)
+        let statusSync = t.id && String(t.id).includes('TEMP-') ? '<i class="ph ph-spinner-gap animate-spin text-orange-500 ml-2"></i>' : '';
+        
+        // Memanggil fungsi standar dari crud-handler.js
+        let btnEdit = `<button type="button" onclick="editData('tarif_tunjangan', '${t.id}')" class="text-blue-500 hover:text-blue-700 mr-2"><i class="ph ph-pencil-simple text-lg"></i></button>`;
+        let btnDelete = `<button type="button" onclick="deleteData('tarif_tunjangan', '${t.id}')" class="text-red-500 hover:text-red-700"><i class="ph ph-trash text-lg"></i></button>`;
+        
+        // Logika pembuatan Badge Kategori (Struktural vs Tambahan)
+        let badgeCategory = t.kategori === 'Struktural' 
+            ? '<span class="bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded text-xs font-semibold border border-indigo-200">Struktural</span>'
+            : '<span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded text-xs font-semibold border border-emerald-200">Tambahan</span>';
+
+        // Format angka nominal ke Rupiah
+        let formattedNominal = 'Rp ' + Number(t.nominal || 0).toLocaleString('id-ID');
+
+        tbody.innerHTML += `
+        <tr class="hover:bg-gray-50">
+            <td class="p-4 text-gray-800 font-medium whitespace-nowrap">${t.tahunAjaran} ${statusSync}</td>
+            <td class="p-4 text-gray-600 whitespace-nowrap">${badgeCategory}</td>
+            <td class="p-4 text-indigo-700 font-bold whitespace-nowrap">${t.namaTugas}</td>
+            <td class="p-4 text-gray-800 font-semibold text-right whitespace-nowrap">${formattedNominal}</td>
+            <td class="p-4 text-center whitespace-nowrap">${btnEdit}${btnDelete}</td>
+        </tr>`;
+    });
+    
+    updatePaginationUI('tarif_tunjangan', tItems, pData.length); 
+}
+
 // TABEL RENDER RESTORE
 function loadRestoreTable() {
 	const tbody = document.getElementById('table-admin-restore');

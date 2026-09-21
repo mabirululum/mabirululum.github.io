@@ -120,6 +120,17 @@ function initDropdowns() {
 	const mapOpt = (arr) => arr ? arr.map(i => `<option value="${i}">${i}</option>`).join('') : '';
 
 	// ========================================================
+	// 1. EKSTRAK DATA MASTER TARIF (BARU DITAMBAHKAN)
+	// ========================================================
+	const tarifAktif = (dbMasterTarifTunjangan || []).filter(t => !t.isDeleted);
+	
+	let listStruktural = [...new Set(tarifAktif.filter(t => t.kategori === 'Struktural').map(t => t.namaTugas))];
+	let listTambahan = [...new Set(tarifAktif.filter(t => t.kategori === 'Tambahan').map(t => t.namaTugas))];
+	
+	// Fallback wajib ada 'Guru' di struktural (jika admin lupa input)
+	if (!listStruktural.includes('Guru')) listStruktural.push('Guru');
+
+	// ========================================================
 	// 2. PENERAPAN DRY (Daftar Semua Dropdown Standar)
 	// ========================================================
 	const daftarDropdown = [
@@ -202,7 +213,46 @@ function initDropdowns() {
 			id: 'setting-tahun-ajaran',
 			data: dbMaster.tahunAjaran,
 			prefix: '<option value="">Pilih Tahun Ajaran...</option>'
-		}
+		},
+		// 👇 TAMBAHKAN 2 DROPDOWN MASTER GURU DI SINI 👇
+		{
+			id: 'master_guru-jabatan',
+			data: listStruktural,
+			prefix: '<option value="">-- Pilih Jabatan Struktural --</option>'
+		},
+		{
+			id: 'master_guru-tugas_tambahan',
+			data: listTambahan,
+			prefix: '<option value="">-- Tidak Ada / Kosong --</option>'
+		},
+		{
+			id: 'tarif_tunjangan-tahun',
+			data: dbMaster.tahunAjaran
+		},
+		{
+			id: 'hr-filter-tahun',
+			data: dbMaster.tahunAjaran
+		},
+		{
+			id: 'ptg-filter-tahun',
+			data: dbMaster.tahunAjaran
+		},
+		{
+			id: 'filter-tahun-bulanan',
+			data: dbMaster.tahunAjaran
+		},
+		{
+			id: 'ekstra-filter-tahun',
+			data: dbMaster.tahunAjaran
+		},
+		{
+			id: 'bbqs-filter-tahun',
+			data: dbMaster.tahunAjaran
+		},
+		{
+			id: 'cetak-bulan-tahun',
+			data: dbMaster.tahunAjaran
+		},
 	];
 
 	// Eksekusi semua dropdown dengan 1 loop!

@@ -29,7 +29,8 @@ async function loadDataFromSupabase(konteks = 'admin', filterNis = null) {
             { data: adminData }, { data: siswaData }, { data: tarifData }, 
             { data: pemasukanData }, { data: bantuanData }, { data: pengeluaranData }, 
             { data: pengeluaranNonData }, { data: infaqData }, { data: masterData },
-            { data: masterAtributData }, { data: pemasukanAtributData }, {data: pengaturanData}
+            { data: masterAtributData }, { data: pemasukanAtributData }, {data: pengaturanData},
+            { data: masterGuruData }, { data: tarifTunjanganData }
         ] = await Promise.all([
             supabaseClient.from('admin_users').select('*'),
             supabaseClient.from('data_siswa').select('*'),
@@ -43,6 +44,8 @@ async function loadDataFromSupabase(konteks = 'admin', filterNis = null) {
             supabaseClient.from('master_atribut').select('*'),
             qPemasukanAtribut,   // Dinamis
             supabaseClient.from('pengaturan').select('*'),
+            supabaseClient.from('master_guru').select('*'),
+            supabaseClient.from('master_tarif_tunjangan').select('*'),
         ]);
 
         // Mapping Data SQL ke Format Javascript
@@ -156,7 +159,27 @@ async function loadDataFromSupabase(konteks = 'admin', filterNis = null) {
             id: r.id,
             kunci: r.kunci,
             nilai: r.nilai
-        }))
+        }));
+        dbMasterGuru = (masterGuruData || []).map(r => ({
+            id: r.id,
+            kode_guru: r.kode_guru,
+            nama: r.nama,
+            jabatan: r.jabatan,
+            tugas_tambahan: r.tugas_tambahan,
+            tahun_masuk: r.tahun_masuk,
+            is_tendik: r.is_tendik,
+            is_bbqs: r.is_bbqs,
+            is_ekstra: r.is_ekstra,
+            is_active: r.is_active
+        }));
+        dbMasterTarifTunjangan = (tarifTunjanganData || []).map(r => ({
+            id: r.id,
+            tahunAjaran: r.tahun_ajaran,
+            kategori: r.kategori,
+            namaTugas: r.nama_tugas,
+            nominal: r.nominal,
+            isDeleted: r.is_deleted
+        }));
 
         if (masterData) {
             dbMaster = {
@@ -187,6 +210,8 @@ function getTableName(tipe) {
         'infaq': 'infaq',
         'tarif': 'master_tarif',
         'master_atribut': 'master_atribut',
+        'master_guru': 'master_guru',
+        'tarif_tunjangan': 'master_tarif_tunjangan',
         'user': 'admin_users',
         'pengaturan': 'pengaturan'
     };
@@ -195,7 +220,7 @@ function getTableName(tipe) {
 
 function mapToSupabase(tipe, data) {
     let payload = {};
-    if (tipe !== 'user') payload.is_deleted = false; 
+    if (tipe !== 'user' && tipe !== 'master_guru') payload.is_deleted = false;
 
     if (tipe === 'pemasukan') {
         payload.id_transaksi = data.id;
@@ -273,6 +298,23 @@ function mapToSupabase(tipe, data) {
         payload.id = data.id; 
         payload.tahun_ajaran = data.tahun; 
         payload.jenis_atribut = data.jenis; 
+        payload.nominal = data.nominal;
+    } else if (tipe === 'master_guru') {
+        if (!String(data.id).includes('TEMP')) payload.id = data.id; // Hanya kirim ID jika bukan TEMP
+        payload.kode_guru = data.kode_guru;
+        payload.nama = data.nama;
+        payload.jabatan = data.jabatan;
+        payload.tugas_tambahan = data.tugas_tambahan || null;
+        payload.tahun_masuk = data.tahun_masuk;
+        payload.is_tendik = data.is_tendik;
+        payload.is_bbqs = data.is_bbqs;
+        payload.is_ekstra = data.is_ekstra;
+        payload.is_active = data.is_active !== undefined ? data.is_active : true;
+    } else if (tipe === 'tarif_tunjangan') {
+        if (!String(data.id).includes('TEMP')) payload.id = data.id;
+        payload.tahun_ajaran = data.tahunAjaran;
+        payload.kategori = data.kategori;
+        payload.nama_tugas = data.namaTugas;
         payload.nominal = data.nominal;
     } else if (tipe === 'pengaturan') {
         payload.id = data.id;
@@ -365,7 +407,7 @@ async function processOptimisticSave(tipe, localDbArray, dataObject, renderFunct
             const { data, error } = await supabaseClient.from(tableName).upsert(payload).select();
             if (error) throw error;
             
-            if (tipe === 'user' && !dataObject.isEdit && data && data.length > 0) {
+            if ((tipe === 'user' || tipe === 'master_guru' || tipe === 'tarif_tunjangan') && !dataObject.isEdit && data && data.length > 0) {
                 dataObject.id = data[0].id;
             }
         }

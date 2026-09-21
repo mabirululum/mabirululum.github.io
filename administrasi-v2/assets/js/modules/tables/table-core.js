@@ -21,6 +21,8 @@ function changeAdminPage(type, delta) {
 	else if (type === 'pengeluaran-non') loadAdminPengeluaranNonTable();
 	else if (type === 'tarif') loadAdminTarifTable();
 	else if (type === 'master_atribut') loadAdminMasterAtributTable();
+	else if (type === 'master_guru') loadAdminMasterGuruTable();
+	else if (type === 'tarif_tunjangan') loadAdminTarifTunjanganTable();
 	else if (type === 'user') loadAdminUserTable();
 	else if (type === 'restore') loadRestoreTable();
 }

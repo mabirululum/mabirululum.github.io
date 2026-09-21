@@ -113,7 +113,31 @@ function editData(tipe, id) {
 		document.getElementById('master_atribut-tahun').value = trx.tahun;
 		document.getElementById('master_atribut-jenis').value = trx.jenis;
 		document.getElementById('master_atribut-nominal').value = trx.nominal;
-	} else if (tipe === 'user') {
+	} else if (tipe === 'master_guru') {
+		const trx = dbMasterGuru.find(t => String(t.id) === strId);
+		if (!trx) return;
+		
+		// Isi form input teks/angka
+		document.getElementById('edit-id-master_guru').value = trx.id;
+		document.getElementById('master_guru-kode').value = trx.kode_guru || '';
+		document.getElementById('master_guru-tahun').value = trx.tahun_masuk || '';
+		document.getElementById('master_guru-nama').value = trx.nama || '';
+		document.getElementById('master_guru-jabatan').value = trx.jabatan || '';
+		
+		// Isi form checkbox peran (menggunakan .checked)
+		document.getElementById('check-guru-tendik').checked = trx.is_tendik || false;
+		document.getElementById('check-guru-bbqs').checked = trx.is_bbqs || false;
+		document.getElementById('check-guru-ekstra').checked = trx.is_ekstra || false;
+  } else if (tipe === 'tarif_tunjangan') {
+		const trx = dbMasterTarifTunjangan.find(t => String(t.id) === strId);
+		if (!trx) return;
+		
+		document.getElementById('edit-id-tarif_tunjangan').value = trx.id;
+		document.getElementById('tarif_tunjangan-tahun').value = trx.tahunAjaran || '';
+		document.getElementById('tarif_tunjangan-kategori').value = trx.kategori || 'Struktural';
+		document.getElementById('tarif_tunjangan-nama').value = trx.namaTugas || '';
+		document.getElementById('tarif_tunjangan-nominal').value = trx.nominal || 0;
+  } else if (tipe === 'user') {
 		const trx = dbAdmin.find(t => String(t.id) === strId);
 		if (!trx) return;
 		document.getElementById('edit-id-user').value = trx.id;
@@ -206,6 +230,12 @@ async function confirmDelete() {
 	} else if (tipe === 'master_atribut') {
 		targetDb = dbMasterAtribut;
 		renderFn = loadAdminMasterAtributTable;
+	} else if (tipe === 'master_guru') {
+		targetDb = dbMasterGuru;
+		renderFn = loadAdminMasterGuruTable;
+	} else if (tipe === 'tarif_tunjangan') {
+		targetDb = dbMasterTarifTunjangan;
+		renderFn = loadAdminMasterTarifTunjanganTable;
 	}
 
 	const idx = targetDb.findIndex(t => String(t.id) === String(id));
@@ -227,8 +257,8 @@ async function confirmDelete() {
 
 	try {
 		const tableName = getTableName(tipe);
-		if (tipe === 'user' || tipe === 'tarif' || tipe === 'master_atribut') {
-			const pkColumn = tipe === 'user' || tipe === 'master_atribut' ? 'id' : 'id_transaksi';
+		if (tipe === 'user' || tipe === 'tarif' || tipe === 'master_atribut' || tipe === 'master_guru') {
+			const pkColumn = tipe === 'user' || tipe === 'master_atribut' || tipe === 'master_guru' ? 'id' : 'id_transaksi';
 			const {
 				error
 			} = await supabaseClient.from(tableName).delete().eq(pkColumn, id);

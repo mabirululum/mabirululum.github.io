@@ -1,55 +1,212 @@
+// function switchAdminTab(tab) {
+//   const views = ['dashboard', 'datasiswa', 'pemasukan', 'atribut', 'cetak', 'bantuan', 'infaq', 'pengeluaran', 'pengeluaran-non', 'hr-tendik', 'tarif', 'master_atribut', 'master_guru', 'restore', 'user', 'pengaturan'];
+//   const titles = { 
+//     'dashboard': 'Dashboard Utama', 
+//     'datasiswa': 'Direktori Data Siswa', 
+//     'pemasukan': 'Manajemen Pemasukan', 
+//     'atribut': 'Pemasukan Atribut Siswa',
+//     'cetak': 'Rekap dan Surat Tagihan', 
+//     'bantuan': 'Manajemen Dana Bantuan', 
+//     'pengeluaran': 'Pengeluaran Operasional', 
+//     'pengeluaran-non': 'Pengeluaran Non Operasional',
+// 		'hr-tendik': 'Daftar Honorarium Guru',
+//     'infaq': 'Manajemen Kas Infaq', 
+//     'tarif': 'Manajemen Tarif Siswa',
+//     'master_atribut': 'Manajemen Tarif Atribut Siswa',
+//     'master_guru': 'Manajemen Data Guru',
+//     'restore': 'Pemulihan Data (Recycle Bin)', 
+//     'user': 'Manajemen User & Akses',
+//     'pengaturan': 'Manajemen Pengaturan dan Backup Sistem'
+//   };
+  
+//   views.forEach(v => {
+//     const viewEl = document.getElementById(`admin-view-${v}`); const navEl = document.getElementById(`nav-${v}`);
+//     if (viewEl) { viewEl.classList.add('hidden'); viewEl.classList.remove('flex', 'block'); }
+//     if (navEl) navEl.className = "w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors";
+//   });
+  
+//   const currentView = document.getElementById(`admin-view-${tab}`);
+// 	if (!currentView) {
+//       console.warn(`Elemen admin-view-${tab} tidak ditemukan!`);
+//       return; 
+//   }
+//   currentView.classList.remove('hidden'); 
+// 	currentView.classList.add(tab === 'dashboard' ? 'block' : 'flex');
+
+//   const warnaNav = ['bg-blue-500', 'bg-sky-500', 'bg-cyan-500','bg-violet-500', 'bg-green-500', 'bg-teal-500', 'bg-emerald-500', 'bg-orange-500', 'bg-amber-500', 'bg-indigo-500', 'bg-teal-500', 'bg-rose-500', 'bg-purple-600'];
+//   const indexTab = views.indexOf(tab);
+//   const btnColor = warnaNav[indexTab % warnaNav.length] || 'bg-gray-500';
+  
+//   document.getElementById(`nav-${tab}`).className = `w-full flex items-center px-4 py-3 rounded-lg ${btnColor} text-white transition-colors`;
+//   document.getElementById('admin-page-title').innerText = titles[tab];
+
+//   if (tab === 'restore') loadRestoreTable();
+//   if (tab === 'pengaturan') cekKapasitasDatabase();
+//   if (window.innerWidth < 768) { document.getElementById('admin-sidebar').classList.add('-translate-x-full'); document.getElementById('sidebar-overlay').classList.add('hidden'); }
+
+//   if (tab === 'dashboard') {
+//     const aktifSiswa = dbSiswa.filter(s => !String(s.kelas).toUpperCase().includes('LULUS') && !String(s.kelas).toUpperCase().includes('KELUAR'));
+//     const lulusSiswa = dbSiswa.filter(s => String(s.kelas).toUpperCase().includes('LULUS'));
+//     document.getElementById('dash-siswa-aktif').innerText = aktifSiswa.length + " Siswa-Siswi";
+//     document.getElementById('dash-siswa-laki').innerText = aktifSiswa.filter(s => s.lp === 'L').length + " Siswa";
+//     document.getElementById('dash-siswi-perempuan').innerText = aktifSiswa.filter(s => s.lp === 'P').length + " Siswi";
+//     document.getElementById('dash-siswa-lulus').innerText = lulusSiswa.length + " Lulusan";
+//   }
+// }
+
+// ==========================================
+// 1. FUNGSI KLIK MANUAL ACCORDION (SINGLE-OPEN)
+// ==========================================
+function toggleSidebarAccordion(event, targetId, btnElement) {
+
+	// 1. Kunci Utama: Cegah klik bocor ke background/sidebar overlay
+	event.stopPropagation();
+	event.preventDefault();
+
+	const target = document.getElementById(targetId);
+	const arrow = btnElement.querySelector('.acc-arrow');
+
+	// Cek status laci yang diklik (apakah sedang tertutup sebelum kita reset?)
+	const isCurrentlyHidden = target.classList.contains('hidden');
+
+	// SAPU BERSIH: Tutup semua laci accordion & kembalikan panah ke posisi semula
+	const allAccordions = document.querySelectorAll('.accordion-group > div[id^="acc-"]');
+	const allArrows = document.querySelectorAll('.accordion-group .acc-arrow');
+
+	allAccordions.forEach(acc => {
+		acc.classList.add('hidden');
+		acc.classList.remove('flex');
+	});
+
+	allArrows.forEach(arr => {
+		arr.classList.remove('rotate-180');
+	});
+
+	// BUKA LACI TARGET (Hanya jika sebelumnya berstatus tertutup)
+	if (isCurrentlyHidden) {
+		target.classList.remove('hidden');
+		target.classList.add('flex');
+		if (arrow) arrow.classList.add('rotate-180');
+	}
+}
+
+// ==========================================
+// 2. FUNGSI PINDAH TAB / MENU & AUTO-OPEN
+// ==========================================
 function switchAdminTab(tab) {
-  const views = ['dashboard', 'datasiswa', 'pemasukan', 'atribut', 'cetak', 'bantuan', 'infaq', 'pengeluaran', 'pengeluaran-non', 'tarif', 'master_atribut', 'restore', 'user', 'pengaturan'];
-  const titles = { 
-    'dashboard': 'Dashboard Utama', 
-    'datasiswa': 'Direktori Data Siswa', 
-    'pemasukan': 'Manajemen Pemasukan', 
-    'atribut': 'Pemasukan Atribut Siswa',
-    'cetak': 'Rekap dan Surat Tagihan', 
-    'bantuan': 'Manajemen Dana Bantuan', 
-    'pengeluaran': 'Pengeluaran Operasional', 
-    'pengeluaran-non': 'Pengeluaran Non Operasional', 
-    'infaq': 'Manajemen Kas Infaq', 
-    'tarif': 'Manajemen Tarif Siswa',
-    'master_atribut': 'Manajemen Tarif Atribut Siswa',
-    'restore': 'Pemulihan Data (Recycle Bin)', 
-    'user': 'Manajemen User & Akses',
-    'pengaturan': 'Manajemen Pengaturan dan Backup Sistem'
-  };
-  
-  views.forEach(v => {
-    const viewEl = document.getElementById(`admin-view-${v}`); const navEl = document.getElementById(`nav-${v}`);
-    if (viewEl) { viewEl.classList.add('hidden'); viewEl.classList.remove('flex', 'block'); }
-    if (navEl) navEl.className = "w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors";
-  });
-  
-  const currentView = document.getElementById(`admin-view-${tab}`);
-	if (!currentView) {
-      console.warn(`Elemen admin-view-${tab} tidak ditemukan!`);
-      return; 
-  }
-  currentView.classList.remove('hidden'); 
+	const views = ['dashboard', 'datasiswa', 'pemasukan', 'atribut', 'cetak', 'bantuan', 'infaq', 'pengeluaran', 'pengeluaran-non', 'hr-tendik', 'hr-ekstra-bbqs', 'tarif', 'master_atribut', 'master_guru', 'restore', 'user', 'pengaturan'];
+	const titles = {
+		'dashboard': 'Dashboard Utama',
+		'datasiswa': 'Direktori Data Siswa',
+		'pemasukan': 'Manajemen Pemasukan',
+		'atribut': 'Pemasukan Atribut Siswa',
+		'cetak': 'Rekap dan Surat Tagihan',
+		'bantuan': 'Manajemen Dana Bantuan',
+		'pengeluaran': 'Pengeluaran Operasional',
+		'pengeluaran-non': 'Pengeluaran Non Operasional',
+		'hr-tendik': 'Daftar Honorarium Guru',
+		'hr-ekstra-bbqs': 'Daftar Honorarium Ekstra & BBQS',
+		'infaq': 'Manajemen Kas Infaq',
+		'tarif': 'Manajemen Tarif Siswa',
+		'master_atribut': 'Manajemen Tarif Atribut Siswa',
+		'master_guru': 'Manajemen Data Guru',
+		'restore': 'Pemulihan Data (Recycle Bin)',
+		'user': 'Manajemen User & Akses',
+		'pengaturan': 'Manajemen Pengaturan dan Backup Sistem'
+	};
+
+	const warnaNav = ['bg-blue-500', 'bg-sky-500', 'bg-cyan-500', 'bg-violet-500', 'bg-green-500', 'bg-teal-500', 'bg-emerald-500', 'bg-orange-500', 'bg-amber-500', 'bg-indigo-500', 'bg-teal-500', 'bg-rose-500', 'bg-purple-600'];
+
+	// 1. Reset semua tab (buang warna aktif)
+	views.forEach(v => {
+		const viewEl = document.getElementById(`admin-view-${v}`);
+		const navEl = document.getElementById(`nav-${v}`);
+
+		if (viewEl) {
+			viewEl.classList.add('hidden');
+			viewEl.classList.remove('flex', 'block');
+		}
+
+		if (navEl) {
+			navEl.classList.remove('text-white', ...warnaNav);
+			navEl.classList.add('text-gray-400', 'hover:bg-slate-800', 'hover:text-white');
+		}
+	});
+
+	// 2. Tampilkan Konten (View) yang dipilih
+	const currentView = document.getElementById(`admin-view-${tab}`);
+	if (!currentView) return;
+
+	currentView.classList.remove('hidden');
 	currentView.classList.add(tab === 'dashboard' ? 'block' : 'flex');
 
-  const warnaNav = ['bg-blue-500', 'bg-sky-500', 'bg-cyan-500','bg-violet-500', 'bg-green-500', 'bg-teal-500', 'bg-emerald-500', 'bg-orange-500', 'bg-amber-500', 'bg-indigo-500', 'bg-teal-500', 'bg-rose-500', 'bg-purple-600'];
-  const indexTab = views.indexOf(tab);
-  const btnColor = warnaNav[indexTab % warnaNav.length] || 'bg-gray-500';
-  
-  document.getElementById(`nav-${tab}`).className = `w-full flex items-center px-4 py-3 rounded-lg ${btnColor} text-white transition-colors`;
-  document.getElementById('admin-page-title').innerText = titles[tab];
+	// 3. SAPU BERSIH SEMUA ACCORDION TERLEBIH DAHULU
+	const allAccordions = document.querySelectorAll('.accordion-group > div[id^="acc-"]');
+	const allArrows = document.querySelectorAll('.accordion-group .acc-arrow');
 
-  if (tab === 'restore') loadRestoreTable();
-  if (tab === 'pengaturan') cekKapasitasDatabase();
-  if (window.innerWidth < 768) { document.getElementById('admin-sidebar').classList.add('-translate-x-full'); document.getElementById('sidebar-overlay').classList.add('hidden'); }
+	allAccordions.forEach(acc => {
+		acc.classList.add('hidden');
+		acc.classList.remove('flex');
+	});
+	allArrows.forEach(arr => {
+		arr.classList.remove('rotate-180');
+	});
 
-  if (tab === 'dashboard') {
-    const aktifSiswa = dbSiswa.filter(s => !String(s.kelas).toUpperCase().includes('LULUS') && !String(s.kelas).toUpperCase().includes('KELUAR'));
-    const lulusSiswa = dbSiswa.filter(s => String(s.kelas).toUpperCase().includes('LULUS'));
-    document.getElementById('dash-siswa-aktif').innerText = aktifSiswa.length + " Siswa-Siswi";
-    document.getElementById('dash-siswa-laki').innerText = aktifSiswa.filter(s => s.lp === 'L').length + " Siswa";
-    document.getElementById('dash-siswi-perempuan').innerText = aktifSiswa.filter(s => s.lp === 'P').length + " Siswi";
-    document.getElementById('dash-siswa-lulus').innerText = lulusSiswa.length + " Lulusan";
-  }
+	// 4. Warnai Tab yang aktif & Buka Laci "Rumah" nya
+	let indexTab = views.indexOf(tab);
+	if (indexTab === -1) indexTab = 0;
+	const btnColor = warnaNav[indexTab % warnaNav.length];
+	const currentNav = document.getElementById(`nav-${tab}`);
+
+	if (currentNav) {
+		currentNav.classList.remove('text-gray-400', 'hover:bg-slate-800', 'hover:text-white');
+		currentNav.classList.add('text-white', btnColor);
+
+		// Cek apakah menu ini ada di dalam sebuah laci Accordion
+		const parentAccordion = currentNav.closest('[id^="acc-"]');
+		if (parentAccordion) {
+			// Buka lacinya
+			parentAccordion.classList.remove('hidden');
+			parentAccordion.classList.add('flex');
+
+			// Putar panah laci tersebut
+			const prevBtn = parentAccordion.previousElementSibling;
+			if (prevBtn) {
+				const arrow = prevBtn.querySelector('.acc-arrow');
+				if (arrow) arrow.classList.add('rotate-180');
+			}
+		}
+	}
+
+	// 5. Update Title, Eksekusi Fungsi Ekstra, & Auto-Close Sidebar HP
+	const pageTitle = document.getElementById('admin-page-title');
+	if (pageTitle) pageTitle.innerText = titles[tab] || 'Halaman Admin';
+
+	if (tab === 'restore' && typeof loadRestoreTable === 'function') loadRestoreTable();
+	if (tab === 'pengaturan' && typeof cekKapasitasDatabase === 'function') cekKapasitasDatabase();
+
+	if (window.innerWidth < 768) {
+		const sidebar = document.getElementById('admin-sidebar');
+		const overlay = document.getElementById('sidebar-overlay');
+		if (sidebar) sidebar.classList.add('-translate-x-full');
+		if (overlay) overlay.classList.add('hidden');
+	}
+
+	// 6. Data Dinamis Khusus Dashboard
+	if (tab === 'dashboard' && typeof dbSiswa !== 'undefined') {
+		const aktifSiswa = dbSiswa.filter(s => !String(s.kelas).toUpperCase().includes('LULUS') && !String(s.kelas).toUpperCase().includes('KELUAR'));
+		const lulusSiswa = dbSiswa.filter(s => String(s.kelas).toUpperCase().includes('LULUS'));
+
+		const elAktif = document.getElementById('dash-siswa-aktif');
+		const elLaki = document.getElementById('dash-siswa-laki');
+		const elPerempuan = document.getElementById('dash-siswi-perempuan');
+		const elLulus = document.getElementById('dash-siswa-lulus');
+
+		if (elAktif) elAktif.innerText = aktifSiswa.length + " Siswa-Siswi";
+		if (elLaki) elLaki.innerText = aktifSiswa.filter(s => s.lp === 'L').length + " Siswa";
+		if (elPerempuan) elPerempuan.innerText = aktifSiswa.filter(s => s.lp === 'P').length + " Siswi";
+		if (elLulus) elLulus.innerText = lulusSiswa.length + " Lulusan";
+	}
 }
 
 function renderAdminView(admin) {
@@ -72,13 +229,18 @@ function renderAdminView(admin) {
     document.getElementById('nav-restore-container').classList.remove('hidden');
     document.getElementById('nav-tarif-container').classList.remove('hidden');
     document.getElementById('nav-master_atribut-container').classList.remove('hidden');
+    document.getElementById('nav-master_guru-container').classList.remove('hidden');
     document.getElementById('nav-pengaturan-container').classList.remove('hidden');
   } else {
     document.getElementById('nav-user-container').classList.add('hidden');
     document.getElementById('nav-restore-container').classList.add('hidden');
     document.getElementById('nav-tarif-container').classList.add('hidden');
     document.getElementById('nav-master_atribut-container').classList.add('hidden');
+    document.getElementById('nav-master_guru-container').classList.add('hidden');
     document.getElementById('nav-pengaturan-container').classList.add('hidden');
+
+		document.getElementById('group-master').classList.add('hidden');
+		document.getElementById('group-sistem').classList.add('hidden');
   }
 
   document.querySelectorAll('.admin-input-form').forEach(el => el.classList.toggle('hidden', isKepsek));
@@ -90,8 +252,8 @@ function renderAdminView(admin) {
       else el.classList.remove('hidden');
   });
 
-  switchAdminTab('dashboard'); loadDashboardStats(); loadAdminDataSiswaTable(); loadAdminTable(); loadAdminAtributTable(); loadAdminBantuanTable(); loadAdminPengeluaranTable(); loadAdminPengeluaranNonTable(); loadAdminInfaqTable();
-  if (isSuperAdmin) { loadAdminUserTable(); loadAdminTarifTable(); loadAdminMasterAtributTable(); updateRestoreBadges(); }
+  switchAdminTab('dashboard'); loadDashboardStats(); loadAdminDataSiswaTable(); loadAdminTable(); loadAdminAtributTable(); loadAdminBantuanTable(); loadAdminPengeluaranTable(); loadAdminPengeluaranNonTable(); loadAdminInfaqTable(); cekStatusBulanIni(); renderChangelog(); cekStatusBulanIniBBQS();
+  if (isSuperAdmin) { loadAdminUserTable(); loadAdminTarifTable(); loadAdminMasterAtributTable(); loadAdminMasterGuruTable(); loadAdminTarifTunjanganTable(); updateRestoreBadges(); }
 }
 
 async function refreshAdminData() {
@@ -99,12 +261,11 @@ async function refreshAdminData() {
   const isSuccess = await loadDataFromSupabase();
   hideLoading();
   if (isSuccess) {
-    loadDashboardStats(); loadAdminDataSiswaTable(); loadAdminTable(); loadAdminAtributTable(); loadAdminBantuanTable(); loadAdminPengeluaranTable(); loadAdminPengeluaranNonTable(); loadAdminInfaqTable();
-    if (currentUserRole === 'Super Admin') { loadAdminUserTable(); loadAdminTarifTable(); loadAdminMasterAtributTable(); updateRestoreBadges(); if (!document.getElementById('admin-view-restore').classList.contains('hidden')) loadRestoreTable(); }
-    tampilkanModalNotif('Sukses!', 'Data disinkronisasi!','success');
-    setTimeout(() => tutupModalNotif(), 2000);
+    loadDashboardStats(); loadAdminDataSiswaTable(); loadAdminTable(); loadAdminAtributTable(); loadAdminBantuanTable(); loadAdminPengeluaranTable(); loadAdminPengeluaranNonTable(); loadAdminInfaqTable(); cekStatusBulanIni();
+    if (currentUserRole === 'Super Admin') { loadAdminUserTable(); loadAdminTarifTable(); loadAdminMasterAtributTable(); loadAdminMasterGuruTable(); loadAdminTarifTunjanganTable(); updateRestoreBadges(); if (!document.getElementById('admin-view-restore').classList.contains('hidden')) loadRestoreTable(); }
+    showToast('Data disinkronisasi!','success');
   } else {
-    tampilkanModalNotif('Gagal!', 'Gagal sinkronisasi data', 'error');
+    showToast('Gagal sinkronisasi data', 'error');
   }
 }
 
@@ -387,6 +548,54 @@ function setTabSiswa(tabName) {
 	loadAdminDataSiswaTable();
 }
 
+// ==========================================
+// FUNGSI SETUP EVENT ACCORDION SIDEBAR
+// ==========================================
+function setupSidebarAccordionEvents() {
+	const accordionBtns = document.querySelectorAll('.btn-accordion');
+
+	accordionBtns.forEach(btn => {
+		// Mencegah penumpukan event listener jika fungsi dipanggil berulang
+		const newBtn = btn.cloneNode(true);
+		btn.parentNode.replaceChild(newBtn, btn);
+
+		newBtn.addEventListener('click', function(event) {
+			// 1. Kunci Utama: Cegah klik bocor ke fungsi penutup sidebar (Mobile)
+			event.stopPropagation();
+			event.preventDefault();
+
+			// 2. Ambil ID target dari atribut data-target
+			const targetId = this.getAttribute('data-target');
+			const target = document.getElementById(targetId);
+			const arrow = this.querySelector('.acc-arrow');
+
+			if (!target) return;
+
+			const isCurrentlyHidden = target.classList.contains('hidden');
+
+			// 3. SAPU BERSIH: Tutup semua laci
+			const allAccordions = document.querySelectorAll('.accordion-group > div[id^="acc-"]');
+			const allArrows = document.querySelectorAll('.accordion-group .acc-arrow');
+
+			allAccordions.forEach(acc => {
+				acc.classList.add('hidden');
+				acc.classList.remove('flex');
+			});
+
+			allArrows.forEach(arr => {
+				arr.classList.remove('rotate-180');
+			});
+
+			// 4. BUKA LACI TARGET
+			if (isCurrentlyHidden) {
+				target.classList.remove('hidden');
+				target.classList.add('flex');
+				if (arrow) arrow.classList.add('rotate-180');
+			}
+		});
+	});
+}
+
 function setupDashboardEvents() {
 	const btnMenu = document.querySelectorAll('.btn-menu');
 	const btnRefresh = document.getElementById('btn-refresh-admin');
@@ -417,4 +626,6 @@ function setupDashboardEvents() {
 
 	if (btnRefresh) btnRefresh.addEventListener('click', refreshAdminData);
 	if (btnDashTahun) btnDashTahun.addEventListener('change', handleDashFilter);
+
+	setupSidebarAccordionEvents();
 }

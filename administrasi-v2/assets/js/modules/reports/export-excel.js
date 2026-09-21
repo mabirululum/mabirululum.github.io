@@ -86,8 +86,17 @@ function generateFileExcel(labelPeriode, tahunAjaran, tglCetak, totalPem, totalP
       let deskripsiAsli = item.keterangan || item.uraian || '-';
       let jenisExp = item.jenis_pengeluaran || item.jenis || '';
       
-      // Rapikan kapitalisasi teks (Misal kasir ngetik "PENGELUARAN JULI" otomatis jadi "Pengeluaran Juli")
-      let jenisRapi = jenisExp.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
+      // ==========================================
+      // 🛡️ PERBAIKAN: FORMAT HURUF BERDASARKAN JENIS KAS
+      // ==========================================
+      let jenisExpStr = String(jenisExp).trim();
+      
+      // Deteksi: Apakah ini dari Operasional? (Biasanya mengandung kata "Pengeluaran")
+      let isOperasional = jenisExpStr.toLowerCase().includes('pengeluaran');
+
+      let jenisRapi = isOperasional 
+          ? jenisExpStr.toLowerCase().replace(/\b\w/g, s => s.toUpperCase()) // Ops -> Title Case (Contoh: Pengeluaran Juli)
+          : jenisExpStr.toUpperCase(); // Non-Ops -> KAPITAL (Contoh: PPDB, UTS, PRAMUKA)
       
       // Gabungkan prefix dan deskripsi
       let teksUraian = jenisRapi ? `(${jenisRapi}) ${deskripsiAsli}` : deskripsiAsli;
@@ -143,7 +152,7 @@ function generateFileExcel(labelPeriode, tahunAjaran, tglCetak, totalPem, totalP
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, `Laporan`);
     // Format penamaan file otomatis menyesuaikan (cth: Laporan_Operasional_Juli-Juni_2025-2026)
-    const safeName = labelPeriode.replace(/\s/g, ''); 
+    const safeName = labelPeriode.replace(/\s/g, '_'); 
     const safeTahun = tahunAjaran.replace('/', '-');
     XLSX.writeFile(wb, `Laporan_Operasional_${safeName}_${safeTahun}.xlsx`);
   } catch (err) {
@@ -873,12 +882,166 @@ async function unduhBukuBesarExcel() {
   }
 }
 
+// ==========================================
+// FUNGSI UNDUH LAPORAN BULANAN (GABUNGAN OPS & NON-OPS)
+// ==========================================
+async function unduhLaporanBulananGabunganExcel() {
+	// Asumsi ID elemen HTML untuk filter bulanan Anda (Sesuaikan jika beda)
+	const bulanPilih = document.getElementById('filter-bulan-bulanan').value;
+	const tahunAjaran = document.getElementById('filter-tahun-bulanan').value;
+
+	if (!bulanPilih || !tahunAjaran) {
+		tampilkanModalNotif('Silakan pilih Bulan dan Tahun Ajaran terlebih dahulu!');
+		return;
+	}
+
+	const btn = document.getElementById('btn-unduh-bulanan');
+	const iconBtn = document.getElementById('icon-unduh-bulanan');
+	const textBtn = document.getElementById('text-unduh-bulanan');
+
+	if (btn) btn.disabled = true;
+	if (iconBtn) iconBtn.className = "ph ph-spinner animate-spin mr-2 text-lg";
+	if (textBtn) textBtn.innerText = "Menggabungkan Data...";
+
+	tampilkanModalNotif('Memproses Laporan', `Menarik data Ops dan Non-Ops bulan ${bulanPilih}...`, 'loading');
+
+	try {
+		// 1. TENTUKAN TANGGAL AWAL & AKHIR BULAN TERSEBUT
+		const tahunSplit = tahunAjaran.split('/');
+		const tahunAwalNum = parseInt(tahunSplit[0]);
+		const tahunAkhirNum = parseInt(tahunSplit[1]);
+
+		const bulanMap = {
+			'Juli': 6,
+			'Agustus': 7,
+			'September': 8,
+			'Oktober': 9,
+			'November': 10,
+			'Desember': 11,
+			'Januari': 0,
+			'Februari': 1,
+			'Maret': 2,
+			'April': 3,
+			'Mei': 4,
+			'Juni': 5
+		};
+		const getTahun = (namaBulan) => (bulanMap[namaBulan] >= 6) ? tahunAwalNum : tahunAkhirNum;
+
+		const startDate = new Date(getTahun(bulanPilih), bulanMap[bulanPilih], 1);
+		const endDate = new Date(getTahun(bulanPilih), bulanMap[bulanPilih] + 1, 0);
+
+		const tglCetak = `${endDate.getDate()} ${bulanPilih} ${getTahun(bulanPilih)}`;
+
+		// 2. TARIK SEMUA TABEL SEKALIGUS
+		const [resPem, resBan, resPengOps, resPengNon] = await Promise.all([
+			supabaseClient.from('pemasukan').select('*'),
+			supabaseClient.from('bantuan').select('*'),
+			supabaseClient.from('pengeluaran').select('*'),
+			supabaseClient.from('pengeluaran_nonops').select('*')
+		]);
+
+		if (resPem.error || resBan.error || resPengOps.error || resPengNon.error) throw new Error("Gagal menarik data Supabase");
+
+		// Helper Parsing Tanggal
+		const parseDateSuper = (str) => {
+			if (!str) return null;
+			const s = String(str).toLowerCase().trim();
+			const parts = s.split(' ');
+			if (parts.length >= 3) {
+				const bMap = {
+					'januari': 0,
+					'februari': 1,
+					'maret': 2,
+					'april': 3,
+					'mei': 4,
+					'juni': 5,
+					'juli': 6,
+					'agustus': 7,
+					'september': 8,
+					'oktober': 9,
+					'november': 10,
+					'desember': 11
+				};
+				const dt = parseInt(parts[0]),
+					mo = bMap[parts[1]],
+					yr = parseInt(parts[2]);
+				if (!isNaN(dt) && mo !== undefined && !isNaN(yr)) return new Date(yr, mo, dt);
+			}
+			const std = new Date(str);
+			if (!isNaN(std.getTime())) return std;
+			return null;
+		};
+
+		const filterBulanIni = (arr, dateCol) => arr.filter(item => {
+			if (item.is_deleted === true || String(item.is_deleted) === 'true' || item.is_deleted === 1) return false;
+			let d = parseDateSuper(item[dateCol] || item.tanggal);
+			if (!d) return false;
+			d.setHours(0, 0, 0, 0);
+			return d >= startDate && d <= endDate;
+		});
+
+		// 3. FILTER DATA KHUSUS BULAN INI SAJA
+		const pemasukanBulanIni = filterBulanIni(resPem.data, 'tanggal_input');
+		const bantuanBulanIni = filterBulanIni(resBan.data, 'tanggal_transaksi');
+
+		// 4. STANDARISASI DAN GABUNGAN PENGELUARAN (OPS + NON-OPS)
+		const opsFiltered = filterBulanIni(resPengOps.data, 'tanggal_nota').map(item => ({
+			...item,
+			// Paksa jenis menjadi "Pengeluaran Juli" agar di Excel tercetak (Pengeluaran Juli)
+			jenis_pengeluaran: `Pengeluaran ${bulanPilih}`
+		}));
+
+		const nonOpsFiltered = filterBulanIni(resPengNon.data, 'tanggal_nota').map(item => ({
+			...item,
+			// Pindahkan kategori ke variabel jenis_pengeluaran agar dikenali oleh fungsi Excel
+			jenis_pengeluaran: item.jenis_pengeluaran_nonops || item.kategori || 'Non Operasional'
+		}));
+
+		// GABUNGKAN DALAM 1 KERANJANG
+		const dataPengeluaranGabungan = [...opsFiltered, ...nonOpsFiltered];
+
+		// 5. REKAPITULASI UANG
+		let totalPemasukanSiswa = pemasukanBulanIni.reduce((sum, item) => sum + (Number(item.nominal) || Number(item.jumlah) || 0), 0);
+		let totalBantuan = bantuanBulanIni.reduce((sum, item) => sum + (Number(item.nominal) || Number(item.jumlah) || 0), 0);
+		let totalPengeluaran = dataPengeluaranGabungan.reduce((sum, item) => sum + (Number(item.nominal) || Number(item.jumlah) || 0), 0);
+
+		let totalPemasukanGlobal = totalPemasukanSiswa + totalBantuan;
+		let sisaSaldo = totalPemasukanGlobal - totalPengeluaran;
+
+		// 6. LEMPAR KE TEMPLATE OPERASIONAL YANG SUDAH ADA!
+		generateFileExcel(
+			`Bulanan ${bulanPilih}`, // Label periode
+			tahunAjaran,
+			tglCetak,
+			totalPemasukanGlobal,
+			totalPengeluaran,
+			sisaSaldo,
+			totalPemasukanSiswa,
+			totalBantuan,
+			dataPengeluaranGabungan // <--- Data yang sudah digabung
+		);
+
+		tampilkanModalNotif('Berhasil!', 'Laporan Gabungan berhasil diunduh.', 'success');
+		setTimeout(() => tutupModalNotif(), 2000);
+
+	} catch (error) {
+		console.error("Error Laporan Bulanan:", error);
+		tampilkanModalNotif('Gagal memproses laporan gabungan.');
+	} finally {
+		if (btn) btn.disabled = false;
+		if (iconBtn) iconBtn.className = "ph ph-file-xls mr-2 text-lg";
+		if (textBtn) textBtn.innerText = "Unduh Laporan Bulanan";
+	}
+}
+
 function setupExcelEvents() {
   const btnOps = document.getElementById('btn-unduh-laporan');
   const btnNonOps = document.getElementById('btn-unduh-laporan-non');
   const btnRekap = document.getElementById('btn-unduh-bukubesar');
+  const btnBulanan = document.getElementById('btn-unduh-bulanan'); // Sesuaikan ID HTML-nya
 
   if (btnOps) btnOps.addEventListener('click', unduhLaporanExcel);
   if (btnNonOps) btnNonOps.addEventListener('click', unduhLaporanNonOpsExcel);
   if (btnRekap) btnRekap.addEventListener('click', unduhBukuBesarExcel);
+  if (btnBulanan) btnBulanan.addEventListener('click', unduhLaporanBulananGabunganExcel);
 }

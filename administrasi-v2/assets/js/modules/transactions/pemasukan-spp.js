@@ -143,21 +143,44 @@ function cekNamaSiswa(nis, skipKalkulasi = false) {
 		let selectedTarif = null;
 		let highestPriority = -1;
 
+		// Ambil jenis kelamin siswa (Sesuaikan dengan nama properti database Anda, misal: jk atau jenisKelamin)
+    let jkSiswaRaw = String(siswa.lp || siswa.jenisKelamin || siswa.jenis_kelamin || siswa.gender || '').trim().toUpperCase();
+    let jkChar = jkSiswaRaw.charAt(0);
+
 		matchingTarifs.forEach(t => {
 			let target = String(t.target).trim().toUpperCase();
-			if (target === `NIS ${nisFinal}` && highestPriority < 4) {
-				selectedTarif = t;
-				highestPriority = 4;
-			} else if (target === hClass && highestPriority < 3) {
-				selectedTarif = t;
-				highestPriority = 3;
-			} else if (hClass.startsWith(target + ' ') && highestPriority < 2) {
-				selectedTarif = t;
-				highestPriority = 2;
-			} else if (target === 'SEMUA KELAS' && highestPriority < 1) {
-				selectedTarif = t;
-				highestPriority = 1;
-			}
+
+			// LOGIKA PEMISAH KELAS DAN GENDER
+      let parts = target.split(' ');
+      let targetGender = null;
+      let targetClass = target;
+
+			// Jika kata terakhir dari target adalah 'L' atau 'P' (Contoh: "X L" atau "XI IPA P")
+      if (parts.length > 1 && (parts[parts.length - 1] === 'L' || parts[parts.length - 1] === 'P')) {
+				targetGender = parts.pop(); // Ambil 'L' atau 'P'
+				targetClass = parts.join(' '); // Sisanya adalah kelas (Contoh: "X")
+      }
+
+      // BATALKAN jika target mewajibkan gender tertentu, tapi gender siswa tidak cocok!
+      if (targetGender && targetGender !== jkChar) return;
+
+      // Beri skor prioritas tambahan jika tarif ini spesifik gender 
+      // (Agar "X L" menang melawan "X" biasa)
+      let bonusPriority = targetGender ? 0.5 : 0;
+
+			if (target === `NIS ${nisFinal}` && highestPriority < 5) {
+        selectedTarif = t;
+        highestPriority = 5;
+      } else if (targetClass === hClass && highestPriority < (3 + bonusPriority)) {
+        selectedTarif = t;
+        highestPriority = 3 + bonusPriority;
+      } else if (hClass.startsWith(targetClass + ' ') && highestPriority < (2 + bonusPriority)) {
+        selectedTarif = t;
+        highestPriority = 2 + bonusPriority;
+      } else if (target === 'SEMUA KELAS' && highestPriority < 1) {
+        selectedTarif = t;
+        highestPriority = 1;
+      }
 		});
 
 		if (selectedTarif) {
@@ -283,17 +306,72 @@ function cekTarifDanTunggakan(skipCekTunggakan = false) {
 	const namaKelasSiswaHistoris = getHistoricalClass(siswa, tahun).toUpperCase();
 	const jenisDipilih = String(jenis).trim().toUpperCase();
 
-	let tarifObj = dbMasterTarif.find(t => {
-		if (t.tahun !== tahun) return false;
-		if (String(t.jenis).trim().toUpperCase() !== jenisDipilih) return false;
+	let jkSiswaRaw = String(siswa.lp || siswa.jenisKelamin || siswa.jenis_kelamin || siswa.gender || '').trim().toUpperCase();
+  let jkChar = jkSiswaRaw.charAt(0);
 
-		const targetVal = String(t.target).trim().toUpperCase();
-		if (targetVal === 'SEMUA KELAS') return true;
-		if (targetVal === `NIS ${nis}`) return true;
-		if (targetVal === namaKelasSiswaHistoris) return true;
-		if (namaKelasSiswaHistoris.startsWith(targetVal + ' ')) return true;
-		return false;
-	});
+	let matchingTarifs = dbMasterTarif.filter(t => !t.isDeleted && t.tahun === tahun && String(t.jenis).trim().toUpperCase() === jenisDipilih);
+
+	// let tarifObj = dbMasterTarif.find(t => {
+	// 	if (t.tahun !== tahun) return false;
+	// 	if (String(t.jenis).trim().toUpperCase() !== jenisDipilih) return false;
+
+	// 	let target = String(t.target).trim().toUpperCase();
+    
+  //   // LOGIKA PEMISAH KELAS DAN GENDER (Sama seperti di atas)
+  //   let parts = target.split(' ');
+  //   let targetGender = null;
+  //   let targetClass = target;
+    
+  //   if (parts.length > 1 && (parts[parts.length - 1] === 'L' || parts[parts.length - 1] === 'P')) {
+	// 		targetGender = parts.pop();
+	// 		targetClass = parts.join(' ');
+  //   }
+
+	// 	// Jika gender tidak cocok, berarti tarif ini bukan untuk dia
+  //   if (targetGender && targetGender !== jkSiswa) return false;
+
+  //   // Evaluasi kecocokan Kelasnya
+  //   if (targetClass === 'SEMUA KELAS') return true;
+  //   if (targetClass === `NIS ${nis}`) return true;
+  //   if (targetClass === namaKelasSiswaHistoris) return true;
+  //   if (namaKelasSiswaHistoris.startsWith(targetClass + ' ')) return true;
+    
+  //   return false;
+	// });
+
+	let tarifObj = null;
+  let highestPriority = -1;
+
+  matchingTarifs.forEach(t => {
+    let target = String(t.target).trim().toUpperCase();
+    
+    let parts = target.split(' ');
+    let targetGender = null;
+    let targetClass = target;
+    
+    if (parts.length > 1 && (parts[parts.length - 1] === 'L' || parts[parts.length - 1] === 'P')) {
+			targetGender = parts.pop();
+			targetClass = parts.join(' ');
+    }
+
+    if (targetGender && targetGender !== jkChar) return;
+
+    let bonusPriority = targetGender ? 0.5 : 0;
+
+    if (target === `NIS ${nis}` && highestPriority < 5) {
+      tarifObj = t;
+      highestPriority = 5;
+    } else if (targetClass === namaKelasSiswaHistoris && highestPriority < (3 + bonusPriority)) {
+      tarifObj = t;
+      highestPriority = 3 + bonusPriority;
+    } else if (namaKelasSiswaHistoris.startsWith(targetClass + ' ') && highestPriority < (2 + bonusPriority)) {
+      tarifObj = t;
+      highestPriority = 2 + bonusPriority;
+    } else if (target === 'SEMUA KELAS' && highestPriority < 1) {
+      tarifObj = t;
+      highestPriority = 1;
+    }
+  });
 
 	if (tarifObj) {
 		const hargaTarif = parseInt(tarifObj.nominal) || 0;
