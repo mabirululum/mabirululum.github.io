@@ -197,7 +197,7 @@
         <!-- WATERMARK -->
         <div class="fixed bottom-6 left-0 right-0 w-full text-center z-10 ">
             <p class="text-white/60 text-sm font-medium tracking-wide">
-                Dikembangkan oleh <a href="https://instagram.com/aflah.design" target="_blank" rel="noopener noreferrer" class="text-amber-400 font-bold opacity-90 hover:opacity-100 hover:underline transition">@aflah.design</a> | V.2.1
+                Dikembangkan oleh <a href="https://instagram.com/aflah.design" target="_blank" rel="noopener noreferrer" class="text-amber-400 font-bold opacity-90 hover:opacity-100 hover:underline transition">@aflah.design</a> | <span class="versi-footer"></span>
             </p>
         </div>
     </div>
@@ -214,44 +214,134 @@
                 </div>
                 <button class="md:hidden text-gray-400 hover:text-white focus:outline-none"><i class="ph ph-x text-2xl"></i></button>
             </div>
-            <nav class="flex-1 min-h-0 p-2 space-y-2 overflow-y-auto hide-scroll text-sm">
-                <button id="nav-dashboard" data-tab="dashboard" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg bg-blue-600 text-white transition-colors"><i class="ph ph-squares-four text-xl mr-3"></i> Dashboard</button>
-                <button id="nav-datasiswa" data-tab="datasiswa" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-users text-xl mr-3"></i> Data Siswa</button>
-                <button id="nav-pemasukan" data-tab="pemasukan" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-download-simple text-xl mr-3"></i> Pemasukan Siswa</button>
-                <button id="nav-atribut" data-tab="atribut" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-shopping-bag text-xl mr-3"></i> Pemasukan Atribut</button>
-                <button id="nav-cetak" data-tab="cetak" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-printer text-xl mr-3"></i> Laporan & Surat</button>
-                <button id="nav-bantuan" data-tab="bantuan" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-bank text-xl mr-3"></i> Dana Bantuan</button>
-                <button id="nav-infaq" data-tab="infaq" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-hand-heart text-xl mr-3"></i> Kas Infaq</button>
-                <button id="nav-pengeluaran" data-tab="pengeluaran" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-upload-simple text-xl mr-3"></i> Operasional</button>
-                <button id="nav-pengeluaran-non" data-tab="pengeluaran-non" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors"><i class="ph ph-buildings text-xl mr-3"></i> Non Operasional</button>
-                <div class="" id="nav-tarif-container">
-                    <button id="nav-tarif" data-tab="tarif" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors">
-                        <i class="ph ph-tag text-xl mr-3"></i> Master Tarif
+
+            <nav class="flex-1 min-h-0 p-2 space-y-1 overflow-y-auto custom-scrollbar text-sm pb-10">
+        
+                <!-- 1. BERDIRI SENDIRI: DASHBOARD -->
+                <button id="nav-dashboard" data-tab="dashboard" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors mb-2">
+                    <i class="ph ph-squares-four text-xl mr-3"></i> Dashboard
+                </button>
+
+                <!-- 2. ACCORDION: KESISWAAN -->
+                <div class="accordion-group">
+                    <button type="button" id="group-siswa" data-target="acc-kesiswaan" class="btn-accordion w-full flex items-center justify-between px-4 py-2.5 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors">
+                        <div class="flex items-center"><i class="ph ph-users-three text-xl mr-3"></i> Kesiswaan</div>
+                        <i class="ph ph-caret-down transition-transform duration-200 acc-arrow"></i>
                     </button>
+                    <div id="acc-kesiswaan" class="hidden flex-col mt-1 space-y-1 bg-slate-900/50 rounded-lg">
+                        <button id="nav-datasiswa" data-tab="datasiswa" class="btn-menu w-full flex items-center pl-11 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium">
+                            <i class="ph ph-user-list text-lg mr-2"></i> Data Siswa
+                        </button>
+                        <button id="nav-pemasukan" data-tab="pemasukan" class="btn-menu w-full flex items-center pl-11 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium">
+                            <i class="ph ph-wallet text-lg mr-2"></i> Pemasukan Siswa
+                        </button>
+                        <button id="nav-atribut" data-tab="atribut" class="btn-menu w-full flex items-center pl-11 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium">
+                            <i class="ph ph-t-shirt text-lg mr-2"></i> Pemasukan Atribut
+                        </button>
+                    </div>
                 </div>
-                <div class="" id="nav-master_atribut-container">
-                    <button id="nav-master_atribut" data-tab="master_atribut" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors">
-                        <i class="ph ph-tag text-xl mr-3"></i> Master Atribut
+
+                <!-- 3. ACCORDION: KAS & PENGELUARAN -->
+                <div class="accordion-group">
+                    <button type="button" id="group-kas" data-target="acc-kas" class="btn-accordion w-full flex items-center justify-between px-4 py-2.5 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors">
+                        <div class="flex items-center"><i class="ph ph-wallet text-xl mr-3"></i> Kas & Pengeluaran</div>
+                        <i class="ph ph-caret-down transition-transform duration-200 acc-arrow"></i>
                     </button>
+                    <div id="acc-kas" class="hidden flex-col mt-1 space-y-1 bg-slate-900/50 rounded-lg">
+                        <button id="nav-pengeluaran" data-tab="pengeluaran" class="btn-menu w-full flex items-center pl-10 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium">
+                            <i class="ph ph-receipt text-lg mr-2"></i> Operasional
+                        </button>
+                        <button id="nav-pengeluaran-non" data-tab="pengeluaran-non" class="btn-menu w-full flex items-center pl-10 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium">
+                            <i class="ph ph-buildings text-lg mr-2"></i> Non Operasional
+                        </button>
+                        <button id="nav-bantuan" data-tab="bantuan" class="btn-menu w-full flex items-center pl-10 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium">
+                            <i class="ph ph-bank text-lg mr-2"></i> Dana Bantuan
+                        </button>
+                        <button id="nav-infaq" data-tab="infaq" class="btn-menu w-full flex items-center pl-10 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium">
+                            <i class="ph ph-hand-heart text-lg mr-2"></i> Kas Infaq
+                        </button>
+                    </div>
                 </div>
-                <div class="" id="nav-restore-container">
-                    <button id="nav-restore" data-tab="restore" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors">
-                        <i class="ph ph-trash text-xl mr-3"></i> Restore Data
-                        <span id="nav-badge-restore" class="ml-auto hidden bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
+
+                <!-- 4. ACCORDION: HONORARIUM -->
+                <div class="accordion-group">
+                    <button type="button" id="group-hr" data-target="acc-hr" class="btn-accordion w-full flex items-center justify-between px-4 py-2.5 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors">
+                        <div class="flex items-center"><i class="ph ph-briefcase text-xl mr-3"></i> Honorarium</div>
+                        <i class="ph ph-caret-down transition-transform duration-200 acc-arrow"></i>
                     </button>
+                    <div id="acc-hr" class="hidden flex-col mt-1 space-y-1 bg-slate-900/50 rounded-lg">
+                        <div id="nav-hr-tendik-container">
+                            <button id="nav-hr-tendik" data-tab="hr-tendik" class="btn-menu w-full flex items-center pl-11 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium">
+                                <i class="ph ph-chalkboard-teacher text-lg mr-2"></i> HR Guru
+                            </button>
+                            <button id="nav-hr-ekstra-bbqs" data-tab="hr-ekstra-bbqs" class="btn-menu w-full flex items-center pl-11 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium">
+                                <i class="ph ph-chalkboard-teacher text-lg mr-2"></i> HR Ekstra & BBQS
+                            </button>
+                            <button id="nav-hr-sumatif" data-tab="hr-sumatif" disabled class="btn-menu w-full flex items-center pl-11 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium">
+                                <i class="ph ph-chalkboard-teacher text-lg mr-2"></i> HR Sumatif
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="" id="nav-user-container">
-                    <button id="nav-user" data-tab="user" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors">
-                        <i class="ph ph-users-three text-xl mr-3"></i> Manajemen User
+
+                <!-- 5. BERDIRI SENDIRI: LAPORAN & SURAT -->
+                <button id="nav-cetak" data-tab="cetak" class="btn-menu w-full flex items-center px-4 py-3 mt-2 mb-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors">
+                    <i class="ph ph-printer text-xl mr-3"></i> Laporan & Surat
+                </button>
+
+                <!-- 6. ACCORDION: MASTER DATA -->
+                <div class="accordion-group">
+                    <button type="button" id="group-master" data-target="acc-master" class="btn-accordion w-full flex items-center justify-between px-4 py-2.5 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors">
+                        <div class="flex items-center"><i class="ph ph-database text-xl mr-3"></i> Master Data</div>
+                        <i class="ph ph-caret-down transition-transform duration-200 acc-arrow"></i>
                     </button>
+                    <div id="acc-master" class="hidden flex-col mt-1 space-y-1 bg-slate-900/50 rounded-lg py-1">
+                        <div id="nav-tarif-container">
+                            <button id="nav-tarif" data-tab="tarif" class="btn-menu w-full flex items-center pl-10 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium">
+                                <i class="ph ph-tag text-lg mr-2"></i> Master Tarif
+                            </button>
+                        </div>
+                        <div id="nav-master_atribut-container">
+                            <button id="nav-master_atribut" data-tab="master_atribut" class="btn-menu w-full flex items-center pl-10 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium">
+                                <i class="ph ph-swatches text-lg mr-2"></i> Master Atribut
+                            </button>
+                        </div>
+                        <div id="nav-master_guru-container">
+                            <button id="nav-master_guru" data-tab="master_guru" class="btn-menu w-full flex items-center pl-10 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium">
+                                <i class="ph ph-user-focus text-lg mr-2"></i> Master Guru
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="" id="nav-pengaturan-container">
-                    <button id="nav-pengaturan" data-tab="pengaturan" class="btn-menu w-full flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors">
-                        <i class="ph ph-gear text-xl mr-3"></i> Pengaturan & Backup
+
+                <!-- 7. ACCORDION: SISTEM & BACKUP -->
+                <div class="accordion-group">
+                    <button type="button" id="group-sistem" data-target="acc-sistem" class="btn-accordion w-full flex items-center justify-between px-4 py-2.5 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors">
+                        <div class="flex items-center"><i class="ph ph-gear text-xl mr-3"></i> Sistem & Backup</div>
+                        <i class="ph ph-caret-down transition-transform duration-200 acc-arrow"></i>
                     </button>
-                </div>        
+                    <div id="acc-sistem" class="hidden flex-col mt-1 space-y-1 bg-slate-900/50 rounded-lg py-1">
+                        <div id="nav-user-container">
+                            <button id="nav-user" data-tab="user" class="btn-menu w-full flex items-center pl-10 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium">
+                                <i class="ph ph-user-gear text-lg mr-2"></i> Manajemen User
+                            </button>
+                        </div>
+                        <div id="nav-restore-container">
+                            <button id="nav-restore" data-tab="restore" class="btn-menu w-full flex items-center pl-10 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium justify-between">
+                                <div class="flex items-center"><i class="ph ph-trash text-lg mr-2"></i> Restore Data</div>
+                                <span id="nav-badge-restore" class="hidden bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+                            </button>
+                        </div>
+                        <div id="nav-pengaturan-container">
+                            <button id="nav-pengaturan" data-tab="pengaturan" class="btn-menu w-full flex items-center pl-10 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium">
+                                <i class="ph ph-faders text-lg mr-2"></i> Pengaturan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
             </nav>
-            <!-- PROFIL ADMIN -->
+            
             <div class="p-4 border-t border-slate-800 shrink-0 bg-slate-900/50">
                 <div class="flex items-center mb-3 p-2 bg-slate-800 rounded-lg">
                     <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center mr-3 shrink-0">
@@ -273,6 +363,9 @@
                     <h2 id="admin-page-title" class="text-lg md:text-xl font-semibold text-gray-800 truncate">Dashboard Utama</h2>
                 </div>
                 <div class="flex items-center space-x-2 text-sm font-medium">
+                    <button id="btn-changelog" class="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 text-indigo-600 hover:bg-indigo-100 border border-indigo-100 rounded-full text-xs font-bold transition-colors shadow-sm" title="Lihat Riwayat Pembaruan">
+                        <i class="ph ph-sparkle-fill text-indigo-500"></i> v1.2.0
+                    </button>
                     <button id="btn-refresh-admin" class="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors mr-2" title="Tarik Data Server"><i class="ph ph-arrows-clockwise text-xl"></i></button>
                 </div>
             </header>
@@ -431,7 +524,6 @@
                                 <input type="hidden" id="edit-waktu-pemasukan">
                                 <input type="hidden" id="edit-nama-pemasukan">
                                 <input type="hidden" id="edit-lp-pemasukan">
-                                <!-- Tambahan Hidden Fields -->
                                 <input type="hidden" id="edit-id-nota-referensi-pemasukan">
                                 <input type="hidden" id="edit-harga-tarif-pemasukan">
                                 <!-- Alert Tunggakan -->
@@ -623,10 +715,11 @@
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 shrink-0">
                     <div class="flex gap-6 border-b border-gray-100">
                         <button id="tab-laporan-rekap" tab-name="rekap" class="tabLaporan pb-3 text-sm font-bold border-b-2 border-emerald-600 text-emerald-600 transition-colors"><i class="ph ph-table mr-1"></i> Rekapitulasi Kelas</button>
+                        <button id="tab-laporan-rekap-bulan" tab-name="rekap-bulan" class="tabLaporan pb-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors"><i class="ph ph-calendar-blank mr-1"></i> Rekap Tagihan Bulanan</button>
                         <button id="tab-laporan-surat" tab-name="surat" class="tabLaporan pb-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors"><i class="ph ph-envelope-open mr-1"></i> Surat Tagihan Siswa</button>
                         <button id="tab-laporan-operasional" tab-name="operasional" class="tabLaporan pb-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors"><i class="ph ph-upload-simple mr-1"></i> Laporan Operasional</button>
                         <button id="tab-laporan-nonops" tab-name="nonops" class="tabLaporan pb-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors"><i class="ph ph-buildings mr-1"></i> Laporan Non Operasional</button>
-                        <button id="tab-laporan-bukubesar" tab-name="bukubesar" class="tabLaporan pb-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors"><i class="ph ph-books mr-1"></i> Buku Besar Tahunan</button>
+                        <button id="tab-laporan-bukubesar" tab-name="bukubesar" class="tabLaporan pb-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors"><i class="ph ph-books mr-1"></i> Buku Besar</button>
                     </div>
                 </div>
                 <!-- SUB-TAB: REKAP KELAS -->
@@ -668,6 +761,101 @@
                                     <p>Sistem ERP MA Bi'rul Ulum</p>
                                     <p id="cap-subtitle">KELAS: - | TAHUN AJARAN: -</p>
                                     <p id="cap-date">Dicetak pada: -</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUB-TAB: REKAP BULANAN -->
+                <div id="laporan-content-rekap-bulan" class="hidden flex flex-col gap-4">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                        <div class="mb-6 border-b border-gray-100 pb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">Rekapitulasi Tagihan s.d. Bulan Tertentu</h3>
+                            <p class="text-sm text-gray-500">Pilih tahun ajaran, kelas, dan batas bulan untuk melihat rekap tagihan kumulatif.</p>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex flex-col md:flex-row items-end gap-4">
+                                <div class="w-full md:w-1/4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Pilih Tahun Ajaran</label>
+                                    <select id="cetak-bulan-tahun" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg"></select>
+                                </div>
+                                <div class="w-full md:w-1/4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Pilih Kelas</label>
+                                    <select id="cetak-bulan-kelas" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg"></select>
+                                </div>
+                                <div class="w-full md:w-1/4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Sampai Dengan Bulan</label>
+                                    <select id="cetak-bulan-sampai" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg font-medium text-indigo-700 bg-indigo-50/50">
+                                        <option value="Juli">Juli</option>
+                                        <option value="Agustus">Agustus</option>
+                                        <option value="September">September</option>
+                                        <option value="Oktober" selected>Oktober</option>
+                                        <option value="November">November</option>
+                                        <option value="Desember">Desember</option>
+                                        <option value="Januari">Januari</option>
+                                        <option value="Februari">Februari</option>
+                                        <option value="Maret">Maret</option>
+                                        <option value="April">April</option>
+                                        <option value="Mei">Mei</option>
+                                        <option value="Juni">Juni</option>
+                                    </select>
+                                </div>
+                                <div class="w-full md:w-1/4">
+                                    <button id="generate-cetak-bulan" class="w-full bg-emerald-600 text-white font-medium py-2.5 rounded-lg flex items-center justify-center hover:bg-emerald-700 transition-colors shadow-sm">
+                                        <i class="ph ph-table mr-2"></i> Tampilkan Rekap
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap items-center gap-6 mt-4 pt-3 border-t border-gray-100 bg-gray-50/70 p-3 rounded-lg">
+                                <span class="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center">
+                                    <i class="ph ph-sliders mr-1 text-sm"></i> Sertakan Tagihan Tambahan:
+                                </span>
+                                
+                                <!-- Checkbox Kegiatan Lain (Non-SPP & Non-Daftar Ulang) -->
+                                <label class="flex items-center gap-2 cursor-pointer select-none text-sm text-gray-700 hover:text-gray-900">
+                                    <input type="checkbox" id="rekap-opt-kegiatan" class="w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-emerald-500">
+                                    <span class="font-medium">Tagihan Kegiatan Lain (Ujian, PHBI, dll)</span>
+                                </label>
+
+                                <!-- Checkbox Hutang Atribut -->
+                                <label class="flex items-center gap-2 cursor-pointer select-none text-sm text-gray-700 hover:text-gray-900">
+                                    <input type="checkbox" id="rekap-opt-atribut" class="w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-emerald-500">
+                                    <span class="font-medium">Hutang Atribut Siswa</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Preview Hasil Rekap Bulanan -->
+                    <div id="cetak-bulan-result-container" class="hidden bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex-col h-full">
+                        <div class="p-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+                            <div>
+                                <h3 class="text-sm font-bold text-gray-800">Preview Laporan Tagihan Kumulatif</h3>
+                                <p class="text-xs text-gray-500">Kolom SPP dibatasi hanya sampai bulan yang dipilih.</p>
+                            </div>
+                            <button id="generate-img-bulan" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center hover:bg-blue-700 transition-colors">
+                                <i class="ph ph-image mr-2"></i> Unduh Gambar (WA)
+                            </button>
+                        </div>
+                        <div class="p-6 overflow-x-auto w-full flex-1">
+                            <div id="capture-area-bulan" class="w-max min-w-full bg-white p-6 border border-gray-200">
+                                <!-- Kop Madrasah -->
+                                <div class="flex items-center justify-center border-b-2-black pb-2 mb-2">
+                                    <img src="/favicon/favicon-96x96.png" class="w-16 h-16 mr-4 rounded-full" alt="Logo">
+                                    <div class="text-center">
+                                        <h1 class="text-lg font-bold uppercase tracking-wide">MADRASAH ALIYAH BI'RUL ULUM GEDANGAN</h1>
+                                        <p class="text-[10px]">Jl. KH. Sulaiman No. 39 Desa Gemurung Kecamatan Gedangan Kabupaten Sidoarjo 61254</p>
+                                        <p class="text-[10px] font-bold">WA : 0838-3313-3913 | Email : ma.birululum@gmail.com | Web : mabirululum-sda.sch.id</p>
+                                    </div>
+                                </div>
+                                <!-- Tempat Tabel Hasil -->
+                                <div id="cap-table-container-bulan"></div>
+                                <!-- Footer Info -->
+                                <div class="mt-6 flex justify-between text-xs text-gray-500">
+                                    <p>Sistem ERP MA Bi'rul Ulum</p>
+                                    <p id="cap-subtitle-bulan">KELAS: - | TAHUN AJARAN: -</p>
+                                    <p id="cap-date-bulan">Dicetak pada: -</p>
                                 </div>
                             </div>
                         </div>
@@ -857,7 +1045,46 @@
                     </div>
                 </div>
                 <!-- SUB-TAB: LAPORAN BUKU BESAR TAHUNAN -->
-                <div id="laporan-content-bukubesar" class="hidden flex-col gap-4">
+                <div id="laporan-content-bukubesar" class="hidden flex-col gap-6">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                        <div class="mb-6 border-b border-gray-100 pb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">Unduh Laporan Bulanan (Gabungan)</h3>
+                            <p class="text-sm text-gray-500">Ekspor arus kas pengeluaran Operasional dan Non-Operasional secara kronologis dalam 1 bulan.</p>
+                        </div>
+                        
+                        <div class="flex flex-col md:flex-row items-end gap-4 mt-4">
+                            <div class="w-full md:w-1/3">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Bulan</label>
+                                <select id="filter-bulan-bulanan" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg">
+                                    <option value="Juli">Juli</option>
+                                    <option value="Agustus">Agustus</option>
+                                    <option value="September">September</option>
+                                    <option value="Oktober">Oktober</option>
+                                    <option value="November">November</option>
+                                    <option value="Desember">Desember</option>
+                                    <option value="Januari">Januari</option>
+                                    <option value="Februari">Februari</option>
+                                    <option value="Maret">Maret</option>
+                                    <option value="April">April</option>
+                                    <option value="Mei">Mei</option>
+                                    <option value="Juni">Juni</option>
+                                </select>
+                            </div>
+                            <div class="w-full md:w-1/3">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Tahun Ajaran</label>
+                                <select id="filter-tahun-bulanan" class="w-full px-3 py-2.5 border border-gray-300 rounded-lg">
+                                    <!-- Akan diisi otomatis dari master data -->
+                                </select>
+                            </div>
+                            <div class="w-full md:w-1/3 flex space-x-2">
+                                <button id="btn-unduh-bulanan" class="w-full bg-teal-600 text-white font-medium py-2.5 rounded-lg flex items-center justify-center hover:bg-teal-700 transition-colors disabled:opacity-75 disabled:cursor-not-allowed">
+                                    <i id="icon-unduh-bulanan" class="ph ph-file-xls mr-2 text-lg"></i> 
+                                    <span id="text-unduh-bulanan">Unduh Laporan Bulanan</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                         <div class="mb-6 border-b border-gray-100 pb-4">
                             <h3 class="text-lg font-semibold text-gray-800">Unduh Buku Besar Tahunan (3 Sheet)</h3>
@@ -883,6 +1110,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 
@@ -1170,7 +1398,481 @@
                             <span id="page-info-pengeluaran-non" class="text-gray-500 font-medium"></span>
                             <div class="flex space-x-2">
                                 <button id="btn-prev-pengeluaran-non" data-table="pengeluaran-non" data-page="-1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
-                                <button id="btn-next-pengeluaran-non" data-table="pengbtn-next-pengeluaran-non" data-page="1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
+                                <button id="btn-next-pengeluaran-non" data-table="pengeluaran-non" data-page="1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB HONORARIUM GURU -->
+            <div id="admin-view-hr-tendik" class="hidden flex-1 overflow-y-auto p-4 md:p-8 bg-gray-50 flex-col">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 shrink-0 mb-4">
+                    <div class="flex gap-6 border-b border-gray-100">
+                        <button data-hrtab="umum" class="btn-hr-tab pb-3 text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 transition-colors"><i class="ph ph-money mr-1.5 text-base"></i> HR Umum</button>
+                        <button data-hrtab="potongan" class="btn-hr-tab pb-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors"><i class="ph ph-scissors mr-1.5 text-base"></i> Potongan</button>
+                    </div>
+                </div>
+
+                <!-- AREA: POTONGAN TENDIK -->
+                <div id="hr-area-potongan" class="hidden flex-1 flex flex-col gap-4">
+                                    
+                    <!-- Panel Atas: Kontrol Global -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 shrink-0">
+                        <div class="grid grid-cols-1 md:grid-cols-6 gap-4 items-end">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Tahun Ajaran</label>
+                                <select id="ptg-filter-tahun" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                    <option value="">-- Pilih --</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Bulan</label>
+                                <select id="ptg-filter-bulan" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="Juli">Juli</option>
+                                    <option value="Agustus">Agustus</option>
+                                    <option value="September">September</option>
+                                    <option value="Oktober">Oktober</option>
+                                    <option value="November">November</option>
+                                    <option value="Desember">Desember</option>
+                                    <option value="Januari">Januari</option>
+                                    <option value="Februari">Februari</option>
+                                    <option value="Maret">Maret</option>
+                                    <option value="April">April</option>
+                                    <option value="Mei">Mei</option>
+                                    <option value="Juni">Juni</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-red-700 mb-1">Tarif Izin (Tugas)</label>
+                                <input type="number" id="ptg-tarif-izin-tugas" min="1000" value="0" class="w-full px-3 py-2 border border-red-200 bg-red-50 rounded-lg focus:ring-2 focus:ring-red-400 outline-none text-red-900">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-red-700 mb-1">Tarif Izin (Non-Tugas)</label>
+                                <input type="number" id="ptg-tarif-izin-nontugas" min="1000" value="0" class="w-full px-3 py-2 border border-red-200 bg-red-50 rounded-lg focus:ring-2 focus:ring-red-400 outline-none text-red-900">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-red-700 mb-1">Tarif Telat</label>
+                                <input type="number" id="ptg-tarif-telat" min="1000" value="0" class="w-full px-3 py-2 border border-red-200 bg-red-50 rounded-lg focus:ring-2 focus:ring-red-400 outline-none text-red-900">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-red-700 mb-1">Tarif Alpa</label>
+                                <input type="number" id="ptg-tarif-alpa" min="1000" value="0" class="w-full px-3 py-2 border border-red-200 bg-red-50 rounded-lg focus:ring-2 focus:ring-red-400 outline-none text-red-900">
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-end space-x-2 mt-4 pt-4 border-t border-gray-100">
+                            <button type="button" id="btn-ptg-salin" class="hidden px-4 py-2 bg-amber-100 text-amber-700 hover:bg-amber-200 font-medium rounded-lg transition-colors flex items-center text-sm">
+                                <i class="ph ph-copy mr-1.5"></i> Salin Bulan Lalu
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Panel Bawah: Tabel Dinamis -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex-1 flex flex-col">
+                        <div class="overflow-x-auto flex-1">
+                            <table class="w-full text-left border-collapse min-w-[1200px]">
+                                <thead class="sticky top-0 bg-gray-800 text-white z-10 text-xs uppercase tracking-wider">
+                                    <tr>
+                                        <th rowspan="2" class="p-3 border border-gray-700 w-10 text-center align-middle">No</th>
+                                        <th rowspan="2" class="p-3 border border-gray-700 min-w-[200px] text-center align-middle">Nama & Jabatan</th>
+                                        <th rowspan="2" class="p-3 border border-gray-700 w-32 text-center align-middle bg-gray-900 text-emerald-300">Gaji Utuh (Rp)</th>
+                                        <th colspan="3" class="p-2 border border-gray-700 text-center">Potongan Manual (Rp)</th>
+                                        <th colspan="4" class="p-2 border border-gray-700 text-center">Absensi (Kali)</th>
+                                        <th rowspan="2" class="p-3 border border-gray-700 w-32 text-center align-middle text-red-300">Total Ptg</th>
+                                        <th rowspan="2" class="p-3 border border-gray-700 w-32 text-center align-middle bg-gray-900 font-bold text-blue-300">Gaji Diterima</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="p-2 border border-gray-700 text-center bg-gray-700 w-24">Sertifikasi</th>
+                                        <th class="p-2 border border-gray-700 text-center bg-gray-700 w-24">Hutang</th>
+                                        <th class="p-2 border border-gray-700 text-center bg-gray-700 w-24">Arisan</th>
+                                        <th class="p-2 border border-gray-700 text-center bg-gray-700 w-16 text-[10px] leading-tight">Izin<br>(Tugas)</th>
+                                        <th class="p-2 border border-gray-700 text-center bg-gray-700 w-16 text-[10px] leading-tight">Izin<br>(Non-Tugas)</th>
+                                        <th class="p-2 border border-gray-700 text-center bg-gray-700 w-16">Telat</th>
+                                        <th class="p-2 border border-gray-700 text-center bg-gray-700 w-16">Alpa</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-body-potongan" class="text-sm divide-y divide-gray-200">
+                                    <!-- Baris Guru akan di-generate JS di sini -->
+                                    <tr>
+                                        <td colspan="12" class="p-8 text-center text-gray-500 italic">Silakan pilih bulan untuk memuat data.</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot class="bg-gray-50 font-bold text-gray-800 sticky bottom-0 border-t-2 border-gray-300 hidden" id="tfoot-potongan">
+                                    <tr class="bg-indigo-50 text-indigo-900">
+                                        <td colspan="2" class="p-3 border-r border-indigo-200 text-right">TOTAL KESELURUHAN</td>
+                                        <td id="ptg-total-utuh" class="p-3 border-r border-indigo-200 text-right text-emerald-700">Rp 0</td>
+                                        <td id="ptg-total-sertifikasi" class="p-3 border-r border-indigo-200 text-right">Rp 0</td>
+                                        <td id="ptg-total-hutang" class="p-3 border-r border-indigo-200 text-right">Rp 0</td>
+                                        <td id="ptg-total-arisan" class="p-3 border-r border-indigo-200 text-right">Rp 0</td>
+                                        <td colspan="4" class="p-3 border-r border-indigo-200 bg-indigo-50"></td>
+                                        <td id="ptg-total-semua-potongan" class="p-3 border-r border-indigo-200 text-right text-red-600">Rp 0</td>
+                                        <td id="ptg-total-bersih" class="p-3 border-r border-indigo-200 text-right text-base text-blue-700">Rp 0</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        
+                        <!-- Area Tombol Aksi (Bawah Tabel) -->
+                        <div class="p-4 bg-gray-50 border-t border-gray-200 flex justify-between items-center">
+                            <span id="ptg-status-badge" class="px-3 py-1 text-xs font-bold rounded-full bg-gray-200 text-gray-600">Belum Disimpan</span>
+                            
+                            <div class="flex space-x-2">
+                                <button type="button" id="btn-ptg-unlock" class="hidden px-5 py-2 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium rounded-lg transition-colors text-sm shadow-sm">
+                                    Buka Kunci (Edit)
+                                </button>
+                                <button type="button" id="btn-ptg-simpan" class="hidden px-5 py-2 bg-emerald-600 text-white hover:bg-emerald-700 font-medium rounded-lg transition-colors text-sm shadow-sm">
+                                    Simpan Tabel (Kunci)
+                                </button>
+                                <button type="button" id="btn-ptg-print" class="hidden px-5 py-2 bg-indigo-600 text-white hover:bg-indigo-700 font-medium rounded-lg transition-colors flex items-center text-sm shadow-sm">
+                                    <i class="ph ph-printer mr-1.5 text-lg"></i> Print PDF
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Area Tanda Tangan (Hanya Muncul Saat Print) -->
+                    <div class="hidden print:block mt-8 w-full text-sm font-serif">
+                        <div class="flex justify-between w-full px-10">
+                            <div class="text-center">
+                                <p class="mb-20">Mengetahui,<br>Kepala Madrasah</p>
+                                <p class="font-bold underline">Nama Kepala Madrasah</p>
+                                <p>NIP. -</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="mb-20">Surabaya, <span class="print-tanggal">........................</span><br>Bendahara</p>
+                                <p class="font-bold underline">Nama Bendahara</p>
+                                <p>NIP. -</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AREA: HR UMUM -->
+                <div id="hr-area-umum" class="flex-1 flex flex-col gap-4">
+                    
+                    <!-- Panel Atas: Kontrol Global -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 shrink-0">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Tahun Ajaran</label>
+                                <select id="hr-filter-tahun" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                    <option value="">-- Pilih --</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Bulan</label>
+                                <select id="hr-filter-bulan" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="Juli">Juli</option>
+                                    <option value="Agustus">Agustus</option>
+                                    <option value="September">September</option>
+                                    <option value="Oktober">Oktober</option>
+                                    <option value="November">November</option>
+                                    <option value="Desember">Desember</option>
+                                    <option value="Januari">Januari</option>
+                                    <option value="Februari">Februari</option>
+                                    <option value="Maret">Maret</option>
+                                    <option value="April">April</option>
+                                    <option value="Mei">Mei</option>
+                                    <option value="Juni">Juni</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Tarif Masa Kerja (Rp)</label>
+                                <input type="number" id="hr-tarif-masakerja" value="7000" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Tarif Jam Mengajar (Rp)</label>
+                                <input type="number" id="hr-tarif-jam" value="41000" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-end space-x-2 mt-4 pt-4 border-t border-gray-100">
+                            <button type="button" id="btn-hr-salin" class="px-4 py-2 bg-amber-100 text-amber-700 hover:bg-amber-200 font-medium rounded-lg transition-colors flex items-center text-sm">
+                                <i class="ph ph-copy mr-1.5"></i> Salin Bulan Lalu
+                            </button>
+                            <button type="button" id="btn-hr-generate" class="px-4 py-2 bg-indigo-600 text-white hover:bg-indigo-700 font-medium rounded-lg transition-colors flex items-center text-sm shadow-sm">
+                                <i class="ph ph-table mr-1.5"></i> Generate Tabel
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Panel Bawah: Tabel Dinamis -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex-1 flex flex-col">
+                        <div class="overflow-x-auto flex-1">
+                            <table class="w-full text-left border-collapse min-w-[1000px]">
+                                <thead class="sticky top-0 bg-gray-800 text-white z-10 text-xs uppercase tracking-wider">
+                                    <tr>
+                                        <th class="p-3 border border-gray-700 w-10 text-center">No</th>
+                                        <th class="p-3 border border-gray-700 min-w-[150px] text-center">Nama Tenaga Pendidik</th>
+                                        <th class="p-3 border border-gray-700 min-w-[120px] text-center">Jabatan / Tugas</th>
+                                        <th class="p-3 border border-gray-700 text-center w-24 text-center">Vol MK<br><span class="text-[10px] text-gray-400">(Tahun)</span></th>
+                                        <th class="p-3 border border-gray-700 w-28 text-center">TMK</th>
+                                        <th class="p-3 border border-gray-700 w-28 text-center">TJ</th>
+                                        <th class="p-3 border border-gray-700 text-center w-24">Vol Jam<br><span class="text-[10px] text-gray-400">(JTM)</span></th>
+                                        <th class="p-3 border border-gray-700 w-28 text-center">TJM</th>
+                                        <th class="p-3 border border-gray-700 font-bold w-32 bg-gray-900 text-center">Jumlah</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-body-hr" class="text-sm divide-y divide-gray-200">
+                                    <!-- Baris Guru akan di-generate JS di sini -->
+                                    <tr>
+                                        <td colspan="9" class="p-8 text-center text-gray-500 italic">Silakan klik "Generate Tabel" untuk memuat data.</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot class="bg-gray-50 font-bold text-gray-800 sticky bottom-0 border-t-2 border-gray-300">
+                                    <!-- Baris Kehormatan -->
+                                    <tr>
+                                        <td colspan="8" class="p-3 border-r border-gray-300 text-right">Kehormatan</td>
+                                        <td class="p-2 border-r border-gray-300">
+                                            <input type="text" id="input-hr-kehormatan" class="w-full text-right p-1 border rounded bg-white" placeholder="0" disabled>
+                                        </td>
+                                    </tr>
+                                    <!-- Baris Total Akhir -->
+                                    <tr class="bg-indigo-50 text-indigo-900">
+                                        <td colspan="4" class="p-3 border-r border-indigo-200 text-right">TOTAL KESELURUHAN</td>
+                                        <td id="hr-total-mk" class="p-3 border-r border-indigo-200 text-right">Rp 0</td>
+                                        <td id="hr-total-jabatan" class="p-3 border-r border-indigo-200 text-right">Rp 0</td>
+                                        <td class="p-3 border-r border-indigo-200 bg-indigo-50"></td>
+                                        <td id="hr-total-jam" class="p-3 border-r border-indigo-200 text-right">Rp 0</td>
+                                        <td id="hr-total-akhir" class="p-3 border-r border-indigo-200 text-right text-base">Rp 0</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        
+                        <!-- Area Tombol Aksi (Bawah Tabel) -->
+                        <div class="p-4 bg-gray-50 border-t border-gray-200 flex justify-between items-center">
+                            <span id="hr-status-badge" class="px-3 py-1 text-xs font-bold rounded-full bg-gray-200 text-gray-600">Belum Disimpan</span>
+                            
+                            <div class="flex space-x-2">
+                                <button type="button" id="btn-hr-unlock" class="hidden px-5 py-2 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium rounded-lg transition-colors text-sm shadow-sm">
+                                    Buka Kunci (Edit)
+                                </button>
+                                <button type="button" id="btn-hr-simpan" class="px-5 py-2 bg-emerald-600 text-white hover:bg-emerald-700 font-medium rounded-lg transition-colors text-sm shadow-sm" disabled>
+                                    Simpan Tabel (Kunci)
+                                </button>
+                                <button type="button" id="btn-hr-print" class="hidden px-5 py-2 bg-indigo-600 text-white hover:bg-indigo-700 font-medium rounded-lg transition-colors flex items-center text-sm shadow-sm">
+                                    <i class="ph ph-printer mr-1.5 text-lg"></i> Print PDF
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- TAB HONORARIUM BBQS EKSTRA -->
+            <div id="admin-view-hr-ekstra-bbqs" class="hidden flex-1 overflow-y-auto p-4 md:p-8 bg-gray-50 flex-col">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 shrink-0 mb-4">
+                    <div class="flex gap-6 border-b border-gray-100">
+                        <button data-ekstab="ekstra" id="tab-btn-ekstra" class="btn-eks-tab pb-3 text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 transition-colors"><i class="ph ph-money mr-1.5 text-base"></i> HR Ekstra</button>
+                        <button data-ekstab="bbqs" id="tab-btn-bbqs" class="btn-eks-tab pb-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors"><i class="ph ph-money mr-1.5 text-base"></i> HR BBQS</button>
+                    </div>
+                </div>
+
+                <div id="hr-area-ekstra" class="flex-1 flex flex-col gap-4">
+                    <!-- Panel Atas: Kontrol Filter & Tarif -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 shrink-0">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Tahun Ajaran</label>
+                                <select id="ekstra-filter-tahun" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                    <option value="">-- Pilih --</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Bulan</label>
+                                <select id="ekstra-filter-bulan" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="Juli">Juli</option>
+                                    <option value="Agustus">Agustus</option>
+                                    <option value="September">September</option>
+                                    <option value="Oktober">Oktober</option>
+                                    <option value="November">November</option>
+                                    <option value="Desember">Desember</option>
+                                    <option value="Januari">Januari</option>
+                                    <option value="Februari">Februari</option>
+                                    <option value="Maret">Maret</option>
+                                    <option value="April">April</option>
+                                    <option value="Mei">Mei</option>
+                                    <option value="Juni">Juni</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Tarif Satuan Ekstra (Rp)</label>
+                                <input type="number" id="ekstra-tarif-satuan" value="75000" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-end space-x-2 mt-4 pt-4 border-t border-gray-100">
+                            <button type="button" id="btn-ekstra-salin" class="px-4 py-2 bg-amber-100 text-amber-700 hover:bg-amber-200 font-medium rounded-lg transition-colors flex items-center text-sm">
+                                <i class="ph ph-copy mr-1.5"></i> Salin Bulan Lalu
+                            </button>
+                            <button type="button" id="btn-ekstra-generate" class="px-4 py-2 bg-indigo-600 text-white hover:bg-indigo-700 font-medium rounded-lg transition-colors flex items-center text-sm shadow-sm">
+                                <i class="ph ph-table mr-1.5"></i> Generate Tabel
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Panel Bawah: Tabel Dinamis Ekstra -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex-1 flex flex-col">
+                        <div class="overflow-x-auto flex-1">
+                            <table class="w-full text-left border-collapse min-w-[900px]">
+                                <thead class="sticky top-0 bg-gray-800 text-white z-10 text-xs uppercase tracking-wider">
+                                    <tr>
+                                        <th class="p-3 border border-gray-700 w-12 text-center">No</th>
+                                        <th class="p-3 border border-gray-700 w-24 text-center">Kode</th>
+                                        <th class="p-3 border border-gray-700 min-w-[200px] text-center">Nama Pembina</th>
+                                        <th class="p-3 border border-gray-700 min-w-[150px] text-center">Nama Ekstrakurikuler</th>
+                                        <th class="p-3 border border-gray-700 w-32 text-center">Satuan (Rp)</th>
+                                        <th class="p-3 border border-gray-700 w-24 text-center">Vol</th>
+                                        <th class="p-3 border border-gray-700 font-bold w-36 bg-gray-900 text-center text-emerald-300">Jumlah</th>
+                                        <th class="p-3 border border-gray-700 w-32 text-center hidden print:table-cell">Tanda Tangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-body-ekstra" class="text-sm divide-y divide-gray-200">
+                                    <tr>
+                                        <td colspan="7" class="p-8 text-center text-gray-500 italic print:hidden">Silakan klik "Generate Tabel" untuk memuat data.</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot class="bg-gray-50 font-bold text-gray-800 sticky bottom-0 border-t-2 border-gray-300">
+                                    <tr class="bg-indigo-50 text-indigo-900">
+                                        <td colspan="6" class="p-3 border-r border-indigo-200 text-right uppercase">Total Keseluruhan</td>
+                                        <td id="eks-total-akhir" class="p-3 border-r border-indigo-200 text-right text-base">Rp 0</td>
+                                        <td class="hidden print:table-cell border-r border-indigo-200 bg-indigo-50"></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        
+                        <div class="p-4 bg-gray-50 border-t border-gray-200 flex justify-between items-center print:hidden">
+                            <span id="eks-status-badge" class="px-3 py-1 text-xs font-bold rounded-full bg-gray-200 text-gray-600">Belum Disimpan</span>
+                            <div class="flex space-x-2">
+                                <button type="button" id="btn-ekstra-unlock" class="hidden px-5 py-2 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium rounded-lg transition-colors text-sm shadow-sm">
+                                    Buka Kunci (Edit)
+                                </button>
+                                <button type="button" id="btn-ekstra-simpan" class="px-5 py-2 bg-emerald-600 text-white hover:bg-emerald-700 font-medium rounded-lg transition-colors text-sm shadow-sm" disabled>
+                                    Simpan Tabel
+                                </button>
+                                <button type="button" id="btn-ekstra-print" class="hidden px-5 py-2 bg-indigo-600 text-white hover:bg-indigo-700 font-medium rounded-lg transition-colors flex items-center text-sm shadow-sm">
+                                    <i class="ph ph-printer mr-1.5 text-lg"></i> Print PDF
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="hidden print:block mt-8 w-full text-sm font-serif">
+                        <!-- (Format tanda tangan sama seperti di atas) -->
+                    </div>
+                </div>
+
+                <div id="hr-area-bbqs" class="hidden flex-1 flex flex-col gap-4">
+                    
+                    <!-- Panel Atas: Kontrol Filter & Tarif -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 shrink-0">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Tahun Ajaran</label>
+                                <select id="bbqs-filter-tahun" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                    <option value="">-- Pilih --</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Bulan</label>
+                                <select id="bbqs-filter-bulan" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="Juli">Juli</option>
+                                    <option value="Agustus">Agustus</option>
+                                    <option value="September">September</option>
+                                    <option value="Oktober">Oktober</option>
+                                    <option value="November">November</option>
+                                    <option value="Desember">Desember</option>
+                                    <option value="Januari">Januari</option>
+                                    <option value="Februari">Februari</option>
+                                    <option value="Maret">Maret</option>
+                                    <option value="April">April</option>
+                                    <option value="Mei">Mei</option>
+                                    <option value="Juni">Juni</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Tarif Satuan BBQS (Rp)</label>
+                                <!-- Default tarif disesuaikan dengan standar madrasah Anda -->
+                                <input type="number" id="bbqs-tarif-satuan" value="75000" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-end space-x-2 mt-4 pt-4 border-t border-gray-100">
+                            <button type="button" id="btn-bbqs-salin" class="px-4 py-2 bg-amber-100 text-amber-700 hover:bg-amber-200 font-medium rounded-lg transition-colors flex items-center text-sm">
+                                <i class="ph ph-copy mr-1.5"></i> Salin Bulan Lalu
+                            </button>
+                            <button type="button" id="btn-bbqs-generate" class="px-4 py-2 bg-indigo-600 text-white hover:bg-indigo-700 font-medium rounded-lg transition-colors flex items-center text-sm shadow-sm">
+                                <i class="ph ph-table mr-1.5"></i> Generate Tabel
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Panel Bawah: Tabel Dinamis BBQS -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex-1 flex flex-col">
+                        <div class="overflow-x-auto flex-1">
+                            <table class="w-full text-left border-collapse min-w-[900px]">
+                                <thead class="sticky top-0 bg-gray-800 text-white z-10 text-xs uppercase tracking-wider">
+                                    <tr>
+                                        <th class="p-3 border border-gray-700 w-12 text-center">No</th>
+                                        <th class="p-3 border border-gray-700 w-24 text-center">Kode</th>
+                                        <th class="p-3 border border-gray-700 min-w-[200px] text-center">Nama Guru BBQS</th>
+                                        <th class="p-3 border border-gray-700 min-w-[150px] text-center">Tugas</th>
+                                        <th class="p-3 border border-gray-700 w-32 text-center">Satuan (Rp)</th>
+                                        <th class="p-3 border border-gray-700 w-24 text-center">Vol</th>
+                                        <th class="p-3 border border-gray-700 font-bold w-36 bg-gray-900 text-center text-blue-300">Jumlah</th>
+                                        <th class="p-3 border border-gray-700 w-32 text-center hidden print:table-cell">Tanda Tangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-body-bbqs" class="text-sm divide-y divide-gray-200">
+                                    <tr>
+                                        <td colspan="7" class="p-8 text-center text-gray-500 italic print:hidden">Silakan klik "Generate Tabel" untuk memuat data.</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot class="bg-gray-50 font-bold text-gray-800 sticky bottom-0 border-t-2 border-gray-300">
+                                    <tr class="bg-indigo-50 text-indigo-900">
+                                        <td colspan="6" class="p-3 border-r border-indigo-200 text-right uppercase">Total Keseluruhan</td>
+                                        <td id="bbqs-total-akhir" class="p-3 border-r border-indigo-200 text-right text-base">Rp 0</td>
+                                        <td class="hidden print:table-cell border-r border-indigo-200 bg-indigo-50"></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        
+                        <!-- Area Tombol Aksi (Bawah Tabel) -->
+                        <div class="p-4 bg-gray-50 border-t border-gray-200 flex justify-between items-center print:hidden">
+                            <span id="bbqs-status-badge" class="px-3 py-1 text-xs font-bold rounded-full bg-gray-200 text-gray-600">Belum Disimpan</span>
+                            <div class="flex space-x-2">
+                                <button type="button" id="btn-bbqs-unlock" class="hidden px-5 py-2 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium rounded-lg transition-colors text-sm shadow-sm">
+                                    Buka Kunci (Edit)
+                                </button>
+                                <button type="button" id="btn-bbqs-simpan" class="px-5 py-2 bg-emerald-600 text-white hover:bg-emerald-700 font-medium rounded-lg transition-colors text-sm shadow-sm" disabled>
+                                    Simpan Tabel
+                                </button>
+                                <button type="button" id="btn-bbqs-print" class="hidden px-5 py-2 bg-indigo-600 text-white hover:bg-indigo-700 font-medium rounded-lg transition-colors flex items-center text-sm shadow-sm">
+                                    <i class="ph ph-printer mr-1.5 text-lg"></i> Print PDF
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Area Tanda Tangan (Hanya Muncul Saat Print) -->
+                    <div class="hidden print:block mt-8 w-full text-sm font-serif">
+                        <div class="flex justify-between w-full px-10">
+                            <div class="text-center">
+                                <p class="mb-20">Mengetahui,<br>Kepala Madrasah</p>
+                                <p class="font-bold underline">Yusuf Muzaidi, S.Pd</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="mb-20">Gedangan, <span class="print-tanggal">........................</span><br>TU Keuangan</p>
+                                <p class="font-bold underline">Ririn Jauharin, S.Ak</p>
                             </div>
                         </div>
                     </div>
@@ -1304,6 +2006,214 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- TAB MASTER GURU -->
+            <div id="admin-view-master_guru" class="hidden flex-1 overflow-y-auto p-4 md:p-8 flex-col gap-4">
+                <!-- HEADER TABS CONTAINER -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 shrink-0">
+                    <div class="flex gap-6 border-b border-gray-100">
+                        <button id="tab-guru-data" tab-name="data_guru" class="tabMasterGuru pb-3 text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 transition-colors"><i class="ph ph-users mr-1"></i> Data Guru</button>
+                        <button id="tab-guru-tarif" tab-name="tarif_guru" class="tabMasterGuru pb-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors"><i class="ph ph-wallet mr-1"></i> Master Tarif Tunjangan</button>
+                    </div>
+                </div>
+
+                <div id="guru-content-data_guru" class="flex flex-col lg:flex-row gap-4 md:gap-8 lg:overflow-hidden lg:h-[calc(100vh-200px)]">
+                    
+                    <!-- KOLOM KIRI: FORM INPUT GURU -->
+                    <div class="w-full lg:w-1/3 admin-input-form shrink-0 lg:h-full overflow-y-auto hide-scroll">
+                        <div class="bg-white rounded-xl shadow-sm border border-indigo-100 p-6">
+                            <div data-content="form-master_guru-content" data-icon="icon-master_guru" class="trigger-caret flex justify-between items-center cursor-pointer md:cursor-auto">
+                                <h3 class="text-lg font-semibold text-gray-800 flex items-center"><i class="ph ph-user-plus text-indigo-600 mr-2 text-xl"></i> Form Data Guru</h3>
+                                <i id="icon-master_guru" class="ph ph-caret-up text-gray-500 md:hidden transition-transform text-xl"></i>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Kelola profil, jabatan, dan kategori peran pendidik.</p>
+                            
+                            <div id="form-master_guru-content" class="mt-4">
+                                <form id="form-master_guru" class="space-y-4">
+                                    <input type="hidden" id="edit-id-master_guru">
+                                    
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label class="block text-sm mb-1 font-medium">Kode Guru</label>
+                                            <input type="text" id="master_guru-kode" required placeholder="Contoh: YM" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 uppercase">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm mb-1 font-medium">Tahun Masuk</label>
+                                            <input type="number" id="master_guru-tahun" placeholder="Kosongkan jika Pengabdian" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm mb-1 font-medium">Nama Lengkap & Gelar</label>
+                                        <input type="text" id="master_guru-nama" required placeholder="Contoh: Yusuf Muzaidi, S.Pd." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                        <div>
+                                            <label class="block text-sm mb-1 font-medium">Jabatan Struktural</label>
+                                            <select id="master_guru-jabatan" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 bg-white">
+                                                <option value="">-- Pilih Jabatan --</option>
+                                                <!-- Akan diisi otomatis oleh JavaScript -->
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm mb-1 font-medium">Tugas Tambahan</label>
+                                            <select id="master_guru-tugas_tambahan" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 bg-white">
+                                                <option value="">-- Tidak Ada / Kosong --</option>
+                                                <!-- Akan diisi otomatis oleh JavaScript -->
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm mb-2 font-medium">Peran / Kategori (Pilih min. 1)</label>
+                                        <div class="space-y-2 border border-gray-200 p-3 rounded-lg bg-gray-50">
+                                            <label class="flex items-center space-x-2 cursor-pointer">
+                                                <input type="checkbox" id="check-guru-tendik" class="rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4">
+                                                <span class="text-sm font-medium text-gray-700">Honorarium Tendik</span>
+                                            </label>
+                                            <label class="flex items-center space-x-2 cursor-pointer">
+                                                <input type="checkbox" id="check-guru-bbqs" class="rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4">
+                                                <span class="text-sm font-medium text-gray-700">Honorarium BBQS</span>
+                                            </label>
+                                            <label class="flex items-center space-x-2 cursor-pointer">
+                                                <input type="checkbox" id="check-guru-ekstra" class="rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4">
+                                                <span class="text-sm font-medium text-gray-700">Honorarium Ekstrakurikuler</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex space-x-2 pt-2">
+                                        <button type="button" id="btn-cancel-master_guru" data-btn="master_guru" class="btnCancel hidden w-1/3 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2.5 rounded-lg transition-colors">Batal</button>
+                                        <button type="submit" id="btn-submit-master_guru" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors">Simpan Data Guru</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KOLOM KANAN: TABEL GURU -->
+                    <div class="w-full lg:w-2/3 admin-table-container min-h-0 flex flex-col flex-1 lg:h-full">
+                        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex-1 flex flex-col">
+                            <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shrink-0">
+                                <h3 class="text-lg font-semibold text-gray-800">Daftar Guru Terdaftar</h3>
+                                <input type="text" id="search-master_guru" placeholder="Cari Kode atau Nama..." data-search="master_guru" class="searchData w-full sm:w-64 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                            <div class="flex-1 overflow-x-auto">
+                                <table class="w-full text-left border-collapse">
+                                    <thead class="sticky top-0 bg-gray-50 z-10 shadow-sm">
+                                        <tr class="bg-gray-50 text-gray-500 text-sm border-b">
+                                            <th class="p-4 whitespace-nowrap">Kode</th>
+                                            <th class="p-4 whitespace-nowrap">Profil Guru</th>
+                                            <th class="p-4 whitespace-nowrap">Jabatan</th>
+                                            <th class="p-4 whitespace-nowrap">Tugas Tambahan</th>
+                                            <th class="p-4 text-center whitespace-nowrap">Thn Masuk</th>
+                                            <th class="p-4 whitespace-nowrap">Kategori</th>
+                                            <th class="p-4 text-center whitespace-nowrap">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-admin-master_guru" class="text-sm divide-y divide-gray-100">
+                                        <!-- Data dari database -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- PAGINASI -->
+                            <div class="p-4 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center bg-gray-50 text-sm shrink-0 gap-3">
+                                <span id="page-info-master_guru" class="text-gray-500 font-medium"></span>
+                                <div class="flex space-x-2">
+                                    <button id="btn-prev-master_guru" data-table="master_guru" data-page="-1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
+                                    <button id="btn-next-master_guru" data-table="master_guru" data-page="1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="guru-content-tarif_guru" class="hidden flex-col lg:flex-row gap-4 md:gap-8 lg:overflow-hidden lg:h-[calc(100vh-200px)]">
+                    
+                    <!-- KOLOM KIRI: FORM INPUT TARIF -->
+                    <div class="w-full lg:w-1/3 admin-input-form shrink-0 lg:h-full overflow-y-auto hide-scroll">
+                        <div class="bg-white rounded-xl shadow-sm border border-indigo-100 p-6">
+                            <div data-content="form-tarif_tunjangan-content" data-icon="icon-tarif_tunjangan" class="trigger-caret flex justify-between items-center cursor-pointer md:cursor-auto">
+                                <h3 class="text-lg font-semibold text-gray-800 flex items-center"><i class="ph ph-wallet text-indigo-600 mr-2 text-xl"></i> Form Master Tarif</h3>
+                                <i id="icon-tarif_tunjangan" class="ph ph-caret-up text-gray-500 md:hidden transition-transform text-xl"></i>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Atur besaran nominal untuk setiap jabatan dan tugas tambahan.</p>
+                            
+                            <div id="form-tarif_tunjangan-content" class="mt-4">
+                                <form id="form-tarif_tunjangan" class="space-y-4">
+                                    <input type="hidden" id="edit-id-tarif_tunjangan">
+                                    
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label class="block text-sm mb-1 font-medium">Tahun Ajaran</label>
+                                            <select id="tarif_tunjangan-tahun" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 bg-white"></select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm mb-1 font-medium">Kategori</label>
+                                            <select id="tarif_tunjangan-kategori" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 bg-white">
+                                                <option value="Struktural">Struktural</option>
+                                                <option value="Tambahan">Tugas Tambahan</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm mb-1 font-medium">Nama Jabatan / Tugas</label>
+                                        <input type="text" id="tarif_tunjangan-nama" required placeholder="Contoh: Kepala Madrasah" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm mb-1 font-medium">Nominal Tunjangan (Rp)</label>
+                                        <input type="number" id="tarif_tunjangan-nominal" required min="0" placeholder="Contoh: 500000" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                    </div>
+
+                                    <div class="flex space-x-2 pt-2">
+                                        <button type="button" id="btn-cancel-tarif_tunjangan" data-btn="tarif_tunjangan" class="btnCancel hidden w-1/3 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2.5 rounded-lg transition-colors">Batal</button>
+                                        <button type="submit" id="btn-submit-tarif_tunjangan" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors">Simpan Tarif</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KOLOM KANAN: TABEL TARIF -->
+                    <div class="w-full lg:w-2/3 admin-table-container min-h-0 flex flex-col flex-1 lg:h-full">
+                        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex-1 flex flex-col">
+                            <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shrink-0">
+                                <h3 class="text-lg font-semibold text-gray-800">Daftar Tarif & Tunjangan</h3>
+                                <input type="text" id="search-tarif_tunjangan" placeholder="Cari Jabatan/Tugas..." data-search="tarif_tunjangan" class="searchData w-full sm:w-64 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                            <div class="flex-1 overflow-x-auto">
+                                <table class="w-full text-left border-collapse">
+                                    <thead class="sticky top-0 bg-gray-50 z-10 shadow-sm">
+                                        <tr class="bg-gray-50 text-gray-500 text-sm border-b">
+                                            <th class="p-4 whitespace-nowrap">Tahun</th>
+                                            <th class="p-4 whitespace-nowrap">Jabatan / Tugas</th>
+                                            <th class="p-4 whitespace-nowrap">Kategori</th>
+                                            <th class="p-4 text-right whitespace-nowrap">Nominal (Rp)</th>
+                                            <th class="p-4 text-center whitespace-nowrap">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-admin-tarif_tunjangan" class="text-sm divide-y divide-gray-100">
+                                        <!-- Data dari database -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- PAGINASI -->
+                            <div class="p-4 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center bg-gray-50 text-sm shrink-0 gap-3">
+                                <span id="page-info-tarif_tunjangan" class="text-gray-500 font-medium"></span>
+                                <div class="flex space-x-2">
+                                    <button id="btn-prev-tarif_tunjangan" data-table="tarif_tunjangan" data-page="-1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Sebelumnya</button>
+                                    <button id="btn-next-tarif_tunjangan" data-table="tarif_tunjangan" data-page="1" class="btn-pagination px-4 py-2 border rounded-md bg-white hover:bg-gray-100 transition-colors font-medium shadow-sm">Selanjutnya</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <!-- TAB RESTORE DATA (Khusus Super Admin) -->
@@ -1551,9 +2461,7 @@
             </div>
         </div>
     </div>
-    <!-- ========================================== -->
     <!-- MODAL NOTIFIKASI (LOADING / ERROR / SUCCESS) -->
-    <!-- ========================================== -->
     <div id="modal-notifikasi" class="fixed inset-0 z-[999] hidden items-center justify-center bg-gray-900/50 backdrop-blur-sm opacity-0 transition-opacity duration-300">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 text-center transform scale-95 transition-transform duration-300 relative">
             
@@ -1572,8 +2480,48 @@
             </button>
         </div>
     </div>
+    <!-- Modal Konfirmasi Universal HR -->
+    <div id="hr-confirm-modal" class="fixed inset-0 bg-slate-900/50 z-[60] hidden flex items-center justify-center backdrop-blur-sm transition-opacity">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-sm p-6 text-center mx-4">
+            <h3 id="hr-modal-title" class="text-xl font-bold text-gray-800 mb-2">Konfirmasi</h3>
+            <p id="hr-modal-message" class="text-sm text-gray-500 mb-6 whitespace-pre-wrap">Apakah Anda yakin?</p>
+            <div class="flex space-x-3 mt-6">
+                <button id="btn-hr-modal-cancel" class="flex-1 py-2.5 bg-gray-100 text-gray-700 hover:bg-gray-200 font-medium rounded-lg transition-colors">Batal</button>
+                <button id="btn-hr-modal-confirm" class="flex-1 py-2.5 text-white font-medium rounded-lg transition-colors">Ya, Lanjutkan</button>
+            </div>
+        </div>
+    </div>
+    <!-- MODAL CHANGELOG (RIWAYAT PEMBARUAN) -->
+    <div id="modal-changelog" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <!-- Overlay Gelap (Klik luar untuk menutup) -->
+        <div class="btn-tutup-changelog absolute inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity"></div>
+        
+        <!-- Kotak Modal -->
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden relative z-10 transform transition-all flex flex-col max-h-[90vh]">
+            <!-- Header Modal -->
+            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2">
+                    <i class="ph ph-clock-counter-clockwise text-indigo-600 text-xl"></i> Riwayat Pembaruan
+                </h3>
+                <button type="button" class="btn-tutup-changelog text-gray-400 hover:text-red-500 hover:bg-red-50 p-1.5 rounded-lg transition-colors">
+                    <i class="ph ph-x text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Body Modal (Scrollable) -->
+            <div id="changelog-container" class="p-6 overflow-y-auto custom-scrollbar space-y-6">
+                <!-- Data akan di-render otomatis oleh JavaScript di sini -->
+            </div>
+
+            <!-- Footer Modal -->
+            <div class="p-4 border-t border-gray-100 bg-gray-50 flex justify-end">
+                <button type="button" class="btn-tutup-changelog px-5 py-2 bg-gray-200 text-gray-700 hover:bg-gray-300 rounded-lg text-sm font-medium transition-colors">Tutup</button>
+            </div>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="/administrasi-v2/assets/js/app.js"></script>
 </body>
 </html>
