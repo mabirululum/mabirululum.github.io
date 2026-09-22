@@ -8,7 +8,7 @@ if ($action === 'login') {
   $username = trim($body['username'] ?? '');
   $password = $body['password'] ?? '';
 
-  $stmt = $pdo->prepare('SELECT id, username, password_hash, nama, role FROM users WHERE username = ? AND aktif = 1');
+  $stmt = $pdo->prepare('SELECT id, username, password_hash, nama, role, kelas_id FROM users WHERE username = ? AND aktif = 1');
   $stmt->execute([$username]);
   $user = $stmt->fetch();
 
@@ -22,7 +22,7 @@ if ($action === 'login') {
 if ($action === 'login_barcode') {
   // Dipakai HANYA di halaman login admin -> boleh 401 kalau salah
   $barcode = trim($body['barcode'] ?? '');
-  $stmt = $pdo->prepare('SELECT id, username, nama, role FROM users WHERE barcode_id = ? AND aktif = 1');
+  $stmt = $pdo->prepare('SELECT id, username, nama, role, kelas_id FROM users WHERE barcode_id = ? AND aktif = 1');
   $stmt->execute([$barcode]);
   $user = $stmt->fetch();
 

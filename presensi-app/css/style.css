@@ -59,7 +59,7 @@ body {
   color: #cfe0d6;
 }
 
-.kiosk-main {
+/* .kiosk-main {
   flex: 1;
   display: flex;
   gap: 20px;
@@ -86,7 +86,7 @@ body {
   background: #000;
 }
 #camera-view video {
-  transform: scaleX(-1); /* efek cermin, sesuai arah pengguna */
+  transform: scaleX(-1);
 }
 .status-box {
   width: 100%;
@@ -147,7 +147,82 @@ body {
 }
 .riwayat-list-full .list-row:last-child {
   border-bottom: none;
+} */
+
+.kiosk-main{
+  flex:1;
+  display:flex;
+  gap:16px;
+  padding:20px 24px;
+  min-height:0;
 }
+
+.panel-riwayat{
+  flex:0.8;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:16px 18px;
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+}
+.panel-riwayat h4{
+  margin:0 0 10px;
+  font-size:12px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:var(--muted);
+  flex-shrink:0;
+}
+.riwayat-list-full{
+  flex:1;
+  overflow-y:auto;
+}
+.riwayat-list-full .list-row{
+  display:flex;
+  justify-content:space-between;
+  padding:8px 2px;
+  border-bottom:1px dotted var(--border);
+  font-size:13px;
+}
+.riwayat-list-full .list-row:last-child{border-bottom:none;}
+
+.panel-tengah{
+  flex:1.2;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  min-width:0;
+}
+#camera-view{
+  width:100%;
+  max-width:480px;
+  aspect-ratio: 4 / 3;
+  border-radius:16px;
+  overflow:hidden;
+  border:4px solid var(--accent);
+  background:#000;
+}
+#camera-view video{
+  transform: scaleX(-1);
+}
+.status-box{
+  width:100%;
+  max-width:480px;
+  padding:14px 20px;
+  border-radius:12px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  font-size:14px;
+  text-align:center;
+}
+.status-box strong{display:block;font-size:18px;margin-bottom:4px;}
+.status-hadir{border-color:var(--accent);}
+.status-telat,.status-pulang_awal,.status-telat_dan_pulang_awal{border-color:var(--warn);}
+.status-error{border-color:var(--danger);color:var(--danger);}
 
 .kiosk-footer {
   flex-shrink: 0;
@@ -232,7 +307,7 @@ body {
   transform: scaleX(-1);
 }
 
-@media (max-width: 860px) {
+/* @media (max-width: 860px) {
   html,
   body {
     overflow: auto;
@@ -251,4 +326,11 @@ body {
   #camera-view {
     background: #333;
   }
+} */
+
+@media (max-width: 860px){
+  html, body{ overflow:auto; }
+  .kiosk-shell{ height:auto; min-height:100vh; }
+  .kiosk-main{ flex-direction:column; padding:16px; }
+  .panel-riwayat{ max-height:220px; }
 }

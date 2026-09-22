@@ -45,6 +45,13 @@
         <a href="guru.html" data-roles="admin"><i class="bi bi-person-badge"></i> Data Guru</a>
         <a href="user.html" data-roles="admin" class="active"><i class="bi bi-people"></i> Data User</a>
         <a href="laporan.html" data-roles="admin"><i class="bi bi-bar-chart-line"></i> Laporan</a>
+        <div style="border-top:1px solid rgba(255,255,255,.12); margin:10px 14px;"></div>
+        <a href="kelas.html" data-roles="admin"><i class="bi bi-collection"></i> Data Kelas</a>
+        <a href="siswa.html" data-roles="admin"><i class="bi bi-mortarboard"></i> Data Siswa</a>
+        <a href="kenaikan-kelas.html" data-roles="admin"><i class="bi bi-arrow-up-circle"></i> Kenaikan Kelas</a>
+        <a href="izin-siswa.html" data-roles="admin,wali_kelas"><i class="bi bi-calendar-x"></i> Izin / Sakit Siswa</a>
+        <a href="laporan-siswa.html" data-roles="admin"><i class="bi bi-bar-chart-line"></i> Laporan Siswa</a>
+        <div style="border-top:1px solid rgba(255,255,255,.12); margin:10px 14px;"></div>
         <a href="reset.html" data-roles="admin"><i class="bi bi-trash3"></i> Reset Database</a>
       </div>
       <div class="sidebar-foot">
@@ -84,8 +91,12 @@
             <select id="user-role">
               <option value="admin">Admin</option>
               <option value="piket">Guru Piket</option>
+              <option value="wali_kelas">Wali Kelas</option>
             </select>
           </label>
+          </div>
+          <div class="form-row" id="wrap-wali-kelas" style="display:none;">
+            <label>Kelas yang Diampu<select id="user-kelas"></select></label>
           </div>
           <button type="submit" class="btn"><i class="bi bi-save"></i> Simpan User</button>
           <button type="button" class="btn btn-secondary" id="btn-batal-edit-user" style="display:none;"><i class="bi bi-x-circle"></i> Batal Edit</button>
@@ -100,9 +111,10 @@
               <tr>
                 <th>Username</th>
                 <th>Nama</th>
+                <th>Role</th>
+                <th>Kelas</th>
                 <th>Barcode</th>
                 <th>Status</th>
-                <th>Role</th>
                 <th>Aksi</th>
               </tr>
             </thead>

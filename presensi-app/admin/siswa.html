@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Data Guru - Admin Presensi</title>
+<title>Data Siswa - Admin Presensi</title>
 <!-- HTML Meta Tags -->
 <meta name="description" content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
 <meta name="google-site-verification" content="M6vZYhRJ30dMCAMGu2gD8UNov_Kdcsku6pcai8gGknI" />
@@ -33,20 +33,19 @@
 </head>
 <body>
   <div class="admin-shell">
-
     <nav class="sidebar">
       <div class="sidebar-brand"><i class="bi bi-qr-code-scan"></i> Presensi Admin</div>
       <div class="sidebar-nav">
         <a href="dashboard.html" data-roles="admin"><i class="bi bi-speedometer2"></i> Dashboard</a>
-        <a href="izin.html" data-roles="admin,piket"><i class="bi bi-calendar-x"></i> Izin / Sakit</a>
+        <a href="izin.html" data-roles="admin,piket"><i class="bi bi-calendar-x"></i> Izin / Sakit Guru</a>
         <a href="libur.html" data-roles="admin"><i class="bi bi-calendar-event"></i> Hari Libur</a>
         <a href="kegiatan.html" data-roles="admin"><i class="bi bi-calendar2-check"></i> Kegiatan Sekolah</a>
-        <a href="guru.html" data-roles="admin" class="active"><i class="bi bi-person-badge"></i> Data Guru</a>
+        <a href="guru.html" data-roles="admin"><i class="bi bi-person-badge"></i> Data Guru</a>
         <a href="user.html" data-roles="admin"><i class="bi bi-people"></i> Data User</a>
-        <a href="laporan.html" data-roles="admin"><i class="bi bi-bar-chart-line"></i> Laporan</a>
+        <a href="laporan.html" data-roles="admin"><i class="bi bi-bar-chart-line"></i> Laporan Guru</a>
         <div style="border-top:1px solid rgba(255,255,255,.12); margin:10px 14px;"></div>
         <a href="kelas.html" data-roles="admin"><i class="bi bi-collection"></i> Data Kelas</a>
-        <a href="siswa.html" data-roles="admin"><i class="bi bi-mortarboard"></i> Data Siswa</a>
+        <a href="siswa.html" class="active" data-roles="admin"><i class="bi bi-mortarboard"></i> Data Siswa</a>
         <a href="kenaikan-kelas.html" data-roles="admin"><i class="bi bi-arrow-up-circle"></i> Kenaikan Kelas</a>
         <a href="izin-siswa.html" data-roles="admin,wali_kelas"><i class="bi bi-calendar-x"></i> Izin / Sakit Siswa</a>
         <a href="laporan-siswa.html" data-roles="admin"><i class="bi bi-bar-chart-line"></i> Laporan Siswa</a>
@@ -61,7 +60,7 @@
     <header class="topbar">
       <div class="topbar-left">
         <button class="btn-hamburger"><i class="bi bi-list"></i></button>
-        <h1>Data Guru</h1>
+        <h1>Data Siswa</h1>
       </div>
       <div class="topbar-user">
         <div class="avatar" id="avatar-admin">A</div>
@@ -72,96 +71,107 @@
     <main class="admin-content">
 
       <div class="card">
-        <div class="card-title"><i class="bi bi-file-earmark-excel"></i> Import Guru dari Excel</div>
-        <input type="file" id="input-import-excel" accept=".xlsx,.xls" style="display:none;">
-        <button type="button" class="btn btn-secondary" onclick="document.getElementById('input-import-excel').click()">
+        <div class="card-title"><i class="bi bi-file-earmark-excel"></i> Import Siswa dari Excel</div>
+        <input type="file" id="input-import-excel-siswa" accept=".xlsx,.xls" style="display:none;">
+        <button type="button" class="btn btn-secondary" onclick="document.getElementById('input-import-excel-siswa').click()">
           <i class="bi bi-upload"></i> Pilih File Excel
         </button>
         <div class="card-hint">
-          Format kolom: <code>nama | kode | nama_panggilan | jadwal senin | jadwal selasa | jadwal rabu | jadwal kamis | jadwal jum'at | jadwal sabtu | toleransi | status</code><br>
-          <code>nama_panggilan</code> dipakai khusus untuk suara sapaan presensi (misal "Pak Zaki") — kosongkan kalau mau pakai nama lengkap.<br>
-          Isi jadwal dengan format <code>07:00-14:00</code> (default: Pengajar). Tambahkan <code>,S</code> untuk Struktural atau <code>,M</code> untuk Mengaji.
-          Kosongkan sel kalau hari itu libur. Kolom <code>kode</code> boleh dikosongkan (barcode dibuat otomatis).
+          Format kolom: <code> nis | nama | kelas | kode | tahun_masuk</code><br>
+          Kolom <code>kelas</code> diisi nama kelas (contoh: <code>7A</code>) — kalau kelasnya belum ada, akan dibuat otomatis (tanpa jadwal, perlu diatur manual lewat menu Data Kelas).<br>
+          Kolom <code>kode</code> (barcode) boleh dikosongkan untuk siswa baru (dibuat otomatis). Isi dengan barcode yang sudah ada untuk <b>update</b> data siswa tersebut tanpa membuat duplikat.<br>
+          Kolom <code>tahun_masuk</code> opsional, contoh: <code>2024</code>.
         </div>
-        <div id="import-hasil" style="margin-top:10px;font-size:12px;"></div>
+        <div id="import-hasil-siswa" style="margin-top:10px;font-size:12px;"></div>
       </div>
 
       <div class="card">
         <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
-          <span><i class="bi bi-person-plus"></i> Form Tambah / Edit Guru</span>
-          <button type="button" class="btn btn-secondary btn-sm" id="btn-toggle-form-guru">
-            <i class="bi bi-plus-lg"></i> Tambah Guru
+          <span><i class="bi bi-person-plus"></i> Form Tambah / Edit Siswa</span>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-toggle-form-siswa">
+            <i class="bi bi-plus-lg"></i> Tambah Siswa
           </button>
         </div>
-        <div id="form-guru-wrap" style="display:none;">
-          <form id="form-guru">
-            <input type="hidden" id="guru-id">
+        <div id="form-siswa-wrap" style="display:none;">
+          <form id="form-siswa">
+            <input type="hidden" id="siswa-id">
             <div class="form-row">
-              <label>Nama Guru<input type="text" id="guru-nama" required></label>
-              <label>NIP (opsional)<input type="text" id="guru-nip"></label>
-              <label>Nama Panggilan untuk Suara<input type="text" id="guru-nama-panggilan" placeholder="Contoh: Pak Zaki"></label>
+              <label>Nama Siswa<input type="text" id="siswa-nama" required></label>
+              <label>NIS (opsional)<input type="text" id="siswa-nis"></label>
+              <label>Kelas<select id="siswa-kelas" required></select></label>
             </div>
-            <div class="form-row">
-              
-            </div>
-
-            <div class="table-wrap">
-              <table style="margin-bottom:14px; text-align: center;">
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th>Hari</th>
-                    <th>Jam Masuk</th>
-                    <th>Jam Pulang</th>
-                    <th>Kategori</th>
-                    <th>Toleransi (menit)</th>
-                  </tr>
-                </thead>
-                <tbody id="tbody-jadwal-input"></tbody>
-              </table>
-            </div>
-
-            <button type="submit" class="btn"><i class="bi bi-save"></i> Simpan Guru</button>
-            <button type="button" class="btn btn-secondary" id="btn-batal-edit" style="display:none;"><i class="bi bi-x-circle"></i> Batal Edit</button>
+            <button type="submit" class="btn"><i class="bi bi-save"></i> Simpan Siswa</button>
+            <button type="button" class="btn btn-secondary" id="btn-batal-edit-siswa" style="display:none;"><i class="bi bi-x-circle"></i> Batal Edit</button>
           </form>
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-title"><i class="bi bi-list-ul"></i> Daftar Guru</div>
+      <!-- <div class="card">
+        <div class="card-title"><i class="bi bi-list-ul"></i> Daftar Siswa</div>
         <div class="table-wrap">
           <table>
-          <thead>
-            <tr>
-              <th>Nama</th>
-              <th>NIP</th>
-              <th>QR-Code</th>
-              <th>Kategori</th>
-              <th>Jadwal</th>
-              <th>Status</th>
-              <th>Aksi</th>
-            </tr>
-          </thead>
-            <tbody id="tbody-guru"><tr><td colspan="6">Memuat…</td></tr></tbody>
+            <thead><tr><th>Nama</th><th>NIS</th><th>Kelas</th><th>Barcode</th><th>Status</th><th>Aksi</th></tr></thead>
+            <tbody id="tbody-siswa"><tr><td colspan="6">Memuat…</td></tr></tbody>
           </table>
         </div>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
-          <span id="info-halaman-guru" style="font-size:12px; color:var(--muted);">-</span>
+          <span id="info-halaman-siswa" style="font-size:12px; color:var(--muted);">-</span>
           <div style="display:flex; gap:8px;">
-            <button type="button" class="btn btn-secondary btn-sm" id="btn-prev-guru"><i class="bi bi-chevron-left"></i> Sebelumnya</button>
-            <button type="button" class="btn btn-secondary btn-sm" id="btn-next-guru">Selanjutnya <i class="bi bi-chevron-right"></i></button>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-prev-siswa"><i class="bi bi-chevron-left"></i> Sebelumnya</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-next-siswa">Selanjutnya <i class="bi bi-chevron-right"></i></button>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="card">
+        <div class="card-title"><i class="bi bi-list-ul"></i> Daftar Siswa</div>
+        <div class="form-row">
+          <label>Filter Status
+            <select id="filter-status-siswa">
+              <option value="aktif">Aktif</option>
+              <option value="lulus">Lulus</option>
+              <option value="pindah">Pindah / Keluar</option>
+            </select>
+          </label>
+          <label>Filter Tahun
+            <select id="filter-tahun-siswa"><option value="">Semua Tahun</option></select>
+          </label>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead id="thead-siswa">
+              <tr>
+                <th>Nama</th>
+                <th>NIS</th>
+                <th>Kelas</th>
+                <th>Tahun Masuk</th>
+                <th>Barcode</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-siswa"><tr><td colspan="6">Memuat…</td></tr></tbody>
+          </table>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
+          <span id="info-halaman-siswa" style="font-size:12px; color:var(--muted);">-</span>
+          <div style="display:flex; gap:8px;">
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-prev-siswa"><i class="bi bi-chevron-left"></i> Sebelumnya</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-next-siswa">Selanjutnya <i class="bi bi-chevron-right"></i></button>
           </div>
         </div>
       </div>
+
     </main>
   </div>
 
   <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <script src="../js/config.js"></script>
   <script src="../js/db-adapter.js"></script>
   <script src="../js/ui.js"></script>
   <script src="../js/auth.js"></script>
-  <script src="../js/admin-guru.js"></script>
+  <script src="../js/admin-siswa.js"></script>
 </body>
 </html>

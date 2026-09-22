@@ -46,7 +46,7 @@
       </div>
     </header>
 
-    <main class="kiosk-main">
+    <!-- <main class="kiosk-main">
       <section class="panel-kiri">
         <div id="camera-view"></div>
         <div class="status-box" id="status-box">
@@ -61,10 +61,33 @@
           <div class="list-row"><span>Memuat…</span></div>
         </div>
       </section>
+    </main> -->
+    <main class="kiosk-main">
+      <section class="panel-riwayat">
+        <h4><i class="bi bi-mortarboard"></i> Riwayat Murid</h4>
+        <div id="riwayat-siswa-list" class="riwayat-list-full">
+          <div class="list-row"><span>Memuat…</span></div>
+        </div>
+      </section>
+
+      <section class="panel-tengah">
+        <div id="camera-view"></div>
+        <div class="status-box" id="status-box">
+          <strong>Menunggu scan…</strong>
+          Arahkan barcode kartu ke kamera
+        </div>
+      </section>
+
+      <section class="panel-riwayat">
+        <h4><i class="bi bi-person-badge"></i> Riwayat Guru</h4>
+        <div id="riwayat-guru-list" class="riwayat-list-full">
+          <div class="list-row"><span>Memuat…</span></div>
+        </div>
+      </section>
     </main>
 
     <footer class="kiosk-footer">
-      Dikembangkan oleh <a href="http://www.instagram.com/aflah.design/" target="_blank">Aflah Design</a> · &copy; 2026 · <a id="btn-install-pwa" style="cursor: pointer">Install Aplikasi</a> · <a id="btn-suara-masuk" style="cursor: pointer">Presensi Masuk</a> · <a id="btn-suara-pulang" style="cursor: pointer">Presensi Pulang</a>
+      Dikembangkan oleh <a href="http://www.instagram.com/aflah.design/" target="_blank">Aflah Design</a> · &copy; 2026 · <a id="btn-install-pwa" style="cursor: pointer">Install Aplikasi</a>
     </footer>
 
     <div id="overlay-mulai" style="position:fixed;inset:0;background:#1f4d36;color:#fff;
@@ -88,8 +111,8 @@
   <script src="js/db-adapter.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/ui.js"></script>
-  <script src="js/scanner.js"></script>
   <script src="js/pengumuman.js"></script>
+  <script src="js/scanner.js"></script>
   <script src="js/app-shell.js"></script>
   
 </body>

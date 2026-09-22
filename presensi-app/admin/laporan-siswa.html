@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Izin / Sakit - Admin Presensi</title>
+<title>Laporan Siswa - Admin Presensi</title>
 <!-- HTML Meta Tags -->
 <meta name="description" content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
 <meta name="google-site-verification" content="M6vZYhRJ30dMCAMGu2gD8UNov_Kdcsku6pcai8gGknI" />
@@ -37,18 +37,18 @@
       <div class="sidebar-brand"><i class="bi bi-qr-code-scan"></i> Presensi Admin</div>
       <div class="sidebar-nav">
         <a href="dashboard.html" data-roles="admin"><i class="bi bi-speedometer2"></i> Dashboard</a>
-        <a href="izin.html" class="active" data-roles="admin,piket"><i class="bi bi-calendar-x"></i> Izin / Sakit</a>
+        <a href="izin.html" data-roles="admin,piket"><i class="bi bi-calendar-x"></i> Izin / Sakit Guru</a>
         <a href="libur.html" data-roles="admin"><i class="bi bi-calendar-event"></i> Hari Libur</a>
         <a href="kegiatan.html" data-roles="admin"><i class="bi bi-calendar2-check"></i> Kegiatan Sekolah</a>
         <a href="guru.html" data-roles="admin"><i class="bi bi-person-badge"></i> Data Guru</a>
         <a href="user.html" data-roles="admin"><i class="bi bi-people"></i> Data User</a>
-        <a href="laporan.html" data-roles="admin"><i class="bi bi-bar-chart-line"></i> Laporan</a>
+        <a href="laporan.html" data-roles="admin"><i class="bi bi-bar-chart-line"></i> Laporan Guru</a>
         <div style="border-top:1px solid rgba(255,255,255,.12); margin:10px 14px;"></div>
         <a href="kelas.html" data-roles="admin"><i class="bi bi-collection"></i> Data Kelas</a>
         <a href="siswa.html" data-roles="admin"><i class="bi bi-mortarboard"></i> Data Siswa</a>
         <a href="kenaikan-kelas.html" data-roles="admin"><i class="bi bi-arrow-up-circle"></i> Kenaikan Kelas</a>
         <a href="izin-siswa.html" data-roles="admin,wali_kelas"><i class="bi bi-calendar-x"></i> Izin / Sakit Siswa</a>
-        <a href="laporan-siswa.html" data-roles="admin"><i class="bi bi-bar-chart-line"></i> Laporan Siswa</a>
+        <a href="laporan-siswa.html" class="active" data-roles="admin"><i class="bi bi-bar-chart-line"></i> Laporan Siswa</a>
         <div style="border-top:1px solid rgba(255,255,255,.12); margin:10px 14px;"></div>
         <a href="reset.html" data-roles="admin"><i class="bi bi-trash3"></i> Reset Database</a>
       </div>
@@ -60,7 +60,7 @@
     <header class="topbar">
       <div class="topbar-left">
         <button class="btn-hamburger"><i class="bi bi-list"></i></button>
-        <h1>Izin / Sakit</h1>
+        <h1>Laporan Siswa</h1>
       </div>
       <div class="topbar-user">
         <div class="avatar" id="avatar-admin">A</div>
@@ -70,72 +70,33 @@
 
     <main class="admin-content">
       <div class="card">
-        <div class="card-title"><i class="bi bi-calendar-plus"></i> Catat Izin / Sakit Guru</div>
-        <form id="form-izin">
-          <div class="form-row">
-            <label>Guru<select id="izin-guru" required></select></label>
-            <label>Dari Tanggal<input type="date" id="izin-tanggal" required></label>
-            <label>Sampai Tanggal<input type="date" id="izin-tanggal-sampai"></label>
-            <label>Jenis
-              <select id="izin-jenis">
-                <option>Izin</option>
-                <option>Sakit</option>
-                <option>Kegiatan</option>
-                <option>Cuti</option>
-              </select>
-            </label>
-          </div>
-          <div class="form-row" id="wrap-cb-parsial" style="display:none;">
-            <label style="flex-direction:row; align-items:center; gap:8px;">
-              <input type="checkbox" id="izin-parsial" style="width:auto;">
-              Izin sebagian jam saja (bukan seharian penuh)
-            </label>
-          </div>
-          <div class="form-row" id="wrap-jam-parsial" style="display:none;">
-            <div style="font-size:12px; color:var(--muted); margin-bottom:6px;">Pilihan cepat (bisa disesuaikan manual di bawah setelah klik):</div>
-            <div id="preset-jam-pelajaran" style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px;"></div>
-            <label>Jam Mulai<input type="time" id="izin-jam-mulai"></label>
-            <label>Jam Selesai<input type="time" id="izin-jam-selesai"></label>
-          </div>
-          <div class="form-row">
-            <label>Keterangan (opsional)<input type="text" id="izin-keterangan" placeholder="Contoh: Rapat dinas luar"></label>
-          </div>
-          <button type="submit" class="btn"><i class="bi bi-save"></i> Simpan</button>
-        </form>
+        <div class="card-title"><i class="bi bi-funnel"></i> Filter Laporan</div>
+        <div class="form-row">
+          <label>Dari Tanggal<input type="date" id="filter-dari-siswa"></label>
+          <label>Sampai Tanggal<input type="date" id="filter-sampai-siswa"></label>
+          <label>Kelas<select id="filter-kelas-siswa"><option value="">Semua Kelas</option></select></label>
+        </div>
+        <button class="btn" id="btn-tampilkan-siswa"><i class="bi bi-search"></i> Tampilkan</button>
+        <button class="btn btn-secondary" id="btn-export-siswa"><i class="bi bi-file-earmark-excel"></i> Export Excel</button>
       </div>
 
       <div class="card">
-        <div class="card-title"><i class="bi bi-list-ul"></i> Riwayat Izin (Semua Data)</div>
         <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Tanggal</th>
-                <th>Nama Guru</th>
-                <th>Jenis</th>
-                <th>Keterangan</th>
-                <th>Dicatat Oleh</th>
-              </tr>
-            </thead>
-            <tbody id="tbody-izin"><tr><td colspan="5">Memuat…</td></tr></tbody>
+          <table class="table-tengah">
+            <thead><tr><th>Nama Siswa</th><th>Kelas</th><th>Hadir</th><th>Telat</th><th>Alpha</th><th>Izin/Sakit</th></tr></thead>
+            <tbody id="tbody-laporan-siswa"><tr><td colspan="6">Pilih rentang tanggal lalu klik Tampilkan</td></tr></tbody>
           </table>
-        </div>
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
-          <span id="info-halaman" style="font-size:12px; color:var(--muted);">-</span>
-          <div style="display:flex; gap:8px;">
-            <button type="button" class="btn btn-secondary btn-sm" id="btn-prev"><i class="bi bi-chevron-left"></i> Sebelumnya</button>
-            <button type="button" class="btn btn-secondary btn-sm" id="btn-next">Selanjutnya <i class="bi bi-chevron-right"></i></button>
-          </div>
         </div>
       </div>
     </main>
   </div>
 
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <script src="../js/config.js"></script>
   <script src="../js/db-adapter.js"></script>
   <script src="../js/ui.js"></script>
   <script src="../js/auth.js"></script>
-  <script src="../js/admin-izin.js"></script>
+  <script src="../js/admin-laporan-siswa.js"></script>
 </body>
 </html>

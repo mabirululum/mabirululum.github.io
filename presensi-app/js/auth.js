@@ -24,7 +24,9 @@ const AUTH = {
     const user = this.current();
     if (!user) { window.location.href = 'login.html'; return; }
     if (!allowedRoles.includes(user.role)) {
-      window.location.href = user.role === 'piket' ? 'izin.html' : 'dashboard.html';
+      if (user.role === 'piket') window.location.href = 'izin.html';
+      else if (user.role === 'wali_kelas') window.location.href = 'izin-siswa.html';
+      else window.location.href = 'dashboard.html';
     }
   },
 };
