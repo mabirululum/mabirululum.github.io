@@ -44,6 +44,8 @@ formEl.addEventListener('submit', async (e) => {
 
     // Simpan sesi (sama format dengan admin)
     sessionStorage.setItem('admin_session', JSON.stringify(user));
+    sessionStorage.setItem('auth_last_activity', Date.now().toString());
+    sessionStorage.removeItem('admin_sidebar_scroll');
     window.location.href = 'izin.html';
   } catch (err) {
     tampilkanError(err.message || 'Gagal login, periksa kembali username dan password.');

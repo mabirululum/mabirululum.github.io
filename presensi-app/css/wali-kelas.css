@@ -789,21 +789,48 @@ body {
 /* ================= RESPONSIVE ================= */
 @media (max-width: 640px) {
   .wali-topbar {
-    padding: 0 16px;
-    height: 62px;
+    padding: 0 14px;
+    height: 58px;
+  }
+
+  .wali-topbar-left {
+    gap: 10px;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .wali-topbar-left .topbar-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    flex-shrink: 0;
   }
 
   .wali-topbar-left h1 {
-    font-size: 17px;
+    font-size: 15px;
+    line-height: 1.25;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
+  /* Sembunyikan badge kelas dan avatar profil di navbar mobile agar tidak berdesakan */
   .wali-topbar-left .badge-topbar-kelas {
-    font-size: 12px;
-    padding: 3px 8px;
+    display: none !important;
   }
 
-  .wali-topbar-right .wali-user-info span {
-    display: none;
+  .wali-topbar-right .wali-user-info {
+    display: none !important;
+  }
+
+  .wali-topbar-right .avatar {
+    display: none !important;
+  }
+
+  .wali-topbar-right .btn-logout {
+    padding: 7px 12px;
+    font-size: 13px;
+    gap: 6px;
   }
 
   .wali-content {
@@ -1030,3 +1057,5 @@ body {
     padding: 0 16px;
   }
 }
+
+

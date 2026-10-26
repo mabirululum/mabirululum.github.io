@@ -629,14 +629,36 @@ body {
 /* ================= RESPONSIVE ================= */
 @media (max-width: 640px) {
   .piket-topbar {
-    padding: 0 16px;
-    height: 60px;
+    padding: 0 14px;
+    height: 58px;
+  }
+  .piket-topbar-left {
+    gap: 10px;
+    min-width: 0;
+    flex: 1;
+  }
+  .piket-topbar-left .topbar-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    flex-shrink: 0;
   }
   .piket-topbar-left h1 {
-    font-size: 17px;
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-  .piket-topbar-right .piket-user-info span {
-    display: none;
+  .piket-topbar-right .piket-user-info {
+    display: none !important;
+  }
+  .piket-topbar-right .avatar {
+    display: none !important;
+  }
+  .piket-topbar-right .btn-logout {
+    padding: 7px 12px;
+    font-size: 13px;
+    gap: 6px;
   }
   .piket-content {
     padding: 18px 14px 50px;
@@ -835,3 +857,5 @@ body {
     padding: 0 16px;
   }
 }
+
+
