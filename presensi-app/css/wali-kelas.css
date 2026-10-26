@@ -1,0 +1,1032 @@
+/* =========================================================
+   WALI KELAS PORTAL — Dedicated CSS
+   Clean, large-text UI for Wali Kelas (no sidebar)
+   Palette: Royal Indigo & Ocean Blue
+   ========================================================= */
+:root {
+  --accent: #2563eb;
+  --accent-dark: #1d4ed8;
+  --accent-deep: #1e3a8a;
+  --accent-soft: #eff6ff;
+  --accent-glow: rgba(37, 99, 235, 0.16);
+  --bg: #f8fafc;
+  --panel: #ffffff;
+  --border: #e2e8f0;
+  --border-focus: #3b82f6;
+  --text: #0f172a;
+  --muted: #64748b;
+  --danger: #dc2626;
+  --danger-soft: #fef2f2;
+  --warn: #d97706;
+  --warn-soft: #fffbeb;
+  --success: #16a34a;
+  --success-soft: #f0fdf4;
+  --purple: #7c3aed;
+  --purple-soft: #f5f3ff;
+  --radius: 16px;
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 8px 30px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 16px 40px rgba(15, 23, 42, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ================= LOGIN PAGE ================= */
+.wali-login-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #2563eb 100%);
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+}
+
+.wali-login-shell::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -25%;
+  width: 75vw;
+  height: 75vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.wali-login-shell::after {
+  content: '';
+  position: absolute;
+  bottom: -35%;
+  left: -20%;
+  width: 60vw;
+  height: 60vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.wali-login-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 44px 40px;
+  width: 430px;
+  max-width: 94vw;
+  box-shadow: var(--shadow-lg);
+  animation: wali-fade-up 0.5s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.wali-login-card .login-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 20px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 100%);
+  color: #fff;
+  font-size: 34px;
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
+}
+
+.wali-login-card h2 {
+  margin: 0 0 6px;
+  text-align: center;
+  color: var(--text);
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.wali-login-card .login-subtitle {
+  text-align: center;
+  color: var(--muted);
+  font-size: 15px;
+  margin: 0 0 28px;
+}
+
+.wali-login-card label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 7px;
+}
+
+.wali-login-card input[type="text"],
+.wali-login-card input[type="password"] {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  font-size: 16px;
+  color: var(--text);
+  background: var(--bg);
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.wali-login-card input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-glow);
+  background: #ffffff;
+}
+
+.wali-login-card .btn-login {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.32);
+  margin-top: 8px;
+}
+
+.wali-login-card .btn-login:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(37, 99, 235, 0.42);
+}
+
+.wali-login-card .btn-login:active {
+  transform: translateY(0);
+}
+
+.wali-login-card .error-box {
+  background: var(--danger-soft);
+  color: var(--danger);
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  margin-bottom: 18px;
+  display: none;
+  text-align: center;
+  border: 1px solid rgba(220, 38, 38, 0.2);
+}
+
+.wali-login-card .login-footer {
+  text-align: center;
+  margin-top: 26px;
+  font-size: 13px;
+}
+
+.wali-login-card .login-footer a {
+  color: var(--muted);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.15s;
+}
+
+.wali-login-card .login-footer a:hover {
+  color: var(--accent);
+}
+
+/* ================= MAIN PORTAL TOPBAR ================= */
+.wali-topbar {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #2563eb 100%);
+  color: #fff;
+  padding: 0 28px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;
+  box-shadow: 0 3px 14px rgba(30, 58, 138, 0.28);
+}
+
+.wali-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.wali-topbar-left .topbar-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.wali-topbar-left h1 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+.wali-topbar-left .badge-topbar-kelas {
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  backdrop-filter: blur(4px);
+}
+
+.wali-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.wali-topbar-right .wali-user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+}
+
+.wali-topbar-right .avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.wali-topbar-right .btn-logout {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.15s;
+}
+
+.wali-topbar-right .btn-logout:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+/* ================= MAIN CONTENT ================= */
+.wali-content {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 28px 24px 60px;
+}
+
+/* Banner Notifikasi jika Kelas Belum Ditentukan */
+.wali-alert {
+  background: var(--warn-soft);
+  border: 1px solid rgba(217, 119, 6, 0.25);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #92400e;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.wali-alert i {
+  font-size: 24px;
+  color: var(--warn);
+  flex-shrink: 0;
+}
+
+/* ================= CARDS ================= */
+.wali-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 28px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s;
+}
+
+.wali-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.wali-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 20px;
+}
+
+.wali-card-title i {
+  color: var(--accent);
+  font-size: 20px;
+}
+
+/* ================= FORM ================= */
+.wali-form-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.wali-form-row label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  flex: 1;
+  min-width: 200px;
+}
+
+.wali-form-row label .label-hint {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.wali-form-row input,
+.wali-form-row select {
+  padding: 12px 14px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  font-size: 16px;
+  color: var(--text);
+  background: var(--panel);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+.wali-form-row input:focus,
+.wali-form-row select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
+.wali-form-row select {
+  cursor: pointer;
+}
+
+.btn-wali {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 13px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.28);
+}
+
+.btn-wali:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(37, 99, 235, 0.38);
+}
+
+.btn-wali:active {
+  transform: translateY(0);
+}
+
+.btn-wali:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* ================= RIWAYAT SEARCH & CONTROLS ================= */
+.wali-riwayat-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.wali-search-box {
+  position: relative;
+  flex: 1;
+  min-width: 240px;
+}
+
+.wali-search-box i {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.wali-search-box input {
+  width: 100%;
+  padding: 11px 14px 11px 40px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-size: 14px;
+  background: var(--bg);
+  color: var(--text);
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.wali-search-box input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: #fff;
+}
+
+.wali-count-chip {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+  background: var(--bg);
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+/* ================= TABLE ================= */
+.wali-table-wrap {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  margin-bottom: 18px;
+}
+
+.wali-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  text-align: left;
+}
+
+.wali-table th {
+  background: #f1f5f9;
+  color: #334155;
+  font-weight: 600;
+  padding: 14px 16px;
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+
+.wali-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: middle;
+}
+
+.wali-table tr:last-child td {
+  border-bottom: none;
+}
+
+.wali-table tr:hover td {
+  background: #f8fafc;
+}
+
+/* Badges Jenis Izin */
+.badge-jenis {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.badge-sakit {
+  background: var(--warn-soft);
+  color: #b45309;
+  border: 1px solid rgba(217, 119, 6, 0.25);
+}
+
+.badge-izin {
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+  border: 1px solid rgba(37, 99, 235, 0.25);
+}
+
+.badge-kegiatan {
+  background: var(--purple-soft);
+  color: var(--purple);
+  border: 1px solid rgba(124, 58, 237, 0.25);
+}
+
+.badge-cuti {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+}
+
+/* Tombol Aksi Hapus */
+.btn-hapus-izin {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(220, 38, 38, 0.25);
+  background: var(--danger-soft);
+  color: var(--danger);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+}
+
+.btn-hapus-izin:hover {
+  background: var(--danger);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 44px 20px;
+  color: var(--muted);
+}
+
+.empty-state i {
+  font-size: 44px;
+  color: #cbd5e1;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+/* ================= PAGINATION ================= */
+.wali-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.wali-pagination .page-info {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.wali-pagination .page-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-wali-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-wali-secondary:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.btn-wali-secondary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ================= TOAST NOTIFICATION ================= */
+.toast-wrap {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toast {
+  background: #fff;
+  border-radius: 12px;
+  border-left: 5px solid var(--accent);
+  padding: 14px 20px;
+  box-shadow: var(--shadow-md);
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: wali-fade-up 0.25s ease;
+  min-width: 260px;
+  max-width: 90vw;
+}
+
+.toast i {
+  font-size: 18px;
+  color: var(--accent);
+}
+
+.toast.error {
+  border-left-color: var(--danger);
+}
+
+.toast.error i {
+  color: var(--danger);
+}
+
+.toast.warn {
+  border-left-color: var(--warn);
+}
+
+.toast.warn i {
+  color: var(--warn);
+}
+
+/* ================= MODAL KONFIRMASI ================= */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  align-items: center;
+  justify-content: center;
+  z-index: 9998;
+  backdrop-filter: blur(4px);
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.modal-box {
+  background: #fff;
+  border-radius: 20px;
+  padding: 32px;
+  width: min(420px, 92vw);
+  text-align: center;
+  animation: wali-fade-up 0.25s ease;
+  box-shadow: var(--shadow-lg);
+}
+
+.modal-box i.modal-icon {
+  font-size: 42px;
+  color: var(--danger);
+  margin-bottom: 14px;
+  display: block;
+}
+
+.modal-box p {
+  font-size: 16px;
+  color: var(--text);
+  margin: 0 0 24px;
+  line-height: 1.6;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.modal-actions button {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s, opacity 0.15s;
+}
+
+.modal-actions button:active {
+  transform: scale(0.97);
+}
+
+.modal-btn-cancel {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border) !important;
+}
+
+.modal-btn-confirm {
+  background: var(--danger);
+  color: #fff;
+}
+
+/* ================= ANIMATIONS ================= */
+@keyframes wali-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 640px) {
+  .wali-topbar {
+    padding: 0 16px;
+    height: 62px;
+  }
+
+  .wali-topbar-left h1 {
+    font-size: 17px;
+  }
+
+  .wali-topbar-left .badge-topbar-kelas {
+    font-size: 12px;
+    padding: 3px 8px;
+  }
+
+  .wali-topbar-right .wali-user-info span {
+    display: none;
+  }
+
+  .wali-content {
+    padding: 20px 14px 50px;
+  }
+
+  .wali-card {
+    padding: 20px 18px;
+    border-radius: 14px;
+  }
+
+  .wali-card-title-left {
+    font-size: 17px;
+  }
+
+  .wali-form-row {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .wali-form-row label {
+    min-width: 100%;
+  }
+
+  .wali-table {
+    font-size: 14px;
+  }
+
+  .wali-table th,
+  .wali-table td {
+    padding: 10px 12px;
+  }
+
+  .btn-wali {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .wali-login-card {
+    padding: 36px 24px;
+    border-radius: 20px;
+  }
+}
+
+/* ================= FOOTER ================= */
+.wali-footer {
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  background: var(--panel);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  flex-shrink: 0;
+}
+
+.wali-footer a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 4px;
+  transition: opacity 0.15s;
+}
+
+.wali-footer a:hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
+/* ================= DESKTOP 2-COLUMN NO-SCROLL LAYOUT ================= */
+@media (min-width: 1024px) {
+  body.portal-body {
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .wali-topbar {
+    height: 60px;
+    padding: 0 24px;
+    flex-shrink: 0;
+  }
+
+  .wali-content {
+    flex: 1;
+    min-height: 0;
+    max-width: 1600px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: grid;
+    grid-template-columns: 460px 1fr;
+    grid-template-rows: 1fr;
+    gap: 20px;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .wali-alert {
+    margin-bottom: 12px;
+    padding: 10px 14px;
+    font-size: 13.5px;
+    flex-shrink: 0;
+  }
+
+  .wali-card {
+    height: 100%;
+    margin-bottom: 0;
+    padding: 22px 24px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .wali-card-title {
+    flex-shrink: 0;
+    margin: 0 0 16px;
+    font-size: 17px;
+  }
+
+  /* Form column (Left) */
+  .wali-card > form {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding-right: 6px;
+    scrollbar-width: thin;
+  }
+
+  .wali-card > form::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .wali-card > form::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+  }
+
+  .wali-form-row {
+    margin-bottom: 12px;
+    gap: 12px;
+  }
+
+  .wali-form-row label {
+    font-size: 13.5px;
+    min-width: 180px;
+  }
+
+  .wali-form-row input,
+  .wali-form-row select {
+    padding: 10px 12px;
+    font-size: 15px;
+  }
+
+  .btn-wali {
+    margin-top: auto;
+    padding: 12px 20px;
+    flex-shrink: 0;
+    justify-content: center;
+  }
+
+  /* Riwayat column (Right) */
+  .wali-riwayat-bar {
+    flex-shrink: 0;
+    margin-bottom: 12px;
+    gap: 10px;
+  }
+
+  .wali-search-box input {
+    padding: 8px 12px 8px 34px;
+    font-size: 13.5px;
+    height: 38px;
+  }
+
+  .wali-table-wrap {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    margin-bottom: 0;
+    scrollbar-width: thin;
+  }
+
+  .wali-table-wrap::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .wali-table-wrap::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+  }
+
+  .wali-table th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #eff6ff;
+  }
+
+  .wali-table th,
+  .wali-table td {
+    padding: 11px 12px;
+  }
+
+  .wali-pagination {
+    flex-shrink: 0;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+
+  .wali-footer {
+    height: 38px;
+    padding: 0 16px;
+  }
+}

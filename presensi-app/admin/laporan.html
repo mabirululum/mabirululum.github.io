@@ -34,42 +34,71 @@
 <body>
   <div class="admin-shell">
 
+    <!-- ===== SIDEBAR NAVIGATION ===== -->
     <nav class="sidebar">
-      <div class="sidebar-brand"><i class="bi bi-qr-code-scan"></i> Presensi Admin</div>
+      <div class="sidebar-brand">
+        <div class="brand-icon"><i class="bi bi-qr-code-scan"></i></div>
+        <div class="brand-text">
+          <span>Presensi Admin</span>
+          <small>MA Bi'rul Ulum</small>
+        </div>
+      </div>
       <div class="sidebar-nav">
         <a href="dashboard.html" data-roles="admin"><i class="bi bi-speedometer2"></i> Dashboard</a>
-        <a href="izin.html" data-roles="admin,piket"><i class="bi bi-calendar-x"></i> Izin / Sakit</a>
+        <a href="izin.html" data-roles="admin,piket"><i class="bi bi-calendar-x"></i> Izin / Sakit Guru</a>
         <a href="libur.html" data-roles="admin"><i class="bi bi-calendar-event"></i> Hari Libur</a>
         <a href="kegiatan.html" data-roles="admin"><i class="bi bi-calendar2-check"></i> Kegiatan Sekolah</a>
         <a href="guru.html" data-roles="admin"><i class="bi bi-person-badge"></i> Data Guru</a>
         <a href="user.html" data-roles="admin"><i class="bi bi-people"></i> Data User</a>
-        <a href="laporan.html" data-roles="admin" class="active"><i class="bi bi-bar-chart-line"></i> Laporan</a>
-        <div style="border-top:1px solid rgba(255,255,255,.12); margin:10px 14px;"></div>
+        <a href="laporan.html" data-roles="admin" class="active"><i class="bi bi-bar-chart-line"></i> Laporan Guru</a>
+        
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-section-label">SISWA & KELAS</div>
+        
         <a href="kelas.html" data-roles="admin"><i class="bi bi-collection"></i> Data Kelas</a>
         <a href="siswa.html" data-roles="admin"><i class="bi bi-mortarboard"></i> Data Siswa</a>
         <a href="kenaikan-kelas.html" data-roles="admin"><i class="bi bi-arrow-up-circle"></i> Kenaikan Kelas</a>
+        <a href="pulang-cepat.html" data-roles="admin"><i class="bi bi-door-open"></i> Aktivasi Pulang Cepat</a>
         <a href="izin-siswa.html" data-roles="admin,wali_kelas"><i class="bi bi-calendar-x"></i> Izin / Sakit Siswa</a>
         <a href="laporan-siswa.html" data-roles="admin"><i class="bi bi-bar-chart-line"></i> Laporan Siswa</a>
-        <div style="border-top:1px solid rgba(255,255,255,.12); margin:10px 14px;"></div>
+        
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-section-label">SISTEM</div>
+        
         <a href="reset.html" data-roles="admin"><i class="bi bi-trash3"></i> Reset Database</a>
       </div>
       <div class="sidebar-foot">
-        <a href="#" onclick="AUTH.logout(); return false;"><i class="bi bi-box-arrow-right"></i> Logout</a>
+        <a href="#" onclick="AUTH.logout(); return false;"><i class="bi bi-box-arrow-right"></i> Keluar Portal</a>
       </div>
     </nav>
 
+    <!-- ===== TOPBAR ===== -->
     <header class="topbar">
       <div class="topbar-left">
         <button class="btn-hamburger"><i class="bi bi-list"></i></button>
-        <h1>Laporan Presensi</h1>
+        <div class="topbar-breadcrumb">
+          <i class="bi bi-bar-chart-line"></i>
+          <h1>Laporan Guru</h1>
+        </div>
       </div>
-      <div class="topbar-user">
-        <div class="avatar" id="avatar-admin">A</div>
-        <span>Halo, <strong id="nama-admin">-</strong></span>
+      <div class="topbar-right">
+        <div class="topbar-user">
+          <div class="avatar" id="avatar-admin">A</div>
+          <span>Halo, <strong id="nama-admin">-</strong></span>
+        </div>
       </div>
     </header>
 
     <main class="admin-content">
+
+      <!-- Page Hero Banner -->
+      <div class="page-hero">
+        <div class="page-hero-content">
+          <span class="page-hero-badge"><i class="bi bi-bar-chart-line"></i> Rekapitulasi Presensi</span>
+          <h2>Laporan Kehadiran Guru</h2>
+          <p>Filter rekap kehadiran, keterlambatan, pulang awal, dan ekspor data presensi ke Excel.</p>
+        </div>
+      </div>
 
       <div class="card">
         <div class="card-title"><i class="bi bi-funnel"></i> Filter Laporan</div>
@@ -97,26 +126,60 @@
         <button class="btn btn-secondary" id="btn-ringkasan"><i class="bi bi-clipboard-data"></i> Ringkasan</button>
       </div>
 
-      <div class="stat-grid">
-        <div class="stat-card">
-          <div class="num" id="stat-total">0</div>
-          <div class="label"><i class="bi bi-check2-square"></i> Total Presensi</div>
+      <div class="stat-grid-5">
+        <div class="stat-card card-stat-total">
+          <div class="stat-header-row">
+            <div class="stat-icon icon-total"><i class="bi bi-check2-square"></i></div>
+            <span class="stat-tag tag-success">Total</span>
+          </div>
+          <div class="stat-body">
+            <div class="stat-num num" id="stat-total">0</div>
+            <div class="stat-label">Total Presensi</div>
+          </div>
         </div>
-        <div class="stat-card warn">
-          <div class="num" id="stat-telat">0</div>
-          <div class="label"><i class="bi bi-clock-history"></i> Telat</div>
+
+        <div class="stat-card card-stat-telat">
+          <div class="stat-header-row">
+            <div class="stat-icon icon-telat"><i class="bi bi-clock-history"></i></div>
+            <span class="stat-tag tag-warn">Telat</span>
+          </div>
+          <div class="stat-body">
+            <div class="stat-num num" id="stat-telat">0</div>
+            <div class="stat-label">Terlambat Masuk</div>
+          </div>
         </div>
-        <div class="stat-card danger">
-          <div class="num" id="stat-pulang-awal">0</div>
-          <div class="label"><i class="bi bi-box-arrow-left"></i> Pulang Awal</div>
+
+        <div class="stat-card card-stat-pulang">
+          <div class="stat-header-row">
+            <div class="stat-icon icon-pulang"><i class="bi bi-box-arrow-left"></i></div>
+            <span class="stat-tag tag-orange">Pulang Awal</span>
+          </div>
+          <div class="stat-body">
+            <div class="stat-num num" id="stat-pulang-awal">0</div>
+            <div class="stat-label">Pulang Awal</div>
+          </div>
         </div>
-        <div class="stat-card alpha">
-          <div class="num" id="stat-alpha">0</div>
-          <div class="label"><i class="bi bi-exclamation-circle"></i> Alpha</div>
+
+        <div class="stat-card card-stat-alpha">
+          <div class="stat-header-row">
+            <div class="stat-icon icon-alpha"><i class="bi bi-x-circle"></i></div>
+            <span class="stat-tag tag-danger">Alpha</span>
+          </div>
+          <div class="stat-body">
+            <div class="stat-num num" id="stat-alpha">0</div>
+            <div class="stat-label">Tidak Hadir (Alpha)</div>
+          </div>
         </div>
-        <div class="stat-card izin">
-          <div class="num" id="stat-izin">0</div>
-          <div class="label"><i class="bi bi-calendar-x"></i> Sakit/Izin/Kegiatan</div>
+
+        <div class="stat-card card-stat-izin">
+          <div class="stat-header-row">
+            <div class="stat-icon icon-izin"><i class="bi bi-calendar2-week"></i></div>
+            <span class="stat-tag tag-purple">Izin/Sakit</span>
+          </div>
+          <div class="stat-body">
+            <div class="stat-num num" id="stat-izin">0</div>
+            <div class="stat-label">Sakit / Izin / Tugas</div>
+          </div>
         </div>
       </div>
 

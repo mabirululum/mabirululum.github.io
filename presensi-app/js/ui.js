@@ -129,17 +129,74 @@ function initSidebarToggle() {
 }
 
 function applySidebarVisibility() {
+  const nav = document.querySelector('.sidebar-nav');
+  if (!nav) return;
+  if (typeof AUTH === 'undefined' || !AUTH.current) return;
   const user = AUTH.current();
   if (!user) return;
-  document.querySelectorAll('.sidebar-nav a[data-roles]').forEach(a => {
+  nav.querySelectorAll('a[data-roles]').forEach(a => {
     const roles = a.dataset.roles.split(',');
     if (!roles.includes(user.role)) a.style.display = 'none';
+  });
+}
+
+function applyAdminUserHeader() {
+  if (typeof AUTH === 'undefined' || !AUTH.current) return;
+  const user = AUTH.current();
+  if (!user) return;
+  const nama = user.nama || user.username || 'Admin';
+  const elNama = document.getElementById('nama-admin');
+  const elAvatar = document.getElementById('avatar-admin');
+  if (elNama && (!elNama.textContent || elNama.textContent === '-')) elNama.textContent = nama;
+  if (elAvatar && (!elAvatar.textContent || elAvatar.textContent === 'A')) elAvatar.textContent = nama.charAt(0).toUpperCase();
+}
+
+function initSidebarScrollPersistence() {
+  const nav = document.querySelector('.sidebar-nav');
+  if (!nav) return;
+
+  // 1. Pulihkan posisi scroll yang tersimpan
+  const savedScroll = sessionStorage.getItem('admin_sidebar_scroll');
+  if (savedScroll !== null) {
+    nav.scrollTop = parseInt(savedScroll, 10);
+  } else {
+    // Jika baru pertama kali dibuka, otomatis scroll ke menu yang sedang aktif
+    const activeLink = nav.querySelector('a.active');
+    if (activeLink) {
+      activeLink.scrollIntoView({ block: 'nearest' });
+    }
+  }
+
+  // Double check dengan requestAnimationFrame setelah rendering font & layout selesai
+  requestAnimationFrame(() => {
+    if (savedScroll !== null) {
+      nav.scrollTop = parseInt(savedScroll, 10);
+    }
+  });
+
+  // 2. Simpan setiap kali sidebar di-scroll
+  nav.addEventListener('scroll', () => {
+    sessionStorage.setItem('admin_sidebar_scroll', nav.scrollTop);
+  }, { passive: true });
+
+  // 3. Simpan segera saat salah satu link menu diklik
+  nav.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      sessionStorage.setItem('admin_sidebar_scroll', nav.scrollTop);
+    });
+  });
+
+  // 4. Cadangan saat window sebelum unload
+  window.addEventListener('beforeunload', () => {
+    sessionStorage.setItem('admin_sidebar_scroll', nav.scrollTop);
   });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   initSidebarToggle();
   applySidebarVisibility();
+  applyAdminUserHeader();
+  initSidebarScrollPersistence();
 });
 
 function keluarFullscreen() {

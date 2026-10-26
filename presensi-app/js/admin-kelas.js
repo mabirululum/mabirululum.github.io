@@ -87,13 +87,277 @@ async function isiDropdownWali() {
     guruList.map(g => `<option value="${g.id}">${g.nama}</option>`).join('');
 }
 
+// Palet warna per tingkat rombel kelas
+// Kelas X  : Hijau (variatif antar kelas)
+// Kelas XI : Kuning / Emas / Jingga (variatif antar kelas)
+// Kelas XII: Pink / Rose / Magenta (variatif antar kelas)
+const PALET_WARNA = {
+  X: [
+    {
+      borderTop: '#10b981',
+      bgGlow: 'rgba(16, 185, 129, 0.06)',
+      badgeBg: '#d1fae5',
+      badgeColor: '#065f46',
+      iconGradient: 'linear-gradient(135deg, #10b981 0%, #047857 100%)',
+      numColor: '#047857',
+      tagText: 'Kelas X'
+    },
+    {
+      borderTop: '#14b8a6',
+      bgGlow: 'rgba(20, 184, 166, 0.06)',
+      badgeBg: '#ccfbf1',
+      badgeColor: '#0f766e',
+      iconGradient: 'linear-gradient(135deg, #14b8a6 0%, #0f766e 100%)',
+      numColor: '#0f766e',
+      tagText: 'Kelas X'
+    },
+    {
+      borderTop: '#22c55e',
+      bgGlow: 'rgba(34, 197, 94, 0.06)',
+      badgeBg: '#dcfce7',
+      badgeColor: '#15803d',
+      iconGradient: 'linear-gradient(135deg, #22c55e 0%, #15803d 100%)',
+      numColor: '#15803d',
+      tagText: 'Kelas X'
+    },
+    {
+      borderTop: '#059669',
+      bgGlow: 'rgba(5, 150, 105, 0.06)',
+      badgeBg: '#ecfdf5',
+      badgeColor: '#047857',
+      iconGradient: 'linear-gradient(135deg, #34d399 0%, #065f46 100%)',
+      numColor: '#065f46',
+      tagText: 'Kelas X'
+    },
+    {
+      borderTop: '#65a30d',
+      bgGlow: 'rgba(101, 163, 13, 0.06)',
+      badgeBg: '#f7fee7',
+      badgeColor: '#3f6212',
+      iconGradient: 'linear-gradient(135deg, #84cc16 0%, #4d7c0f 100%)',
+      numColor: '#4d7c0f',
+      tagText: 'Kelas X'
+    },
+    {
+      borderTop: '#2f6f4f',
+      bgGlow: 'rgba(47, 111, 79, 0.06)',
+      badgeBg: '#e6f3ec',
+      badgeColor: '#1c4531',
+      iconGradient: 'linear-gradient(135deg, #3d8c65 0%, #1c4531 100%)',
+      numColor: '#1c4531',
+      tagText: 'Kelas X'
+    }
+  ],
+  XI: [
+    {
+      borderTop: '#f59e0b',
+      bgGlow: 'rgba(245, 158, 11, 0.06)',
+      badgeBg: '#fef3c7',
+      badgeColor: '#92400e',
+      iconGradient: 'linear-gradient(135deg, #f59e0b 0%, #b45309 100%)',
+      numColor: '#b45309',
+      tagText: 'Kelas XI'
+    },
+    {
+      borderTop: '#eab308',
+      bgGlow: 'rgba(234, 179, 8, 0.06)',
+      badgeBg: '#fef9c3',
+      badgeColor: '#854d0e',
+      iconGradient: 'linear-gradient(135deg, #facc15 0%, #a16207 100%)',
+      numColor: '#a16207',
+      tagText: 'Kelas XI'
+    },
+    {
+      borderTop: '#f97316',
+      bgGlow: 'rgba(249, 115, 22, 0.06)',
+      badgeBg: '#ffedd5',
+      badgeColor: '#9a3412',
+      iconGradient: 'linear-gradient(135deg, #fb923c 0%, #c2410c 100%)',
+      numColor: '#c2410c',
+      tagText: 'Kelas XI'
+    },
+    {
+      borderTop: '#d97706',
+      bgGlow: 'rgba(217, 119, 6, 0.06)',
+      badgeBg: '#fffbeb',
+      badgeColor: '#78350f',
+      iconGradient: 'linear-gradient(135deg, #fbbf24 0%, #78350f 100%)',
+      numColor: '#78350f',
+      tagText: 'Kelas XI'
+    },
+    {
+      borderTop: '#ca8a04',
+      bgGlow: 'rgba(202, 138, 4, 0.06)',
+      badgeBg: '#fefce8',
+      badgeColor: '#713f12',
+      iconGradient: 'linear-gradient(135deg, #fde047 0%, #854d0e 100%)',
+      numColor: '#713f12',
+      tagText: 'Kelas XI'
+    },
+    {
+      borderTop: '#b45309',
+      bgGlow: 'rgba(180, 83, 9, 0.06)',
+      badgeBg: '#fef3c7',
+      badgeColor: '#78350f',
+      iconGradient: 'linear-gradient(135deg, #d97706 0%, #78350f 100%)',
+      numColor: '#78350f',
+      tagText: 'Kelas XI'
+    }
+  ],
+  XII: [
+    {
+      borderTop: '#f43f5e',
+      bgGlow: 'rgba(244, 63, 94, 0.06)',
+      badgeBg: '#ffe4e6',
+      badgeColor: '#9f1239',
+      iconGradient: 'linear-gradient(135deg, #fb7185 0%, #be123c 100%)',
+      numColor: '#be123c',
+      tagText: 'Kelas XII'
+    },
+    {
+      borderTop: '#d946ef',
+      bgGlow: 'rgba(217, 70, 239, 0.06)',
+      badgeBg: '#fae8ff',
+      badgeColor: '#701a75',
+      iconGradient: 'linear-gradient(135deg, #e879f9 0%, #86198f 100%)',
+      numColor: '#86198f',
+      tagText: 'Kelas XII'
+    },
+    {
+      borderTop: '#ec4899',
+      bgGlow: 'rgba(236, 72, 153, 0.06)',
+      badgeBg: '#fce7f3',
+      badgeColor: '#831843',
+      iconGradient: 'linear-gradient(135deg, #f472b6 0%, #9d174d 100%)',
+      numColor: '#9d174d',
+      tagText: 'Kelas XII'
+    },
+    {
+      borderTop: '#fb7185',
+      bgGlow: 'rgba(251, 113, 133, 0.06)',
+      badgeBg: '#fff1f2',
+      badgeColor: '#881337',
+      iconGradient: 'linear-gradient(135deg, #fda4af 0%, #9f1239 100%)',
+      numColor: '#9f1239',
+      tagText: 'Kelas XII'
+    },
+    {
+      borderTop: '#e11d48',
+      bgGlow: 'rgba(225, 29, 72, 0.06)',
+      badgeBg: '#ffe4e6',
+      badgeColor: '#4c0519',
+      iconGradient: 'linear-gradient(135deg, #f43f5e 0%, #4c0519 100%)',
+      numColor: '#881337',
+      tagText: 'Kelas XII'
+    },
+    {
+      borderTop: '#db2777',
+      bgGlow: 'rgba(219, 39, 119, 0.06)',
+      badgeBg: '#fdf2f8',
+      badgeColor: '#701a75',
+      iconGradient: 'linear-gradient(135deg, #fbcfe8 0%, #9d174d 100%)',
+      numColor: '#9d174d',
+      tagText: 'Kelas XII'
+    }
+  ],
+  LAIN: [
+    {
+      borderTop: '#6366f1',
+      bgGlow: 'rgba(99, 102, 241, 0.06)',
+      badgeBg: '#e0e7ff',
+      badgeColor: '#3730a3',
+      iconGradient: 'linear-gradient(135deg, #6366f1 0%, #4338ca 100%)',
+      numColor: '#3730a3',
+      tagText: 'Kelas'
+    }
+  ]
+};
+
+function deteksiTingkat(namaKelas) {
+  const nama = String(namaKelas || '').trim().toUpperCase();
+  if (/\bXII\b|^XII[\s\-_]/.test(nama) || /\b12\b|^12[\s\-_]/.test(nama) || nama.startsWith('XII')) return 'XII';
+  if (/\bXI\b|^XI[\s\-_]/.test(nama) || /\b11\b|^11[\s\-_]/.test(nama) || nama.startsWith('XI')) return 'XI';
+  if (/\bX\b|^X[\s\-_]/.test(nama) || /\b10\b|^10[\s\-_]/.test(nama) || nama.startsWith('X')) return 'X';
+  return 'LAIN';
+}
+
+function renderKartuJumlahSiswa(kelasList, semuaSiswa) {
+  const container = document.getElementById('kelas-stat-grid');
+  if (!container) return;
+
+  if (!kelasList || !kelasList.length) {
+    container.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:24px; color:var(--muted); font-size:13px;">Belum ada data rombongan belajar.</div>';
+    const badgeTotal = document.getElementById('total-siswa-badge');
+    if (badgeTotal) badgeTotal.textContent = 'Total: 0 Siswa';
+    return;
+  }
+
+  const countPerKelas = {};
+  (semuaSiswa || []).forEach(s => {
+    if (s.kelas_id) {
+      countPerKelas[s.kelas_id] = (countPerKelas[s.kelas_id] || 0) + 1;
+    }
+  });
+
+  const totalSiswaSemua = (semuaSiswa || []).length;
+  const badgeTotal = document.getElementById('total-siswa-badge');
+  if (badgeTotal) badgeTotal.textContent = `Total: ${totalSiswaSemua} Siswa Aktif`;
+
+  const counters = { X: 0, XI: 0, XII: 0, LAIN: 0 };
+
+  const html = kelasList.map(k => {
+    const tingkat = deteksiTingkat(k.nama_kelas);
+    const paletTingkat = PALET_WARNA[tingkat] || PALET_WARNA.LAIN;
+    const varianIndex = counters[tingkat] % paletTingkat.length;
+    counters[tingkat]++;
+    const palet = paletTingkat[varianIndex];
+
+    const jumlahSiswa = countPerKelas[k.id] || 0;
+    const waliText = k.nama_wali_kelas ? k.nama_wali_kelas : 'Belum ditentukan';
+
+    return `
+      <div class="kelas-stat-card" style="border-top: 4px solid ${palet.borderTop}; background: linear-gradient(180deg, #ffffff 65%, ${palet.bgGlow} 100%);">
+        <div class="kelas-stat-header">
+          <span class="kelas-stat-badge" style="background: ${palet.badgeBg}; color: ${palet.badgeColor};">
+            ${palet.tagText}
+          </span>
+          <div class="kelas-stat-icon" style="background: ${palet.iconGradient}; box-shadow: 0 4px 12px ${palet.bgGlow.replace('0.06', '0.28')};">
+            <i class="bi bi-mortarboard-fill"></i>
+          </div>
+        </div>
+        <div>
+          <div class="kelas-stat-name">${k.nama_kelas}</div>
+          <div class="kelas-stat-count" style="color: ${palet.numColor};">
+            ${jumlahSiswa} <small>Siswa</small>
+          </div>
+        </div>
+        <div class="kelas-stat-wali" title="Wali Kelas: ${waliText}">
+          <i class="bi bi-person-badge"></i>
+          <span>${waliText}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  container.innerHTML = html;
+}
+
 async function muatData() {
-  const kelasList = await DB.listKelas();
-  dataKelasTerakhir = await Promise.all(kelasList.map(async k => ({
-    ...k, jadwal: await DB.listJadwalKelas(k.id),
-  })));
-  halamanKelas = 1;
-  renderTabelKelas();
+  try {
+    const [kelasList, semuaSiswa] = await Promise.all([
+      DB.listKelas(),
+      DB.listSiswa('aktif').catch(() => DB.listSiswa()).catch(() => [])
+    ]);
+    dataKelasTerakhir = await Promise.all(kelasList.map(async k => ({
+      ...k, jadwal: await DB.listJadwalKelas(k.id),
+    })));
+    halamanKelas = 1;
+    renderTabelKelas();
+    renderKartuJumlahSiswa(dataKelasTerakhir, semuaSiswa);
+  } catch (err) {
+    console.error('Gagal memuat data kelas:', err);
+    toast('Gagal memuat data kelas: ' + err.message, 'error');
+  }
 }
 
 function renderTabelKelas() {

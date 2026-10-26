@@ -15,6 +15,10 @@ const tbodyJadwal = document.getElementById('tbody-jadwal-input');
 const btnBatalEdit = document.getElementById('btn-batal-edit');
 const formWrap = document.getElementById('form-guru-wrap');
 const btnToggleForm = document.getElementById('btn-toggle-form-guru');
+const inputRfid = document.getElementById('guru-rfid');
+const btnScanRfid = document.getElementById('btn-scan-rfid-guru');
+const btnHapusRfid = document.getElementById('btn-hapus-rfid-guru');
+const statusScanRfid = document.getElementById('status-scan-rfid-guru');
 
 let dataGuruTerakhir = [];
 
@@ -164,6 +168,7 @@ form.addEventListener('submit', async (e) => {
     nama: inputNama.value.trim(), 
     nip: inputNip.value.trim(), 
     nama_panggilan: inputNamaPanggilan.value.trim(),
+    rfid_id: inputRfid.value.trim() || null,
     jadwal
   };
 
@@ -202,6 +207,8 @@ function editGuru(id) {
   inputNama.value = g.nama;
   inputNip.value = g.nip || '';
   inputNamaPanggilan.value = g.nama_panggilan || '';
+  inputRfid.value = g.rfid_id || '';
+  statusScanRfid.textContent = g.rfid_id ? `Kartu terdaftar: ${g.rfid_id}` : '';
   isiFormJadwal(g.jadwal);
   btnBatalEdit.style.display = 'inline-flex';
   form.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -298,3 +305,52 @@ function normalisasiBaris(row) {
     status: cari('status'),
   };
 }
+
+// penangkap rfid
+let sedangMenungguRfid = false;
+
+btnScanRfid.addEventListener('click', () => {
+  sedangMenungguRfid = true;
+  statusScanRfid.textContent = 'Tempelkan kartu RFID pada reader sekarang...';
+  statusScanRfid.style.color = 'var(--accent)';
+  inputRfid.value = '';
+
+  // Buat input sementara untuk menangkap ketikan dari reader (sama seperti kiosk)
+  const penangkap = document.createElement('input');
+  penangkap.type = 'text';
+  penangkap.style.cssText = 'position:fixed; top:-100px; opacity:0;';
+  document.body.appendChild(penangkap);
+  penangkap.focus();
+
+  const timeout = setTimeout(() => {
+    sedangMenungguRfid = false;
+    statusScanRfid.textContent = 'Waktu habis. Klik "Scan untuk Isi" lagi untuk coba ulang.';
+    statusScanRfid.style.color = 'var(--danger)';
+    penangkap.remove();
+  }, 15000); // 15 detik waktu tunggu
+
+  penangkap.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    clearTimeout(timeout);
+
+    const uid = penangkap.value.trim();
+    penangkap.remove();
+    sedangMenungguRfid = false;
+
+    if (uid) {
+      inputRfid.value = uid;
+      statusScanRfid.textContent = `Kartu terbaca: ${uid}`;
+      statusScanRfid.style.color = 'var(--accent)';
+    } else {
+      statusScanRfid.textContent = 'Tidak ada data terbaca. Coba lagi.';
+      statusScanRfid.style.color = 'var(--danger)';
+    }
+  });
+});
+
+btnHapusRfid.addEventListener('click', () => {
+  inputRfid.value = '';
+  statusScanRfid.textContent = 'Kartu RFID dihapus dari form (klik Simpan untuk menerapkan).';
+  statusScanRfid.style.color = 'var(--muted)';
+});

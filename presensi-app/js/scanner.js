@@ -120,8 +120,13 @@ let timerResetStatus = null;
 
 function jadwalkanReset() {
   timerResetStatus = setTimeout(() => {
-    statusBox.className = 'status-box';
-    statusBox.innerHTML = `<strong>Menunggu scan…</strong>Arahkan barcode kartu ke kamera`;
+    statusBox.className = 'status-box status-waiting';
+    statusBox.innerHTML = `
+      <div class="status-icon"><i class="bi bi-qr-code-scan"></i></div>
+      <div class="status-text-wrap">
+        <strong class="status-title">Menunggu scan…</strong>
+        <span class="status-desc">Arahkan QR Code kartu ke kamera atau alat scanner di bawah</span>
+      </div>`;
   }, 5000);
 }
 
@@ -130,7 +135,12 @@ function tampilkanStatus(hasil) {
 
   if (hasil.error && hasil.jenis !== 'terlalu_cepat') {
     statusBox.className = 'status-box status-error';
-    statusBox.innerHTML = `<strong>${hasil.error}</strong>`;
+    statusBox.innerHTML = `
+      <div class="status-icon"><i class="bi bi-x-circle-fill"></i></div>
+      <div class="status-text-wrap">
+        <strong class="status-title">Gagal Memproses</strong>
+        <span class="status-desc">${hasil.error}</span>
+      </div>`;
     jadwalkanReset();
     return;
   }
@@ -170,9 +180,21 @@ function tampilkanStatus(hasil) {
     ucapkan(`Maaf, ${hasil.nama_panggilan || nama}, sudah presensi lengkap hari ini`);
   }
 
+  let iconHtml = '<i class="bi bi-check-circle-fill"></i>';
+  if (hasil.jenis === 'terlalu_cepat') {
+    iconHtml = '<i class="bi bi-hourglass-split"></i>';
+  } else if (hasil.status === 'telat') {
+    iconHtml = '<i class="bi bi-exclamation-triangle-fill"></i>';
+  }
+
   const statusClass = hasil.jenis === 'terlalu_cepat' ? 'telat' : (hasil.status || 'ok');
   statusBox.className = `status-box status-${statusClass}`;
-  statusBox.innerHTML = `<strong>${nama}</strong>${pesan}`;
+  statusBox.innerHTML = `
+    <div class="status-icon">${iconHtml}</div>
+    <div class="status-text-wrap">
+      <strong class="status-title">${nama}</strong>
+      <span class="status-desc">${pesan}</span>
+    </div>`;
 
   if (hasil.tipe === 'siswa') muatRiwayatSiswa();
   else muatRiwayatGuru();
@@ -184,11 +206,32 @@ async function muatRiwayatGuru() {
   try {
     const tanggal = tanggalLokal(new Date());
     const rows = await DB.riwayatHariIni(tanggal, 30);
-    riwayatGuruList.innerHTML = rows.map(r => `
+    const badgeCount = document.getElementById('badge-count-guru');
+    if (badgeCount) badgeCount.textContent = `${rows.length} Guru`;
+    riwayatGuruList.innerHTML = rows.map(r => {
+      const jam = r.jam_scan_pulang || r.jam_scan_masuk || '-';
+      const isLengkap = !!(r.jam_scan_pulang && r.jam_scan_masuk);
+      const statusLabel = isLengkap ? 'Lengkap' : 'Masuk';
+      const badgeClass = isLengkap ? 'badge-lengkap' : 'badge-masuk';
+      return `
       <div class="list-row">
-        <span>${r.nama_guru}</span>
-        <span>${r.jam_scan_pulang || r.jam_scan_masuk} · ${r.jam_scan_pulang && r.jam_scan_masuk ? 'Lengkap' : 'Masuk'}</span>
-      </div>`).join('') || '<div class="list-row"><span>Belum ada presensi hari ini</span></div>';
+        <div class="row-user-group">
+          <div class="row-avatar guru-avatar"><i class="bi bi-person-fill"></i></div>
+          <div class="row-info">
+            <span class="row-name">${r.nama_guru}</span>
+            <span class="row-sub">Guru / Tenaga Pendidik</span>
+          </div>
+        </div>
+        <div class="row-badge-group">
+          <span class="row-time">${jam}</span>
+          <span class="status-chip ${badgeClass}">${statusLabel}</span>
+        </div>
+      </div>`;
+    }).join('') || `
+      <div class="empty-list-state">
+        <i class="bi bi-person-slash"></i>
+        <span>Belum ada presensi guru hari ini</span>
+      </div>`;
   } catch (e) {
     console.error(e);
   }
@@ -198,11 +241,32 @@ async function muatRiwayatSiswa() {
   try {
     const tanggal = tanggalLokal(new Date());
     const rows = await DB.riwayatSiswaHariIni(tanggal, 96);
-    riwayatSiswaList.innerHTML = rows.map(r => `
+    const badgeCount = document.getElementById('badge-count-siswa');
+    if (badgeCount) badgeCount.textContent = `${rows.length} Siswa`;
+    riwayatSiswaList.innerHTML = rows.map(r => {
+      const jam = r.jam_scan_pulang || r.jam_scan_masuk || '-';
+      const isLengkap = !!(r.jam_scan_pulang && r.jam_scan_masuk);
+      const statusLabel = isLengkap ? 'Lengkap' : 'Masuk';
+      const badgeClass = isLengkap ? 'badge-lengkap' : 'badge-masuk';
+      return `
       <div class="list-row">
-        <span>${r.nama_siswa}${r.nama_kelas ? ` (${r.nama_kelas})` : ''}</span>
-        <span>${r.jam_scan_pulang || r.jam_scan_masuk} · ${r.jam_scan_pulang && r.jam_scan_masuk ? 'Lengkap' : 'Masuk'}</span>
-      </div>`).join('') || '<div class="list-row"><span>Belum ada presensi hari ini</span></div>';
+        <div class="row-user-group">
+          <div class="row-avatar siswa-avatar"><i class="bi bi-mortarboard-fill"></i></div>
+          <div class="row-info">
+            <span class="row-name">${r.nama_siswa}</span>
+            <span class="row-sub">${r.nama_kelas ? r.nama_kelas : 'Siswa'}</span>
+          </div>
+        </div>
+        <div class="row-badge-group">
+          <span class="row-time">${jam}</span>
+          <span class="status-chip ${badgeClass}">${statusLabel}</span>
+        </div>
+      </div>`;
+    }).join('') || `
+      <div class="empty-list-state">
+        <i class="bi bi-mortarboard"></i>
+        <span>Belum ada presensi siswa hari ini</span>
+      </div>`;
   } catch (e) {
     console.error(e);
   }
@@ -210,6 +274,7 @@ async function muatRiwayatSiswa() {
 
 muatRiwayatGuru();
 muatRiwayatSiswa();
+setInterval(muatRiwayatSiswa, 5000);
 
 // ---- Kamera scanner ----
 let sedangProses = false;
@@ -229,8 +294,8 @@ async function onScanSukses(kode) {
     const admin = await DB.cekAdminBarcode(kode);
     if (admin) {
       AUTH.save(admin);
-      if (admin.role === 'piket') window.location.href = 'admin/izin.html';
-      else if (admin.role === 'wali_kelas') window.location.href = 'admin/izin-siswa.html';
+      if (admin.role === 'piket') window.location.href = 'piket/izin.html';
+      else if (admin.role === 'wali_kelas') window.location.href = 'wali-kelas/izin.html';
       else window.location.href = 'admin/dashboard.html';
       return;
     }
@@ -275,17 +340,60 @@ function initScanner() {
     () => {}
   ).catch((err) => {
     statusBox.className = 'status-box status-error';
-    statusBox.innerHTML = `<strong>Kamera tidak bisa diakses</strong>${err}`;
+    statusBox.innerHTML = `
+      <div class="status-icon"><i class="bi bi-camera-video-off"></i></div>
+      <div class="status-text-wrap">
+        <strong class="status-title">Kamera Tidak Bisa Diakses</strong>
+        <span class="status-desc">${err}</span>
+      </div>`;
+  });
+}
+
+function initScannerHUD() {
+  const inputScannerUsbGuru = document.createElement('input');
+  inputScannerUsbGuru.type = 'text';
+  inputScannerUsbGuru.id = 'input-scanner-usb-guru';
+  inputScannerUsbGuru.autocomplete = 'off';
+  inputScannerUsbGuru.style.cssText = 'position:fixed; top:-100px; left:-100px; opacity:0; pointer-events:none;';
+  document.body.appendChild(inputScannerUsbGuru);
+
+  function fokuskanInputScannerUsbGuru() {
+    // Jangan rebut fokus kalau memang sedang ada input lain yang sengaja dipakai user
+    // (misal form login admin kalau kebetulan kebuka di halaman yang sama)
+    const aktif = document.activeElement;
+    const sedangIsiForm = aktif && (aktif.tagName === 'INPUT' || aktif.tagName === 'TEXTAREA') && aktif !== inputScannerUsbGuru;
+    if (!sedangIsiForm) inputScannerUsbGuru.focus();
+  }
+  fokuskanInputScannerUsbGuru();
+  document.addEventListener('click', () => setTimeout(fokuskanInputScannerUsbGuru, 50));
+  setInterval(fokuskanInputScannerUsbGuru, 2000);
+
+  inputScannerUsbGuru.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+
+    const kode = inputScannerUsbGuru.value.trim();
+    inputScannerUsbGuru.value = '';
+    if (!kode) return;
+
+    onScanSukses(kode); // pakai fungsi yang sama dengan hasil kamera
   });
 }
 
 if (isMobileDevice()) {
   document.getElementById('camera-view').innerHTML = `
-    <div style="display:flex; align-items:center; justify-content:center; height:100%; color:#fff; text-align:center; padding:20px; font-size:14px;">
-      Presensi hanya dapat dilakukan dari komputer/PC di lokasi Madrasah Aliyah Bi'rul Ulum.
+    <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; color:#fff; text-align:center; padding:24px; gap:10px;">
+      <i class="bi bi-display" style="font-size:36px; color:#4ade80;"></i>
+      <span style="font-size:14px; opacity:0.9;">Presensi hanya dapat dilakukan dari komputer / PC Kiosk di lokasi Madrasah Aliyah Bi'rul Ulum.</span>
     </div>`;
   statusBox.className = 'status-box status-error';
-  statusBox.innerHTML = `<strong>Akses dari perangkat mobile dinonaktifkan</strong>Gunakan komputer/PC untuk melakukan presensi.`;
+  statusBox.innerHTML = `
+    <div class="status-icon"><i class="bi bi-phone"></i></div>
+    <div class="status-text-wrap">
+      <strong class="status-title">Akses Mobile Dinonaktifkan</strong>
+      <span class="status-desc">Silakan gunakan perangkat PC Kiosk madrasah untuk melakukan presensi.</span>
+    </div>`;
 } else {
   initScanner();
+  initScannerHUD();
 }

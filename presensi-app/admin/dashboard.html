@@ -1,110 +1,232 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dashboard - Admin Presensi</title>
-<!-- HTML Meta Tags -->
-<meta name="description" content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
-<meta name="google-site-verification" content="M6vZYhRJ30dMCAMGu2gD8UNov_Kdcsku6pcai8gGknI" />
-<!-- Facebook Meta Tags -->
-<meta property="og:url" content="https://mabirululum.github.io/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Madrasah Aliyah Bi'rul Ulum">
-<meta property="og:description" content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
-<meta property="og:image" content="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/img-meta_ysxamu.jpg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard Utama - Admin Presensi</title>
+  <!-- HTML Meta Tags -->
+  <meta name="description"
+    content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
+  <meta name="google-site-verification" content="M6vZYhRJ30dMCAMGu2gD8UNov_Kdcsku6pcai8gGknI" />
+  <!-- Facebook Meta Tags -->
+  <meta property="og:url" content="https://mabirululum.github.io/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Madrasah Aliyah Bi'rul Ulum">
+  <meta property="og:description"
+    content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
+  <meta property="og:image"
+    content="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/img-meta_ysxamu.jpg">
 
-<!-- Twitter Meta Tags -->
-<meta name="twitter:card" content="summary_large_image">
-<meta property="twitter:domain" content="mabirululum.github.io">
-<meta property="twitter:url" content="https://mabirululum.github.io/">
-<meta name="twitter:title" content="Madrasah Aliyah Bi'rul Ulum">
-<meta name="twitter:description" content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
-<meta name="twitter:image" content="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/img-meta_ysxamu.jpg">
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="twitter:domain" content="mabirululum.github.io">
+  <meta property="twitter:url" content="https://mabirululum.github.io/">
+  <meta name="twitter:title" content="Madrasah Aliyah Bi'rul Ulum">
+  <meta name="twitter:description"
+    content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
+  <meta name="twitter:image"
+    content="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/img-meta_ysxamu.jpg">
 
-<link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
-<link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-<link rel="shortcut icon" href="/favicon/favicon.ico" />
-<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-<meta name="apple-mobile-web-app-title" content="MA Bi'rul Ulum" />
+  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="MA Bi'rul Ulum" />
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-<link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="../css/admin.css">
 </head>
+
 <body>
   <div class="admin-shell">
 
+    <!-- ===== SIDEBAR NAVIGATION ===== -->
     <nav class="sidebar">
-      <div class="sidebar-brand"><i class="bi bi-qr-code-scan"></i> Presensi Admin</div>
+      <div class="sidebar-brand">
+        <div class="brand-icon"><i class="bi bi-qr-code-scan"></i></div>
+        <div class="brand-text">
+          <span>Presensi Admin</span>
+          <small>MA Bi'rul Ulum</small>
+        </div>
+      </div>
       <div class="sidebar-nav">
         <a href="dashboard.html" data-roles="admin" class="active"><i class="bi bi-speedometer2"></i> Dashboard</a>
-        <a href="izin.html" data-roles="admin,piket"><i class="bi bi-calendar-x"></i> Izin / Sakit</a>
+        <a href="izin.html" data-roles="admin,piket"><i class="bi bi-calendar-x"></i> Izin / Sakit Guru</a>
         <a href="libur.html" data-roles="admin"><i class="bi bi-calendar-event"></i> Hari Libur</a>
         <a href="kegiatan.html" data-roles="admin"><i class="bi bi-calendar2-check"></i> Kegiatan Sekolah</a>
         <a href="guru.html" data-roles="admin"><i class="bi bi-person-badge"></i> Data Guru</a>
         <a href="user.html" data-roles="admin"><i class="bi bi-people"></i> Data User</a>
-        <a href="laporan.html" data-roles="admin"><i class="bi bi-bar-chart-line"></i> Laporan</a>
-        <div style="border-top:1px solid rgba(255,255,255,.12); margin:10px 14px;"></div>
+        <a href="laporan.html" data-roles="admin"><i class="bi bi-bar-chart-line"></i> Laporan Guru</a>
+        
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-section-label">SISWA & KELAS</div>
+        
         <a href="kelas.html" data-roles="admin"><i class="bi bi-collection"></i> Data Kelas</a>
         <a href="siswa.html" data-roles="admin"><i class="bi bi-mortarboard"></i> Data Siswa</a>
         <a href="kenaikan-kelas.html" data-roles="admin"><i class="bi bi-arrow-up-circle"></i> Kenaikan Kelas</a>
+        <a href="pulang-cepat.html" data-roles="admin"><i class="bi bi-door-open"></i> Aktivasi Pulang Cepat</a>
         <a href="izin-siswa.html" data-roles="admin,wali_kelas"><i class="bi bi-calendar-x"></i> Izin / Sakit Siswa</a>
         <a href="laporan-siswa.html" data-roles="admin"><i class="bi bi-bar-chart-line"></i> Laporan Siswa</a>
-        <div style="border-top:1px solid rgba(255,255,255,.12); margin:10px 14px;"></div>
+        
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-section-label">SISTEM</div>
+        
         <a href="reset.html" data-roles="admin"><i class="bi bi-trash3"></i> Reset Database</a>
       </div>
       <div class="sidebar-foot">
-        <a href="#" onclick="AUTH.logout(); return false;"><i class="bi bi-box-arrow-right"></i> Logout</a>
+        <a href="#" onclick="AUTH.logout(); return false;"><i class="bi bi-box-arrow-right"></i> Keluar Portal</a>
       </div>
     </nav>
 
+    <!-- ===== TOPBAR ===== -->
     <header class="topbar">
       <div class="topbar-left">
         <button class="btn-hamburger"><i class="bi bi-list"></i></button>
-        <h1>Dashboard</h1>
+        <div class="topbar-breadcrumb">
+          <i class="bi bi-speedometer2"></i>
+          <h1>Dashboard Utama</h1>
+        </div>
       </div>
-      <div class="topbar-user">
-        <div class="avatar" id="avatar-admin">A</div>
-        <span>Halo, <strong id="nama-admin">-</strong></span>
+      <div class="topbar-right">
+        <div class="topbar-user">
+          <div class="avatar" id="avatar-admin">A</div>
+          <span>Halo, <strong id="nama-admin">-</strong></span>
+        </div>
       </div>
     </header>
 
+    <!-- ===== MAIN CONTENT ===== -->
     <main class="admin-content">
-      <div class="stat-grid">
-        <div class="stat-card">
-          <div class="num" id="stat-total">0</div>
-          <div class="label"><i class="bi bi-check2-square"></i> Total Presensi Hari Ini</div>
+
+      <!-- Hero Welcome Banner -->
+      <div class="dashboard-hero">
+        <div class="hero-content">
+          <span class="hero-badge"><i class="bi bi-shield-check"></i> Panel Administrator Presensi</span>
+          <h2>Selamat Datang, <span id="hero-admin-name">Administrator</span> 👋</h2>
+          <p>Pantau data presensi harian dewan guru dan murid MA Bi'rul Ulum secara real-time dari satu dasbor terpadu.</p>
         </div>
-        <div class="stat-card warn">
-          <div class="num" id="stat-telat">0</div>
-          <div class="label"><i class="bi bi-clock-history"></i> Telat</div>
-        </div>
-        <div class="stat-card danger">
-          <div class="num" id="stat-pulang-awal">0</div>
-          <div class="label"><i class="bi bi-box-arrow-left"></i> Pulang Awal</div>
-        </div>
-        <div class="stat-card izin">
-          <div class="num" id="stat-izin">0</div>
-          <div class="label"><i class="bi bi-calendar-x"></i> Sakit/Izin/Kegiatan Hari Ini</div>
+        <div class="hero-actions">
+          <div class="hero-date-box" id="hero-date-box">
+            <i class="bi bi-calendar-check"></i>
+            <div>
+              <span class="hero-date-day" id="hero-date-day">Hari Ini</span>
+              <span class="hero-date-full" id="hero-date-full">-</span>
+            </div>
+          </div>
+          <a href="../index.html" class="btn-hero-kiosk" target="_blank">
+            <i class="bi bi-qr-code-scan"></i> Buka Layar Scanner
+          </a>
         </div>
       </div>
-      <div class="card">
-        <div class="card-title"><i class="bi bi-clock-history"></i> Riwayat Presensi Hari Ini</div>
+
+      <!-- Stat Cards Grid -->
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-header-row">
+            <div class="stat-icon icon-total"><i class="bi bi-check2-circle"></i></div>
+            <span class="stat-tag tag-success"><i class="bi bi-person-check-fill"></i> Guru Hadir</span>
+          </div>
+          <div class="stat-body">
+            <div class="stat-num" id="stat-total">0</div>
+            <div class="stat-label">Total Presensi Hari Ini</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header-row">
+            <div class="stat-icon icon-telat"><i class="bi bi-clock-history"></i></div>
+            <span class="stat-tag tag-warn"><i class="bi bi-exclamation-triangle-fill"></i> Melewati Batas</span>
+          </div>
+          <div class="stat-body">
+            <div class="stat-num" id="stat-telat">0</div>
+            <div class="stat-label">Terlambat Scan Masuk</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header-row">
+            <div class="stat-icon icon-pulang"><i class="bi bi-box-arrow-left"></i></div>
+            <span class="stat-tag tag-danger"><i class="bi bi-hourglass-bottom"></i> Pulang Cepat</span>
+          </div>
+          <div class="stat-body">
+            <div class="stat-num" id="stat-pulang-awal">0</div>
+            <div class="stat-label">Pulang Sebelum Waktunya</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header-row">
+            <div class="stat-icon icon-izin"><i class="bi bi-calendar2-week"></i></div>
+            <span class="stat-tag tag-purple"><i class="bi bi-clipboard2-pulse"></i> Terjadwal</span>
+          </div>
+          <div class="stat-body">
+            <div class="stat-num" id="stat-izin">0</div>
+            <div class="stat-label">Sakit / Izin / Kegiatan</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table Card: Riwayat Presensi Hari Ini -->
+      <div class="card dashboard-card">
+        <div class="card-header-bar">
+          <div class="card-title-group">
+            <div class="card-icon"><i class="bi bi-clock-history"></i></div>
+            <div>
+              <h3>Riwayat Presensi Guru Hari Ini</h3>
+              <p class="card-sub">Data kehadiran guru yang tercatat masuk dan pulang pada hari ini</p>
+            </div>
+          </div>
+          <span class="card-badge-pill" id="badge-total-riwayat">Memuat data…</span>
+        </div>
+
         <div class="table-wrap">
-          <table>
-            <thead><tr><th>Nama Guru</th><th>Jam Masuk</th><th>Jam Pulang</th><th>Status</th></tr></thead>
-            <tbody id="tbody-dashboard"><tr><td colspan="4">Memuat…</td></tr></tbody>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Nama Guru</th>
+                <th>Jam Masuk</th>
+                <th>Jam Pulang</th>
+                <th>Status Kehadiran</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-dashboard">
+              <tr>
+                <td colspan="4" class="table-loading"><i class="bi bi-hourglass-split"></i> Memuat data presensi…</td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>
-      <div class="card">
-        <div class="card-title"><i class="bi bi-megaphone"></i> Kirim Pengingat Suara ke Kiosk</div>
-        <p style="font-size:13px; color:var(--muted); margin-bottom:14px;">
-          Suara akan otomatis berbunyi di layar kiosk dalam beberapa detik.
-        </p>
-        <button type="button" class="btn" id="btn-sinyal-masuk"><i class="bi bi-volume-up"></i> Suara Presensi Masuk</button>
-        <button type="button" class="btn btn-secondary" id="btn-sinyal-pulang" style="margin-left:8px;"><i class="bi bi-volume-up"></i> Suara Presensi Pulang</button>
+
+      <!-- Card: Sinyal & Pengingat Suara ke Layar Kiosk -->
+      <div class="card dashboard-card">
+        <div class="card-header-bar">
+          <div class="card-title-group">
+            <div class="card-icon icon-broadcast"><i class="bi bi-broadcast"></i></div>
+            <div>
+              <h3>Kirim Pengingat Suara ke Layar Kiosk</h3>
+              <p class="card-sub">Pemicu sinyal audio otomatis agar mesin scanner membacakan imbauan presensi kepada guru</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="broadcast-banner">
+          <div class="broadcast-info">
+            <i class="bi bi-info-circle-fill"></i>
+            <span>Suara akan otomatis berbunyi di speaker layar kiosk scanner dalam hitungan detik.</span>
+          </div>
+          <div class="broadcast-actions">
+            <button type="button" class="btn btn-emerald" id="btn-sinyal-masuk">
+              <i class="bi bi-volume-up-fill"></i> Suara Presensi Masuk
+            </button>
+            <button type="button" class="btn btn-blue" id="btn-sinyal-pulang">
+              <i class="bi bi-volume-up-fill"></i> Suara Presensi Pulang
+            </button>
+          </div>
+        </div>
       </div>
+
     </main>
   </div>
 
@@ -115,4 +237,5 @@
   <script src="../js/auth.js"></script>
   <script src="../js/dashboard.js"></script>
 </body>
+
 </html>

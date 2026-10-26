@@ -11,6 +11,10 @@ const inputNama = document.getElementById('siswa-nama');
 const inputNis = document.getElementById('siswa-nis');
 const selectKelas = document.getElementById('siswa-kelas');
 const btnBatalEdit = document.getElementById('btn-batal-edit-siswa');
+const inputRfidSiswa = document.getElementById('siswa-rfid');
+const btnScanRfidSiswa = document.getElementById('btn-scan-rfid-siswa');
+const btnHapusRfidSiswa = document.getElementById('btn-hapus-rfid-siswa');
+const statusScanRfidSiswa = document.getElementById('status-scan-rfid-siswa');
 
 let dataSiswaTerakhir = [];
 let halamanSiswa = 1;
@@ -62,16 +66,37 @@ function renderHeaderTabel(status) {
   }
 }
 
+// async function isiDropdownTahun() {
+//   const semuaLulusPindah = await DB.listSiswa('lulus');
+//   const semuaPindah = await DB.listSiswa('pindah');
+//   const tahunSet = new Set([...semuaLulusPindah, ...semuaPindah].map(s => s.tahun_status).filter(Boolean));
+//   const tahunList = [...tahunSet].sort((a, b) => b - a);
+//   selectFilterTahun.innerHTML = '<option value="">Semua Tahun</option>' +
+//     tahunList.map(t => `<option value="${t}">${t}</option>`).join('');
+// }
+
+// selectFilterStatus.addEventListener('change', muatData);
+// selectFilterTahun.addEventListener('change', muatData);
 async function isiDropdownTahun() {
-  const semuaLulusPindah = await DB.listSiswa('lulus');
-  const semuaPindah = await DB.listSiswa('pindah');
-  const tahunSet = new Set([...semuaLulusPindah, ...semuaPindah].map(s => s.tahun_status).filter(Boolean));
+  const status = selectFilterStatus.value;
+  const kolomTahun = status === 'aktif' ? 'tahun_masuk' : 'tahun_status';
+
+  document.getElementById('label-tahun-siswa').textContent =
+    status === 'aktif' ? '(Tahun Masuk)' : '(Tahun Lulus/Pindah)';
+
+  const daftarSiswa = await DB.listSiswa(status);
+  const tahunSet = new Set(daftarSiswa.map(s => s[kolomTahun]).filter(Boolean));
   const tahunList = [...tahunSet].sort((a, b) => b - a);
+
   selectFilterTahun.innerHTML = '<option value="">Semua Tahun</option>' +
     tahunList.map(t => `<option value="${t}">${t}</option>`).join('');
 }
 
-selectFilterStatus.addEventListener('change', muatData);
+selectFilterStatus.addEventListener('change', async () => {
+  selectFilterTahun.value = ''; // reset pilihan tahun, karena daftarnya akan berubah
+  await isiDropdownTahun();
+  muatData();
+});
 selectFilterTahun.addEventListener('change', muatData);
 
 // function renderTabelSiswa() {
@@ -159,7 +184,7 @@ document.getElementById('btn-next-siswa').addEventListener('click', () => { hala
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const payload = { nama: inputNama.value.trim(), nis: inputNis.value.trim(), kelas_id: Number(selectKelas.value) };
+  const payload = { nama: inputNama.value.trim(), nis: inputNis.value.trim(), kelas_id: Number(selectKelas.value), rfid_id: inputRfidSiswa.value.trim() || null };
 
   try {
     if (inputId.value) {
@@ -194,6 +219,8 @@ function editSiswa(id) {
   inputNama.value = s.nama;
   inputNis.value = s.nis || '';
   selectKelas.value = s.kelas_id;
+  inputRfidSiswa.value = s.rfid_id || '';
+  statusScanRfidSiswa.textContent = s.rfid_id ? `Kartu terdaftar: ${s.rfid_id}` : '';
   btnBatalEdit.style.display = 'inline-flex';
   form.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
@@ -209,6 +236,49 @@ async function hapusSiswa(id) {
     toast(err.message, 'error');
   }
 }
+
+// penangkap rfid
+btnScanRfidSiswa.addEventListener('click', () => {
+  statusScanRfidSiswa.textContent = 'Tempelkan kartu RFID pada reader sekarang...';
+  statusScanRfidSiswa.style.color = 'var(--accent)';
+  inputRfidSiswa.value = '';
+
+  const penangkap = document.createElement('input');
+  penangkap.type = 'text';
+  penangkap.style.cssText = 'position:fixed; top:-100px; opacity:0;';
+  document.body.appendChild(penangkap);
+  penangkap.focus();
+
+  const timeout = setTimeout(() => {
+    statusScanRfidSiswa.textContent = 'Waktu habis. Klik "Scan untuk Isi" lagi untuk coba ulang.';
+    statusScanRfidSiswa.style.color = 'var(--danger)';
+    penangkap.remove();
+  }, 15000);
+
+  penangkap.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    clearTimeout(timeout);
+
+    const uid = penangkap.value.trim();
+    penangkap.remove();
+
+    if (uid) {
+      inputRfidSiswa.value = uid;
+      statusScanRfidSiswa.textContent = `Kartu terbaca: ${uid}`;
+      statusScanRfidSiswa.style.color = 'var(--accent)';
+    } else {
+      statusScanRfidSiswa.textContent = 'Tidak ada data terbaca. Coba lagi.';
+      statusScanRfidSiswa.style.color = 'var(--danger)';
+    }
+  });
+});
+
+btnHapusRfidSiswa.addEventListener('click', () => {
+  inputRfidSiswa.value = '';
+  statusScanRfidSiswa.textContent = 'Kartu RFID dihapus dari form (klik Simpan untuk menerapkan).';
+  statusScanRfidSiswa.style.color = 'var(--muted)';
+});
 
 function cetakBarcodeSiswa(kode, nama) {
   const win = window.open('', '_blank', 'width=400,height=320');

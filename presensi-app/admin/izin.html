@@ -33,42 +33,71 @@
 </head>
 <body>
   <div class="admin-shell">
+    <!-- ===== SIDEBAR NAVIGATION ===== -->
     <nav class="sidebar">
-      <div class="sidebar-brand"><i class="bi bi-qr-code-scan"></i> Presensi Admin</div>
+      <div class="sidebar-brand">
+        <div class="brand-icon"><i class="bi bi-qr-code-scan"></i></div>
+        <div class="brand-text">
+          <span>Presensi Admin</span>
+          <small>MA Bi'rul Ulum</small>
+        </div>
+      </div>
       <div class="sidebar-nav">
         <a href="dashboard.html" data-roles="admin"><i class="bi bi-speedometer2"></i> Dashboard</a>
-        <a href="izin.html" class="active" data-roles="admin,piket"><i class="bi bi-calendar-x"></i> Izin / Sakit</a>
+        <a href="izin.html" class="active" data-roles="admin,piket"><i class="bi bi-calendar-x"></i> Izin / Sakit Guru</a>
         <a href="libur.html" data-roles="admin"><i class="bi bi-calendar-event"></i> Hari Libur</a>
         <a href="kegiatan.html" data-roles="admin"><i class="bi bi-calendar2-check"></i> Kegiatan Sekolah</a>
         <a href="guru.html" data-roles="admin"><i class="bi bi-person-badge"></i> Data Guru</a>
         <a href="user.html" data-roles="admin"><i class="bi bi-people"></i> Data User</a>
-        <a href="laporan.html" data-roles="admin"><i class="bi bi-bar-chart-line"></i> Laporan</a>
-        <div style="border-top:1px solid rgba(255,255,255,.12); margin:10px 14px;"></div>
+        <a href="laporan.html" data-roles="admin"><i class="bi bi-bar-chart-line"></i> Laporan Guru</a>
+        
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-section-label">SISWA & KELAS</div>
+        
         <a href="kelas.html" data-roles="admin"><i class="bi bi-collection"></i> Data Kelas</a>
         <a href="siswa.html" data-roles="admin"><i class="bi bi-mortarboard"></i> Data Siswa</a>
         <a href="kenaikan-kelas.html" data-roles="admin"><i class="bi bi-arrow-up-circle"></i> Kenaikan Kelas</a>
+        <a href="pulang-cepat.html" data-roles="admin"><i class="bi bi-door-open"></i> Aktivasi Pulang Cepat</a>
         <a href="izin-siswa.html" data-roles="admin,wali_kelas"><i class="bi bi-calendar-x"></i> Izin / Sakit Siswa</a>
         <a href="laporan-siswa.html" data-roles="admin"><i class="bi bi-bar-chart-line"></i> Laporan Siswa</a>
-        <div style="border-top:1px solid rgba(255,255,255,.12); margin:10px 14px;"></div>
+        
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-section-label">SISTEM</div>
+        
         <a href="reset.html" data-roles="admin"><i class="bi bi-trash3"></i> Reset Database</a>
       </div>
       <div class="sidebar-foot">
-        <a href="#" onclick="AUTH.logout(); return false;"><i class="bi bi-box-arrow-right"></i> Logout</a>
+        <a href="#" onclick="AUTH.logout(); return false;"><i class="bi bi-box-arrow-right"></i> Keluar Portal</a>
       </div>
     </nav>
 
+    <!-- ===== TOPBAR ===== -->
     <header class="topbar">
       <div class="topbar-left">
         <button class="btn-hamburger"><i class="bi bi-list"></i></button>
-        <h1>Izin / Sakit</h1>
+        <div class="topbar-breadcrumb">
+          <i class="bi bi-calendar-x"></i>
+          <h1>Izin / Sakit Guru</h1>
+        </div>
       </div>
-      <div class="topbar-user">
-        <div class="avatar" id="avatar-admin">A</div>
-        <span>Halo, <strong id="nama-admin">-</strong></span>
+      <div class="topbar-right">
+        <div class="topbar-user">
+          <div class="avatar" id="avatar-admin">A</div>
+          <span>Halo, <strong id="nama-admin">-</strong></span>
+        </div>
       </div>
     </header>
 
     <main class="admin-content">
+
+      <!-- Page Hero Banner -->
+      <div class="page-hero">
+        <div class="page-hero-content">
+          <span class="page-hero-badge"><i class="bi bi-calendar-x"></i> Presensi Khusus</span>
+          <h2>Izin & Sakit Dewan Guru</h2>
+          <p>Pencatatan surat izin, sakit, dinas luar, atau dispensasi tugas dewan guru.</p>
+        </div>
+      </div>
       <div class="card">
         <div class="card-title"><i class="bi bi-calendar-plus"></i> Catat Izin / Sakit Guru</div>
         <form id="form-izin">

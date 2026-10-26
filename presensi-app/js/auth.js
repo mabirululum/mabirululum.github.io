@@ -13,7 +13,15 @@ const AUTH = {
     konfirmasi('Yakin ingin logout dari dashboard admin?').then((ya) => {
       if (!ya) return;
       sessionStorage.removeItem('admin_session');
-      window.location.href = 'login.html';
+      sessionStorage.removeItem('admin_sidebar_scroll');
+      // Deteksi apakah sedang di portal piket, wali-kelas, atau admin
+      if (location.pathname.includes('/piket/')) {
+        window.location.href = 'login.html';
+      } else if (location.pathname.includes('/wali-kelas/')) {
+        window.location.href = 'login.html';
+      } else {
+        window.location.href = 'login.html';
+      }
     });
   },
   // Panggil di setiap halaman admin (kecuali login.html) untuk memastikan sudah login
@@ -24,9 +32,10 @@ const AUTH = {
     const user = this.current();
     if (!user) { window.location.href = 'login.html'; return; }
     if (!allowedRoles.includes(user.role)) {
-      if (user.role === 'piket') window.location.href = 'izin.html';
-      else if (user.role === 'wali_kelas') window.location.href = 'izin-siswa.html';
+      if (user.role === 'piket') window.location.href = '../piket/izin.html';
+      else if (user.role === 'wali_kelas') window.location.href = '../wali-kelas/izin.html';
       else window.location.href = 'dashboard.html';
     }
   },
 };
+

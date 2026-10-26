@@ -487,12 +487,14 @@ const DB = (() => {
 	}
 
   async function scanOnline(barcode) {
-  	const {
-  		data: guru
-  	} = await sb.from('guru').select('*').eq('barcode_id', barcode).eq('aktif', true).maybeSingle();
-  	if (!guru) return {
-  		error: 'Barcode tidak dikenali'
-  	};
+  	const { data: guru } = await sb.from('guru')
+			.select('*')
+			.or(`barcode_id.eq.${barcode},rfid_id.eq.${barcode}`)
+			.eq('aktif', true)
+			.maybeSingle();
+		if (!guru) return { 
+			error: 'Barcode tidak dikenali' 
+		};
 
   	const hariIni = HARI_MAP[new Date().getDay()];
   	const {
@@ -617,7 +619,11 @@ const DB = (() => {
 
 	// SCAN SISWA
 	async function scanSiswaOnline(barcode) {
-		const { data: siswa } = await sb.from('siswa').select('*, kelas(nama_kelas)').eq('barcode_id', barcode).eq('aktif', true).maybeSingle();
+		const { data: siswa } = await sb.from('siswa')
+			.select('*, kelas(nama_kelas)')
+			.or(`barcode_id.eq.${barcode},rfid_id.eq.${barcode}`)
+			.eq('aktif', true)
+			.maybeSingle();
 		if (!siswa) return null; // bukan barcode siswa, biar scanner.js coba jalur lain
 
 		const hariIni = HARI_MAP[new Date().getDay()];
@@ -647,29 +653,61 @@ const DB = (() => {
 			return { tipe: 'siswa', jenis: 'masuk', nama: siswa.nama, jam: jamSekarang, status, menit_telat: status === 'telat' ? menitTelat : 0 };
 		}
 
+		// if (!existing.jam_scan_pulang) {
+		// 	const durasiSesiMenit = (toSeconds(jadwal.jam_pulang) - toSeconds(jadwal.jam_masuk)) / 60;
+		// 	const minMenitPulang = Math.max(0, Math.min(60, durasiSesiMenit));
+		// 	const menitSejakMasuk = (toSeconds(jamSekarang) - toSeconds(existing.jam_scan_masuk)) / 60;
+
+		// 	if (menitSejakMasuk < minMenitPulang) {
+		// 		return {
+		// 			tipe: 'siswa', jenis: 'terlalu_cepat', nama: siswa.nama,
+		// 			error: `Belum bisa presensi pulang. Minimal ${Math.ceil(minMenitPulang)} menit setelah masuk (${Math.ceil(minMenitPulang - menitSejakMasuk)} menit lagi).`,
+		// 		};
+		// 	}
+
+		// 	const pulangAwal = jamSekarang < jadwal.jam_pulang;
+		// 	let statusBaru = existing.status;
+		// 	if (pulangAwal) statusBaru = existing.status === 'telat' ? 'telat_dan_pulang_awal' : 'pulang_awal';
+
+		// 	const { data: updated, error: errUpdate } = await sb.from('presensi_siswa')
+		// 		.update({ jam_scan_pulang: jamSekarang, status: statusBaru }).eq('id', existing.id).select();
+		// 	if (errUpdate) throw new Error('Gagal menyimpan presensi pulang: ' + errUpdate.message);
+		// 	if (!updated || !updated.length) throw new Error('Presensi pulang tidak tersimpan.');
+
+		// 	return { tipe: 'siswa', jenis: 'pulang', nama: siswa.nama, jam: jamSekarang, status: statusBaru };
+		// }
 		if (!existing.jam_scan_pulang) {
-			const durasiSesiMenit = (toSeconds(jadwal.jam_pulang) - toSeconds(jadwal.jam_masuk)) / 60;
-			const minMenitPulang = Math.max(0, Math.min(60, durasiSesiMenit));
-			const menitSejakMasuk = (toSeconds(jamSekarang) - toSeconds(existing.jam_scan_masuk)) / 60;
+		// ---- GERBANG PULANG: otomatis sesuai jadwal, ATAU ada override aktif hari ini ----
+		const sudahWaktunya = jamSekarang >= jadwal.jam_pulang;
+		const adaOverride = sudahWaktunya ? true : await cekAktivasiPulangManual(tanggal, siswa.kelas_id);
 
-			if (menitSejakMasuk < minMenitPulang) {
-				return {
-					tipe: 'siswa', jenis: 'terlalu_cepat', nama: siswa.nama,
-					error: `Belum bisa presensi pulang. Minimal ${Math.ceil(minMenitPulang)} menit setelah masuk (${Math.ceil(minMenitPulang - menitSejakMasuk)} menit lagi).`,
-				};
-			}
-
-			const pulangAwal = jamSekarang < jadwal.jam_pulang;
-			let statusBaru = existing.status;
-			if (pulangAwal) statusBaru = existing.status === 'telat' ? 'telat_dan_pulang_awal' : 'pulang_awal';
-
-			const { data: updated, error: errUpdate } = await sb.from('presensi_siswa')
-				.update({ jam_scan_pulang: jamSekarang, status: statusBaru }).eq('id', existing.id).select();
-			if (errUpdate) throw new Error('Gagal menyimpan presensi pulang: ' + errUpdate.message);
-			if (!updated || !updated.length) throw new Error('Presensi pulang tidak tersimpan.');
-
-			return { tipe: 'siswa', jenis: 'pulang', nama: siswa.nama, jam: jamSekarang, status: statusBaru };
+		if (!sudahWaktunya && !adaOverride) {
+			return {
+				tipe: 'siswa', jenis: 'terlalu_cepat', nama: siswa.nama,
+				error: `Belum waktunya presensi pulang. Jadwal pulang: ${jadwal.jam_pulang.slice(0, 5)}.`,
+			};
 		}
+
+		// Cooldown singkat tetap dijaga (cegah scan ganda tidak sengaja dalam hitungan detik)
+		const menitSejakMasuk = (toSeconds(jamSekarang) - toSeconds(existing.jam_scan_masuk)) / 60;
+		if (menitSejakMasuk < 1) {
+			return {
+				tipe: 'siswa', jenis: 'terlalu_cepat', nama: siswa.nama,
+				error: 'Terlalu cepat setelah presensi masuk. Coba beberapa saat lagi.',
+			};
+		}
+
+		const pulangAwal = jamSekarang < jadwal.jam_pulang;
+		let statusBaru = existing.status;
+		if (pulangAwal) statusBaru = existing.status === 'telat' ? 'telat_dan_pulang_awal' : 'pulang_awal';
+
+		const { data: updated, error: errUpdate } = await sb.from('presensi_siswa')
+			.update({ jam_scan_pulang: jamSekarang, status: statusBaru }).eq('id', existing.id).select();
+		if (errUpdate) throw new Error('Gagal menyimpan presensi pulang: ' + errUpdate.message);
+		if (!updated || !updated.length) throw new Error('Presensi pulang tidak tersimpan.');
+
+		return { tipe: 'siswa', jenis: 'pulang', nama: siswa.nama, jam: jamSekarang, status: statusBaru };
+	}
 
 		return { tipe: 'siswa', jenis: 'sudah_lengkap', nama: siswa.nama, status: existing.status };
 	}
@@ -714,6 +752,17 @@ const DB = (() => {
 		}
 
 		return { berhasil, gagal };
+	}
+
+	async function cekAktivasiPulangManual(tanggal, kelasId) {
+		// Cek override GLOBAL (kelas_id null) dulu, baru per-kelas
+		const { data: global } = await sb.from('aktivasi_pulang_manual')
+			.select('id').eq('tanggal', tanggal).is('kelas_id', null).limit(1).maybeSingle();
+		if (global) return true;
+
+		const { data: perKelas } = await sb.from('aktivasi_pulang_manual')
+			.select('id').eq('tanggal', tanggal).eq('kelas_id', kelasId).limit(1).maybeSingle();
+		return !!perKelas;
 	}
 
 	return {
@@ -786,14 +835,9 @@ const DB = (() => {
 		async addGuru(guru) {
 			if (isOnline) {
 				const barcode_id = generateBarcodeGuru();
-				const {
-					data,
-					error
-				} = await sb.from('guru').insert({
-					nama: guru.nama,
-					nip: guru.nip,
-					nama_panggilan: guru.nama_panggilan || null,
-					barcode_id
+				const { data, error } = await sb.from('guru').insert({
+					nama: guru.nama, nip: guru.nip, nama_panggilan: guru.nama_panggilan || null,
+					rfid_id: guru.rfid_id || null, barcode_id,
 				}).select().single();
 				if (error) throw new Error(error.message);
 				const jadwalRows = (guru.jadwal || []).map(j => ({
@@ -813,10 +857,8 @@ const DB = (() => {
 		async updateGuru(guru) {
 			if (isOnline) {
 				await sb.from('guru').update({
-					nama: guru.nama,
-					nip: guru.nip,
-					nama_panggilan: guru.nama_panggilan || null,
-					aktif: guru.aktif
+					nama: guru.nama, nip: guru.nip, nama_panggilan: guru.nama_panggilan || null,
+					rfid_id: guru.rfid_id || null, aktif: guru.aktif,
 				}).eq('id', guru.id);
 				if (guru.jadwal) {
 					await sb.from('guru_jadwal').delete().eq('guru_id', guru.id);
@@ -1325,23 +1367,41 @@ const DB = (() => {
 		// 	}
 		// 	return (await callPhp('siswa.php')).data;
 		// },
+		// async listSiswa(status = 'aktif', tahun = '') {
+		// 	if (isOnline) {
+		// 		let q = sb.from('siswa').select('*, kelas(nama_kelas)').order('nama');
+		// 		q = status === 'semua' ? q : q.eq('status_siswa', status);
+		// 		if (tahun) q = q.eq('tahun_status', Number(tahun));
+		// 		const { data, error } = await q;
+		// 		if (error) throw new Error(error.message);
+		// 		return (data || []).map(s => ({ ...s, nama_kelas: s.kelas?.nama_kelas || '-' }));
+		// 	}
+		// 	const q = new URLSearchParams({ status });
+		// 	if (tahun) q.set('tahun', tahun);
+		// 	return (await callPhp('siswa.php', { query: `?${q.toString()}` })).data;
+		// },
 		async listSiswa(status = 'aktif', tahun = '') {
+			const kolomTahun = status === 'aktif' ? 'tahun_masuk' : 'tahun_status';
+
 			if (isOnline) {
 				let q = sb.from('siswa').select('*, kelas(nama_kelas)').order('nama');
 				q = status === 'semua' ? q : q.eq('status_siswa', status);
-				if (tahun) q = q.eq('tahun_status', Number(tahun));
+				if (tahun) q = q.eq(kolomTahun, Number(tahun));
 				const { data, error } = await q;
 				if (error) throw new Error(error.message);
 				return (data || []).map(s => ({ ...s, nama_kelas: s.kelas?.nama_kelas || '-' }));
 			}
-			const q = new URLSearchParams({ status });
+			const q = new URLSearchParams({ status, kolom_tahun: kolomTahun });
 			if (tahun) q.set('tahun', tahun);
 			return (await callPhp('siswa.php', { query: `?${q.toString()}` })).data;
 		},
 		async addSiswa(data) {
 			if (isOnline) {
 				const barcode_id = generateBarcodeSiswa();
-				const { error } = await sb.from('siswa').insert({ nama: data.nama, nis: data.nis || null, kelas_id: data.kelas_id, barcode_id });
+				const { error } = await sb.from('siswa').insert({
+					nama: data.nama, nis: data.nis || null, kelas_id: data.kelas_id,
+					rfid_id: data.rfid_id || null, barcode_id,
+				});
 				if (error) throw new Error(error.message);
 				return { barcode_id };
 			}
@@ -1349,7 +1409,10 @@ const DB = (() => {
 		},
 		async updateSiswa(data) {
 			if (isOnline) {
-				const { error } = await sb.from('siswa').update({ nama: data.nama, nis: data.nis || null, kelas_id: data.kelas_id, aktif: data.aktif }).eq('id', data.id);
+				const { error } = await sb.from('siswa').update({
+					nama: data.nama, nis: data.nis || null, kelas_id: data.kelas_id,
+					rfid_id: data.rfid_id || null, aktif: data.aktif,
+				}).eq('id', data.id);
 				if (error) throw new Error(error.message);
 				return;
 			}
@@ -1363,41 +1426,6 @@ const DB = (() => {
 			}
 			return callPhp('siswa.php', { method: 'DELETE', query: `?id=${id}` });
 		},
-		// async importSiswa(rows) {
-		// 	// rows: [{ nama, nis, kelas }] -- kelas dicocokkan by nama_kelas, dibuat otomatis kalau belum ada
-		// 	if (!isOnline) return callPhp('siswa-import.php', { method: 'POST', body: { rows } });
-
-		// 	let berhasil = 0;
-		// 	const gagal = [];
-
-		// 	for (let i = 0; i < rows.length; i++) {
-		// 		const r = rows[i];
-		// 		const barisKe = i + 2;
-		// 		const nama = (r.nama || '').trim();
-		// 		const namaKelas = (r.kelas || '').trim();
-		// 		if (!nama || !namaKelas) { gagal.push(`Baris ${barisKe}: nama/kelas kosong`); continue; }
-
-		// 		try {
-		// 			let { data: kelas } = await sb.from('kelas').select('id').eq('nama_kelas', namaKelas).maybeSingle();
-		// 			let kelasId = kelas?.id;
-		// 			if (!kelasId) {
-		// 				const { data: kelasBaru, error: errKelas } = await sb.from('kelas').insert({ nama_kelas: namaKelas }).select().single();
-		// 				if (errKelas) throw new Error(errKelas.message);
-		// 				kelasId = kelasBaru.id;
-		// 			}
-
-		// 			const barcode_id = generateBarcodeSiswa();
-		// 			const { error: errSiswa } = await sb.from('siswa').insert({ nama, nis: (r.nis || '').trim() || null, kelas_id: kelasId, barcode_id });
-		// 			if (errSiswa) throw new Error(errSiswa.message);
-
-		// 			berhasil++;
-		// 		} catch (e) {
-		// 			gagal.push(`Baris ${barisKe} (${nama}): ${e.message}`);
-		// 		}
-		// 	}
-		// 	return { berhasil, gagal };
-		// },
-
 		async importSiswa(rows) {
 			// rows: [{ nama, nis, kelas, kode, tahun_masuk }]
 			if (!isOnline) return callPhp('siswa-import.php', { method: 'POST', body: { rows } });
@@ -1496,6 +1524,44 @@ const DB = (() => {
 		async prosesKenaikanKelas(daftarPerubahan) {
 			if (isOnline) return prosesKenaikanKelasOnline(daftarPerubahan);
 			return callPhp('kenaikan-kelas.php', { method: 'POST', body: { perubahan: daftarPerubahan } });
+		},
+
+		// pulang cepat
+		async listAktivasiPulangHariIni() {
+			const tanggal = tanggalLokal(new Date());
+			if (isOnline) {
+				const { data, error } = await sb.from('aktivasi_pulang_manual').select('*, kelas(nama_kelas)').eq('tanggal', tanggal);
+				if (error) throw new Error(error.message);
+				return (data || []).map(a => ({ ...a, nama_kelas: a.kelas?.nama_kelas || null }));
+			}
+			return (await callPhp('pulang-cepat.php', { query: `?tanggal=${tanggal}` })).data;
+		},
+		async aktifkanPulangCepat(kelasId) {
+			const tanggal = tanggalLokal(new Date());
+			const dicatatOleh = AUTH.current()?.nama || AUTH.current()?.username || '';
+
+			if (isOnline) {
+				// Cegah dobel-klik manual (unique constraint di DB tidak ketat untuk NULL, jadi dicek di sini)
+				let q = sb.from('aktivasi_pulang_manual').select('id').eq('tanggal', tanggal);
+				q = kelasId ? q.eq('kelas_id', kelasId) : q.is('kelas_id', null);
+				const { data: existing } = await q.maybeSingle();
+				if (existing) return; // sudah aktif, tidak perlu insert lagi
+
+				const { error } = await sb.from('aktivasi_pulang_manual').insert({
+					tanggal, kelas_id: kelasId || null, diaktifkan_oleh: dicatatOleh,
+				});
+				if (error) throw new Error(error.message);
+				return;
+			}
+			return callPhp('pulang-cepat.php', { method: 'POST', body: { tanggal, kelas_id: kelasId || null, diaktifkan_oleh: dicatatOleh } });
+		},
+		async batalkanPulangCepat(id) {
+			if (isOnline) {
+				const { error } = await sb.from('aktivasi_pulang_manual').delete().eq('id', id);
+				if (error) throw new Error(error.message);
+				return;
+			}
+			return callPhp('pulang-cepat.php', { method: 'DELETE', query: `?id=${id}` });
 		},
 	};
 })();

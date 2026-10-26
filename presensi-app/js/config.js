@@ -8,8 +8,8 @@ const CONFIG = {
   MODE: 'online', // 'online' | 'offline'
 
   // --- Mode offline: path ke folder api/ otomatis menyesuaikan
-  // apakah halaman dibuka dari root (index.html) atau dari admin/*.html ---
-  API_BASE: location.pathname.includes('/admin/') ? '../api' : 'api',
+  // apakah halaman dibuka dari root (index.html) atau dari admin/*.html / piket/*.html / wali-kelas/*.html ---
+  API_BASE: (location.pathname.includes('/admin/') || location.pathname.includes('/piket/') || location.pathname.includes('/wali-kelas/')) ? '../api' : 'api',
 
   // --- Mode online: isi dari Supabase Dashboard > Project Settings > API ---
   SUPABASE_URL: 'https://stepbzuboymcwihwpyft.supabase.co',

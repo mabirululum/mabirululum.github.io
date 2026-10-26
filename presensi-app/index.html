@@ -1,108 +1,186 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MA Bi'rul Ulum | Presensi QR Code</title>
-<!-- HTML Meta Tags -->
-<meta name="description" content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
-<meta name="google-site-verification" content="M6vZYhRJ30dMCAMGu2gD8UNov_Kdcsku6pcai8gGknI" />
-<!-- Facebook Meta Tags -->
-<meta property="og:url" content="https://mabirululum.github.io/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Madrasah Aliyah Bi'rul Ulum">
-<meta property="og:description" content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
-<meta property="og:image" content="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/img-meta_ysxamu.jpg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MA Bi'rul Ulum | Presensi QR Code</title>
+  <!-- HTML Meta Tags -->
+  <meta name="description"
+    content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
+  <meta name="google-site-verification" content="M6vZYhRJ30dMCAMGu2gD8UNov_Kdcsku6pcai8gGknI" />
+  <!-- Facebook Meta Tags -->
+  <meta property="og:url" content="https://mabirululum.github.io/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Madrasah Aliyah Bi'rul Ulum">
+  <meta property="og:description"
+    content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
+  <meta property="og:image"
+    content="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/img-meta_ysxamu.jpg">
 
-<!-- Twitter Meta Tags -->
-<meta name="twitter:card" content="summary_large_image">
-<meta property="twitter:domain" content="mabirululum.github.io">
-<meta property="twitter:url" content="https://mabirululum.github.io/">
-<meta name="twitter:title" content="Madrasah Aliyah Bi'rul Ulum">
-<meta name="twitter:description" content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
-<meta name="twitter:image" content="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/img-meta_ysxamu.jpg">
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="twitter:domain" content="mabirululum.github.io">
+  <meta property="twitter:url" content="https://mabirululum.github.io/">
+  <meta name="twitter:title" content="Madrasah Aliyah Bi'rul Ulum">
+  <meta name="twitter:description"
+    content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
+  <meta name="twitter:image"
+    content="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/img-meta_ysxamu.jpg">
 
-<link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
-<link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-<link rel="shortcut icon" href="/favicon/favicon.ico" />
-<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-<meta name="apple-mobile-web-app-title" content="MA Bi'rul Ulum" />
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#1f4d36">
+  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="MA Bi'rul Ulum" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1f4d36">
 </head>
+
 <body>
   <div class="kiosk-shell">
 
+    <!-- ===== TOPBAR HEADER ===== -->
     <header class="kiosk-header-bar">
-      <button id="installBtn" hidden>
-        Install Aplikasi
-      </button>
-      <div class="sekolah-nama">MA BI'RUL ULUM - SISTEM PRESENSI GURU</div>
-      <div class="header-clock">
-        <span id="clock-time">00:00:00</span>
-        <span id="clock-date" class="header-date">-</span>
+      <button id="installBtn" hidden>Install Aplikasi</button>
+
+      <div class="header-left">
+        <div class="topbar-icon"><i class="bi bi-qr-code-scan"></i></div>
+        <div class="header-titles">
+          <h1>MA Bi'rul Ulum</h1>
+          <span class="badge-portal"><i class="bi bi-shield-check"></i> Presensi Digital</span>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <div class="scanner-live-pill">
+          <span class="pulse-dot"></span>
+          <span>Scanner Siap</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="header-clock">
+          <div id="clock-time" class="clock-digits">00:00:00</div>
+          <div id="clock-date" class="header-date">-</div>
+        </div>
       </div>
     </header>
 
-    <!-- <main class="kiosk-main">
-      <section class="panel-kiri">
-        <div id="camera-view"></div>
-        <div class="status-box" id="status-box">
-          <strong>Menunggu scan…</strong>
-          Arahkan QR Code kartu ke kamera
-        </div>
-      </section>
-
-      <section class="panel-kanan">
-        <h4 class="riwayat-title">Riwayat Presensi Hari Ini</h4>
-        <div id="riwayat-list" class="riwayat-list-full">
-          <div class="list-row"><span>Memuat…</span></div>
-        </div>
-      </section>
-    </main> -->
+    <!-- ===== MAIN CONTENT (3-COLUMN KIOSK) ===== -->
     <main class="kiosk-main">
-      <section class="panel-riwayat">
-        <h4><i class="bi bi-mortarboard"></i> Riwayat Murid</h4>
+
+      <!-- Panel Kiri: Riwayat Siswa -->
+      <section class="panel-riwayat panel-siswa">
+        <div class="panel-header">
+          <div class="panel-title">
+            <i class="bi bi-mortarboard-fill"></i>
+            <span>Riwayat Siswa</span>
+          </div>
+          <span class="panel-badge badge-siswa" id="badge-count-siswa">Hari Ini</span>
+        </div>
+        <div class="riwayat-subbar">
+          <i class="bi bi-people"></i>
+          <span>Presensi Siswa Terbaru</span>
+        </div>
         <div id="riwayat-siswa-list" class="riwayat-list-full">
-          <div class="list-row"><span>Memuat…</span></div>
+          <div class="list-row-loading">
+            <i class="bi bi-hourglass-split"></i> Memuat data siswa…
+          </div>
         </div>
       </section>
 
+      <!-- Panel Tengah: Kamera Scanner & Status Box -->
       <section class="panel-tengah">
-        <div id="camera-view"></div>
-        <div class="status-box" id="status-box">
-          <strong>Menunggu scan…</strong>
-          Arahkan barcode kartu ke kamera
+        <div class="camera-card">
+          <div class="camera-wrapper">
+            <div id="camera-view"></div>
+            <div class="camera-scanline"></div>
+            <div class="camera-corner tl"></div>
+            <div class="camera-corner tr"></div>
+            <div class="camera-corner bl"></div>
+            <div class="camera-corner br"></div>
+          </div>
+          <div class="camera-hud-info">
+            <i class="bi bi-upc-scan"></i>
+            <span>Arahkan QR Code kartu ke kamera atau alat scanner barcode USB</span>
+          </div>
+        </div>
+
+        <div class="status-box status-waiting" id="status-box">
+          <div class="status-icon"><i class="bi bi-qr-code-scan"></i></div>
+          <div class="status-text-wrap">
+            <strong class="status-title">Menunggu scan…</strong>
+            <span class="status-desc">Arahkan QR Code kartu ke kamera atau alat scanner di bawah</span>
+          </div>
         </div>
       </section>
 
-      <section class="panel-riwayat">
-        <h4><i class="bi bi-person-badge"></i> Riwayat Guru</h4>
+      <!-- Panel Kanan: Riwayat Guru -->
+      <section class="panel-riwayat panel-guru">
+        <div class="panel-header">
+          <div class="panel-title">
+            <i class="bi bi-person-badge-fill"></i>
+            <span>Riwayat Guru</span>
+          </div>
+          <span class="panel-badge badge-guru" id="badge-count-guru">Hari Ini</span>
+        </div>
+        <div class="riwayat-subbar">
+          <i class="bi bi-person-check"></i>
+          <span>Presensi Guru & Staf Terbaru</span>
+        </div>
         <div id="riwayat-guru-list" class="riwayat-list-full">
-          <div class="list-row"><span>Memuat…</span></div>
+          <div class="list-row-loading">
+            <i class="bi bi-hourglass-split"></i> Memuat data guru…
+          </div>
         </div>
       </section>
+
     </main>
 
+    <!-- ===== FOOTER ===== -->
     <footer class="kiosk-footer">
-      Dikembangkan oleh <a href="http://www.instagram.com/aflah.design/" target="_blank">Aflah Design</a> · &copy; 2026 · <a id="btn-install-pwa" style="cursor: pointer">Install Aplikasi</a>
+      <div class="footer-left">
+        <span>MA Bi'rul Ulum @2026 dikembangkan oleh <a href="https://www.instagram.com/aflah.design/"
+            target="_blank">@aflah.design</a></span>
+      </div>
+      <div class="footer-right">
+        <button id="btn-install-pwa" class="btn-install-pwa" style="display:none;">
+          <i class="bi bi-download"></i> Install Aplikasi
+        </button>
+      </div>
     </footer>
 
-    <div id="overlay-mulai" style="position:fixed;inset:0;background:#1f4d36;color:#fff;
-    display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;z-index:9999;cursor:pointer;">
-      <div style="font-size:20px;">Klik layar untuk memulai sistem presensi</div>
-    </div>
-
-    <div id="overlay-offline" style="display:none; position:fixed; inset:0; z-index:9998;
-    backdrop-filter: blur(6px); background:rgba(28,36,32,.55);
-    display:none; align-items:center; justify-content:center; flex-direction:column; gap:12px; color:#fff; text-align:center; padding:24px;">
-      <div style="font-size:18px; font-weight:600;">Koneksi internet terputus</div>
-      <div style="font-size:13px; opacity:.85; max-width:320px;">
-        Presensi tidak dapat diproses sampai koneksi kembali normal. Halaman akan otomatis dimuat ulang begitu internet tersambung.
+    <!-- ===== OVERLAY MULAI (UNLOCK AUDIO & CAMERA) ===== -->
+    <div id="overlay-mulai" class="kiosk-overlay-mulai">
+      <div class="overlay-card">
+        <div class="overlay-icon">
+          <i class="bi bi-qr-code-scan"></i>
+        </div>
+        <h2>Sistem Presensi MA Bi'rul Ulum</h2>
+        <p>Klik di mana saja pada layar ini untuk mengaktifkan scanner kamera dan audio presensi otomatis</p>
+        <button type="button" class="btn-overlay-start">
+          <i class="bi bi-play-circle-fill"></i> Mulai Sistem Presensi
+        </button>
       </div>
     </div>
+
+    <!-- ===== OVERLAY OFFLINE ===== -->
+    <div id="overlay-offline" class="kiosk-overlay-offline" style="display:none;">
+      <div class="offline-card">
+        <div class="offline-icon"><i class="bi bi-wifi-off"></i></div>
+        <h3>Koneksi Internet Terputus</h3>
+        <p>Presensi tidak dapat diproses sampai koneksi kembali normal. Sistem akan otomatis memuat ulang begitu
+          internet tersambung.</p>
+        <div class="offline-badge">
+          <span class="spinner-dot"></span> Menunggu koneksi kembali…
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
@@ -114,6 +192,6 @@
   <script src="js/pengumuman.js"></script>
   <script src="js/scanner.js"></script>
   <script src="js/app-shell.js"></script>
-  
 </body>
+
 </html>

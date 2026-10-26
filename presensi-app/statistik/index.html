@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Statistik Presensi Guru</title>
+<title>Statistik & Pantauan Presensi Guru | MA Bi'rul Ulum</title>
 <!-- HTML Meta Tags -->
 <meta name="description" content="MA Bi'rul Ulum atau MA Birul Ulum adalah Madrasah Aliyah di bawah naungan Yayasan Pendidikan Islam Bi'rul Ulum. Website resmi berisi informasi sekolah, program, dan pendaftaran.">
 <meta name="google-site-verification" content="M6vZYhRJ30dMCAMGu2gD8UNov_Kdcsku6pcai8gGknI" />
@@ -32,75 +32,156 @@
 <link rel="stylesheet" href="../css/statistik.css">
 </head>
 <body>
-  <div class="pantau-shell">
 
-    <div class="pantau-header">
-      <div class="pantau-title">
-        Statistik Presensi Guru
-        <span>MA Bi'rul Ulum - Ringkasan Hari Ini</span>
+  <!-- ===== TOPBAR HEADER ===== -->
+  <header class="pantau-header-bar">
+    <div class="header-left">
+      <div class="topbar-icon"><i class="bi bi-bar-chart-line-fill"></i></div>
+      <div class="header-titles">
+        <h1>MA Bi'rul Ulum</h1>
+        <span class="badge-portal"><i class="bi bi-shield-check"></i> Statistik Guru</span>
       </div>
-      <div>
+    </div>
+
+    <div class="header-center">
+      <div class="pantau-live-pill">
+        <span class="pulse-dot"></span>
+        <span>Realtime Monitor</span>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <div class="pantau-clock">
         <div class="pantau-jam" id="jam-sekarang">00:00:00</div>
         <div class="pantau-tanggal" id="tanggal-sekarang">-</div>
       </div>
     </div>
+  </header>
 
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="pantau-shell">
+
+    <!-- Hero Banner -->
+    <div class="pantau-hero">
+      <div class="pantau-hero-content">
+        <span class="pantau-hero-badge"><i class="bi bi-activity"></i> Live Monitoring</span>
+        <h2>Statistik Kehadiran Dewan Guru</h2>
+        <p>Pantauan kehadiran, keterlambatan, dan status presensi dewan guru MA Bi'rul Ulum hari ini secara real-time.</p>
+      </div>
+      <div class="pantau-hero-actions">
+        <button type="button" class="btn-hero-refresh" id="btn-manual-refresh" onclick="muatStatistik()">
+          <i class="bi bi-arrow-clockwise"></i> Perbarui Data
+        </button>
+      </div>
+    </div>
+
+    <!-- Alert / Banner Khusus Libur atau Kegiatan -->
     <div id="banner-khusus"></div>
 
+    <!-- 5 Stat Cards Sejajar -->
     <div class="stat-grid-pantau">
       <div class="stat-card-pantau total">
+        <div class="stat-header-row">
+          <div class="stat-icon icon-total"><i class="bi bi-people-fill"></i></div>
+          <span class="stat-tag tag-accent">Wajib Hadir</span>
+        </div>
         <div class="num" id="stat-total">0</div>
-        <div class="label">Wajib Hadir Hari Ini</div>
+        <div class="label">Total Wajib Hadir</div>
       </div>
+
       <div class="stat-card-pantau hadir">
+        <div class="stat-header-row">
+          <div class="stat-icon icon-hadir"><i class="bi bi-check2-circle"></i></div>
+          <span class="stat-tag tag-success">Hadir</span>
+        </div>
         <div class="num" id="stat-hadir">0</div>
         <div class="label">Sudah Hadir</div>
       </div>
+
       <div class="stat-card-pantau telat">
+        <div class="stat-header-row">
+          <div class="stat-icon icon-telat"><i class="bi bi-clock-history"></i></div>
+          <span class="stat-tag tag-warn">Terlambat</span>
+        </div>
         <div class="num" id="stat-telat">0</div>
-        <div class="label">Telat</div>
+        <div class="label">Telat Masuk</div>
       </div>
+
       <div class="stat-card-pantau alpha">
+        <div class="stat-header-row">
+          <div class="stat-icon icon-alpha"><i class="bi bi-x-circle"></i></div>
+          <span class="stat-tag tag-danger">Belum Hadir</span>
+        </div>
         <div class="num" id="stat-alpha">0</div>
         <div class="label">Belum Presensi</div>
       </div>
+
       <div class="stat-card-pantau izin">
+        <div class="stat-header-row">
+          <div class="stat-icon icon-izin"><i class="bi bi-calendar2-week"></i></div>
+          <span class="stat-tag tag-purple">Izin/Sakit</span>
+        </div>
         <div class="num" id="stat-izin">0</div>
         <div class="label">Izin / Sakit / Kegiatan</div>
       </div>
     </div>
 
+    <!-- Persentase Kehadiran -->
     <div class="progress-wrap">
-      <div class="progress-label">
-        <span>Persentase Kehadiran</span>
-        <span id="progress-persen">0%</span>
+      <div class="progress-header">
+        <div class="progress-title">
+          <i class="bi bi-pie-chart-fill"></i>
+          <span>Tingkat Kehadiran Guru Hari Ini</span>
+        </div>
+        <span class="progress-persen-badge" id="progress-persen">0%</span>
       </div>
       <div class="progress-bar-bg">
         <div class="progress-bar-fill" id="progress-bar" style="width:0%;"></div>
       </div>
     </div>
 
+    <!-- 2 Kolom Panel Daftar Guru -->
     <div class="pantau-columns">
-      <div class="panel-pantau">
-        <h3><i class="bi bi-exclamation-circle"></i> Belum Presensi</h3>
+      <!-- Panel 1: Belum Presensi -->
+      <div class="panel-pantau panel-alpha">
+        <div class="panel-pantau-header">
+          <h3 class="panel-pantau-title">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <span>Belum Presensi</span>
+          </h3>
+          <span class="panel-badge badge-alpha" id="badge-count-alpha">0 Guru</span>
+        </div>
         <div class="daftar-guru-pantau" id="daftar-alpha">
-          <div class="kosong-pantau">Memuat…</div>
+          <div class="kosong-pantau"><i class="bi bi-arrow-repeat spin"></i> Memuat data…</div>
         </div>
       </div>
 
-      <div class="panel-pantau">
-        <h3><i class="bi bi-clock-history"></i> Telat Hari Ini</h3>
+      <!-- Panel 2: Telat Hari Ini -->
+      <div class="panel-pantau panel-telat">
+        <div class="panel-pantau-header">
+          <h3 class="panel-pantau-title">
+            <i class="bi bi-clock-history"></i>
+            <span>Telat Hari Ini</span>
+          </h3>
+          <span class="panel-badge badge-telat" id="badge-count-telat">0 Guru</span>
+        </div>
         <div class="daftar-guru-pantau" id="daftar-telat">
-          <div class="kosong-pantau">Memuat…</div>
+          <div class="kosong-pantau"><i class="bi bi-arrow-repeat spin"></i> Memuat data…</div>
         </div>
       </div>
     </div>
 
-    <div class="footer-pantau" id="footer-update">
-      Memuat data…
+    <!-- Footer Bar -->
+    <div class="pantau-footer-bar">
+      <div class="footer-update-pill" id="footer-update">
+        <i class="bi bi-arrow-repeat spin"></i> Memuat data…
+      </div>
+      <div>
+        <span>MA Bi'rul Ulum @2026 dikembangkan oleh <a href="https://www.instagram.com/aflah.design/" target="_blank">@aflah.design</a></span>
+      </div>
     </div>
 
-  </div>
+  </main>
 
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <script src="../js/config.js"></script>
