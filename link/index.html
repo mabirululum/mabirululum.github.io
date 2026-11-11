@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kumpulan Link Resmi | MA Bi'rul Ulum Gedangan</title>
+
+    <!-- Meta Tags & Open Graph -->
+    <meta name="description"
+        content="Kumpulan tautan resmi MA Bi'rul Ulum Gedangan: Formulir PPDB Online, Brosur di Google Drive, Kontak WhatsApp Admin & Panitia, serta Lokasi Google Maps.">
+    <meta property="og:title" content="Kumpulan Link Resmi MA Bi'rul Ulum Gedangan">
+    <meta property="og:description"
+        content="Portal Tautan Resmi & Layanan Informasi Madrasah Aliyah Bi'rul Ulum Gedangan, Sidoarjo.">
+    <meta property="og:image"
+        content="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/img-meta_ysxamu.jpg">
+    <meta property="og:type" content="website">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="../favicon/favicon.svg">
+    <link rel="shortcut icon" href="../favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
+
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Style dari Folder CSS Root -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- Style Khusus Microsite (Tema Biru Bervariasi) -->
+    <link rel="stylesheet" href="../link/style.css">
+</head>
+
+<body>
+
+    <!-- Variasi Latar Belakang Biru Kaya & Pola Tekstur Halus (Tanpa Gradasi Putih) -->
+    <div class="bg-ambient"></div>
+    <div class="bg-pattern"></div>
+
+    <main class="microsite-container fade-in">
+
+        <!-- ==================== 1. KARTU PROFIL UTAMA ==================== -->
+        <header class="profile-card kartu-hover">
+            <div class="avatar-wrapper">
+                <img id="school-avatar"
+                    src="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/icon-mabu_yuwogg.png"
+                    alt="Logo MA Bi'rul Ulum" class="avatar-img">
+                <div class="verified-badge" title="Terverifikasi Resmi">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+            </div>
+
+            <h1 id="school-name" class="school-name">MA Bi'rul Ulum Gedangan</h1>
+
+            <div class="school-status">
+                <span class="school-status-dot"></span>
+                <span>Madrasah Aliyah Terakreditasi</span>
+            </div>
+
+            <p id="school-desc" class="school-desc">
+                Pusat informasi resmi, layanan administrasi, dan pendaftaran peserta didik baru (PPDB) MA Bi'rul Ulum
+                Gedangan, Sidoarjo.
+            </p>
+
+            <div class="profile-actions">
+                <a id="btn-website" href="../index.html" class="btn-pill btn-pill-primary">
+                    <i class="fa-solid fa-globe"></i> Website Resmi
+                </a>
+                <button type="button" onclick="bagikanHalaman()" class="btn-pill btn-pill-secondary">
+                    <i class="fa-solid fa-share-nodes"></i> Bagikan
+                </button>
+            </div>
+        </header>
+
+        <!-- ==================== 2. BANNER & HITUNG MUNDUR 3 GELOMBANG PPDB ==================== -->
+        <section id="ppdb-banner-section" class="countdown-card kartu-hover">
+            <!-- Header Status -->
+            <div class="countdown-header">
+                <div class="wave-badge-wrapper">
+                    <span class="pulse-dot"></span>
+                    <span id="wave-badge" class="wave-badge">GELOMBANG INDEN</span>
+                </div>
+                <span id="wave-year-tag" class="wave-year-tag">TA 2027/2028</span>
+            </div>
+
+            <!-- Konten Aktif (Jika Masih Berjalan) -->
+            <div id="countdown-active-content">
+                <h2 id="wave-title" class="countdown-title">Batas Pendaftaran Gelombang Inden</h2>
+                <p id="wave-desc" class="countdown-desc">
+                    Berakhir pada: <span id="wave-deadline-date" class="highlight-date">20 November 2026</span>
+                </p>
+
+                <!-- Grid 4 Angka Hitung Mundur -->
+                <div class="countdown-grid">
+                    <div class="time-box">
+                        <span id="timer-days" class="time-number time-number-accent">00</span>
+                        <span class="time-label">Hari</span>
+                    </div>
+                    <div class="time-box">
+                        <span id="timer-hours" class="time-number">00</span>
+                        <span class="time-label">Jam</span>
+                    </div>
+                    <div class="time-box">
+                        <span id="timer-minutes" class="time-number">00</span>
+                        <span class="time-label">Menit</span>
+                    </div>
+                    <div class="time-box">
+                        <span id="timer-seconds" class="time-number time-number-accent">00</span>
+                        <span class="time-label">Detik</span>
+                    </div>
+                </div>
+
+                <!-- Indikator Tahap (Stepper 3 Gelombang) -->
+                <div class="wave-stepper">
+                    <div id="step-inden" class="wave-step active">
+                        <span class="step-circle">1</span>
+                        <span class="step-label">Inden</span>
+                    </div>
+                    <div class="step-divider"></div>
+                    <div id="step-gelombang-1" class="wave-step">
+                        <span class="step-circle">2</span>
+                        <span class="step-label">Gel. 1</span>
+                    </div>
+                    <div class="step-divider"></div>
+                    <div id="step-gelombang-2" class="wave-step">
+                        <span class="step-circle">3</span>
+                        <span class="step-label">Gel. 2</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Konten Ditutup (Otomatis Tampil Saat Melewati Gelombang 2) -->
+            <div id="countdown-closed-content" class="closed-state-card" style="display: none;">
+                <div class="closed-icon-badge">
+                    <i class="fa-solid fa-calendar-xmark"></i>
+                </div>
+                <h3 id="closed-title" class="closed-title">Pendaftaran PPDB Gelombang 2 Telah Berakhir</h3>
+                <p id="closed-desc" class="closed-desc">
+                    Pendaftaran reguler resmi ditutup. Untuk informasi pengumuman hasil seleksi, daftar ulang, atau
+                    konfirmasi kuota tambahan/susulan, silakan langsung menghubungi Panitia PPDB.
+                </p>
+                <a id="closed-cta-btn" href="https://wa.me/6283832515321" target="_blank" rel="noopener noreferrer"
+                    class="btn-closed-cta">
+                    <i class="fa-brands fa-whatsapp"></i> Hubungi Panitia (Cek Info Kuota)
+                </a>
+            </div>
+        </section>
+
+        <!-- ==================== 3. DAFTAR LINK UTAMA ==================== -->
+        <div class="section-label">
+            <i class="fa-solid fa-link"></i>
+            <span>Tautan Pilihan</span>
+        </div>
+
+        <section id="links-container" class="links-list">
+
+            <!-- 1. LINK GOOGLE FORM PPDB (FEATURED HIGHLIGHT) -->
+            <a href="https://forms.gle/mabirululum-ppdb" target="_blank" rel="noopener noreferrer"
+                class="link-card link-card-featured kartu-hover">
+                <div class="link-icon-box icon-blue">
+                    <i class="fa-solid fa-file-pen"></i>
+                </div>
+                <div class="link-content">
+                    <div class="link-header">
+                        <span class="link-title">Formulir Pendaftaran Online PPDB</span>
+                        <span class="link-badge badge-populer">Daftar Sekarang</span>
+                    </div>
+                    <p class="link-desc">Google Form Resmi Pendaftaran Siswa Baru</p>
+                </div>
+                <div class="link-arrow">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </div>
+            </a>
+
+            <!-- 2. LINK DRIVE BROSUR PPDB -->
+            <a href="https://drive.google.com/file/d/1jH0X-2yWYa816c_l5fRN2RQ6boKgUioU/view?usp=sharing" target="_blank"
+                rel="noopener noreferrer" class="link-card kartu-hover">
+                <div class="link-icon-box icon-drive">
+                    <i class="fa-brands fa-google-drive"></i>
+                </div>
+                <div class="link-content">
+                    <div class="link-header">
+                        <span class="link-title">Brosur PPDB Resmi (Google Drive)</span>
+                        <span class="link-badge badge-drive">Unduh Brosur</span>
+                    </div>
+                    <p class="link-desc">Download Dokumen Syarat & Rincian Informasi PPDB</p>
+                </div>
+                <div class="link-arrow">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </div>
+            </a>
+
+            <!-- 3. LINK WHATSAPP ADMIN MADRASAH -->
+            <a href="https://wa.me/6283833133913?text=Halo%20Admin%20MA%20Bi%27rul%20Ulum%2C%20saya%20ingin%20menanyakan%20informasi%20seputar%20madrasah."
+                target="_blank" rel="noopener noreferrer" class="link-card kartu-hover">
+                <div class="link-icon-box icon-wa-admin">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </div>
+                <div class="link-content">
+                    <div class="link-header">
+                        <span class="link-title">WhatsApp Admin Madrasah</span>
+                        <span class="link-badge badge-wa">0838-3313-3913</span>
+                    </div>
+                    <p class="link-desc">Layanan Informasi Umum & Administrasi Sekolah</p>
+                </div>
+                <div class="link-arrow">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </div>
+            </a>
+
+            <!-- 4. LINK WHATSAPP PANITIA PPDB -->
+            <a href="https://wa.me/6283832515321?text=Halo%20Panitia%20PPDB%20MA%20Bi%27rul%20Ulum%2C%20saya%20ingin%20konsultasi%20dan%20bertanya%20mengenai%20pendaftaran%20siswa%20baru."
+                target="_blank" rel="noopener noreferrer" class="link-card kartu-hover">
+                <div class="link-icon-box icon-wa-panitia">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </div>
+                <div class="link-content">
+                    <div class="link-header">
+                        <span class="link-title">WhatsApp Panitia PPDB</span>
+                        <span class="link-badge badge-blue">0838-3251-5321</span>
+                    </div>
+                    <p class="link-desc">Konsultasi Pendaftaran & Panduan Calon Siswa Baru</p>
+                </div>
+                <div class="link-arrow">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </div>
+            </a>
+
+            <a href="https://wa.me/6283832515321?text=Halo%20Panitia%20PPDB%20MA%20Bi%27rul%20Ulum%2C%20saya%20ingin%20konsultasi%20dan%20bertanya%20mengenai%20pendaftaran%20siswa%20baru."
+                target="_blank" rel="noopener noreferrer" class="link-card kartu-hover">
+                <div class="link-icon-box icon-wa-grup">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </div>
+                <div class="link-content">
+                    <div class="link-header">
+                        <span class="link-title">WhatsApp Panitia PPDB</span>
+                        <span class="link-badge badge-blue">0838-3251-5321</span>
+                    </div>
+                    <p class="link-desc">Konsultasi Pendaftaran & Panduan Calon Siswa Baru</p>
+                </div>
+                <div class="link-arrow">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </div>
+            </a>
+
+        </section>
+
+        <!-- ==================== 4. GOOGLE MAPS SEKOLAH (TERLIHAT MAPS KECIL) ==================== -->
+        <div class="section-label">
+            <i class="fa-solid fa-location-dot"></i>
+            <span>Lokasi Kampus</span>
+        </div>
+
+        <section class="map-card kartu-hover">
+            <div class="map-card-header">
+                <div class="map-icon">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                </div>
+                <div class="map-info">
+                    <h3 id="map-title" class="map-title">Google Maps MA Bi'rul Ulum Gedangan</h3>
+                    <p id="map-address" class="map-address">
+                        Jl. KH. Sulaiman No. 150, Dusun Gemurung Kidul, Kec. Gedangan, Kab. Sidoarjo, Jawa Timur 61254
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tampilan Peta Kecil (Iframe Interaktif) -->
+            <div class="map-frame-wrapper">
+                <iframe id="map-iframe"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.5678390824705!2d112.74553207400312!3d-7.402222092607809!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7e5b84dfb82f1%3A0x59296112fe971289!2sMA%20Bi&#39;rul%20Ulum%20Gedangan!5e0!3m2!1sid!2sid!4v1776064594348!5m2!1sid!2sid"
+                    title="Peta Lokasi MA Bi'rul Ulum Gedangan" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+
+            <div class="map-card-footer">
+                <div class="map-coords">
+                    <i class="fa-solid fa-crosshairs"></i>
+                    <span>Sidoarjo, Jawa Timur</span>
+                </div>
+                <a id="map-btn"
+                    href="https://www.google.com/maps/place/MA+Bi'rul+Ulum+Gedangan/@-7.4022221,112.7455321,17z"
+                    target="_blank" rel="noopener noreferrer" class="btn-open-map">
+                    <i class="fa-solid fa-diamond-turn-right"></i>
+                    <span>Buka Petunjuk Arah</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- ==================== 5. MEDIA SOSIAL MADRASAH ==================== -->
+        <section class="socials-card kartu-hover">
+            <h4 class="socials-title">Ikuti Media Sosial Kami</h4>
+            <div id="socials-container" class="socials-list">
+                <a href="https://www.instagram.com/ma.birululum_official/" target="_blank" rel="noopener noreferrer"
+                    class="social-btn" aria-label="Instagram" title="Instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="https://www.facebook.com/MadrasahAliyahBirulUlum/" target="_blank" rel="noopener noreferrer"
+                    class="social-btn" aria-label="Facebook" title="Facebook">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+                <a href="https://www.youtube.com/@ma.birululum_official" target="_blank" rel="noopener noreferrer"
+                    class="social-btn" aria-label="YouTube" title="YouTube">
+                    <i class="fa-brands fa-youtube"></i>
+                </a>
+                <a href="https://www.tiktok.com/@ma.birululum" target="_blank" rel="noopener noreferrer"
+                    class="social-btn" aria-label="TikTok" title="TikTok">
+                    <i class="fa-brands fa-tiktok"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- ==================== 6. FOOTER ==================== -->
+        <footer class="footer-text">
+            <p>&copy; <span id="current-year">2026</span> <a href="../index.html">MA Bi'rul Ulum Gedangan</a>. All
+                rights reserved.</p>
+        </footer>
+
+    </main>
+
+    <!-- Toast Notifikasi Salin Link -->
+    <div id="toast-notice" class="toast-notice">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-text">Tautan berhasil disalin!</span>
+    </div>
+
+    <!-- Script JS -->
+    <script src="../link/script.js"></script>
+    <script>
+        const yearSpan = document.getElementById('current-year');
+        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+    </script>
+</body>
+
+</html>

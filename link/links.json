@@ -1,0 +1,127 @@
+{
+  "profile": {
+    "name": "MA Bi'rul Ulum Gedangan",
+    "status": "Madrasah Aliyah Terakreditasi",
+    "description": "Pusat informasi resmi, layanan administrasi, dan sistem penerimaan murid baru (SPMB) MA Bi'rul Ulum Gedangan, Sidoarjo.",
+    "avatar": "https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/icon-mabu_yuwogg.png",
+    "website": "../index.html"
+  },
+  "ppdbConfig": {
+    "active": true,
+    "waves": [
+      {
+        "id": "inden",
+        "name": "Gelombang Inden",
+        "badgeText": "GELOMBANG INDEN",
+        "deadline": "2027-01-11T23:59:59",
+        "label": "Batas Waktu Pendaftaran Inden",
+        "description": "Daftar lebih awal untuk kuota prioritas dan kemudahan administrasi khusus siswa inden."
+      },
+      {
+        "id": "gelombang-1",
+        "name": "Gelombang 1",
+        "badgeText": "GELOMBANG 1",
+        "deadline": "2027-03-31T23:59:59",
+        "label": "Batas Waktu Pendaftaran Gelombang 1",
+        "description": "Pendaftaran gelombang reguler tahap 1. Amankan kursi Anda sebelum kuota terpenuhi."
+      },
+      {
+        "id": "gelombang-2",
+        "name": "Gelombang 2",
+        "badgeText": "GELOMBANG 2",
+        "deadline": "2027-07-11T23:59:59",
+        "label": "Batas Waktu Pendaftaran Gelombang 2",
+        "description": "Gelombang terakhir penerimaan peserta didik baru tahun ajaran ini."
+      }
+    ],
+    "closedState": {
+      "badgeText": "PENDAFTARAN DITUTUP",
+      "title": "Pendaftaran SPMB Gelombang 2 Telah Berakhir",
+      "description": "Pendaftaran reguler resmi ditutup. Untuk informasi pengumuman hasil seleksi, daftar ulang, atau konfirmasi kuota tambahan/susulan, silakan langsung menghubungi Panitia SPMB.",
+      "contactUrl": "https://wa.me/6283832515321?text=Halo%20Panitia%20SPMB%20MA%20Bi%27rul%20Ulum%2C%20apakah%20masih%20tersedia%20informasi%20sisa%20kuota%20atau%20pendaftaran%20susulan%3F",
+      "btnText": "Hubungi Panitia (Cek Info Kuota)"
+    }
+  },
+  "links": [
+    {
+      "id": "gform-ppdb",
+      "title": "Formulir Pendaftaran Online",
+      "subtitle": "Pendaftaran Siswa Baru Cepat & Praktis",
+      "url": "https://forms.gle/mabirululum-SPMB",
+      "icon": "fa-solid fa-file-pen",
+      "badge": "Paling Populer",
+      "featured": false,
+      "btnText": "Isi Formulir Sekarang"
+    },
+    {
+      "id": "drive-brosur",
+      "title": "Brosur SPMB Resmi",
+      "subtitle": "Download Dokumen & Info Rincian Biaya",
+      "url": "https://drive.google.com/file/d/1jH0X-2yWYa816c_l5fRN2RQ6boKgUioU/view?usp=sharing",
+      "icon": "fa-brands fa-google-drive",
+      "badge": "Google Drive",
+      "featured": false,
+      "btnText": "Buka Brosur di Drive"
+    },
+    {
+      "id": "wa-admin",
+      "title": "WhatsApp Admin Madrasah",
+      "subtitle": "0838-3313-3913 (Layanan Informasi Umum)",
+      "url": "https://wa.me/6283833133913?text=Halo%20Admin%20MA%20Bi%27rul%20Ulum%2C%20saya%20ingin%20menanyakan%20informasi%20seputar%20madrasah.",
+      "icon": "fa-brands fa-whatsapp",
+      "badge": "Admin Madrasah",
+      "featured": false,
+      "btnText": "Hubungi via WhatsApp"
+    },
+    {
+      "id": "wa-panitia",
+      "title": "WhatsApp Panitia SPMB",
+      "subtitle": "0838-5683-2842 (Konsultasi Pendaftaran)",
+      "url": "https://wa.me/6283856832842?text=Halo%20Panitia%20SPMB%20MA%20Bi%27rul%20Ulum%2C%20saya%20ingin%20konsultasi%20dan%20bertanya%20mengenai%20pendaftaran%20siswa%20baru.",
+      "icon": "fa-brands fa-whatsapp",
+      "badge": "Panitia SPMB",
+      "featured": false,
+      "btnText": "Chat Panitia SPMB"
+    },
+    {
+      "id": "wa-grup",
+      "title": "WhatsApp Grup SPMB",
+      "subtitle": "Info Seputar Sistem Penerimaan Murid Baru",
+      "url": "https://chat.whatsapp.com/HC8XnzXKdOKAE1SDC8y83J",
+      "icon": "fa-brands fa-whatsapp",
+      "badge": "Grup SPMB",
+      "featured": false,
+      "btnText": "Join Grup SPMB"
+    }
+  ],
+  "map": {
+    "title": "Lokasi MA Bi'rul Ulum",
+    "address": "Jl. KH. Sulaiman No. 150, Dusun Gemurung Kidul, Gemurung, Kec. Gedangan, Kabupaten Sidoarjo, Jawa Timur 61254",
+    "embedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.5678868079094!2d112.74553207454791!3d-7.402216772886082!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7e5b84dfb82f1%3A0x59296112fe971289!2sMA%20Bi%27rul%20Ulum%20Gedangan!5e0!3m2!1sid!2sid!4v1794404333693!5m2!1sid!2sid",
+    "mapsUrl": "https://www.google.com/maps/place/MA+Bi'rul+Ulum+Gedangan/@-7.4022168,112.7455321,17z/data=!3m1!4b1!4m6!3m5!1s0x2dd7e5b84dfb82f1:0x59296112fe971289!8m2!3d-7.4022221!4d112.748107!16s%2Fg%2F11l76w696z?entry=ttu&g_ep=EgoyMDI2MTEwOC4wIKXMDSoASAFQAw%3D%3D",
+    "icon": "fa-solid fa-map-location-dot",
+    "btnText": "Buka Rute di Google Maps"
+  },
+  "socials": [
+    {
+      "name": "Instagram",
+      "url": "https://www.instagram.com/ma.birululum_official/",
+      "icon": "fa-brands fa-instagram"
+    },
+    {
+      "name": "Facebook",
+      "url": "https://www.facebook.com/MadrasahAliyahBirulUlum/",
+      "icon": "fa-brands fa-facebook-f"
+    },
+    {
+      "name": "YouTube",
+      "url": "https://www.youtube.com/@ma.birululum_official",
+      "icon": "fa-brands fa-youtube"
+    },
+    {
+      "name": "TikTok",
+      "url": "https://www.tiktok.com/@ma.birululum",
+      "icon": "fa-brands fa-tiktok"
+    }
+  ]
+}

@@ -1,0 +1,978 @@
+/* ==========================================================================
+   MICROSITE KUMPULAN LINK - MA BI'RUL ULUM GEDANGAN
+   Tema: Solid Biru Akademik (#1e3a8a) - Tanpa Gradasi
+   Kontras Tinggi, Modern, Mobile-First
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    /* Identitas Warna Solid Biru */
+    --primary-blue: #1e3a8a;
+    /* Biru tua akademik solid */
+    --navy-dark: #172554;
+    /* Navy gelap untuk kontras elemen */
+    --navy-deep: #0f172a;
+    /* Slate navy terdalam */
+    --secondary-blue: #2563eb;
+    /* Biru royal */
+    --accent-blue: #3b82f6;
+    /* Biru terang */
+    --light-blue: #eff6ff;
+    /* Biru sangat muda */
+    --border-blue: #bfdbfe;
+    /* Border biru lembut */
+    --hover-blue: #1d4ed8;
+    /* Biru hover */
+
+    /* Warna Aksen & Badge */
+    --accent-yellow: #facc15;
+    /* Kuning khas MABU (High Contrast) */
+    --yellow-dark: #ca8a04;
+    --wa-green: #16a34a;
+    /* Hijau WhatsApp */
+    --wa-green-light: #dcfce7;
+
+    /* Warna Teks & Kartu */
+    --card-bg: #ffffff;
+    /* Putih bersih agar kontras dengan background biru */
+    --text-primary: #0f172a;
+    /* Teks gelap tajam di dalam kartu putih */
+    --text-secondary: #334155;
+    /* Teks sekunder jelas */
+    --text-muted: #64748b;
+    /* Slate */
+
+    /* Teks Khusus di Luar Kartu (Langsung di atas Background Biru) */
+    --text-on-blue: #ffffff;
+    --text-on-blue-soft: #dbeafe;
+    --text-on-blue-muted: #bfdbfe;
+
+    /* Shadows */
+    --shadow-soft: 0 6px 20px rgba(15, 23, 42, 0.12);
+    --shadow-hover: 0 14px 28px rgba(15, 23, 42, 0.22);
+}
+
+/* Reset & Dasar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Background Biru Bervariasi & Bertekstur (Tanpa Gradasi Putih, Bukan Solid) */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--navy-dark);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow-x: hidden;
+    padding: 1.75rem 1rem 3.5rem 1rem;
+}
+
+/* Ambient Glow Biru Bervariasi Full-Screen (100% Nuansa Biru, Tanpa Gradasi Putih) */
+.bg-ambient {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 50% 12%, rgba(37, 99, 235, 0.5) 0%, transparent 55%),
+        radial-gradient(circle at 12% 45%, rgba(29, 78, 216, 0.38) 0%, transparent 45%),
+        radial-gradient(circle at 88% 80%, rgba(30, 64, 175, 0.42) 0%, transparent 50%),
+        linear-gradient(180deg, #1e3a8a 0%, #172554 45%, #0f172a 100%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Pola Tekstur Titik-Titik Halus Khas Desain Awal */
+.bg-pattern {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1.2px, transparent 1.2px);
+    background-size: 22px 22px;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Kontainer Utama Microsite */
+.microsite-container {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 540px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* Animasi Muncul Halus */
+.fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Efek Transisi Kartu */
+.kartu-hover {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.kartu-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* ==========================================================================
+   1. KARTU PROFIL UTAMA
+   ========================================================================== */
+.profile-card {
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 2rem 1.5rem 1.5rem 1.5rem;
+    text-align: center;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+    position: relative;
+}
+
+.avatar-wrapper {
+    position: relative;
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 1rem auto;
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: contain;
+    background: #ffffff;
+    border: 3.5px solid #ffffff;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.25);
+    padding: 4px;
+}
+
+.verified-badge {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 26px;
+    height: 26px;
+    background: var(--secondary-blue);
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    border: 2.5px solid #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.school-name {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    line-height: 1.3;
+    margin-bottom: 0.35rem;
+}
+
+.school-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: #dbeafe;
+    color: var(--primary-blue);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.85rem;
+    border-radius: 9999px;
+    margin-bottom: 0.75rem;
+}
+
+.school-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #16a34a;
+    display: inline-block;
+    box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.25);
+}
+
+.school-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    max-width: 440px;
+    margin: 0 auto 1.15rem auto;
+    line-height: 1.5;
+}
+
+/* Quick Actions Button Bar */
+.profile-actions {
+    display: flex;
+    gap: 0.65rem;
+    justify-content: center;
+    padding-top: 0.95rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.btn-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 1.15rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-pill-primary {
+    background: var(--primary-blue);
+    color: #ffffff;
+    box-shadow: 0 3px 10px rgba(30, 58, 138, 0.25);
+}
+
+.btn-pill-primary:hover {
+    background: var(--navy-dark);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.btn-pill-secondary {
+    background: var(--light-blue);
+    color: var(--primary-blue);
+    border: 1.5px solid var(--border-blue);
+}
+
+.btn-pill-secondary:hover {
+    background: #dbeafe;
+    color: var(--navy-dark);
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   2. BANNER & HITUNG MUNDUR 3 GELOMBANG PPDB
+   ========================================================================== */
+.countdown-card {
+    background: var(--navy-dark);
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    border-radius: 22px;
+    padding: 1.35rem 1.25rem;
+    color: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Header Hitung Mundur */
+.countdown-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.wave-badge-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.pulse-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent-yellow);
+    box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.7);
+    animation: pulseGlow 1.8s infinite;
+}
+
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.8);
+    }
+
+    70% {
+        box-shadow: 0 0 0 8px rgba(250, 204, 21, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(250, 204, 21, 0);
+    }
+}
+
+.wave-badge {
+    background: var(--accent-yellow);
+    color: #0f172a;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 0.22rem 0.65rem;
+    border-radius: 8px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.wave-year-tag {
+    font-size: 0.72rem;
+    color: var(--text-on-blue-muted);
+    font-weight: 500;
+}
+
+.countdown-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.35;
+    margin-bottom: 0.25rem;
+}
+
+.countdown-desc {
+    font-size: 0.78rem;
+    color: var(--text-on-blue-soft);
+    line-height: 1.45;
+    margin-bottom: 1rem;
+}
+
+.highlight-date {
+    color: var(--accent-yellow);
+    font-weight: 700;
+}
+
+/* Grid Angka Hitung Mundur */
+.countdown-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1.15rem;
+}
+
+.time-box {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 0.65rem 0.25rem;
+    text-align: center;
+    backdrop-filter: blur(4px);
+}
+
+.time-number {
+    display: block;
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.time-number-accent {
+    color: var(--accent-yellow);
+}
+
+.time-label {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--text-on-blue-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.35rem;
+}
+
+/* Indikator 3 Tahap Gelombang (Visual Stepper) */
+.wave-stepper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.85rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    gap: 0.4rem;
+}
+
+.wave-step {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-on-blue-muted);
+    transition: all 0.3s ease;
+}
+
+.step-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+}
+
+.wave-step.active {
+    color: var(--accent-yellow);
+    font-weight: 700;
+}
+
+.wave-step.active .step-circle {
+    background: var(--accent-yellow);
+    color: #0f172a;
+    box-shadow: 0 0 8px rgba(250, 204, 21, 0.6);
+}
+
+.wave-step.passed {
+    color: #86efac;
+}
+
+.wave-step.passed .step-circle {
+    background: #22c55e;
+    color: #ffffff;
+}
+
+.step-divider {
+    flex: 1;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* TAMPILAN KETIKA MELEWATI GELOMBANG 2 (PENDAFTARAN DITUTUP) */
+.closed-state-card {
+    text-align: center;
+    padding: 0.75rem 0.5rem;
+}
+
+.closed-icon-badge {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(239, 68, 68, 0.2);
+    border: 2px solid #ef4444;
+    color: #fca5a5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin: 0 auto 0.75rem auto;
+}
+
+.closed-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.35rem;
+}
+
+.closed-desc {
+    font-size: 0.8rem;
+    color: var(--text-on-blue-soft);
+    line-height: 1.5;
+    margin-bottom: 1.15rem;
+}
+
+.btn-closed-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: var(--wa-green);
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 0.65rem 1.25rem;
+    border-radius: 12px;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(22, 163, 74, 0.4);
+    transition: all 0.2s ease;
+}
+
+.btn-closed-cta:hover {
+    background: #15803d;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(22, 163, 74, 0.5);
+}
+
+/* ==========================================================================
+   3. SECTION LABELS (DI ATAS BACKGROUND SOLID BIRU)
+   ========================================================================== */
+.section-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #ffffff;
+    /* Kontras tinggi putih di atas solid biru */
+    margin: 0.5rem 0.25rem 0.15rem 0.25rem;
+}
+
+.section-label i {
+    color: var(--accent-yellow);
+    /* Aksen kuning cerah */
+}
+
+.section-label::after {
+    content: '';
+    flex: 1;
+    height: 1.5px;
+    background: rgba(255, 255, 255, 0.35);
+    /* Garis kontras putih lembut */
+}
+
+/* ==========================================================================
+   4. DAFTAR LINK UTAMA
+   ========================================================================== */
+.links-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.95rem;
+}
+
+/* Kartu Link Putih Bersih di atas Solid Biru */
+.link-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 1.05rem 1.2rem;
+    text-decoration: none;
+    color: inherit;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+    position: relative;
+    overflow: hidden;
+}
+
+.link-card:hover {
+    border-color: var(--accent-blue);
+}
+
+/* Featured Card (Google Form PPDB) */
+.link-card-featured {
+    background: #ffffff;
+    border: 2.5px solid var(--accent-blue);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+}
+
+.link-card-featured::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--primary-blue), var(--secondary-blue));
+}
+
+/* Kotak Ikon */
+.link-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+}
+
+.link-card:hover .link-icon-box {
+    transform: scale(1.08) rotate(-4deg);
+}
+
+.icon-blue {
+    background: #dbeafe;
+    color: var(--primary-blue);
+}
+
+.icon-drive {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.icon-wa-admin {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.icon-wa-panitia {
+    background: #e0e7ff;
+    color: #4338ca;
+}
+
+.icon-wa-grup {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+/* Teks Link di Dalam Kartu Putih */
+.link-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.link-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.15rem;
+    flex-wrap: wrap;
+}
+
+.link-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    line-height: 1.35;
+    word-break: break-word;
+}
+
+.link-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.15rem 0.55rem;
+    border-radius: 9999px;
+    letter-spacing: 0.02em;
+}
+
+.badge-populer {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.badge-drive {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.badge-wa {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.badge-grup {
+    background: #dcfce7;
+    color: #9eca38;
+}
+
+.badge-blue {
+    background: #dbeafe;
+    color: var(--primary-blue);
+}
+
+.link-desc {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Panah Arrow Link */
+.link-arrow {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: #f1f5f9;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    transition: all 0.25s ease;
+}
+
+.link-card:hover .link-arrow {
+    background: var(--primary-blue);
+    color: #ffffff;
+    transform: translateX(3px);
+}
+
+/* ==========================================================================
+   5. KARTU GOOGLE MAPS SEKOLAH (PETA KECIL)
+   ========================================================================== */
+.map-card {
+    background: var(--card-bg);
+    border-radius: 22px;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.22);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.map-card-header {
+    padding: 1.05rem 1.2rem 0.8rem 1.2rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+}
+
+.map-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #dbeafe;
+    color: var(--primary-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.map-info {
+    flex: 1;
+}
+
+.map-title {
+    font-size: 0.96rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    line-height: 1.3;
+}
+
+.map-address {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin-top: 0.25rem;
+}
+
+/* Tampilan Peta Mini */
+.map-frame-wrapper {
+    width: 100%;
+    height: 185px;
+    position: relative;
+    background: #e2e8f0;
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.map-frame-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+
+.map-card-footer {
+    padding: 0.8rem 1.2rem;
+    background: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.map-coords {
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: 500;
+}
+
+.btn-open-map {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: var(--primary-blue);
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-open-map:hover {
+    background: var(--navy-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+}
+
+/* ==========================================================================
+   6. MEDIA SOSIAL & FOOTER
+   ========================================================================== */
+.socials-card {
+    text-align: center;
+    padding: 1.25rem 1rem;
+    background: var(--card-bg);
+    border-radius: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.socials-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 0.85rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.socials-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.85rem;
+}
+
+.social-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--light-blue);
+    color: var(--primary-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    border: 1.5px solid var(--border-blue);
+}
+
+.social-btn:hover {
+    background: var(--primary-blue);
+    color: #ffffff;
+    transform: translateY(-3px) scale(1.08);
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.25);
+}
+
+/* Footer Hak Cipta di atas Solid Biru */
+.footer-text {
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--text-on-blue-soft);
+    /* Sangat kontras dan jelas di atas solid biru */
+    margin-top: 0.6rem;
+}
+
+.footer-text a {
+    color: var(--accent-yellow);
+    /* Kuning cerah khas MABU */
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.footer-text a:hover {
+    text-decoration: underline;
+}
+
+/* Toast Notifikasi (Saat Salin Tautan) */
+.toast-notice {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #ffffff;
+    color: var(--primary-blue);
+    border: 2px solid var(--accent-blue);
+    padding: 0.75rem 1.45rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    z-index: 1000;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+}
+
+.toast-notice.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.toast-notice i {
+    color: #16a34a;
+}
+
+/* Responsif Mobile */
+@media (max-width: 480px) {
+    body {
+        padding: 1.25rem 0.85rem 3rem 0.85rem;
+    }
+
+    .school-name {
+        font-size: 1.2rem;
+    }
+
+    .countdown-card {
+        padding: 1.15rem 1rem;
+    }
+
+    .time-number {
+        font-size: 1.4rem;
+    }
+
+    .link-card {
+        padding: 0.9rem 1rem;
+        gap: 0.8rem;
+    }
+
+    .link-icon-box {
+        width: 42px;
+        height: 42px;
+        font-size: 1.2rem;
+    }
+
+    .link-title {
+        font-size: 0.88rem;
+    }
+
+    .link-desc {
+        font-size: 0.76rem;
+    }
+
+    .map-frame-wrapper {
+        height: 165px;
+    }
+}
