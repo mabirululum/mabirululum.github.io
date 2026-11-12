@@ -13,7 +13,7 @@
         "id": "inden",
         "name": "Gelombang Inden",
         "badgeText": "GELOMBANG INDEN",
-        "deadline": "2027-01-11T23:59:59",
+        "deadline": "2026-12-31T23:59:59",
         "label": "Batas Waktu Pendaftaran Inden",
         "description": "Daftar lebih awal untuk kuota prioritas dan kemudahan administrasi khusus siswa inden."
       },
@@ -47,7 +47,7 @@
       "id": "gform-ppdb",
       "title": "Formulir Pendaftaran Online",
       "subtitle": "Pendaftaran Siswa Baru Cepat & Praktis",
-      "url": "https://forms.gle/mabirululum-SPMB",
+      "url": "https://forms.gle/EquEgvF2Mr37ve5Q6",
       "icon": "fa-solid fa-file-pen",
       "badge": "Paling Populer",
       "featured": false,
