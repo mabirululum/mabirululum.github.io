@@ -4,6 +4,23 @@
 // ==========================================
 const changelogData = [
   {
+		version: "2.4.1",	date: "19 November 2026",
+		items:
+    [
+      { type: "improve", text: "TTD dan Nama Dinamis" },
+      { type: "improve", text: "Optimasi Render Script Loaded" },
+		]
+	},
+  {
+		version: "2.4.0",	date: "22 September 2026",
+		items:
+    [
+      { type: "new", text: "Manajemen Honorarium Sumatif" },
+      { type: "new", text: "Manajemen Honorarium Ujian" },
+      { type: "new", text: "Manajemen Honorarium Panitia" },
+		]
+	},
+  {
 		version: "2.3.0",	date: "17 September 2026",
 		items:
     [

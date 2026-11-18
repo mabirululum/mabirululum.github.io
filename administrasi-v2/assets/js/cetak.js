@@ -268,60 +268,82 @@ function setLaporanTab(tabName) {
     const btnSurat = document.getElementById('tab-laporan-surat');
     const btnOps = document.getElementById('tab-laporan-operasional');
     const btnNonOps = document.getElementById('tab-laporan-nonops');
+    const btnBukuBesar = document.getElementById('tab-laporan-bukubesar');
 
     const contentRekap = document.getElementById('laporan-content-rekap');
     const contentSurat = document.getElementById('laporan-content-surat');
     const contentOps = document.getElementById('laporan-content-operasional');
     const contentNonOps = document.getElementById('laporan-content-nonops');
+    const contentBukuBesar = document.getElementById('laporan-content-bukubesar');
 
     // Desain class untuk tombol Aktif dan Tidak Aktif
     const classAktif = "pb-3 text-sm font-bold border-b-2 border-emerald-600 text-emerald-600 transition-colors";
     const classNonAktif = "pb-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors";
 
-    if(tabName === 'rekap') {
-        btnRekap.className = classAktif;
-        btnSurat.className = classNonAktif;
-        btnOps.className = classNonAktif;
-        btnNonOps.className = classNonAktif;
+    // if(tabName === 'rekap') {
+    //     btnRekap.className = classAktif;
+    //     btnSurat.className = classNonAktif;
+    //     btnOps.className = classNonAktif;
+    //     btnNonOps.className = classNonAktif;
 
-        contentRekap.classList.remove('hidden'); contentRekap.classList.add('flex');
-        contentSurat.classList.add('hidden'); contentSurat.classList.remove('flex');
-        contentOps.classList.add('hidden'); contentOps.classList.remove('flex');
-        contentNonOps.classList.add('hidden'); contentOps.classList.remove('flex');
-    } 
-    else if(tabName === 'surat') {
-        btnSurat.className = classAktif;
-        btnRekap.className = classNonAktif;
-        btnOps.className = classNonAktif;
-        btnNonOps.className = classNonAktif;
+    //     contentRekap.classList.remove('hidden'); contentRekap.classList.add('flex');
+    //     contentSurat.classList.add('hidden'); contentSurat.classList.remove('flex');
+    //     contentOps.classList.add('hidden'); contentOps.classList.remove('flex');
+    //     contentNonOps.classList.add('hidden'); contentOps.classList.remove('flex');
+    // } 
+    // else if(tabName === 'surat') {
+    //     btnSurat.className = classAktif;
+    //     btnRekap.className = classNonAktif;
+    //     btnOps.className = classNonAktif;
+    //     btnNonOps.className = classNonAktif;
 
-        contentSurat.classList.remove('hidden'); contentSurat.classList.add('flex');
-        contentRekap.classList.add('hidden'); contentRekap.classList.remove('flex');
-        contentOps.classList.add('hidden'); contentOps.classList.remove('flex');
-        contentNonOps.classList.add('hidden'); contentOps.classList.remove('flex');
-    } 
-    else if(tabName === 'operasional') {
-        btnOps.className = classAktif;
-        btnRekap.className = classNonAktif;
-        btnSurat.className = classNonAktif;
-        btnNonOps.className = classNonAktif;
+    //     contentSurat.classList.remove('hidden'); contentSurat.classList.add('flex');
+    //     contentRekap.classList.add('hidden'); contentRekap.classList.remove('flex');
+    //     contentOps.classList.add('hidden'); contentOps.classList.remove('flex');
+    //     contentNonOps.classList.add('hidden'); contentOps.classList.remove('flex');
+    // } 
+    // else if(tabName === 'operasional') {
+    //     btnOps.className = classAktif;
+    //     btnRekap.className = classNonAktif;
+    //     btnSurat.className = classNonAktif;
+    //     btnNonOps.className = classNonAktif;
 
-        contentOps.classList.remove('hidden'); contentOps.classList.add('flex');
-        contentRekap.classList.add('hidden'); contentRekap.classList.remove('flex');
-        contentSurat.classList.add('hidden'); contentSurat.classList.remove('flex');
-        contentNonOps.classList.add('hidden'); contentOps.classList.remove('flex');
-    }
-    else if(tabName === 'nonops') {
-        btnNonOps.className = classAktif;
-        btnOps.className = classNonAktif;
-        btnRekap.className = classNonAktif;
-        btnSurat.className = classNonAktif;
+    //     contentOps.classList.remove('hidden'); contentOps.classList.add('flex');
+    //     contentRekap.classList.add('hidden'); contentRekap.classList.remove('flex');
+    //     contentSurat.classList.add('hidden'); contentSurat.classList.remove('flex');
+    //     contentNonOps.classList.add('hidden'); contentOps.classList.remove('flex');
+    // }
+    // else if(tabName === 'nonops') {
+    //     btnNonOps.className = classAktif;
+    //     btnOps.className = classNonAktif;
+    //     btnRekap.className = classNonAktif;
+    //     btnSurat.className = classNonAktif;
 
-        contentNonOps.classList.remove('hidden'); contentOps.classList.remove('flex');
-        contentOps.classList.add('hidden'); contentOps.classList.add('flex');
-        contentRekap.classList.add('hidden'); contentRekap.classList.remove('flex');
-        contentSurat.classList.add('hidden'); contentSurat.classList.remove('flex');
-    }
+    //     contentNonOps.classList.remove('hidden'); contentOps.classList.remove('flex');
+    //     contentOps.classList.add('hidden'); contentOps.classList.add('flex');
+    //     contentRekap.classList.add('hidden'); contentRekap.classList.remove('flex');
+    //     contentSurat.classList.add('hidden'); contentSurat.classList.remove('flex');
+    // }
+
+    // Set semua tombol jadi NonAktif dan semua konten jadi hidden dulu
+    const allBtns = [ btnRekap, btnSurat, btnOps, btnNonOps, btnBukuBesar ];
+    const allContents = [ contentRekap, contentSurat, contentOps, contentNonOps, contentBukuBesar ];
+    
+    allBtns.forEach(btn => btn && (btn.className = classNonAktif));
+    allContents.forEach(content => {
+        if(content) {
+            content.classList.add('hidden');
+            content.classList.remove('flex'); }
+    });
+
+    // Aktifkan yang dipilih
+    const activeBtn = document.getElementById(`tab-laporan-${tabName}`);
+    const activeContent = document.getElementById(`laporan-content-${tabName}`);
+    
+    if (activeBtn) activeBtn.className = classAktif;
+    if (activeContent) { 
+        activeContent.classList.remove('hidden');
+        activeContent.classList.add('flex'); }
 }
 
 // function generateLaporanCetak() {
@@ -929,6 +951,20 @@ function buildSuratHTML(siswa, filteredSurat, keperluan, index, isLast = true) {
                 <td style="width: 50%;">Mengetahui,<br>Kepala Madrasah,<br><br><br><br><b><u>Yusuf Muzaidi, S.Pd.</u></b></td>
             </tr>
         </table>
+        ${(() => {
+            const bendaharaInfo = typeof getInfoBendahara === 'function' ? getInfoBendahara() : { nama: 'Ririn Jauharin, S.Ak.', urlTtd: '' };
+            const ttdBendaharaHtml = bendaharaInfo.urlTtd
+                ? `<div style="height: 60px; display: flex; align-items: center; justify-content: center; margin: 4px 0;"><img src="${bendaharaInfo.urlTtd}" style="max-height: 55px; max-width: 140px; object-fit: contain;" alt="TTD Bendahara"></div>`
+                : `<br><br><br><br>`;
+            return `
+            <table style="width: 100%; margin-top: 15px; text-align: center; page-break-inside: avoid;">
+                <tr>
+                    <td style="width: 50%;"><br>Bendahara Madrasah,<br>${ttdBendaharaHtml}<b><u>${bendaharaInfo.nama}</u></b></td>
+                    <td style="width: 50%;">Mengetahui,<br>Kepala Madrasah,<br><br><br><br><b><u>Yusuf Muzaidi, S.Pd.</u></b></td>
+                </tr>
+            </table>
+            `;
+        })()}
     </div>
     `;
 }
@@ -1040,7 +1076,28 @@ function cetakKwitansi(idTransaksi) {
     document.getElementById('p-grandtotal').innerText = formatRp(trx.nominal);
     document.getElementById('p-terbilang').innerText = terbilang(trx.nominal);
     document.getElementById('p-tgl-cetak').innerText = getNowDateIndo();
+
+    // TTD & Petugas Penerima Dinamis
+    const adminNow = typeof getCurrentAdmin === 'function' ? getCurrentAdmin() : null;
+    const namaPetugas = adminNow?.nama || 'Petugas Administrasi';
+    const ttdPetugas = adminNow?.url_ttd || adminNow?.urlTtd || '';
+
+    const elPetugas = document.getElementById('p-kwitansi-petugas');
+    if (elPetugas) elPetugas.innerText = namaPetugas;
+
+    const elTtd = document.getElementById('p-kwitansi-ttd');
+    if (elTtd) {
+        if (ttdPetugas) {
+            elTtd.src = ttdPetugas;
+            elTtd.classList.remove('hidden');
+        } else {
+            elTtd.src = '';
+            elTtd.classList.add('hidden');
+        }
+    }
+
     window.print();
+    resetPencarianPemasukan();
 }
 
 // ==========================================
@@ -1173,9 +1230,11 @@ function generateFileExcel(labelPeriode, tahunAjaran, tglCetak, totalPem, totalP
     addRow(["", "", "", ""]);
     
     // Nama Terang (Merge kolom A-B untuk Kepala, C-D untuk Bendahara)
+    const namaBendahara1 = typeof getInfoBendahara === 'function' ? getInfoBendahara().nama : 'Ririn Jauharin, S.Ak.';
     addRow([
         { v: "       Yusuf Muzaidi, S.Pd.", s: styleTTDBold }, "", 
-        { v: "                                                  Ririn Jauharin, S.Ak.", s: styleTTDBold }, ""
+        // { v: "                                                  Ririn Jauharin, S.Ak.", s: styleTTDBold }, ""
+        { v: `                                                  ${namaBendahara1}`, s: styleTTDBold }, ""
     ]);
     mergeRow(r-1, r-1, 0, 1);
     mergeRow(r-1, r-1, 2, 3);
@@ -1653,9 +1712,11 @@ function generateFileNonOpsExcel(kategori, tahunAjaran, tglCetak, dataPengeluara
     addRow(["", "", "", "", ""]);
     addRow(["", "", "", "", ""]);
     
+    const namaBendahara2 = typeof getInfoBendahara === 'function' ? getInfoBendahara().nama : 'Ririn Jauharin, S.Ak.';
     addRow([
         { v: "Yusuf Muzaidi, S.Pd.", s: styleTTDBold }, "", "", 
-        { v: "                                              Ririn Jauharin, S.Ak.", s: styleTTDBold }, ""
+        // { v: "                                              Ririn Jauharin, S.Ak.", s: styleTTDBold }, ""
+        { v: `                                              ${namaBendahara2}`, s: styleTTDBold }, ""
     ]);
     mergeRow(r-1, r-1, 0, 1);
     mergeRow(r-1, r-1, 3, 4);
@@ -1753,60 +1814,308 @@ async function unduhLaporanNonOpsExcel() {
         btn.innerHTML = originalBtnHtml;
     }
 }
-
 // ==========================================
-// KENDALI MODAL NOTIFIKASI
+// FUNGSI 1: MEMBANGUN EXCEL 3 SHEET (FIXED & AMAN)
 // ==========================================
-function tampilkanModalNotif(judul, pesan, tipe) {
-    const modal = document.getElementById('modal-notifikasi');
-    const iconContainer = document.getElementById('notif-icon-container');
-    const icon = document.getElementById('notif-icon');
-    const title = document.getElementById('notif-title');
-    const message = document.getElementById('notif-message');
-    const btn = document.getElementById('notif-btn');
+function generateBukuBesarExcel(tahunAjaran, tglCetak, dataPemSiswa, dataPemBantuan, dataPengOps, dataPengNonOps) {
+    const fontNormal = { name: "Times New Roman", sz: 11 };
+    const fontBold = { name: "Times New Roman", sz: 11, bold: true };
+    const formatUang = '_-[$Rp-id-ID]* #,##0_-;-[$Rp-id-ID]* #,##0_-;_-[$Rp-id-ID]* "-"_-;_-@_-'; 
+    const borderAll = { top: { style: "thin" }, bottom: { style: "thin" }, left: { style: "thin" }, right: { style: "thin" } };
+    const fillHijau = { fgColor: { rgb: "C6E0B4" } }; 
 
-    title.innerText = judul;
-    message.innerText = pesan;
-    btn.classList.add('hidden'); // Sembunyikan tombol secara default
+    const stJudul = { font: fontBold, alignment: { horizontal: "center", vertical: "center" } };
+    const stSubJudul = { font: fontBold, alignment: { horizontal: "left", vertical: "center" } };
+    const stHeader = { font: fontBold, alignment: { horizontal: "center", vertical: "center" }, border: borderAll, fill: fillHijau };
+    const stTengah = { font: fontNormal, alignment: { horizontal: "center", vertical: "center" }, border: borderAll };
+    const stKiri = { font: fontNormal, alignment: { vertical: "center" }, border: borderAll };
+    const stUang = { font: fontNormal, alignment: { vertical: "center" }, border: borderAll, numFmt: formatUang };
+    const stUangTebal = { font: fontBold, alignment: { vertical: "center" }, border: borderAll, numFmt: formatUang, fill: fillHijau };
+    const stLabelTebal = { font: fontBold, alignment: { horizontal: "center", vertical: "center" }, border: borderAll, fill: fillHijau };
 
-    // Atur Tema Berdasarkan Tipe
-    if (tipe === 'loading') {
-        iconContainer.className = 'mx-auto flex items-center justify-center h-16 w-16 rounded-full mb-4 bg-blue-100 text-blue-600';
-        icon.className = 'ph ph-spinner animate-spin text-4xl';
-    } else if (tipe === 'warning') {
-        iconContainer.className = 'mx-auto flex items-center justify-center h-16 w-16 rounded-full mb-4 bg-yellow-100 text-yellow-600';
-        icon.className = 'ph ph-warning-circle text-4xl';
-        btn.className = 'w-full py-2.5 rounded-lg font-medium text-white transition-colors bg-yellow-500 hover:bg-yellow-600 block';
-        btn.innerText = 'Mengerti';
-    } else if (tipe === 'error') {
-        iconContainer.className = 'mx-auto flex items-center justify-center h-16 w-16 rounded-full mb-4 bg-red-100 text-red-600';
-        icon.className = 'ph ph-x-circle text-4xl';
-        btn.className = 'w-full py-2.5 rounded-lg font-medium text-white transition-colors bg-red-500 hover:bg-red-600 block';
-        btn.innerText = 'Tutup';
-    } else if (tipe === 'success') {
-        iconContainer.className = 'mx-auto flex items-center justify-center h-16 w-16 rounded-full mb-4 bg-emerald-100 text-emerald-600';
-        icon.className = 'ph ph-check-circle text-4xl';
-        btn.className = 'w-full py-2.5 rounded-lg font-medium text-white transition-colors bg-emerald-500 hover:bg-emerald-600 block';
-        btn.innerText = 'Selesai';
+    // Kalkulasi Total
+    const sumNominal = (arr) => arr.reduce((sum, item) => sum + (Number(item.nominal) || Number(item.jumlah) || 0), 0);
+    const totPemSiswa = sumNominal(dataPemSiswa);
+    const totPemBantuan = sumNominal(dataPemBantuan);
+    const totPemOps = totPemSiswa + totPemBantuan;
+    const totPengOps = sumNominal(dataPengOps);
+    const totPengNonOps = sumNominal(dataPengNonOps);
+    const saldoOps = totPemOps - totPengOps;
+    const sisaKasBersih = saldoOps - totPengNonOps;
+
+    const wb = XLSX.utils.book_new();
+
+    // 🛡️ FITUR BARU: Fungsi Bantuan Pencetak Sheet (Anti-Error Merge)
+    function createSheet(sheetName, colWidths, builderFn) {
+        const excelData = [];
+        const merges = [];
+        let r = 0;
+
+        const addRow = (rowData) => { excelData.push(rowData); r++; };
+        const mergeRow = (startRow, endRow, startCol, endCol) => {
+            merges.push({ s: { r: startRow, c: startCol }, e: { r: endRow, c: endCol } });
+        };
+        const getRow = () => r;
+
+        // Jalankan perintah merakit isi dari masing-masing sheet
+        builderFn(addRow, mergeRow, getRow);
+
+        const ws = XLSX.utils.aoa_to_sheet(excelData);
+        ws['!merges'] = merges;
+        ws['!cols'] = colWidths;
+        ws['!pageSetup'] = { paperSize: 9, orientation: 'portrait', fitToWidth: 1, fitToHeight: 0, horizontalCentered: true };
+        ws['!margins'] = { left: 2/2.54, right: 1/2.54, top: 1.5/2.54, bottom: 1.5/2.54, header: 0.3, footer: 0.3 };
+        
+        XLSX.utils.book_append_sheet(wb, ws, sheetName);
     }
 
-    // Tampilkan Modal dengan Animasi
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    setTimeout(() => {
-        modal.classList.remove('opacity-0');
-        modal.querySelector('div').classList.remove('scale-95');
-        modal.querySelector('div').classList.add('scale-100');
-    }, 10);
+    // Fungsi Bantuan Pencetak Tanda Tangan (Tanpa Merge, Sejajar Kolom)
+    // Fungsi Bantuan Pencetak Tanda Tangan (Dinamis & Sejajar Kolom)
+    const cetakTTD = (addRow, colKepala, colBendahara) => {
+        const maxCol = Math.max(colKepala, colBendahara) + 1;
+        const emptyRow = () => new Array(maxCol).fill("");
+
+        addRow(emptyRow());
+        
+        let rowTgl = emptyRow();
+        rowTgl[colBendahara] = { v: `Gedangan, ${tglCetak}`, s: { font: fontNormal } };
+        addRow(rowTgl);
+        
+        let rowJabatan = emptyRow();
+        rowJabatan[colKepala] = { v: "Kepala MA Bi'rul Ulum", s: { font: fontNormal } };
+        rowJabatan[colBendahara] = { v: "Bendahara MA Bi'rul Ulum", s: { font: fontNormal } };
+        addRow(rowJabatan);
+        
+        addRow(emptyRow()); addRow(emptyRow()); addRow(emptyRow());
+        
+        const namaBendaharaGlobal = typeof getInfoBendahara === 'function' ? getInfoBendahara().nama : 'Ririn Jauharin, S.Ak.';
+        let rowNama = emptyRow();
+        rowNama[colKepala] = { v: "Yusuf Muzaidi, S.Pd.", s: { font: fontBold } };
+        rowNama[colBendahara] = { v: "Ririn Jauharin, S.Ak.", s: { font: fontBold } };
+        rowNama[colBendahara] = { v: namaBendaharaGlobal, s: { font: fontBold } };
+        addRow(rowNama);
+    };
+
+    // Fungsi TTD khusus Sheet 2 & 3 (4 Kolom dengan Merge A-B dan C-D)
+    const cetakTTD_4Col = (addRow, mergeRow, getRow) => {
+        const stPinggirTTD = { font: fontNormal, alignment: { vertical: "center" } };
+        const stPinggirTebalTTD = { font: fontBold, alignment: { vertical: "center" } };
+        const namaBendaharaGlobal = typeof getInfoBendahara === 'function' ? getInfoBendahara().nama : 'Ririn Jauharin, S.Ak.';
+        
+        addRow(["", "", "", ""]);
+        
+        let currR = getRow();
+        addRow(["", "", { v: `                                                                    Gedangan, ${tglCetak}`, s: stPinggirTTD }, ""]);
+        mergeRow(currR, currR, 2, 3); // Merge Kolom C & D untuk Tanggal
+        
+        currR = getRow();
+        addRow([{ v: "     Kepala MA Bi'rul Ulum", s: stPinggirTTD }, "", { v: "                                                                    Bendahara MA Bi'rul Ulum", s: stPinggirTTD }, ""]);
+        mergeRow(currR, currR, 0, 1); // Merge Kolom A & B (Kepala Sekolah)
+        mergeRow(currR, currR, 2, 3); // Merge Kolom C & D (Bendahara)
+        
+        addRow(["", "", "", ""]); addRow(["", "", "", ""]); addRow(["", "", "", ""]);
+        
+        currR = getRow();
+        addRow([{ v: "     Yusuf Muzaidi, S.Pd.", s: stPinggirTebalTTD }, "", { v: "                                                                    Ririn Jauharin, S.Ak.", s: stPinggirTebalTTD }, ""]);
+        addRow([{ v: "     Yusuf Muzaidi, S.Pd.", s: stPinggirTebalTTD }, "", { v: `                                                                    ${namaBendaharaGlobal}`, s: stPinggirTebalTTD }, ""]);
+        mergeRow(currR, currR, 0, 1); // Merge Kolom A & B
+        mergeRow(currR, currR, 2, 3); // Merge Kolom C & D
+    };
+    // ==========================================
+    // SHEET 1: REKAPITULASI (COVER)
+    // ==========================================
+    const stKiriTebal = { font: fontBold, alignment: { vertical: "center" }, border: borderAll }; 
+    
+    createSheet("1_Rekapitulasi", [{ wch: 50 }, { wch: 37 }], (addRow, mergeRow, getRow) => {
+        
+        // Kop Surat (Merge Kolom A & B saja / index 0 & 1)
+        addRow([{ v: "REKAPITULASI BUKU BESAR TAHUNAN", s: stJudul }, ""]); mergeRow(getRow()-1, getRow()-1, 0, 1);
+        addRow([{ v: `MA BI'RUL ULUM TAHUN AJARAN ${tahunAjaran}`, s: stJudul }, ""]); mergeRow(getRow()-1, getRow()-1, 0, 1);
+        addRow(["", ""]);
+
+        // Kas Operasional
+        addRow([{ v: "KAS OPERASIONAL", s: stSubJudul }, ""]); 
+        addRow([{ v: "Total Pemasukan (Siswa + Bantuan)", s: stKiri }, { v: totPemOps, t: 'n', s: { font: fontNormal, border: borderAll, numFmt: formatUang } }]); 
+        addRow([{ v: "Total Pengeluaran Operasional", s: stKiri }, { v: totPengOps, t: 'n', s: { font: fontNormal, border: borderAll, numFmt: formatUang } }]); 
+        addRow([{ v: "Saldo Kas Operasional", s: stKiriTebal }, { v: saldoOps, t: 'n', s: { font: fontBold, border: borderAll, numFmt: formatUang } }]); 
+        addRow(["", ""]);
+        
+        // Kas Non-Operasional
+        addRow([{ v: "KAS NON-OPERASIONAL", s: stSubJudul }, ""]); 
+        addRow([{ v: "Total Pengeluaran Khusus/Non-Ops", s: stKiri }, { v: totPengNonOps, t: 'n', s: { font: fontNormal, border: borderAll, numFmt: formatUang } }]); 
+        addRow(["", ""]);
+        
+        // Sisa Kas Keseluruhan
+        addRow([{ v: "SISA SALDO TAHUNAN", s: stSubJudul }, { v: sisaKasBersih, t: 'n', s: { font: fontBold, border: borderAll, numFmt: formatUang, fill: fillHijau } }]); 
+        
+        // Panggil TTD (Kepala di Kolom A index 0, Bendahara di Kolom B index 1)
+        cetakTTD(addRow, 0, 1);
+    });
+
+    // ==========================================
+    // SHEET 2: KAS OPERASIONAL
+    // ==========================================
+    createSheet("2_Operasional", [{ wch: 5 }, { wch: 18 }, { wch: 43 }, { wch: 20 }], (addRow, mergeRow, getRow) => {
+        addRow([{ v: "BUKU KAS OPERASIONAL TAHUNAN", s: stJudul }, "", "", ""]); mergeRow(getRow()-1, getRow()-1, 0, 3);
+        addRow([{ v: `TAHUN AJARAN ${tahunAjaran}`, s: stJudul }, "", "", ""]); mergeRow(getRow()-1, getRow()-1, 0, 3);
+        addRow(["", "", "", ""]);
+        
+        // Pemasukan Ops
+        addRow([{ v: "A. PEMASUKAN", s: stSubJudul }, "", "", ""]); mergeRow(getRow()-1, getRow()-1, 0, 3);
+        addRow([{ v: "No", s: stHeader }, { v: "Tanggal Update", s: stHeader }, { v: "Uraian", s: stHeader }, { v: "Jumlah", s: stHeader }]);
+        addRow([{ v: 1, s: stTengah }, { v: tglCetak, s: stTengah }, { v: `Pemasukan Siswa Tahun Ajaran ${tahunAjaran}`, s: stKiri }, { v: totPemSiswa, t: 'n', s: stUang }]);
+        addRow([{ v: 2, s: stTengah }, { v: tglCetak, s: stTengah }, { v: `Penerimaan Bantuan Tahun Ajaran ${tahunAjaran}`, s: stKiri }, { v: totPemBantuan, t: 'n', s: stUang }]);
+        // addRow([{ v: "Jumlah Pemasukan", s: stLabelTebal }, "", "", { v: totPemOps, t: 'n', s: stUangTebal }]); mergeRow(getRow()-1, getRow()-1, 0, 2);
+        // (Ganti baris Jumlah Pemasukan ini)
+        addRow([{ v: "Jumlah Pemasukan", s: stLabelTebal }, { v: "", s: stLabelTebal }, { v: "", s: stLabelTebal }, { v: totPemOps, t: 'n', s: stUangTebal }]); mergeRow(getRow()-1, getRow()-1, 0, 2);
+        addRow(["", "", "", ""]);
+        
+        // Pengeluaran Ops
+        addRow([{ v: "B. PENGELUARAN", s: stSubJudul }, "", "", ""]); mergeRow(getRow()-1, getRow()-1, 0, 3);
+        addRow([{ v: "No", s: stHeader }, { v: "Tanggal Nota", s: stHeader }, { v: "Uraian", s: stHeader }, { v: "Nominal", s: stHeader }]);
+        
+        if(dataPengOps.length > 0) {
+            dataPengOps.sort((a, b) => new Date(a.tanggal_nota) - new Date(b.tanggal_nota));
+            dataPengOps.forEach((item, i) => {
+                let tgl = item.tanggal_nota ? new Date(item.tanggal_nota).toLocaleDateString('id-ID', {day:'2-digit', month:'long', year:'numeric'}) : '-';
+                let jenisRapi = (item.jenis_pengeluaran || item.jenis || '').toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
+                let ket = item.keterangan || item.uraian || '-';
+                addRow([{ v: i+1, s: stTengah }, { v: tgl, s: stTengah }, { v: `(${jenisRapi}) ${ket}`, s: stKiri }, { v: Number(item.nominal) || 0, t: 'n', s: stUang }]);
+            });
+        } else {
+            addRow([{ v: "-", s: stTengah }, { v: "-", s: stTengah }, { v: "Nihil", s: stKiri }, { v: 0, t: 'n', s: stUang }]);
+        }
+        // addRow([{ v: "Jumlah Pengeluaran", s: stLabelTebal }, "", "", { v: totPengOps, t: 'n', s: stUangTebal }]); mergeRow(getRow()-1, getRow()-1, 0, 2);
+        // (Ganti baris Jumlah Pengeluaran ini)
+        addRow([{ v: "Jumlah Pengeluaran", s: stLabelTebal }, { v: "", s: stLabelTebal }, { v: "", s: stLabelTebal }, { v: totPengOps, t: 'n', s: stUangTebal }]); mergeRow(getRow()-1, getRow()-1, 0, 2);
+        
+        cetakTTD_4Col(addRow, mergeRow, getRow);
+    });
+
+    // ==========================================
+    // SHEET 3: KAS NON-OPERASIONAL
+    // ==========================================
+    createSheet("3_Non_Operasional", [{ wch: 5 }, { wch: 18 }, { wch: 43 }, { wch: 20 }], (addRow, mergeRow, getRow) => {
+        addRow([{ v: "BUKU KAS NON-OPERASIONAL TAHUNAN", s: stJudul }, "", "", ""]); mergeRow(getRow()-1, getRow()-1, 0, 3);
+        addRow([{ v: `TAHUN AJARAN ${tahunAjaran}`, s: stJudul }, "", "", ""]); mergeRow(getRow()-1, getRow()-1, 0, 3);
+        addRow(["", "", "", ""]);
+        
+        addRow([{ v: "RINCIAN PENGELUARAN", s: stSubJudul }, "", "", ""]); mergeRow(getRow()-1, getRow()-1, 0, 3);
+        addRow([{ v: "No", s: stHeader }, { v: "Tanggal Nota", s: stHeader }, { v: "Uraian Kategori", s: stHeader }, { v: "Nominal", s: stHeader }]);
+        
+        if(dataPengNonOps.length > 0) {
+            dataPengNonOps.sort((a, b) => new Date(a.tanggal_nota) - new Date(b.tanggal_nota));
+            dataPengNonOps.forEach((item, i) => {
+                let tgl = item.tanggal_nota ? new Date(item.tanggal_nota).toLocaleDateString('id-ID', {day:'2-digit', month:'long', year:'numeric'}) : '-';
+                let jenisRapi = (item.jenis_pengeluaran_nonops || item.jenis_pengeluaran || '').toUpperCase().replace(/\b\w/g, s => s.toUpperCase());
+                let ket = item.keterangan || item.uraian || '-';
+                addRow([{ v: i+1, s: stTengah }, { v: tgl, s: stTengah }, { v: `(${jenisRapi}) ${ket}`, s: stKiri }, { v: Number(item.nominal) || Number(item.jumlah) || 0, t: 'n', s: stUang }]);
+            });
+        } else {
+            addRow([{ v: "-", s: stTengah }, { v: "-", s: stTengah }, { v: "Nihil", s: stKiri }, { v: 0, t: 'n', s: stUang }]);
+        }
+        // addRow([{ v: "Jumlah Pengeluaran Non-Ops", s: stLabelTebal }, "", "", { v: totPengNonOps, t: 'n', s: stUangTebal }]); mergeRow(getRow()-1, getRow()-1, 0, 2);
+        // (Ganti baris Jumlah Pengeluaran Non-Ops ini)
+        addRow([{ v: "Jumlah Pengeluaran Non-Ops", s: stLabelTebal }, { v: "", s: stLabelTebal }, { v: "", s: stLabelTebal }, { v: totPengNonOps, t: 'n', s: stUangTebal }]); mergeRow(getRow()-1, getRow()-1, 0, 2);
+        
+        cetakTTD_4Col(addRow, mergeRow, getRow);
+    });
+
+    // ==========================================
+    // EXPORT FILE
+    // ==========================================
+    try {
+        const safeTahun = tahunAjaran.replace('/', '-');
+        XLSX.writeFile(wb, `Buku_Besar_Tahunan_${safeTahun}.xlsx`);
+    } catch (err) {
+        console.error(err); alert("Gagal menyimpan Excel.");
+    }
 }
 
-function tutupModalNotif() {
-    const modal = document.getElementById('modal-notifikasi');
-    modal.classList.add('opacity-0');
-    modal.querySelector('div').classList.remove('scale-100');
-    modal.querySelector('div').classList.add('scale-95');
-    setTimeout(() => {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-    }, 300);
+// ==========================================
+// FUNGSI 2: TARIK DATA DARI SUPABASE (1 TAHUN PENUH)
+// ==========================================
+async function unduhBukuBesarExcel() {
+    const tahunAjaran = document.getElementById('filter-tahun-bukubesar').value;
+    const tglCetakInput = document.getElementById('filter-tgl-cetak-bukubesar').value; 
+
+    if (!tahunAjaran || !tglCetakInput) {
+        tampilkanModalNotif('Data Belum Lengkap', 'Pilih Tahun Ajaran dan Tanggal Cetak!', 'warning');
+        return;
+    }
+
+    const btn = document.getElementById('btn-unduh-bukubesar');
+    const iconBtn = document.getElementById('icon-unduh-bukubesar');
+    const textBtn = document.getElementById('text-unduh-bukubesar');
+    
+    btn.disabled = true;
+    iconBtn.className = "ph ph-spinner animate-spin mr-2 text-lg";
+    textBtn.innerText = "Merakit 3 Sheet...";
+    tampilkanModalNotif('Tutup Buku Tahunan', `Menarik seluruh riwayat transaksi Tahun Ajaran ${tahunAjaran}...`, 'loading');
+
+    try {
+        // Tentukan Rentang 1 Tahun (1 Juli s/d 30 Juni)
+        const tahunSplit = tahunAjaran.split('/');
+        const startDate = new Date(parseInt(tahunSplit[0]), 6, 1);  // 1 Juli
+        const endDate = new Date(parseInt(tahunSplit[1]), 5, 30);   // 30 Juni
+        
+        // Format Tgl Cetak
+        const [y, m, d] = tglCetakInput.split('-');
+        const namaBulanIndo = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        const tglCetak = `${parseInt(d)} ${namaBulanIndo[parseInt(m) - 1]} ${y}`;
+
+        // Download semua data 4 Tabel secara paralel (Biar Cepat)
+        const [resPem, resBan, resPengOps, resPengNon] = await Promise.all([
+            supabaseClient.from('pemasukan').select('*'),
+            supabaseClient.from('bantuan').select('*'),
+            supabaseClient.from('pengeluaran').select('*'),
+            supabaseClient.from('pengeluaran_nonops').select('*') // Sesuaikan nama tabel Non-Ops Anda
+        ]);
+
+        if (resPem.error || resBan.error || resPengOps.error || resPengNon.error) throw new Error("Gagal tarik data");
+
+        // Fungsi parsing tanggal dari kode lama Anda (wajib dimasukkan ke blok ini agar terbaca)
+        const parseDateSuper = (str) => {
+            if (!str) return null;
+            const s = String(str).toLowerCase().trim();
+            const parts = s.split(' ');
+            if (parts.length >= 3) {
+                const bMap = { 'januari':0, 'februari':1, 'maret':2, 'april':3, 'mei':4, 'juni':5, 'juli':6, 'agustus':7, 'september':8, 'oktober':9, 'november':10, 'desember':11 };
+                const dt = parseInt(parts[0]), mo = bMap[parts[1]], yr = parseInt(parts[2]);
+                if (!isNaN(dt) && mo !== undefined && !isNaN(yr)) return new Date(yr, mo, dt);
+            }
+            const std = new Date(str);
+            if (!isNaN(std.getTime())) return std;
+            return null;
+        };
+
+        // Filter Universal (Pastikan di antara 1 Juli - 30 Juni)
+        const filterTahunan = (arr, dateColumn) => arr.filter(item => {
+            if (item.is_deleted === true || String(item.is_deleted) === 'true' || item.is_deleted === 1) return false;
+            let d = parseDateSuper(item[dateColumn] || item.tanggal);
+            if (!d) return false;
+            d.setHours(0,0,0,0);
+            return d >= startDate && d <= endDate;
+        });
+
+        const finalPemSiswa = filterTahunan(resPem.data, 'tanggal_input');
+        const finalPemBantuan = filterTahunan(resBan.data, 'tanggal_transaksi');
+        const finalPengOps = filterTahunan(resPengOps.data, 'tanggal_nota');
+        const finalPengNon = filterTahunan(resPengNon.data, 'tanggal_nota');
+
+        // Rakit Excel!
+        generateBukuBesarExcel(tahunAjaran, tglCetak, finalPemSiswa, finalPemBantuan, finalPengOps, finalPengNon);
+
+        tampilkanModalNotif('Sukses!', 'Buku Besar 3 Sheet berhasil diunduh.', 'success');
+        setTimeout(() => tutupModalNotif(), 2000);
+
+    } catch (error) {
+        console.error(error);
+        tampilkanModalNotif('Gagal Laporan', 'Terjadi kesalahan sistem', 'error');
+        setTimeout(() => tutupModalNotif(), 2000);
+    } finally {
+        btn.disabled = false;
+        iconBtn.className = "ph ph-file-xls mr-2 text-lg";
+        textBtn.innerText = "Unduh Buku Besar";
+    }
 }

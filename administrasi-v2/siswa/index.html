@@ -29,31 +29,10 @@
     <script> if (typeof tailwind === 'undefined') { document.write('<script src="/assets/js/tailwind.min.js"><\/script>'); }
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script> if (typeof tailwind === 'undefined') { document.write('<script src="/assets/js/tailwind.browser.min.js"><\/script>'); }
-    </script>
-
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web" crossorigin="anonymous"></script>
     <script> if (typeof PhosphorIcons === 'undefined') { document.write('<link rel="stylesheet" href="/assets/css/phosphor.css">'); }
     </script>
-
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script> if (typeof Chart === 'undefined') { document.write('<script src="/assets/js/chart.min.js"><\/script>'); }
-    </script>
-
-    <!-- Chartjs Plugin Datalabels -->
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
-    <script> if (typeof ChartDataLabels === 'undefined') { document.write('<script src="/assets/js/chartjs-plugin-datalabels.min.js"><\/script>'); }
-    </script>
-
-    <!-- html2canvas -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script> if (typeof html2canvas === 'undefined') { document.write('<script src="/assets/js/html2canvas.min.js"><\/script>'); }
-    </script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js" integrity="sha512-01CJ9/g7e8cUmY0DFTMcUw/ikS799FHiOA0eyHsUWfOetgbx/t6oV4otQ5zXKQyIrQGTHSmRVPIgrgLcZi/WMA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
@@ -100,7 +79,7 @@
         <!-- WATERMARK -->
         <div class="fixed bottom-6 left-0 right-0 w-full text-center z-10 ">
             <p class="text-white/60 text-sm font-medium tracking-wide">
-                Dikembangkan oleh <a href="https://instagram.com/aflah.design" target="_blank" rel="noopener noreferrer" class="text-amber-400 font-bold opacity-90 hover:opacity-100 hover:underline transition">@aflah.design</a> | V.2
+                Dikembangkan oleh <a href="https://instagram.com/aflah.design" target="_blank" rel="noopener noreferrer" class="text-amber-400 font-bold opacity-90 hover:opacity-100 hover:underline transition">@aflah.design</a>
             </p>
         </div>
     </div>
@@ -128,11 +107,17 @@
                     <div>
                         <p class="text-amber-100 text-sm font-medium mb-0.5 tracking-wide uppercase">Kalkulasi Otomatis Sistem</p>
                         <h2 id="widget-exam-title" class="text-2xl font-bold">Syarat -</h2>
+                        <p id="widget-exam-desc" class="text-xs text-white/80 mt-1">Daftar Ulang + SPP berjalan</p>
                     </div>
                 </div>
                 <div class="text-center md:text-right bg-white/10 px-6 py-3 rounded-lg border border-white/20 w-full md:w-auto">
                     <p class="text-amber-100 text-xs mb-1">Total Tagihan yg Wajib Lunas</p>
                     <h3 id="widget-exam-amount" class="text-3xl font-bold tracking-tight">Rp0</h3>
+                    <!-- CHECKBOX NON-SPP -->
+                    <label class="mt-2.5 pt-2 border-t border-white/20 flex items-center justify-center md:justify-end gap-2 text-xs text-white cursor-pointer select-none">
+                        <input type="checkbox" id="widget-exam-toggle-nonspp" class="w-4 h-4 rounded text-indigo-600 focus:ring-0 cursor-pointer accent-amber-500">
+                        <span class="font-medium">Sertakan Kegiatan Non-SPP</span>
+                    </label>
                 </div>
             </div>
 
@@ -247,6 +232,16 @@
             </button>
         </div>
     </div>
+    <!-- Library Eksternal (Dimuat di akhir agar tidak memblokir render halaman awal) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script> if (typeof Chart === 'undefined') { document.write('<script src="/assets/js/chart.min.js"><\/script>'); } </script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script> if (typeof ChartDataLabels === 'undefined') { document.write('<script src="/assets/js/chartjs-plugin-datalabels.min.js"><\/script>'); } </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script> if (typeof html2canvas === 'undefined') { document.write('<script src="/assets/js/html2canvas.min.js"><\/script>'); } </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"
+        integrity="sha512-01CJ9/g7e8cUmY0DFTMcUw/ikS799FHiOA0eyHsUWfOetgbx/t6oV4otQ5zXKQyIrQGTHSmRVPIgrgLcZi/WMA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/administrasi-v2/assets/js/app.js"></script>
 </body>

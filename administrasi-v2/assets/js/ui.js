@@ -43,66 +43,103 @@ function toggleSidebar() {
     }
 }
 
+let globalTahunAktif = "";
+
 // --- RENDERING DROPDOWN & MENU ---
 function initDropdowns() {
     if (!dbMaster) return;
-    const mapOpt = (arr) => arr ? arr.map(i => `<option value="${i}">${i}</option>`).join('') : '';
-    const e1 = document.getElementById('input-jenis'); if (e1) e1.innerHTML = mapOpt(dbMaster.jenisPembayaran);
-    const e2 = document.getElementById('input-tahun'); if (e2) e2.innerHTML = mapOpt(dbMaster.tahunAjaran);
-    const e3 = document.getElementById('out-jenis'); if (e3) e3.innerHTML = mapOpt(dbMaster.jenisPengeluaran);
-    const e4 = document.getElementById('out-tahun'); if (e4) e4.innerHTML = mapOpt(dbMaster.tahunAjaran);
-    const e5 = document.getElementById('out-non-jenis'); if (e5) e5.innerHTML = mapOpt(dbMaster.jenisPengeluaranNon);
-    const e6 = document.getElementById('out-non-tahun'); if (e6) e6.innerHTML = mapOpt(dbMaster.tahunAjaran);
-    const e7 = document.getElementById('bantuan-jenis'); if (e7) e7.innerHTML = mapOpt(dbMaster.jenisBantuan);
-    const e8 = document.getElementById('bantuan-tahun'); if (e8) e8.innerHTML = mapOpt(dbMaster.tahunAjaran);
-    const e9 = document.getElementById('tarif-tahun'); if (e9) e9.innerHTML = mapOpt(dbMaster.tahunAjaran);
-    const e10 = document.getElementById('cetak-tahun'); if (e10) e10.innerHTML = mapOpt(dbMaster.tahunAjaran);
-    // Tambahan untuk Dropdown Tahun Ajaran di Laporan Operasional
-    const eLaporanTahun = document.getElementById('filter-tahun-ajaran'); 
-    if (eLaporanTahun) eLaporanTahun.innerHTML = mapOpt(dbMaster.tahunAjaran);
-    // Tambahan untuk Dropdown Laporan Non-Operasional
-    const eLapNonJenis = document.getElementById('filter-jenis-nonops');
-    if (eLapNonJenis) eLapNonJenis.innerHTML = mapOpt(dbMaster.jenisPengeluaranNon);
-    const eLapNonTahun = document.getElementById('filter-tahun-nonops');
-    if (eLapNonTahun) eLapNonTahun.innerHTML = mapOpt(dbMaster.tahunAjaran);
-    const eAtributTahun = document.getElementById('input-tahun-atribut');
-    if (eAtributTahun) eAtributTahun.innerHTML = mapOpt(dbMaster.tahunAjaran);
 
+    // ========================================================
+    // 1. UPDATE TAHUN AKTIF (Pindah ke atas agar siap dipakai loop)
+    // ========================================================
+    const setTahunAktif = dbPengaturan.find(p => p.kunci === 'tahun_ajaran_aktif');
+    if (setTahunAktif) {
+        globalTahunAktif = setTahunAktif.nilai;
+        // Perbarui label di layar jika elemennya ada
+        const labelEl = document.getElementById('label-tahun-aktif-sekarang');
+        if (labelEl) labelEl.innerText = globalTahunAktif;
+    }
+
+    const mapOpt = (arr) => arr ? arr.map(i => `<option value="${i}">${i}</option>`).join('') : '';
+
+    // ========================================================
+    // 2. PENERAPAN DRY (Daftar Semua Dropdown Standar)
+    // ========================================================
+    const daftarDropdown = [
+        // Form Transaksi & Master
+        { id: 'input-jenis', data: dbMaster.jenisPembayaran },
+        { id: 'input-tahun', data: dbMaster.tahunAjaran },
+        { id: 'input-tahun-atribut', data: dbMaster.tahunAjaran },
+        { id: 'out-jenis', data: dbMaster.jenisPengeluaran },
+        { id: 'out-tahun', data: dbMaster.tahunAjaran },
+        { id: 'out-non-jenis', data: dbMaster.jenisPengeluaranNon },
+        { id: 'out-non-tahun', data: dbMaster.tahunAjaran },
+        { id: 'bantuan-jenis', data: dbMaster.jenisBantuan },
+        { id: 'bantuan-tahun', data: dbMaster.tahunAjaran },
+        { id: 'tarif-tahun', data: dbMaster.tahunAjaran },
+        { id: 'master_atribut-tahun', data: dbMaster.tahunAjaran },
+        
+        // Filter Laporan & Buku Besar
+        { id: 'filter-tahun-ajaran', data: dbMaster.tahunAjaran },
+        { id: 'filter-jenis-nonops', data: dbMaster.jenisPengeluaranNon },
+        { id: 'filter-tahun-nonops', data: dbMaster.tahunAjaran },
+        { id: 'filter-tahun-bukubesar', data: dbMaster.tahunAjaran },
+
+        // Dropdown dengan Imbuhan Text Default (Prefix)
+        { id: 'cetak-tahun', data: dbMaster.tahunAjaran, prefix: '<option value="All">-- Pilih Tahun Ajaran</option>' },
+        { id: 'filter-dash-tahun', data: dbMaster.tahunAjaran, prefix: '<option value="All">Semua Tahun Ajaran</option>' },
+        { id: 'setting-tahun-ajaran', data: dbMaster.tahunAjaran, prefix: '<option value="">Pilih Tahun Ajaran...</option>' }
+    ];
+
+    // Eksekusi semua dropdown dengan 1 loop!
+    daftarDropdown.forEach(item => {
+        const el = document.getElementById(item.id);
+        if (el) {
+            // Render HTML (Gabungkan prefix jika ada, lalu tambah option dari dbMaster)
+            el.innerHTML = (item.prefix || '') + mapOpt(item.data);
+            
+            // 🚀 Otomatis Kunci ke Tahun Aktif (Soft Reset) jika ID-nya mengandung kata "tahun"
+            if (item.id.includes('tahun') && globalTahunAktif) {
+                el.value = globalTahunAktif;
+            }
+        }
+    });
+
+    // ========================================================
+    // 3. LOGIKA CUSTOM (TIDAK BISA DI-DRY KARENA SPESIFIK)
+    // ========================================================
+    
+    // A. Atribut (Penyaringan Nilai Unik)
     const eAtributJenis = document.getElementById('input-jenis-atribut');
     if (eAtributJenis) {
-        // Saring data unik yang belum dihapus
         const unikAtribut = [...new Set(dbMasterAtribut.filter(a => !a.isDeleted).map(a => a.jenis))];
-        
-        // Render ke HTML
         eAtributJenis.innerHTML = '<option value="">-- Pilih Atribut --</option>' + unikAtribut.map(i => `<option value="${i}">${i}</option>`).join('');
     }
 
-    const eMasterAtributTahun = document.getElementById('master_atribut-tahun');
-    if (eMasterAtributTahun) eMasterAtributTahun.innerHTML = mapOpt(dbMaster.tahunAjaran);
-
-    const eDashTahun = document.getElementById('filter-dash-tahun');
-    if(eDashTahun) eDashTahun.innerHTML = '<option value="All">Semua Tahun Ajaran</option>' + mapOpt(dbMaster.tahunAjaran);
-    
+    // B. Filter & Cetak Kelas (Pengelompokan Aktif / Lulus)
     const elFilterKelas = document.getElementById('filter-kelas');
     const elCetakKelas = document.getElementById('cetak-kelas');
     const elCetakSuratKelas = document.getElementById('surat-kelas-massal');
-    let isAktif = adminTableState.datasiswa.activeTab === 'aktif';
+    
+    if (typeof adminTableState !== 'undefined' && adminTableState.datasiswa) {
+        let isAktif = adminTableState.datasiswa.activeTab === 'aktif';
+        let filteredList = dbSiswa.filter(s => {
+            let isNon = String(s.kelas).toUpperCase().includes('LULUS') || String(s.kelas).toUpperCase().includes('KELUAR');
+            return isAktif ? !isNon : isNon;
+        });
 
-    let filteredList = dbSiswa.filter(s => {
-        let isNon = String(s.kelas).toUpperCase().includes('LULUS') || String(s.kelas).toUpperCase().includes('KELUAR');
-        return isAktif ? !isNon : isNon;
-    });
-
-    let unikKelas = [...new Set(filteredList.map(s => s.kelas).filter(Boolean))].sort();
-    if (elFilterKelas) elFilterKelas.innerHTML = `<option value="All">${isAktif ? 'Semua Kelas' : 'Semua Status'}</option>` + unikKelas.map(k => `<option value="${k}">${k}</option>`).join('');
+        let unikKelas = [...new Set(filteredList.map(s => s.kelas).filter(Boolean))].sort();
+        if (elFilterKelas) elFilterKelas.innerHTML = `<option value="All">${isAktif ? 'Semua Kelas' : 'Semua Status'}</option>` + unikKelas.map(k => `<option value="${k}">${k}</option>`).join('');
+    }
 
     let aktifOnly = [...new Set(dbSiswa.filter(s => !(String(s.kelas).toUpperCase().includes('LULUS') || String(s.kelas).toUpperCase().includes('KELUAR'))).map(s => s.kelas))].sort();
     if (elCetakKelas) elCetakKelas.innerHTML = aktifOnly.map(k => `<option value="${k}">${k}</option>`).join('');
     if (elCetakSuratKelas) elCetakSuratKelas.innerHTML = aktifOnly.map(k => `<option value="${k}">${k}</option>`).join('');
 }
 
+
 function switchAdminTab(tab) {
-    const views = ['dashboard', 'datasiswa', 'pemasukan', 'atribut', 'cetak', 'bantuan', 'infaq', 'pengeluaran', 'pengeluaran-non', 'tarif', 'master_atribut', 'restore', 'user'];
+    const views = ['dashboard', 'datasiswa', 'pemasukan', 'atribut', 'cetak', 'bantuan', 'infaq', 'pengeluaran', 'pengeluaran-non', 'tarif', 'master_atribut', 'restore', 'user', 'pengaturan'];
     const titles = { 
         'dashboard': 'Dashboard Utama', 
         'datasiswa': 'Direktori Data Siswa', 
@@ -116,7 +153,8 @@ function switchAdminTab(tab) {
         'tarif': 'Manajemen Tarif Siswa',
         'master_atribut': 'Manajemen Tarif Atribut Siswa',
         'restore': 'Pemulihan Data (Recycle Bin)', 
-        'user': 'Manajemen User & Akses' 
+        'user': 'Manajemen User & Akses',
+        'pengaturan': 'Manajemen Pengaturan dan Backup Sistem'
     };
     
     views.forEach(v => {
@@ -136,6 +174,7 @@ function switchAdminTab(tab) {
     document.getElementById('admin-page-title').innerText = titles[tab];
 
     if (tab === 'restore') loadRestoreTable();
+    if (tab === 'pengaturan') cekKapasitasDatabase();
     if (window.innerWidth < 768) { document.getElementById('admin-sidebar').classList.add('-translate-x-full'); document.getElementById('sidebar-overlay').classList.add('hidden'); }
 
     if (tab === 'dashboard') {
@@ -187,11 +226,13 @@ function renderAdminView(admin) {
         document.getElementById('nav-restore-container').classList.remove('hidden');
         document.getElementById('nav-tarif-container').classList.remove('hidden');
         document.getElementById('nav-master_atribut-container').classList.remove('hidden');
+        document.getElementById('nav-pengaturan-container').classList.remove('hidden');
     } else {
         document.getElementById('nav-user-container').classList.add('hidden');
         document.getElementById('nav-restore-container').classList.add('hidden');
         document.getElementById('nav-tarif-container').classList.add('hidden');
         document.getElementById('nav-master_atribut-container').classList.add('hidden');
+        document.getElementById('nav-pengaturan-container').classList.add('hidden');
     }
 
     document.querySelectorAll('.admin-input-form').forEach(el => el.classList.toggle('hidden', isKepsek));
@@ -202,6 +243,13 @@ function renderAdminView(admin) {
         else if (isAdmin) { const isViewPemasukan = el.closest('#admin-view-pemasukan') !== null; isViewPemasukan ? el.classList.remove('hidden') : el.classList.add('hidden'); } 
         else el.classList.remove('hidden');
     });
+
+    if (typeof currentUserData === 'undefined' || !currentUserData) currentUserData = admin;
+    const bendaharaInfo = typeof getInfoBendahara === 'function' ? getInfoBendahara() : { nama: admin.nama };
+    const elHr = document.getElementById('print-hr-bendahara');
+    if (elHr) elHr.innerText = bendaharaInfo.nama;
+    const elBbqs = document.getElementById('print-bbqs-bendahara');
+    if (elBbqs) elBbqs.innerText = bendaharaInfo.nama;
 
     switchAdminTab('dashboard'); loadDashboardStats(); loadAdminDataSiswaTable(); loadAdminTable(); loadAdminAtributTable(); loadAdminBantuanTable(); loadAdminPengeluaranTable(); loadAdminPengeluaranNonTable(); loadAdminInfaqTable();
     if (isSuperAdmin) { loadAdminUserTable(); loadAdminTarifTable(); loadAdminMasterAtributTable(); updateRestoreBadges(); }
@@ -214,29 +262,30 @@ async function refreshAdminData() {
     if (isSuccess) {
         loadDashboardStats(); loadAdminDataSiswaTable(); loadAdminTable(); loadAdminAtributTable(); loadAdminBantuanTable(); loadAdminPengeluaranTable(); loadAdminPengeluaranNonTable(); loadAdminInfaqTable();
         if (currentUserRole === 'Super Admin') { loadAdminUserTable(); loadAdminTarifTable(); loadAdminMasterAtributTable(); updateRestoreBadges(); if (!document.getElementById('admin-view-restore').classList.contains('hidden')) loadRestoreTable(); }
-        showToast('Data disinkronisasi!');
+        tampilkanModalNotif('Sukses!', 'Data disinkronisasi!','success');
+        setTimeout(() => tutupModalNotif(), 2000);
     } else {
-        showToast('Gagal sinkronisasi data', 'error');
+        tampilkanModalNotif('Gagal!', 'Gagal sinkronisasi data', 'error');
     }
 }
 
 // --- FILTER & PAGINATION ---
-function cekNamaSiswa(nis) {
-    const infoEl = document.getElementById('info-nama-siswa');
-    let strNis = String(nis).trim();
-    if (!strNis || strNis === '') { infoEl.classList.add('hidden'); return; }
-    const siswa = dbSiswa.find(s => String(s.nis).trim() === strNis);
-    infoEl.classList.remove('hidden');
-    if (siswa) {
-        infoEl.className = "text-sm mt-1.5 font-medium text-blue-600 flex items-center";
-        infoEl.innerHTML = `<i class="ph ph-check-circle text-lg mr-1.5"></i> ${siswa.nama} (${siswa.kelas})`;
-        document.getElementById('input-nis').classList.replace('border-red-500', 'border-gray-300');
-    } else {
-        infoEl.className = "text-sm mt-1.5 font-medium text-red-500 flex items-center";
-        infoEl.innerHTML = `<i class="ph ph-x-circle text-lg mr-1.5"></i> NIS tidak terdaftar`;
-        document.getElementById('input-nis').classList.replace('border-gray-300', 'border-red-500');
-    }
-}
+// function cekNamaSiswa(nis) {
+//     const infoEl = document.getElementById('info-nama-siswa');
+//     let strNis = String(nis).trim();
+//     if (!strNis || strNis === '') { infoEl.classList.add('hidden'); return; }
+//     const siswa = dbSiswa.find(s => String(s.nis).trim() === strNis);
+//     infoEl.classList.remove('hidden');
+//     if (siswa) {
+//         infoEl.className = "text-sm mt-1.5 font-medium text-blue-600 flex items-center";
+//         infoEl.innerHTML = `<i class="ph ph-check-circle text-lg mr-1.5"></i> ${siswa.nama} (${siswa.kelas})`;
+//         document.getElementById('input-nis').classList.replace('border-red-500', 'border-gray-300');
+//     } else {
+//         infoEl.className = "text-sm mt-1.5 font-medium text-red-500 flex items-center";
+//         infoEl.innerHTML = `<i class="ph ph-x-circle text-lg mr-1.5"></i> NIS tidak terdaftar`;
+//         document.getElementById('input-nis').classList.replace('border-gray-300', 'border-red-500');
+//     }
+// }
 
 function getActionClass(tabName) {
     if (currentUserRole === 'Kepala Sekolah') return 'hidden';
@@ -265,16 +314,117 @@ function updatePaginationUI(type, tItems, pDataLength) {
     setBtnStyle(btnPrev, adminTableState[type].page <= 1); setBtnStyle(btnNext, adminTableState[type].page >= Math.ceil(tItems / itemsPerPage));
 }
 
+// function getPaginatedData(dataArray, type, filterFn) {
+//     const itemsPerPage = getItemsPerPage();
+//     let safeArray = Array.isArray(dataArray) ? dataArray : [];
+//     let filtered = [...safeArray].filter(filterFn);
+//     if (type !== 'datasiswa') filtered = filtered.reverse();
+//     const tItems = filtered.length;
+//     const tPages = Math.ceil(tItems / itemsPerPage) || 1;
+//     if (adminTableState[type].page > tPages) adminTableState[type].page = tPages;
+//     if (adminTableState[type].page < 1) adminTableState[type].page = 1;
+//     const startIdx = (adminTableState[type].page - 1) * itemsPerPage;
+//     return { pData: filtered.slice(startIdx, startIdx + itemsPerPage), tItems, startIdx };
+// }
+
+// function getPaginatedData(dataArray, type, filterFn) {
+//     const itemsPerPage = getItemsPerPage();
+//     let safeArray = Array.isArray(dataArray) ? dataArray : [];
+    
+//     // 1. Filter data sesuai pencarian/tahun
+//     let filtered = [...safeArray].filter(filterFn);
+    
+//     // 2. 🚀 SMART SORTING (Pengganti .reverse() yang lemah)
+//     if (type !== 'datasiswa') {
+//         filtered.sort((a, b) => {
+//             // Ambil ID dari objek (bisa id atau id_transaksi)
+//             let idA = String(a.id || a.id_transaksi || '');
+//             let idB = String(b.id || b.id_transaksi || '');
+
+//             let isTempA = idA.includes('TEMP-');
+//             let isTempB = idB.includes('TEMP-');
+
+//             // Aturan 1: Jika A adalah data yang BARU SAJA diinput kasir (TEMP-), taruh paling atas!
+//             if (isTempA && !isTempB) return -1;
+//             if (!isTempA && isTempB) return 1;
+
+//             // Aturan 2: Jika sama-sama data baru (TEMP-), urutkan berdasarkan angka waktunya
+//             if (isTempA && isTempB) {
+//                 return parseInt(idB.split('-')[1]) - parseInt(idA.split('-')[1]);
+//             }
+
+//             // Aturan 3: Jika data dari Supabase, urutkan berdasarkan ID (Makin besar = Makin baru)
+//             let numA = parseInt(idA);
+//             let numB = parseInt(idB);
+
+//             // Jika ID berupa Angka (Auto Increment), gunakan perbandingan matematika (Sangat Cepat)
+//             if (!isNaN(numA) && !isNaN(numB)) {
+//                 return numB - numA;
+//             }
+
+//             // Fallback: Jika ID berupa UUID/String, gunakan perbandingan alfabet mundur
+//             return idA > idB ? -1 : (idA < idB ? 1 : 0);
+//         });
+//     }
+
+//     // 3. Lanjutkan ke sistem Pagination
+//     const tItems = filtered.length;
+//     const tPages = Math.ceil(tItems / itemsPerPage) || 1;
+//     if (adminTableState[type].page > tPages) adminTableState[type].page = tPages;
+//     if (adminTableState[type].page < 1) adminTableState[type].page = 1;
+//     const startIdx = (adminTableState[type].page - 1) * itemsPerPage;
+    
+//     return { pData: filtered.slice(startIdx, startIdx + itemsPerPage), tItems, startIdx };
+// }
+
 function getPaginatedData(dataArray, type, filterFn) {
     const itemsPerPage = getItemsPerPage();
     let safeArray = Array.isArray(dataArray) ? dataArray : [];
+    
+    // 1. Filter data sesuai pencarian/tahun
     let filtered = [...safeArray].filter(filterFn);
-    if (type !== 'datasiswa') filtered = filtered.reverse();
+    
+    // 2. 🚀 SMART SORTING BERDASARKAN CREATED_AT
+    if (type !== 'datasiswa') {
+        filtered.sort((a, b) => {
+            let idA = String(a.id || a.id_transaksi || '');
+            let idB = String(b.id || b.id_transaksi || '');
+
+            let isTempA = idA.includes('TEMP-');
+            let isTempB = idB.includes('TEMP-');
+
+            // Aturan 1: Jika ini data yang BARU SAJA diklik simpan oleh kasir (belum disinkron) -> Wajib paling atas!
+            if (isTempA && !isTempB) return -1;
+            if (!isTempA && isTempB) return 1;
+            if (isTempA && isTempB) return parseInt(idB.split('-')[1]) - parseInt(idA.split('-')[1]);
+
+            // Aturan 2: Gunakan Waktu Asli dari Supabase (created_at)
+            // Ubah format timestamp ISO ke angka mili-detik agar mudah dibandingkan
+            let timeA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+            let timeB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+
+            if (timeA !== timeB) {
+                return timeB - timeA; // Descending: Waktu terbesar (paling baru) taruh di atas
+            }
+
+            // Fallback (Jaga-jaga): Jika created_at kosong/kembar, urutkan pakai ID numerik
+            let numA = parseInt(idA);
+            let numB = parseInt(idB);
+            if (!isNaN(numA) && !isNaN(numB)) {
+                return numB - numA;
+            }
+
+            return idA > idB ? -1 : (idA < idB ? 1 : 0);
+        });
+    }
+
+    // 3. Lanjutkan ke sistem Pagination
     const tItems = filtered.length;
     const tPages = Math.ceil(tItems / itemsPerPage) || 1;
     if (adminTableState[type].page > tPages) adminTableState[type].page = tPages;
     if (adminTableState[type].page < 1) adminTableState[type].page = 1;
     const startIdx = (adminTableState[type].page - 1) * itemsPerPage;
+    
     return { pData: filtered.slice(startIdx, startIdx + itemsPerPage), tItems, startIdx };
 }
 
@@ -292,7 +442,7 @@ function setTabSiswa(tabName) {
     adminTableState.datasiswa.filterKelas = 'All'; initDropdowns(); loadAdminDataSiswaTable();
 }
 
-// --- TABEL RENDER ---
+// TABEL RENDER DATA SISWA
 function loadAdminDataSiswaTable() {
     const tbody = document.getElementById('table-admin-datasiswa');
     let isAktif = adminTableState.datasiswa.activeTab === 'aktif'; 
@@ -328,20 +478,48 @@ function loadAdminDataSiswaTable() {
         else warnaKelasBadge = 'bg-gray-100 text-gray-700 border-gray-200';
         let kelasBadge = `<span class="${warnaKelasBadge} border px-2.5 py-1 rounded-md text-xs font-bold">${s.kelas}</span>`;
         let tahunClass = warnaTahun[s.tahunMasuk] || 'bg-gray-100 text-gray-700 border-gray-200'; let tahunBadge = `<span class="${tahunClass} border px-2 py-1 rounded-md text-xs font-bold">${s.tahunMasuk}</span>`;
-        tbody.innerHTML += `<tr class="hover:bg-gray-50"><td class="p-4 font-medium text-gray-600 whitespace-nowrap">${s.nis}</td><td class="p-4 font-bold text-gray-800 whitespace-nowrap">${s.nama}</td><td class="p-4 text-center whitespace-nowrap">${lpBadge}</td><td class="p-4 text-center whitespace-nowrap">${tahunBadge}</td><td class="p-4 text-center whitespace-nowrap">${bulanBadge}</td><td class="p-4 text-center whitespace-nowrap">${kelasBadge}</td></tr>`; 
+        tbody.innerHTML += `
+        <tr class="hover:bg-gray-50">
+            <td class="p-4 font-medium text-gray-600 whitespace-nowrap">${s.nis}</td>
+            <td class="p-4 font-bold text-gray-800 whitespace-nowrap">${s.nama}</td>
+            <td class="p-4 text-center whitespace-nowrap">${lpBadge}</td>
+            <td class="p-4 text-center whitespace-nowrap">${tahunBadge}</td>
+            <td class="p-4 text-center whitespace-nowrap">${bulanBadge}</td>
+            <td class="p-4 text-center whitespace-nowrap">${kelasBadge}</td>
+        </tr>`; 
     });
     updatePaginationUI('datasiswa', tItems, pData.length);
 }
 
+// TABEL RENDER DATA PEMASUKAN
 function loadAdminTable() {
-    const tbody = document.getElementById('table-admin-history'); const q = adminTableState.pemasukan.query;
-    const { pData, tItems } = getPaginatedData(dbPembayaran, 'pemasukan', t => !t.isDeleted && (!q || String(t.nis).toLowerCase().includes(q) || String(t.jenis).toLowerCase().includes(q) || String(t.acuanBayar).toLowerCase().includes(q)));
+    const tbody = document.getElementById('table-admin-history'); 
+    const q = adminTableState.pemasukan.query;
+
+    const { pData, tItems } = getPaginatedData(dbPembayaran, 'pemasukan', t => {
+        if (t.isDeleted) return false;
+        
+        // TERAPKAN SOFT RESET DI SINI
+        if (!q && t.tahun !== globalTahunAktif) {
+            return false; 
+        }
+
+        // ... (Logika pencarian berdasarkan teks/query dari kode Anda yang lama) ...
+        if (q && !(
+            String(t.nis).toLowerCase().includes(q) ||
+            String(t.jenis).toLowerCase().includes(q) ||
+            String(t.acuanBayar).toLowerCase().includes(q) ||
+            String(t.tahun).toLowerCase().includes(q)
+        )) {
+            return false;
+        }
+        return true;
+    });
+
     buildTableRow(tbody, pData, 'pemasukan', t => {
         let statusSync = String(t.id).includes('TEMP-') ? '<i class="ph ph-spinner-gap animate-spin text-orange-500 ml-1" title="Menyinkronkan..."></i>' : '';
 
-        // ==========================================
         // Deteksi Badge Lunas / Cicilan di Tabel
-        // ==========================================
         let badgeStatus = '';
         let idReferensi = t.idRef || t.id_ref; 
 
@@ -383,23 +561,58 @@ function loadAdminTable() {
                 }
             }
         }
-        // ==========================================
 
         let btnCetak = `<button type="button" onclick="cetakKwitansi('${t.id}')" class="text-purple-600 hover:text-purple-800 mr-3"><i class="ph ph-printer text-xl"></i></button>`;
         let btnEdit = currentUserRole === 'Super Admin' ? `<button type="button" onclick="editData('pemasukan', '${t.id}')" class="text-blue-500 hover:text-blue-700 mr-2"><i class="ph ph-pencil-simple text-lg"></i></button>` : '';
         let btnDelete = currentUserRole === 'Super Admin' ? `<button type="button" onclick="deleteData('pemasukan', '${t.id}')" class="text-red-500 hover:text-red-700"><i class="ph ph-trash text-lg"></i></button>` : '';
-        tbody.innerHTML += `<tr class="hover:bg-gray-50"><td class="p-4 text-xs"><div class="text-gray-800 font-medium flex items-center whitespace-nowrap">${t.tanggalInput} ${statusSync}</div><div class="text-gray-500 whitespace-nowrap">${t.waktuInput}</div></td><td class="p-4"><div class="font-bold text-blue-600 whitespace-nowrap">${t.nis}</div><div class="text-xs text-gray-600 whitespace-nowrap">${t.nama}</div></td><td class="p-4 text-gray-800"><div class="font-medium whitespace-nowrap">${t.jenis} <span class="text-xs font-normal text-gray-500">(TA: ${t.tahun})</span> ${badgeStatus}</div><div class="text-[11px] text-gray-400 mt-0.5 bg-gray-100 px-1 rounded w-max border whitespace-nowrap">${t.acuanBayar}</div></td><td class="p-4 font-bold text-right text-emerald-600 whitespace-nowrap">${formatRp(t.nominal)}</td><td class="p-4 text-center whitespace-nowrap ${getActionClass('pemasukan')}">${btnCetak}${btnEdit}${btnDelete}</td></tr>`;
+        
+        tbody.innerHTML += `
+        <tr class="hover:bg-gray-50">
+            <td class="p-4 text-xs">
+                <div class="text-gray-800 font-medium flex items-center whitespace-nowrap">${t.tanggalInput} ${statusSync}</div><div class="text-gray-500 whitespace-nowrap">${t.waktuInput}</div>
+            </td>
+            <td class="p-4">
+                <div class="font-bold text-blue-600 whitespace-nowrap">${t.nis}</div>
+                <div class="text-xs text-gray-600 whitespace-nowrap">${t.nama}</div>
+            </td>
+            <td class="p-4 text-gray-800">
+                <div class="font-medium whitespace-nowrap">${t.jenis} <span class="text-xs font-normal text-gray-500">(TA: ${t.tahun})</span> ${badgeStatus}</div>
+                <div class="text-[11px] text-gray-400 mt-0.5 bg-gray-100 px-1 rounded w-max border whitespace-nowrap">${t.acuanBayar}</div>
+            </td>
+            <td class="p-4 font-bold text-right text-emerald-600 whitespace-nowrap">${formatRp(t.nominal)}</td>
+            <td class="p-4 text-center whitespace-nowrap ${getActionClass('pemasukan')}">${btnCetak}${btnEdit}${btnDelete}</td>
+        </tr>`;
     });
     updatePaginationUI('pemasukan', tItems, pData.length);
 }
 
+// TABEL RENDER DATA PEMASUKAN ATRIBUT
 function loadAdminAtributTable() {
-    const tbody = document.getElementById('table-admin-atribut-history'); const q = adminTableState.atribut.query;
+    const tbody = document.getElementById('table-admin-atribut-history');
+    const q = adminTableState.atribut.query;
+
     let saldoTotal = dbPemasukanAtribut.reduce((sum, trx) => !trx.isDeleted ? sum + parseInt(trx.nominal || 0) : sum, 0);
     document.getElementById('total-atribut').innerText = formatRp(saldoTotal);
-    const { pData, tItems } = getPaginatedData(dbPemasukanAtribut, 'atribut', t => 
-        !t.isDeleted && (!q || String(t.nis).toLowerCase().includes(q) || String(t.jenis).toLowerCase().includes(q) || String(t.acuanBayar).toLowerCase().includes(q))
-    );
+
+    const { pData, tItems } = getPaginatedData(dbPemasukanAtribut, 'atribut', t => {
+        if (t.isDeleted) return false;
+        
+        // TERAPKAN SOFT RESET DI SINI
+        if (!q && t.tahun !== globalTahunAktif) {
+            return false; 
+        }
+
+        // ... (Logika pencarian berdasarkan teks/query dari kode Anda yang lama) ...
+        if (q && !(
+            String(t.nis).toLowerCase().includes(q) ||
+            String(t.jenis).toLowerCase().includes(q) ||
+            String(t.acuanBayar).toLowerCase().includes(q) ||
+            String(t.tahun).toLowerCase().includes(q)
+        )) {
+            return false;
+        }
+        return true;
+    });
     
     buildTableRow(tbody, pData, 'atribut', t => {
         let statusSync = String(t.id).includes('TEMP-') ? '<i class="ph ph-spinner-gap animate-spin text-orange-500 ml-1" title="Menyinkronkan..."></i>' : '';
@@ -463,47 +676,45 @@ function loadAdminAtributTable() {
     updatePaginationUI('atribut', tItems, pData.length);
 }
 
+// TABEL RENDER DATA BANTUAN
 function loadAdminBantuanTable() {
-    const tbody = document.getElementById('table-admin-bantuan'); const q = adminTableState.bantuan.query;
+    const tbody = document.getElementById('table-admin-bantuan');
+    const q = adminTableState.bantuan.query;
+
     const { pData, tItems } = getPaginatedData(dbBantuan, 'bantuan', t => !t.isDeleted && (!q || String(t.keterangan).toLowerCase().includes(q) || String(t.jenis).toLowerCase().includes(q) || String(t.tglTransaksi).toLowerCase().includes(q)));
+
     buildTableRow(tbody, pData, 'bantuan', t => {
         let statusSync = String(t.id).includes('TEMP-') ? '<i class="ph ph-spinner-gap animate-spin text-orange-500 ml-1"></i>' : '';
         let btnEdit = currentUserRole === 'Super Admin' ? `<button type="button" onclick="editData('bantuan', '${t.id}')" class="text-blue-500 hover:text-blue-700 mr-2"><i class="ph ph-pencil-simple text-lg"></i></button>` : '';
         let btnDelete = currentUserRole === 'Super Admin' ? `<button type="button" onclick="deleteData('bantuan', '${t.id}')" class="text-red-500 hover:text-red-700"><i class="ph ph-trash text-lg"></i></button>` : '';
-        tbody.innerHTML += `<tr class="hover:bg-gray-50"><td class="p-4 text-xs"><div class="text-gray-800 font-medium flex items-center whitespace-nowrap">${t.tanggalInput} ${statusSync}</div><div class="text-gray-500 whitespace-nowrap">${t.waktuInput}</div></td><td class="p-4"><div class="text-gray-800 whitespace-nowrap">${t.tglTransaksi}</div><div class="text-xs text-gray-500 mt-1 whitespace-nowrap">${t.keterangan}</div></td><td class="p-4"><div class="font-medium text-blue-600 whitespace-nowrap">${t.jenis}</div><div class="text-xs text-gray-500 mt-1 whitespace-nowrap">TA: ${t.tahun}</div></td><td class="p-4 font-medium text-right text-emerald-600 whitespace-nowrap">+ ${formatRp(t.nominal)}</td><td class="p-4 text-center whitespace-nowrap ${getActionClass('bantuan')}">${btnEdit}${btnDelete}</td></tr>`;
+        
+        tbody.innerHTML += `
+        <tr class="hover:bg-gray-50">
+            <td class="p-4 text-xs">
+                <div class="text-gray-800 font-medium flex items-center whitespace-nowrap">${t.tanggalInput} ${statusSync}</div>
+                <div class="text-gray-500 whitespace-nowrap">${t.waktuInput}</div>
+            </td>
+            <td class="p-4">
+                <div class="font-medium text-emerald-600 whitespace-nowrap">${formatDateIndo(t.tglTransaksi)}</div>
+                <div class="text-xs text-gray-500 mt-1 whitespace-nowrap">${t.keterangan}</div>
+            </td>
+            <td class="p-4">
+                <div class="font-medium text-blue-600 whitespace-nowrap">${t.jenis}</div>
+                <div class="text-xs text-gray-500 mt-1 whitespace-nowrap">TA: ${t.tahun}</div>
+            </td>
+            <td class="p-4 font-medium text-right text-emerald-600 whitespace-nowrap">+ ${formatRp(t.nominal)}</td>
+            <td class="p-4 text-center whitespace-nowrap ${getActionClass('bantuan')}">${btnEdit}${btnDelete}</td>
+        </tr>`;
     });
     updatePaginationUI('bantuan', tItems, pData.length);
 }
 
-function loadAdminPengeluaranTable() {
-    const tbody = document.getElementById('table-admin-pengeluaran'); const q = adminTableState.pengeluaran.query;
-    const { pData, tItems } = getPaginatedData(dbPengeluaran, 'pengeluaran', t => !t.isDeleted && (!q || String(t.keterangan).toLowerCase().includes(q) || String(t.jenis).toLowerCase().includes(q) || String(t.tglTransaksi).toLowerCase().includes(q)));
-    buildTableRow(tbody, pData, 'pengeluaran', t => {
-        let statusSync = String(t.id).includes('TEMP-') ? '<i class="ph ph-spinner-gap animate-spin text-orange-500 ml-1"></i>' : '';
-        let btnEdit = currentUserRole === 'Super Admin' ? `<button type="button" onclick="editData('pengeluaran', '${t.id}')" class="text-blue-500 hover:text-blue-700 mr-2"><i class="ph ph-pencil-simple text-lg"></i></button>` : '';
-        let btnDelete = currentUserRole === 'Super Admin' ? `<button type="button" onclick="deleteData('pengeluaran', '${t.id}')" class="text-red-500 hover:text-red-700"><i class="ph ph-trash text-lg"></i></button>` : '';
-        tbody.innerHTML += `<tr class="hover:bg-gray-50"><td class="p-4 text-xs"><div class="text-gray-800 font-medium flex items-center whitespace-nowrap">${t.tanggalInput} ${statusSync}</div><div class="text-gray-500 whitespace-nowrap">${t.waktuInput}</div></td><td class="p-4"><div class="text-gray-800 whitespace-nowrap">${t.tglTransaksi}</div><div class="text-xs text-gray-500 mt-1 whitespace-nowrap">${t.keterangan}</div></td><td class="p-4"><div class="font-medium text-red-600 whitespace-nowrap">${t.jenis}</div><div class="text-xs text-gray-500 mt-1 whitespace-nowrap">TA: ${t.tahun}</div></td><td class="p-4 font-medium text-right text-red-600 whitespace-nowrap">- ${formatRp(t.nominal)}</td><td class="p-4 text-center whitespace-nowrap ${getActionClass('pengeluaran')}">${btnEdit}${btnDelete}</td></tr>`;
-    });
-    updatePaginationUI('pengeluaran', tItems, pData.length);
-}
-
-function loadAdminPengeluaranNonTable() {
-    const tbody = document.getElementById('table-admin-pengeluaran-non'); const q = adminTableState['pengeluaran-non'].query;
-    const { pData, tItems } = getPaginatedData(dbPengeluaranNon, 'pengeluaran-non', t => !t.isDeleted && (!q || String(t.keterangan).toLowerCase().includes(q) || String(t.jenis).toLowerCase().includes(q) || String(t.tglTransaksi).toLowerCase().includes(q)));
-    buildTableRow(tbody, pData, 'pengeluaran-non', t => {
-        let statusSync = String(t.id).includes('TEMP-') ? '<i class="ph ph-spinner-gap animate-spin text-orange-500 ml-1"></i>' : '';
-        let btnEdit = currentUserRole === 'Super Admin' ? `<button type="button" onclick="editData('pengeluaran-non', '${t.id}')" class="text-blue-500 hover:text-blue-700 mr-2"><i class="ph ph-pencil-simple text-lg"></i></button>` : '';
-        let btnDelete = currentUserRole === 'Super Admin' ? `<button type="button" onclick="deleteData('pengeluaran-non', '${t.id}')" class="text-red-500 hover:text-red-700"><i class="ph ph-trash text-lg"></i></button>` : '';
-        tbody.innerHTML += `<tr class="hover:bg-gray-50"><td class="p-4 text-xs"><div class="text-gray-800 font-medium flex items-center whitespace-nowrap">${t.tanggalInput} ${statusSync}</div><div class="text-gray-500 whitespace-nowrap">${t.waktuInput}</div></td><td class="p-4"><div class="text-gray-800 whitespace-nowrap">${t.tglTransaksi}</div><div class="text-xs text-gray-500 mt-1 whitespace-nowrap">${t.keterangan}</div></td><td class="p-4"><div class="font-medium text-orange-600 whitespace-nowrap">${t.jenis}</div><div class="text-xs text-gray-500 mt-1 whitespace-nowrap">TA: ${t.tahun}</div></td><td class="p-4 font-medium text-right text-orange-600 whitespace-nowrap">- ${formatRp(t.nominal)}</td><td class="p-4 text-center whitespace-nowrap ${getActionClass('pengeluaran-non')}">${btnEdit}${btnDelete}</td></tr>`;
-    });
-    updatePaginationUI('pengeluaran-non', tItems, pData.length);
-}
-
+// TABEL RENDER DATA INFAQ
 function loadAdminInfaqTable() {
     const tbody = document.getElementById('table-admin-infaq');
+    const q = adminTableState.infaq.query;
     let saldoTotal = dbInfaq.reduce((sum, trx) => !trx.isDeleted ? (trx.jenis === 'Pemasukan' ? sum + parseInt(trx.nominal || 0) : sum - parseInt(trx.nominal || 0)) : sum, 0);
     document.getElementById('infaq-total-saldo').innerText = formatRp(saldoTotal);
-    const q = adminTableState.infaq.query;
     const { pData, tItems } = getPaginatedData(dbInfaq, 'infaq', t => !t.isDeleted && (!q || String(t.keterangan).toLowerCase().includes(q) || String(t.jenis).toLowerCase().includes(q) || String(t.tglTransaksi).toLowerCase().includes(q)));
     buildTableRow(tbody, pData, 'infaq', t => {
         let isM = t.jenis === 'Pemasukan';
@@ -511,24 +722,152 @@ function loadAdminInfaqTable() {
         let statusSync = String(t.id).includes('TEMP-') ? '<i class="ph ph-spinner-gap animate-spin text-orange-500 ml-1"></i>' : '';
         let btnEdit = currentUserRole === 'Super Admin' ? `<button type="button" onclick="editData('infaq', '${t.id}')" class="text-blue-500 hover:text-blue-700 mr-2"><i class="ph ph-pencil-simple text-lg"></i></button>` : '';
         let btnDelete = currentUserRole === 'Super Admin' ? `<button type="button" onclick="deleteData('infaq', '${t.id}')" class="text-red-500 hover:text-red-700"><i class="ph ph-trash text-lg"></i></button>` : '';
-        tbody.innerHTML += `<tr class="hover:bg-gray-50"><td class="p-4 text-xs"><div class="text-gray-800 font-medium flex items-center whitespace-nowrap">${t.tanggalInput} ${statusSync}</div><div class="text-gray-500 whitespace-nowrap">${t.waktuInput}</div></td><td class="p-4"><div class="text-gray-800 whitespace-nowrap">${t.tglTransaksi}</div><div class="text-xs text-gray-500 mt-1 whitespace-nowrap">${t.keterangan}</div></td><td class="p-4 text-center whitespace-nowrap">${iconM}</td><td class="p-4 font-medium text-right whitespace-nowrap ${isM ? 'text-emerald-600' : 'text-red-600'}">${isM ? '+ ' : '- '}${formatRp(t.nominal)}</td><td class="p-4 text-center whitespace-nowrap ${getActionClass('infaq')}">${btnEdit}${btnDelete}</td></tr>`;
+        tbody.innerHTML += `
+        <tr class="hover:bg-gray-50">
+            <td class="p-4 text-xs">
+                <div class="text-gray-800 font-medium flex items-center whitespace-nowrap">${t.tanggalInput} ${statusSync}</div>
+                <div class="text-gray-500 whitespace-nowrap">${t.waktuInput}</div>
+            </td>
+            <td class="p-4">
+                <div class="font-medium text-gray-800 whitespace-nowrap">${formatDateIndo(t.tglTransaksi)}</div>
+                <div class="text-xs text-gray-500 mt-1 whitespace-nowrap">${t.keterangan}</div>
+            </td>
+            <td class="p-4 text-center whitespace-nowrap">${iconM}</td>
+            <td class="p-4 font-medium text-right whitespace-nowrap ${isM ? 'text-emerald-600' : 'text-red-600'}">${isM ? '+ ' : '- '}${formatRp(t.nominal)}</td>
+            <td class="p-4 text-center whitespace-nowrap ${getActionClass('infaq')}">${btnEdit}${btnDelete}</td>
+        </tr>`;
     });
     updatePaginationUI('infaq', tItems, pData.length);
 }
 
+// TABEL RENDER DATA PENGELUARAN OPERASIONAL
+function loadAdminPengeluaranTable() {
+    const tbody = document.getElementById('table-admin-pengeluaran');
+    const q = adminTableState.pengeluaran.query;
+
+    const { pData, tItems } = getPaginatedData(dbPengeluaran, 'pengeluaran', t => {
+        if (t.isDeleted) return false;
+        
+        // TERAPKAN SOFT RESET DI SINI
+        if (!q && t.tahun !== globalTahunAktif) {
+            return false; 
+        }
+
+        // ... (Logika pencarian berdasarkan teks/query dari kode Anda yang lama) ...
+        if (q && !(
+            String(t.keterangan).toLowerCase().includes(q) ||
+            String(t.jenis).toLowerCase().includes(q) ||
+            String(t.tglTransaksi).toLowerCase().includes(q) ||
+            String(t.tahun).toLowerCase().includes(q)
+        )) {
+            return false;
+        }
+        return true;
+    });
+
+    buildTableRow(tbody, pData, 'pengeluaran', t => {
+        let statusSync = String(t.id).includes('TEMP-') ? '<i class="ph ph-spinner-gap animate-spin text-orange-500 ml-1"></i>' : '';
+        let btnEdit = currentUserRole === 'Super Admin' ? `<button type="button" onclick="editData('pengeluaran', '${t.id}')" class="text-blue-500 hover:text-blue-700 mr-2"><i class="ph ph-pencil-simple text-lg"></i></button>` : '';
+        let btnDelete = currentUserRole === 'Super Admin' ? `<button type="button" onclick="deleteData('pengeluaran', '${t.id}')" class="text-red-500 hover:text-red-700"><i class="ph ph-trash text-lg"></i></button>` : '';
+        
+        tbody.innerHTML += `
+        <tr class="hover:bg-gray-50">
+            <td class="p-4 text-xs">
+                <div class="text-gray-800 font-medium flex items-center whitespace-nowrap">${t.tanggalInput} ${statusSync}</div>
+                <div class="text-gray-500 whitespace-nowrap">${t.waktuInput}</div>
+            </td>
+            <td class="p-4">
+                <div class="font-medium text-red-600 whitespace-nowrap">${formatDateIndo(t.tglTransaksi)}</div>
+                <div class="text-xs text-gray-500 mt-1 whitespace-nowrap">${t.keterangan}</div>
+            </td>
+            <td class="p-4">
+                <div class="font-medium text-red-600 whitespace-nowrap">${t.jenis}</div>
+                <div class="text-xs text-gray-500 mt-1 whitespace-nowrap">TA: ${t.tahun}</div>
+            </td>
+            <td class="p-4 font-medium text-right text-red-600 whitespace-nowrap">- ${formatRp(t.nominal)}</td>
+            <td class="p-4 text-center whitespace-nowrap ${getActionClass('pengeluaran')}">${btnEdit}${btnDelete}</td>
+        </tr>`;
+    });
+    updatePaginationUI('pengeluaran', tItems, pData.length);
+}
+
+// TABEL RENDER DATA PENGELUARAN NON OPERASIONAL
+function loadAdminPengeluaranNonTable() {
+    const tbody = document.getElementById('table-admin-pengeluaran-non');
+    const q = adminTableState['pengeluaran-non'].query;
+
+    const { pData, tItems } = getPaginatedData(dbPengeluaranNon, 'pengeluaran-non', t => {
+        if (t.isDeleted) return false;
+        
+        // TERAPKAN SOFT RESET DI SINI
+        if (!q && t.tahun !== globalTahunAktif) {
+            return false; 
+        }
+
+        // ... (Logika pencarian berdasarkan teks/query dari kode Anda yang lama) ...
+        if (q && !(
+            String(t.keterangan).toLowerCase().includes(q) ||
+            String(t.jenis).toLowerCase().includes(q) ||
+            String(t.tglTransaksi).toLowerCase().includes(q) ||
+            String(t.tahun).toLowerCase().includes(q)
+        )) {
+            return false;
+        }
+        return true;
+    });
+
+    buildTableRow(tbody, pData, 'pengeluaran-non', t => {
+        let statusSync = String(t.id).includes('TEMP-') ? '<i class="ph ph-spinner-gap animate-spin text-orange-500 ml-1"></i>' : '';
+        let btnEdit = currentUserRole === 'Super Admin' ? `<button type="button" onclick="editData('pengeluaran-non', '${t.id}')" class="text-blue-500 hover:text-blue-700 mr-2"><i class="ph ph-pencil-simple text-lg"></i></button>` : '';
+        let btnDelete = currentUserRole === 'Super Admin' ? `<button type="button" onclick="deleteData('pengeluaran-non', '${t.id}')" class="text-red-500 hover:text-red-700"><i class="ph ph-trash text-lg"></i></button>` : '';
+        
+        tbody.innerHTML += `
+        <tr class="hover:bg-gray-50">
+            <td class="p-4 text-xs">
+                <div class="text-gray-800 font-medium flex items-center whitespace-nowrap">${t.tanggalInput} ${statusSync}</div>
+                <div class="text-gray-500 whitespace-nowrap">${t.waktuInput}</div>
+            </td>
+            <td class="p-4">
+                <div class="font-medium text-orange-600 whitespace-nowrap">${formatDateIndo(t.tglTransaksi)}</div>
+                <div class="text-xs text-gray-500 mt-1 whitespace-nowrap">${t.keterangan}</div>
+            </td>
+            <td class="p-4">
+                <div class="font-medium text-orange-600 whitespace-nowrap">${t.jenis}</div>
+                <div class="text-xs text-gray-500 mt-1 whitespace-nowrap">TA: ${t.tahun}</div>
+            </td>
+            <td class="p-4 font-medium text-right text-orange-600 whitespace-nowrap">- ${formatRp(t.nominal)}</td>
+            <td class="p-4 text-center whitespace-nowrap ${getActionClass('pengeluaran-non')}">${btnEdit}${btnDelete}</td>
+        </tr>`;
+    });
+    updatePaginationUI('pengeluaran-non', tItems, pData.length);
+}
+
+// TABEL RENDER DATA USER
 function loadAdminUserTable() {
-    const tbody = document.getElementById('table-admin-user'); const q = adminTableState.user.query;
+    const tbody = document.getElementById('table-admin-user');
+    const q = adminTableState.user.query;
     const { pData, tItems } = getPaginatedData(dbAdmin, 'user', t => !t.isDeleted && (!q || String(t.username).toLowerCase().includes(q) || String(t.nama).toLowerCase().includes(q) || String(t.role).toLowerCase().includes(q)));
     buildTableRow(tbody, pData, 'user', t => {
         let rBadge = t.role === 'Super Admin' ? `<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded text-xs font-bold">Super Admin</span>` : (t.role === 'Admin' ? `<span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-xs font-bold">Admin</span>` : `<span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded text-xs font-bold">Kepala Madrasah</span>`);
         let statusSync = t.id && String(t.id).includes('TEMP-') ? '<i class="ph ph-spinner-gap animate-spin text-orange-500 ml-2"></i>' : '';
+        let ttdBadge = (t.urlTtd || t.url_ttd)
+            ? `<a href="${t.urlTtd || t.url_ttd}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 bg-emerald-100 hover:bg-emerald-200 text-emerald-700 px-2 py-0.5 rounded text-xs font-semibold transition-colors" title="Lihat TTD"><i class="ph ph-signature"></i> Ada TTD</a>`
+            : `<span class="inline-flex items-center gap-1 bg-gray-100 text-gray-400 px-2 py-0.5 rounded text-xs"><i class="ph ph-minus"></i> Kosong</span>`;
         let btnEdit = `<button type="button" onclick="editData('user', '${t.id}')" class="text-blue-500 hover:text-blue-700 mr-2"><i class="ph ph-pencil-simple text-lg"></i></button>`;
         let btnDelete = `<button type="button" onclick="deleteData('user', '${t.id}')" class="text-red-500 hover:text-red-700"><i class="ph ph-trash text-lg"></i></button>`;
-        tbody.innerHTML += `<tr class="hover:bg-gray-50"><td class="p-4 text-gray-800 font-medium flex items-center whitespace-nowrap">${t.username} ${statusSync}</td><td class="p-4 text-gray-800 font-bold whitespace-nowrap">${t.nama}</td><td class="p-4 whitespace-nowrap">${rBadge}</td><td class="p-4 text-center whitespace-nowrap ${getActionClass('user')}">${btnEdit}${btnDelete}</td></tr>`;
+        tbody.innerHTML += `
+        <tr class="hover:bg-gray-50">
+            <td class="p-4 text-gray-800 font-medium flex items-center whitespace-nowrap">${t.username} ${statusSync}</td>
+            <td class="p-4 text-gray-800 font-bold whitespace-nowrap">${t.nama}</td>
+            <td class="p-4 whitespace-nowrap">${rBadge}</td>
+            <td class="p-4 whitespace-nowrap">${ttdBadge}</td>
+            <td class="p-4 text-center whitespace-nowrap ${getActionClass('user')}">${btnEdit}${btnDelete}</td>
+        </tr>`;
     });
     updatePaginationUI('user', tItems, pData.length);
 }
 
+// TABEL RENDER DATA MASTER TARIF
 function loadAdminTarifTable() { 
     const tbody = document.getElementById('table-admin-tarif'); const q = adminTableState.tarif.query; 
     const { pData, tItems } = getPaginatedData(dbMasterTarif, 'tarif', t => !t.isDeleted && (!q || String(t.tahun).toLowerCase().includes(q) || String(t.target).toLowerCase().includes(q) || String(t.jenis).toLowerCase().includes(q))); 
@@ -536,11 +875,19 @@ function loadAdminTarifTable() {
         let statusSync = t.id && String(t.id).includes('TEMP-') ? '<i class="ph ph-spinner-gap animate-spin text-orange-500 ml-2"></i>' : '';
         let btnEdit = `<button type="button" onclick="editData('tarif', '${t.id}')" class="text-blue-500 hover:text-blue-700 mr-2"><i class="ph ph-pencil-simple text-lg"></i></button>`;
         let btnDelete = `<button type="button" onclick="deleteData('tarif', '${t.id}')" class="text-red-500 hover:text-red-700"><i class="ph ph-trash text-lg"></i></button>`;
-        tbody.innerHTML += `<tr class="hover:bg-gray-50"><td class="p-4 text-gray-800 font-medium flex items-center whitespace-nowrap">${t.tahun} ${statusSync}</td><td class="p-4 whitespace-nowrap"><span class="bg-purple-100 text-purple-800 px-2.5 py-1 rounded-md text-xs font-bold border border-purple-200 whitespace-nowrap">${t.target}</span></td><td class="p-4 text-gray-800 font-medium whitespace-nowrap">${t.jenis}</td><td class="p-4 font-bold text-right text-gray-800 whitespace-nowrap">${formatRp(t.nominal)}</td><td class="p-4 text-center whitespace-nowrap">${btnEdit}${btnDelete}</td></tr>`;
+        tbody.innerHTML += `
+        <tr class="hover:bg-gray-50">
+            <td class="p-4 text-gray-800 font-medium flex items-center whitespace-nowrap">${t.tahun} ${statusSync}</td>
+            <td class="p-4 whitespace-nowrap"><span class="bg-purple-100 text-purple-800 px-2.5 py-1 rounded-md text-xs font-bold border border-purple-200 whitespace-nowrap">${t.target}</span></td>
+            <td class="p-4 text-gray-800 font-medium whitespace-nowrap">${t.jenis}</td>
+            <td class="p-4 font-bold text-right text-gray-800 whitespace-nowrap">${formatRp(t.nominal)}</td>
+            <td class="p-4 text-center whitespace-nowrap">${btnEdit}${btnDelete}</td>
+        </tr>`;
     });
     updatePaginationUI('tarif', tItems, pData.length); 
 }
 
+// TABEL RENDER DATA MASTER ATRIBUT
 function loadAdminMasterAtributTable() { 
     const tbody = document.getElementById('table-admin-master_atribut'); const q = adminTableState.master_atribut.query; 
     const { pData, tItems } = getPaginatedData(dbMasterAtribut, 'master_atribut', t => !t.isDeleted && (!q || String(t.tahun).toLowerCase().includes(q) || String(t.jenis).toLowerCase().includes(q))); 
@@ -548,7 +895,13 @@ function loadAdminMasterAtributTable() {
         let statusSync = t.id && String(t.id).includes('TEMP-') ? '<i class="ph ph-spinner-gap animate-spin text-orange-500 ml-2"></i>' : '';
         let btnEdit = `<button type="button" onclick="editData('master_atribut', '${t.id}')" class="text-blue-500 hover:text-blue-700 mr-2"><i class="ph ph-pencil-simple text-lg"></i></button>`;
         let btnDelete = `<button type="button" onclick="deleteData('master_atribut', '${t.id}')" class="text-red-500 hover:text-red-700"><i class="ph ph-trash text-lg"></i></button>`;
-        tbody.innerHTML += `<tr class="hover:bg-gray-50"><td class="p-4 text-gray-800 font-medium flex items-center whitespace-nowrap">${t.tahun} ${statusSync}</td><td class="p-4 text-indigo-700 font-bold whitespace-nowrap">${t.jenis}</td><td class="p-4 font-bold text-right text-emerald-600 whitespace-nowrap">${formatRp(t.nominal)}</td><td class="p-4 text-center whitespace-nowrap">${btnEdit}${btnDelete}</td></tr>`;
+        tbody.innerHTML += `
+        <tr class="hover:bg-gray-50">
+            <td class="p-4 text-gray-800 font-medium flex items-center whitespace-nowrap">${t.tahun} ${statusSync}</td>
+            <td class="p-4 text-indigo-700 font-bold whitespace-nowrap">${t.jenis}</td>
+            <td class="p-4 font-bold text-right text-emerald-600 whitespace-nowrap">${formatRp(t.nominal)}</td>
+            <td class="p-4 text-center whitespace-nowrap">${btnEdit}${btnDelete}</td>
+        </tr>`;
     });
     updatePaginationUI('master_atribut', tItems, pData.length); 
 }
@@ -636,6 +989,7 @@ function editData(tipe, id) {
     } else if (tipe === 'user') {
         const trx = dbAdmin.find(t => String(t.id) === strId); if (!trx) return;
         document.getElementById('edit-id-user').value = trx.id; document.getElementById('edit-old-username').value = trx.username; document.getElementById('user-username').value = trx.username; document.getElementById('user-nama').value = trx.nama; document.getElementById('user-password').value = trx.password; document.getElementById('user-role').value = trx.role;
+        const inputTtd = document.getElementById('user-url-ttd'); if (inputTtd) inputTtd.value = trx.urlTtd || trx.url_ttd || '';
     } else if (tipe === 'atribut') {
         const trx = dbPemasukanAtribut.find(t => String(t.id) === strId); if (!trx) return;
         
@@ -700,7 +1054,33 @@ function submitPembayaran(e) {
         data.acuanBayar = `${nis}-${jenis.toUpperCase()}-${tahun}-${count + 1}`; 
         const s = dbSiswa.find(s => String(s.nis).trim() === nis); data.nama = s ? s.nama : '-'; data.lp = s ? s.lp : '-';
     }
+
+    const searchBox = document.getElementById('search-pemasukan');
+    if (searchBox) {
+        searchBox.value = nis; 
+        if (typeof handleSearch === 'function') handleSearch('pemasukan'); 
+    }
+
     processOptimisticSave('pemasukan', dbPembayaran, data, loadAdminTable);
+
+    // ==========================================
+    // 🚀 BLOK BARU: RESET FORM & BERSIHKAN UI
+    // ==========================================
+    document.getElementById('form-pembayaran').reset();
+    document.getElementById('info-nama-siswa').classList.add('hidden');
+    document.getElementById('info-harga-tarif-teks').classList.add('hidden'); // Menyembunyikan teks target pelunasan
+    document.getElementById('alert-tunggakan-pemasukan').classList.add('hidden'); // Menyembunyikan alert orange
+    
+    // Kosongkan memori variabel tersembunyi
+    document.getElementById('edit-id-nota-referensi-pemasukan').value = "";
+    document.getElementById('edit-harga-tarif-pemasukan').value = 0;
+    
+    // Kembalikan form nominal ke keadaan normal (tidak terkunci)
+    const inputNominal = document.getElementById('input-nominal');
+    if (inputNominal) {
+        inputNominal.readOnly = false;
+        inputNominal.classList.remove('bg-gray-200');
+    }
 }
 
 // function submitPembayaranAtribut(e) {
@@ -1029,8 +1409,9 @@ function submitUser(e) {
         oldUsername: document.getElementById('edit-old-username').value, 
         username: username, 
         nama: document.getElementById('user-nama').value.trim(), 
-        password: document.getElementById('user-password').value, 
-        role: document.getElementById('user-role').value 
+        password: document.getElementById('user-password').value,
+        role: document.getElementById('user-role').value,
+        urlTtd: document.getElementById('user-url-ttd') ? document.getElementById('user-url-ttd').value.trim() : ''
     };
 
     if (!data.isEdit && dbAdmin.find(u => String(u.username).trim().toLowerCase() === String(username).trim().toLowerCase())) { 
@@ -1057,7 +1438,9 @@ function setChartSiswaTab(tab) {
 function handleDashFilter() { loadDashboardStats(); }
 
 function loadDashboardStats() {
-    const filterTahun = document.getElementById('filter-dash-tahun') ? document.getElementById('filter-dash-tahun').value : 'All';
+    // const filterTahun = document.getElementById('filter-dash-tahun') ? document.getElementById('filter-dash-tahun').value : 'All';
+    const eDash = document.getElementById('filter-dash-tahun');
+    const filterTahun = eDash && eDash.value ? eDash.value : globalTahunAktif;
     let globalPemasukanSiswa = dbPembayaran.reduce((sum, trx) => !trx.isDeleted ? sum + parseInt(trx.nominal || 0) : sum, 0);
     let globalBantuan = dbBantuan.reduce((sum, trx) => !trx.isDeleted ? sum + parseInt(trx.nominal || 0) : sum, 0);
     let globalOps = dbPengeluaran.reduce((sum, trx) => !trx.isDeleted ? sum + parseInt(trx.nominal || 0) : sum, 0);
@@ -1582,85 +1965,367 @@ function pilihBeliBaruAtribut() {
 // ==========================================
 // PENDETEKSI TARIF & HUTANG SPP
 // ==========================================
-function cekTarifDanTunggakan() {
+// function cekTarifDanTunggakan() {
+//     const nis = document.getElementById('input-nis').value.trim();
+//     const jenis = document.getElementById('input-jenis').value;
+//     const tahun = document.getElementById('input-tahun').value;
+    
+//     const alertBox = document.getElementById('alert-tunggakan-pemasukan');
+//     const infoTarifBox = document.getElementById('info-harga-tarif-teks');
+//     const btnSubmit = document.getElementById('btn-submit-pemasukan');
+//     const inputNominal = document.getElementById('input-nominal');
+//     const idRefField = document.getElementById('edit-id-nota-referensi-pemasukan');
+//     const tarifField = document.getElementById('edit-harga-tarif-pemasukan');
+
+//     // Reset Visual Awal
+//     alertBox.classList.add('hidden'); alertBox.className = 'hidden bg-orange-50 border border-orange-200 text-orange-800 p-3 rounded-lg text-sm mb-4';
+//     infoTarifBox.classList.add('hidden'); idRefField.value = ''; tarifField.value = 0;
+//     btnSubmit.disabled = false; btnSubmit.classList.remove('opacity-50');
+
+//     if (!nis || !jenis || !tahun) return;
+
+//     // 👇 INI BARIS YANG SEBELUMNYA HILANG
+//     const siswa = dbSiswa.find(s => String(s.nis).trim() === nis); 
+//     if (!siswa) return;
+    
+//     // 1. Cari Tarif dari Master Tarif (Smart Prefix / Rumpun Kelas)
+//     const namaKelasSiswa = String(siswa.kelas).trim().toUpperCase(); // misal: "X E1"
+//     const jenisDipilih = String(jenis).trim().toUpperCase();
+
+//     // 1. Cari Tarif dari Master Tarif (Prioritas: NIS Khusus -> Kelas -> SEMUA KELAS)
+//     let tarifObj = dbMasterTarif.find(t => {
+//         // Harus tahun dan jenis yang sama
+//         if (t.tahun !== tahun) return false;
+//         if (String(t.jenis).trim().toUpperCase() !== jenisDipilih) return false;
+        
+//         const targetVal = String(t.target).trim().toUpperCase();
+        
+//         // Aturan 1: Berlaku untuk semua
+//         if (targetVal === 'SEMUA KELAS') return true;
+        
+//         // Aturan 2: Berlaku untuk siswa tertentu
+//         if (targetVal === `NIS ${nis}`) return true;
+        
+//         // Aturan 3: Kelas persis sama (misal: "X E1" == "X E1")
+//         if (targetVal === namaKelasSiswa) return true;
+        
+//         // Aturan 4: Rumpun Kelas (Target "X" mencakup "X E1", tapi mengabaikan "XI")
+//         if (namaKelasSiswa.startsWith(targetVal + ' ')) return true;
+        
+//         return false;
+//     });
+
+//     if (tarifObj) {
+//         const hargaTarif = parseInt(tarifObj.nominal) || 0;
+//         tarifField.value = hargaTarif;
+//         infoTarifBox.innerHTML = `Tarif: <b>Rp ${formatRp(hargaTarif)}</b>`;
+//         infoTarifBox.classList.remove('hidden');
+
+//         // 2. Cari apakah sudah pernah dicicil sebelumnya
+//         const riwayat = dbPembayaran.filter(t => String(t.nis).trim() === nis && t.jenis === jenis && t.tahun === tahun && !t.isDeleted);
+//         const totalTerbayar = riwayat.reduce((sum, t) => sum + parseInt(t.nominal), 0);
+
+//         if (totalTerbayar > 0) {
+//             const sisa = hargaTarif - totalTerbayar;
+//             if (sisa > 0) {
+//                 alertBox.innerHTML = `Siswa ini memiliki sisa tunggakan <b>Rp ${formatRp(sisa)}</b> untuk ${jenis}.`;
+//                 alertBox.classList.remove('hidden');
+//                 idRefField.value = riwayat[0].id_ref || riwayat[0].idRef || riwayat[0].id; // Sambungkan ke nota awal
+//                 inputNominal.value = sisa; // Rekomendasikan lunas sisa
+//             } else {
+//                 alertBox.innerHTML = `Tagihan ${jenis} tahun ${tahun} <b>SUDAH LUNAS</b>.`;
+//                 alertBox.className = 'bg-green-50 border border-green-200 text-green-800 p-3 rounded-lg text-sm mb-4';
+//                 inputNominal.value = 0;
+//                 btnSubmit.disabled = true;
+//                 btnSubmit.classList.add('opacity-50'); // Kunci tombol
+//             }
+//         } else {
+//             inputNominal.value = hargaTarif; // Default langsung lunas
+//         }
+//         evaluasiStatusPemasukan();
+//     }
+// }
+
+// ==========================================
+// 1. FUNGSI CEK NAMA & DETEKTIF TUNGGAKAN (SUPER RADAR)
+// ==========================================
+function cekNamaSiswa(nis, skipKalkulasi = false) {
+    resetPencarianPemasukan();
+
+    if (!nis) nis = document.getElementById('input-nis').value.trim();
+    
+    const siswa = dbSiswa.find(s => String(s.nis).trim() === nis);
+    const elNama = document.getElementById('info-nama-siswa');
+    const alertBox = document.getElementById('alert-tunggakan-pemasukan');
+    const btnSubmit = document.getElementById('btn-submit-pemasukan');
+    const inputNominal = document.getElementById('input-nominal');
+    
+    const jenisDipilih = document.getElementById('input-jenis').value;
+    const tahunDipilih = document.getElementById('input-tahun').value;
+
+    document.getElementById('edit-id-nota-referensi-pemasukan').value = "";
+    
+    if (btnSubmit) {
+        btnSubmit.disabled = false;
+        btnSubmit.classList.remove('opacity-50');
+    }
+    
+    if (!skipKalkulasi && typeof cekTarifDanTunggakan === "function") {
+        cekTarifDanTunggakan(true); 
+    }
+
+    if (siswa) {
+        elNama.innerHTML = `<i class="ph ph-user-circle mr-1 text-lg"></i> ${siswa.nama} (${siswa.kelas})`;
+        elNama.classList.remove('hidden', 'text-red-600');
+        elNama.classList.add('text-cyan-600');
+        
+        document.getElementById('edit-nama-pemasukan').value = siswa.nama;
+        document.getElementById('edit-lp-pemasukan').value = siswa.lp;
+    } else {
+        elNama.innerHTML = '<i class="ph ph-x-circle mr-1 text-lg"></i> Siswa tidak ditemukan';
+        elNama.classList.remove('hidden', 'text-cyan-600');
+        elNama.classList.add('text-red-600');
+        alertBox.classList.add('hidden');
+        return;
+    }
+
+    const transaksiSiswa = dbPembayaran.filter(t => String(t.nis).trim() === nis && !t.isDeleted);
+    let tunggakanHTML = '';
+    let adaTunggakanItemSama = false; 
+
+    // ========================================================
+    // 🚀 TAHAP 1: KUMPULKAN SEMUA "KEWAJIBAN" DARI MASTER TARIF
+    // ========================================================
+    let kewajibanSiswa = [];
+    
+    // Cari semua kombinasi unik (Tahun + Jenis) dari Master Tarif
+    let combinations = [...new Set(dbMasterTarif.filter(t => !t.isDeleted).map(t => `${t.tahun}###${t.jenis}`))];
+    
+    combinations.forEach(combo => {
+        let [tTahun, tJenis] = combo.split('###');
+        
+        // 1. Cek Kelas Sejarah (Mesin Waktu)
+        let hClass = "";
+        try {
+            if (typeof getHistoricalClass === 'function') {
+                hClass = String(getHistoricalClass(siswa, tTahun)).trim().toUpperCase();
+            }
+        } catch(e) {}
+        
+        if (!hClass) return; // Jika kosong, berarti tahun tsb siswa belum masuk / sudah keluar
+
+        // 2. Cari Tarif yang paling cocok untuk kelasnya di tahun tersebut (Prioritas)
+        let matchingTarifs = dbMasterTarif.filter(t => !t.isDeleted && t.tahun === tTahun && t.jenis === tJenis);
+        let selectedTarif = null;
+        let highestPriority = -1;
+
+        matchingTarifs.forEach(t => {
+            let target = String(t.target).trim().toUpperCase();
+            if (target === `NIS ${nis}` && highestPriority < 4) { selectedTarif = t; highestPriority = 4; }
+            else if (target === hClass && highestPriority < 3) { selectedTarif = t; highestPriority = 3; }
+            else if (hClass.startsWith(target + ' ') && highestPriority < 2) { selectedTarif = t; highestPriority = 2; }
+            else if (target === 'SEMUA KELAS' && highestPriority < 1) { selectedTarif = t; highestPriority = 1; }
+        });
+
+        if (selectedTarif) {
+            kewajibanSiswa.push({
+                tahun: tTahun,
+                jenis: tJenis,
+                nominal: parseInt(selectedTarif.nominal) || 0
+            });
+        }
+    });
+
+    // ========================================================
+    // 🚀 TAHAP 2: BANDINGKAN KEWAJIBAN vs RIWAYAT PEMBAYARAN
+    // ========================================================
+    kewajibanSiswa.forEach(kewajiban => {
+        // Pengecualian SPP sebelum bulan masuk (Fitur Siswa Pindahan)
+        if (String(kewajiban.jenis).toUpperCase().includes('SPP')) {
+            let tMasuk = parseInt(String(siswa.tahunMasuk).split('/')[0]) || 0;
+            let tTarif = parseInt(String(kewajiban.tahun).split('/')[0]) || 0;
+            if (tTarif === tMasuk && siswa.bulanMulai) {
+                const blnArr = ['Juli','Agustus','September','Oktober','November','Desember','Januari','Februari','Maret','April','Mei','Juni'];
+                let startIndex = blnArr.findIndex(b => b.toLowerCase() === siswa.bulanMulai.toLowerCase());
+                if (startIndex === -1) startIndex = 0;
+                let monthOfSPP = blnArr.find(b => String(kewajiban.jenis).toUpperCase().includes(b.toUpperCase()));
+                if (monthOfSPP) {
+                    let sppIndex = blnArr.findIndex(b => b === monthOfSPP);
+                    if (sppIndex < startIndex) return; // Skip bulan ini!
+                }
+            }
+        }
+
+        // Hitung total bayar untuk jenis & tahun ini
+        const riwayatItem = transaksiSiswa.filter(t => t.jenis === kewajiban.jenis && t.tahun === kewajiban.tahun);
+        let totalBayar = riwayatItem.reduce((sum, t) => sum + (parseInt(t.nominal) || 0), 0);
+        let sisaHutang = kewajiban.nominal - totalBayar;
+
+        // 🛡️ PEMBATASAN TAHUN AKTIF
+        let isTahunLalu = kewajiban.tahun !== globalTahunAktif;
+        let isCicilanTahunIni = (kewajiban.tahun === globalTahunAktif && totalBayar > 0); 
+
+        // 🚀 Tampilkan di Alert Tunggakan HANYA JIKA:
+        // 1. Tagihan Tahun Lalu (baik kosong maupun kurang bayar)
+        // 2. ATAU Tagihan Tahun Ini yang berstatus Cicilan (Sudah ada DP/uang masuk)
+        if (sisaHutang > 0 && (isTahunLalu || isCicilanTahunIni)) {
+            
+            // Kunci input jika item yang dipilih di dropdown sama persis dengan yang nunggak
+            if (jenisDipilih === kewajiban.jenis && tahunDipilih === kewajiban.tahun) {
+                adaTunggakanItemSama = true;
+            }
+
+            // Cari ID Induk (Jika belum pernah bayar sama sekali, ID kosong. Jika pernah bayar sebagian, ambil ID nota pertama)
+            let idInduk = "";
+            if (riwayatItem.length > 0) {
+                let induk = riwayatItem.find(r => !r.id_ref && !r.idRef);
+                idInduk = induk ? induk.id : riwayatItem[0].id;
+            }
+
+            tunggakanHTML += `
+            <div class="flex justify-between items-center bg-white p-2 rounded border border-orange-200 mt-1.5 shadow-sm">
+                <span class="font-medium text-gray-800">${kewajiban.jenis} <span class="text-xs text-gray-500">(${kewajiban.tahun})</span><br><span class="text-xs text-red-600 font-bold">Kekurangan: Rp ${formatRp(sisaHutang)}</span></span>
+                <button type="button" onclick="setBayarCicilanPemasukan('${idInduk}', '${kewajiban.jenis}', '${kewajiban.tahun}', ${sisaHutang}, ${kewajiban.nominal})" class="bg-orange-100 hover:bg-orange-300 text-orange-800 px-3 py-1.5 rounded text-xs font-bold transition-colors shadow-sm">Lunasi Ini</button>
+            </div>`;
+        }
+    });
+
+    // ========================================================
+    // 🚀 TAHAP 3: TAMPILKAN KE LAYAR
+    // ========================================================
+    if (tunggakanHTML !== '') {
+        if (adaTunggakanItemSama) {
+            if (inputNominal) {
+                inputNominal.value = '';
+                inputNominal.readOnly = true;
+                inputNominal.classList.add('bg-gray-200');
+            }
+            if (btnSubmit) {
+                btnSubmit.disabled = true;
+                btnSubmit.classList.add('opacity-50');
+            }
+        }
+
+        alertBox.innerHTML = `
+            <div class="flex items-start">
+                <i class="ph ph-warning-circle text-orange-600 mt-0.5 mr-2 text-lg"></i>
+                <div class="w-full">
+                    <p class="font-bold mb-1 text-orange-900">Perhatian: Ditemukan Tunggakan!</p>
+                    <p class="text-[11px] text-orange-700 mb-2">Klik <b>Lunasi Ini</b> untuk memproses tagihan yang tertinggal.</p>
+                    <div class="space-y-2 w-full max-h-64 overflow-y-auto pr-1 custom-scrollbar">${tunggakanHTML}</div>
+                </div>
+            </div>`;
+        alertBox.classList.remove('hidden');
+        alertBox.className = 'bg-orange-50 border border-orange-200 text-orange-800 p-3 rounded-lg text-sm mb-4 transition-all block';
+    } else {
+        if(!alertBox.innerHTML.includes("SUDAH LUNAS")) {
+            alertBox.classList.add('hidden');
+        }
+    }
+}
+
+// ==========================================
+// 2. FUNGSI CEK TARIF KETETAPAN
+// ==========================================
+function cekTarifDanTunggakan(skipCekTunggakan = false) {
+    if (document.getElementById('edit-id-nota-referensi-pemasukan').value !== "") return;
+
     const nis = document.getElementById('input-nis').value.trim();
     const jenis = document.getElementById('input-jenis').value;
     const tahun = document.getElementById('input-tahun').value;
     
-    const alertBox = document.getElementById('alert-tunggakan-pemasukan');
     const infoTarifBox = document.getElementById('info-harga-tarif-teks');
-    const btnSubmit = document.getElementById('btn-submit-pemasukan');
     const inputNominal = document.getElementById('input-nominal');
-    const idRefField = document.getElementById('edit-id-nota-referensi-pemasukan');
     const tarifField = document.getElementById('edit-harga-tarif-pemasukan');
+    const alertBox = document.getElementById('alert-tunggakan-pemasukan');
+    const btnSubmit = document.getElementById('btn-submit-pemasukan');
 
-    // Reset Visual Awal
-    alertBox.classList.add('hidden'); alertBox.className = 'hidden bg-orange-50 border border-orange-200 text-orange-800 p-3 rounded-lg text-sm mb-4';
-    infoTarifBox.classList.add('hidden'); idRefField.value = ''; tarifField.value = 0;
-    btnSubmit.disabled = false; btnSubmit.classList.remove('opacity-50');
+    infoTarifBox.classList.add('hidden'); 
+    tarifField.value = 0;
 
     if (!nis || !jenis || !tahun) return;
 
-    // 👇 INI BARIS YANG SEBELUMNYA HILANG
     const siswa = dbSiswa.find(s => String(s.nis).trim() === nis); 
     if (!siswa) return;
     
-    // 1. Cari Tarif dari Master Tarif (Smart Prefix / Rumpun Kelas)
-    const namaKelasSiswa = String(siswa.kelas).trim().toUpperCase(); // misal: "X E1"
+    // 🚀 MESIN WAKTU JUGA BEKERJA DI SINI
+    // Ambil kelas siswa pada tahun ajaran yang dipilih di dropdown!
+    const namaKelasSiswaHistoris = getHistoricalClass(siswa, tahun).toUpperCase();
     const jenisDipilih = String(jenis).trim().toUpperCase();
 
-    // 1. Cari Tarif dari Master Tarif (Prioritas: NIS Khusus -> Kelas -> SEMUA KELAS)
     let tarifObj = dbMasterTarif.find(t => {
-        // Harus tahun dan jenis yang sama
         if (t.tahun !== tahun) return false;
         if (String(t.jenis).trim().toUpperCase() !== jenisDipilih) return false;
         
         const targetVal = String(t.target).trim().toUpperCase();
-        
-        // Aturan 1: Berlaku untuk semua
         if (targetVal === 'SEMUA KELAS') return true;
-        
-        // Aturan 2: Berlaku untuk siswa tertentu
         if (targetVal === `NIS ${nis}`) return true;
-        
-        // Aturan 3: Kelas persis sama (misal: "X E1" == "X E1")
-        if (targetVal === namaKelasSiswa) return true;
-        
-        // Aturan 4: Rumpun Kelas (Target "X" mencakup "X E1", tapi mengabaikan "XI")
-        if (namaKelasSiswa.startsWith(targetVal + ' ')) return true;
-        
+        if (targetVal === namaKelasSiswaHistoris) return true;
+        if (namaKelasSiswaHistoris.startsWith(targetVal + ' ')) return true;
         return false;
     });
 
     if (tarifObj) {
         const hargaTarif = parseInt(tarifObj.nominal) || 0;
         tarifField.value = hargaTarif;
-        infoTarifBox.innerHTML = `Tarif: <b>Rp ${formatRp(hargaTarif)}</b>`;
+        infoTarifBox.innerHTML = `Tarif Ketetapan: <b>Rp ${formatRp(hargaTarif)}</b>`;
         infoTarifBox.classList.remove('hidden');
 
-        // 2. Cari apakah sudah pernah dicicil sebelumnya
         const riwayat = dbPembayaran.filter(t => String(t.nis).trim() === nis && t.jenis === jenis && t.tahun === tahun && !t.isDeleted);
         const totalTerbayar = riwayat.reduce((sum, t) => sum + parseInt(t.nominal), 0);
 
-        if (totalTerbayar > 0) {
-            const sisa = hargaTarif - totalTerbayar;
-            if (sisa > 0) {
-                alertBox.innerHTML = `Siswa ini memiliki sisa tunggakan <b>Rp ${formatRp(sisa)}</b> untuk ${jenis}.`;
-                alertBox.classList.remove('hidden');
-                idRefField.value = riwayat[0].id_ref || riwayat[0].idRef || riwayat[0].id; // Sambungkan ke nota awal
-                inputNominal.value = sisa; // Rekomendasikan lunas sisa
-            } else {
-                alertBox.innerHTML = `Tagihan ${jenis} tahun ${tahun} <b>SUDAH LUNAS</b>.`;
-                alertBox.className = 'bg-green-50 border border-green-200 text-green-800 p-3 rounded-lg text-sm mb-4';
-                inputNominal.value = 0;
-                btnSubmit.disabled = true;
-                btnSubmit.classList.add('opacity-50'); // Kunci tombol
-            }
+        if (totalTerbayar >= hargaTarif) {
+            alertBox.innerHTML = `Tagihan ${jenis} tahun ${tahun} <b>SUDAH LUNAS</b>.`;
+            alertBox.className = 'bg-green-50 border border-green-200 text-green-800 p-3 rounded-lg text-sm mb-4 block';
+            inputNominal.value = 0;
+            inputNominal.readOnly = true;
+            inputNominal.classList.add('bg-gray-200');
+            if (btnSubmit) { btnSubmit.disabled = true; btnSubmit.classList.add('opacity-50'); }
         } else {
-            inputNominal.value = hargaTarif; // Default langsung lunas
+            inputNominal.value = hargaTarif; 
+            inputNominal.readOnly = false;
+            inputNominal.classList.remove('bg-gray-200');
         }
         evaluasiStatusPemasukan();
     }
+
+    if (!skipCekTunggakan) {
+        cekNamaSiswa(nis, true);
+    }
+}
+
+// ==========================================
+// 3. (BARU) EKSEKUSI TOMBOL "LUNASI INI"
+// ==========================================
+function setBayarCicilanPemasukan(idInduk, jenis, tahun, sisa, hargaTarif) {
+    document.getElementById('input-tahun').value = tahun;
+    document.getElementById('input-jenis').value = jenis;
+    document.getElementById('edit-id-nota-referensi-pemasukan').value = idInduk; 
+    
+    // Tampilkan info tarif
+    const infoTarif = document.getElementById('info-harga-tarif-teks');
+    document.getElementById('edit-harga-tarif-pemasukan').value = hargaTarif;
+    infoTarif.innerHTML = `Target Pelunasan: <b>${formatRp(hargaTarif)}</b> (Sisa: <b class="text-red-500">${formatRp(sisa)}</b>)`;
+    infoTarif.classList.remove('hidden');
+    
+    // Buka kunci Form
+    const inputNominal = document.getElementById('input-nominal');
+    inputNominal.value = sisa;
+    inputNominal.readOnly = false;
+    inputNominal.classList.remove('bg-gray-200');
+    inputNominal.focus();
+
+    const btnSubmit = document.getElementById('btn-submit-pemasukan');
+    if (btnSubmit) {
+        btnSubmit.disabled = false;
+        btnSubmit.classList.remove('opacity-50');
+    }
+
+    // Update badge status menjadi Hutang/Cicilan
+    evaluasiStatusPemasukan();
+
+    // Sembunyikan alert agar kasir fokus simpan
+    document.getElementById('alert-tunggakan-pemasukan').classList.add('hidden');
 }
 
 function evaluasiStatusPemasukan() {
@@ -1674,6 +2339,82 @@ function evaluasiStatusPemasukan() {
         statusDrop.value = 'Hutang'; statusDrop.className = "w-full px-3 py-2 border border-orange-300 bg-orange-50 text-orange-700 rounded-lg font-bold";
     } else {
         statusDrop.value = 'Lunas'; statusDrop.className = "w-full px-3 py-2 border border-green-300 bg-green-50 text-green-700 rounded-lg font-bold";
+    }
+}
+
+
+async function simpanTahunAjaranAktif(event) {
+    // 1. Cegah form merefresh halaman
+    if(event) event.preventDefault(); 
+    
+    // 2. Ambil nilai dari dropdown
+    const tahunDipilih = document.getElementById('setting-tahun-ajaran').value;
+    
+    if (!tahunDipilih) {
+        if(typeof tampilkanModalNotif === 'function') {
+            tampilkanModalNotif('Peringatan', 'Silakan pilih Tahun Ajaran terlebih dahulu!', 'warning');
+        } else {
+            showToast('Silakan pilih Tahun Ajaran terlebih dahulu!');
+        }
+        return;
+    }
+
+    // 3. Efek Loading pada Tombol
+    const btn = document.getElementById('btn-submit-pengaturan');
+    const originalText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = `<i class="ph ph-spinner animate-spin mr-2 text-lg"></i> Menyimpan...`;
+
+    try {
+        // 4. Update data ke tabel 'pengaturan' di Supabase
+        const { error } = await supabaseClient
+            .from('pengaturan')
+            .update({ 
+                nilai: tahunDipilih, 
+                updated_at: new Date().toISOString() 
+            })
+            .eq('kunci', 'tahun_ajaran_aktif');
+
+        if (error) throw error;
+
+        // 5. Update UI dan Variabel Global jika sukses
+        globalTahunAktif = tahunDipilih;
+        
+        // Update label status di atas form
+        const labelStatus = document.getElementById('label-tahun-aktif-sekarang');
+        if(labelStatus) labelStatus.innerText = tahunDipilih;
+        
+        if(typeof tampilkanModalNotif === 'function') {
+            tampilkanModalNotif('Berhasil!', `Sistem kini menggunakan Tahun Ajaran ${tahunDipilih} sebagai tahun aktif.`, 'success');
+            setTimeout(() => tutupModalNotif(), 2000);
+        } else {
+            showToast(`Berhasil! Tahun ajaran aktif diubah ke ${tahunDipilih}`);
+        }
+
+        // 💡 OPSIONAL: Panggil fungsi untuk me-refresh data tabel yang sedang terbuka 
+        // (Misal: loadTabelPemasukan() atau initDashboard() agar langsung memfilter data berdasarkan tahun baru)
+
+    } catch (error) {
+        console.error("Gagal menyimpan pengaturan:", error);
+        if(typeof tampilkanModalNotif === 'function') {
+            tampilkanModalNotif('Gagal', 'Terjadi kesalahan sistem saat menyimpan data.', 'error');
+        } else {
+            showToast('Gagal menyimpan pengaturan.');
+        }
+    } finally {
+        // 6. Kembalikan kondisi tombol
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+    }
+}
+
+function resetPencarianPemasukan() {
+    const searchBox = document.getElementById('search-pemasukan');
+    if (searchBox && searchBox.value !== '') {
+        searchBox.value = ''; // Kosongkan kotak pencarian
+        if (typeof handleSearch === 'function') {
+            handleSearch('pemasukan'); // Segarkan tabel kembali ke tahun aktif
+        }
     }
 }
 

@@ -146,6 +146,8 @@ function editData(tipe, id) {
 		document.getElementById('user-nama').value = trx.nama;
 		document.getElementById('user-password').value = trx.password;
 		document.getElementById('user-role').value = trx.role;
+		const inputTtd = document.getElementById('user-url-ttd');
+		if (inputTtd) inputTtd.value = trx.urlTtd || trx.url_ttd || '';
 	} else if (tipe === 'atribut') {
 		const trx = dbPemasukanAtribut.find(t => String(t.id) === strId);
 		if (!trx) return;

@@ -56,9 +56,14 @@ async function handleLoginAdmin(e) {
         const adminFormat = { 
             id: adminDetail ? adminDetail.id : authData.user.id, 
             username: user, 
-            nama: adminDetail ? adminDetail.nama_admin : 'Administrator', 
-            role: adminDetail ? adminDetail.role : 'Admin' 
+            nama: adminDetail ? adminDetail.nama_admin : 'Administrator',
+            role: adminDetail ? adminDetail.role : 'Admin',
+            url_ttd: adminDetail ? (adminDetail.url_ttd || '') : ''
         };
+        currentUserData = adminFormat;
+        try {
+            sessionStorage.setItem('mabu_admin_user', JSON.stringify(adminFormat));
+        } catch (e) {}
         
         renderAdminView(adminFormat);
         setupIdleTimer();
@@ -243,6 +248,8 @@ async function confirmLogout() {
         
         // 3. Reset semua variabel dan form lokal
         if(typeof currentUserRole !== 'undefined') currentUserRole = '';
+        if(typeof currentUserData !== 'undefined') currentUserData = null;
+        try { sessionStorage.removeItem('mabu_admin_user'); } catch(e) {}
         currentSiswaData = null; 
         currentBillingData = null;
 

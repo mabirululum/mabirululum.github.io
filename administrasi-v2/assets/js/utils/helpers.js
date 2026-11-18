@@ -64,3 +64,44 @@ const formatDateIndo = (dateString) => {
 
     return `${tanggal} ${bulan[indexBulan]} ${tahun}`;
 };
+
+// HELPER PETUGAS & BENDAHARA DINAMIS
+function getCurrentAdmin() {
+    if (typeof currentUserData !== 'undefined' && currentUserData) {
+        return currentUserData;
+    }
+    try {
+        const saved = sessionStorage.getItem('mabu_admin_user');
+        if (saved) {
+            currentUserData = JSON.parse(saved);
+            return currentUserData;
+        }
+    } catch (e) {}
+    return null;
+}
+
+function getInfoBendahara() {
+    const adminNow = getCurrentAdmin();
+    // 1. Jika user yang sedang login adalah Admin / Bendahara
+    if (adminNow && (adminNow.role === 'Admin' || String(adminNow.role || '').toLowerCase().includes('bendahara'))) {
+        return {
+            nama: adminNow.nama || 'Bendahara Madrasah',
+            urlTtd: adminNow.url_ttd || adminNow.urlTtd || ''
+        };
+    }
+    // 2. Jika bukan (misal Super Admin atau Kepsek), cari user ber-role Admin di dbAdmin
+    if (typeof dbAdmin !== 'undefined' && Array.isArray(dbAdmin)) {
+        const bendaharaDb = dbAdmin.find(u => u.role === 'Admin' || String(u.nama || '').toLowerCase().includes('ririn'));
+        if (bendaharaDb) {
+            return {
+                nama: bendaharaDb.nama || 'Ririn Jauharin, S.Ak.',
+                urlTtd: bendaharaDb.urlTtd || bendaharaDb.url_ttd || ''
+            };
+        }
+    }
+    // 3. Fallback jika database belum termuat
+    return {
+        nama: adminNow?.nama || 'Ririn Jauharin, S.Ak.',
+        urlTtd: adminNow?.url_ttd || adminNow?.urlTtd || ''
+    };
+}

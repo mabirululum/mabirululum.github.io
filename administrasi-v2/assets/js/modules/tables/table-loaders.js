@@ -546,6 +546,9 @@ function loadAdminUserTable() {
     buildTableRow(tbody, pData, 'user', t => {
         let rBadge = t.role === 'Super Admin' ? `<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded text-xs font-bold">Super Admin</span>` : (t.role === 'Admin' ? `<span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-xs font-bold">Admin</span>` : `<span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded text-xs font-bold">Kepala Madrasah</span>`);
         let statusSync = t.id && String(t.id).includes('TEMP-') ? '<i class="ph ph-spinner-gap animate-spin text-orange-500 ml-2"></i>' : '';
+        let ttdBadge = (t.urlTtd || t.url_ttd)
+            ? `<a href="${t.urlTtd || t.url_ttd}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 bg-emerald-100 hover:bg-emerald-200 text-emerald-700 px-2 py-0.5 rounded text-xs font-semibold transition-colors" title="Lihat TTD"><i class="ph ph-signature"></i> Ada TTD</a>`
+            : `<span class="inline-flex items-center gap-1 bg-gray-100 text-gray-400 px-2 py-0.5 rounded text-xs"><i class="ph ph-minus"></i> Kosong</span>`;
         let btnEdit = `<button type="button" onclick="editData('user', '${t.id}')" class="text-blue-500 hover:text-blue-700 mr-2"><i class="ph ph-pencil-simple text-lg"></i></button>`;
         let btnDelete = `<button type="button" onclick="deleteData('user', '${t.id}')" class="text-red-500 hover:text-red-700"><i class="ph ph-trash text-lg"></i></button>`;
         tbody.innerHTML += `
@@ -553,6 +556,7 @@ function loadAdminUserTable() {
             <td class="p-4 text-gray-800 font-medium flex items-center whitespace-nowrap">${t.username} ${statusSync}</td>
             <td class="p-4 text-gray-800 font-bold whitespace-nowrap">${t.nama}</td>
             <td class="p-4 whitespace-nowrap">${rBadge}</td>
+            <td class="p-4 whitespace-nowrap">${ttdBadge}</td>
             <td class="p-4 text-center whitespace-nowrap ${getActionClass('user')}">${btnEdit}${btnDelete}</td>
         </tr>`;
     });

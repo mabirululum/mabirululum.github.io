@@ -12,6 +12,7 @@ const useServer = true; // Flag untuk mendeteksi mode online
 
 // 2. VARIABEL STATE APLIKASI
 let currentUserRole = '';
+let currentUserData = null;
 let activeRestoreTab = 'pemasukan';
 let idleTimer; // Untuk auto-logout
 let refreshCountdownInterval = null; // Untuk cooldown tombol refresh siswa
@@ -33,6 +34,7 @@ const adminTableState = {
     master_atribut: { page: 1, query: '' },
     restore: { page: 1, query: '' },
     user: { page: 1, query: '' },
+    pengaturan: { page: 1, query: '' },
 };
 
 // 4. DATABASE LOKAL (Akan diisi oleh Supabase nanti)

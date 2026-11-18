@@ -41,7 +41,8 @@ async function handleLoginAdmin(e) {
 
         if (authError || !authData.user) {
             hideLoading();
-            showToast('Username atau Password Salah!', 'error');
+            tampilkanModalNotif('Gagal!', 'Username atau Password Salah!', 'error');
+            setTimeout(() => tutupModalNotif(), 2000);
             return;
         }
 
@@ -51,13 +52,26 @@ async function handleLoginAdmin(e) {
             .select('*')
             .eq('username', user)
             .single();
+        
+        // showLoading("Menyiapkan Tahun Ajaran Aktif...");
+        const { data: pengaturanData } = await supabaseClient
+            .from('pengaturan')
+            .select('nilai')
+            .eq('kunci', 'tahun_ajaran_aktif')
+            .single();
+            
+        if (pengaturanData && pengaturanData.nilai) {
+            globalTahunAktif = pengaturanData.nilai;
+        }
 
         showLoading("Memuat Database Dasbor...");
-        const isSuccess = await loadDataFromSupabase();
+        // const isSuccess = await loadDataFromSupabase();
+        const isSuccess = await loadDataFromSupabase('admin');
         
         hideLoading();
         if (!isSuccess) {
-            showToast('Gagal Muat Database Supabase!', 'error');
+            tampilkanModalNotif('Gagal!', 'Gagal Muat Database Supabase!', 'error');
+            setTimeout(() => tutupModalNotif(), 2000);
             return;
         }
 
@@ -65,9 +79,14 @@ async function handleLoginAdmin(e) {
         const adminFormat = { 
             id: adminDetail ? adminDetail.id : authData.user.id, 
             username: user, 
-            nama: adminDetail ? adminDetail.nama_admin : 'Administrator', 
-            role: adminDetail ? adminDetail.role : 'Admin' 
+            nama: adminDetail ? adminDetail.nama_admin : 'Administrator',
+            role: adminDetail ? adminDetail.role : 'Admin',
+            url_ttd: adminDetail ? (adminDetail.url_ttd || '') : ''
         };
+        currentUserData = adminFormat;
+        try {
+            sessionStorage.setItem('mabu_admin_user', JSON.stringify(adminFormat));
+        } catch (e) {}
         
         renderAdminView(adminFormat);
         setupIdleTimer();
@@ -75,7 +94,8 @@ async function handleLoginAdmin(e) {
     } catch (err) {
         console.error(err);
         hideLoading();
-        showToast('Terjadi kesalahan saat otentikasi.', 'error');
+        tampilkanModalNotif('Gagal!', 'Terjadi kesalahan saat otentikasi.', 'error');
+        setTimeout(() => tutupModalNotif(), 2000);
     }
 }
 
@@ -92,7 +112,8 @@ async function handleLoginSiswa(e) {
     const blockUntil = localStorage.getItem('login_block_until');
     if (blockUntil && Date.now() < parseInt(blockUntil)) {
         const sisaDetik = Math.ceil((parseInt(blockUntil) - Date.now()) / 1000);
-        showToast(`Terlalu banyak percobaan! Silakan tunggu ${sisaDetik} detik lagi.`, 'error');
+        tampilkanModalNotif('', `Terlalu banyak percobaan! Silakan tunggu ${sisaDetik} detik lagi.`, 'error');
+        setTimeout(() => tutupModalNotif(), 2000);
         return; // Hentikan eksekusi, JANGAN tembak Supabase!
     }
 
@@ -118,11 +139,13 @@ async function handleLoginSiswa(e) {
                 // Jika sudah 3x salah, berikan hukuman (Kunci selama 60 detik)
                 localStorage.setItem('login_block_until', Date.now() + COOLDOWN_TIME);
                 localStorage.setItem('login_attempts', '0'); // Reset hitungan
-                showToast(`Akses diblokir sementara! Anda salah menebak NIS 3 kali.`, 'error');
+                tampilkanModalNotif('',`Akses diblokir sementara! Anda salah menebak NIS 3 kali.`, 'error');
+                setTimeout(() => tutupModalNotif());
             } else {
                 // Jika belum 3x, berikan peringatan sisa kesempatan
                 localStorage.setItem('login_attempts', attempts);
-                showToast(`NIS tidak ditemukan! (Sisa percobaan: ${MAX_ATTEMPTS - attempts}x)`, 'error');
+                tampilkanModalNotif('',`NIS tidak ditemukan! (Sisa percobaan: ${MAX_ATTEMPTS - attempts}x)`, 'error');
+                setTimeout(() => tutupModalNotif());
             }
             return;
         }
@@ -133,11 +156,13 @@ async function handleLoginSiswa(e) {
         localStorage.removeItem('login_block_until');
 
         showLoading("Mengambil Data Tagihan...");
-        const isSuccess = await loadDataFromSupabase();
+        // const isSuccess = await loadDataFromSupabase();
+        const isSuccess = await loadDataFromSupabase('siswa', nis);
         hideLoading();
 
         if (!isSuccess) {
-            showToast('Gagal terhubung ke database', 'error');
+            tampilkanModalNotif('Error!','Gagal terhubung ke database', 'error');
+            setTimeout(() => tutupModalNotif());
             return;
         }
 
@@ -150,7 +175,8 @@ async function handleLoginSiswa(e) {
     } catch(err) {
         console.error(err);
         hideLoading();
-        showToast('Terjadi kesalahan pada server.', 'error');
+        tampilkanModalNotif('Error!','Terjadi kesalahan pada server.', 'error');
+        setTimeout(() => tutupModalNotif());
     }
 }
 
@@ -245,6 +271,8 @@ async function confirmLogout() {
         
         // 3. Reset semua variabel dan form lokal
         if(typeof currentUserRole !== 'undefined') currentUserRole = '';
+        if(typeof currentUserData !== 'undefined') currentUserData = null;
+        try { sessionStorage.removeItem('mabu_admin_user'); } catch(e) {}
         currentSiswaData = null; 
         currentBillingData = null;
 

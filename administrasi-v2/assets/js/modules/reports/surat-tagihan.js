@@ -180,12 +180,20 @@ function buildSuratHTML(siswa, filteredSurat, keperluan, index, isLast = true) {
       <p style="text-align: justify; text-indent: 50px;">Kami mohon agar Bapak/Ibu dapat segera menyelesaikan administrasi tersebut. Bagi Bapak/Ibu yang berkenan melakukan pembayaran secara transfer, dapat melalui rekening <b>Bank Jatim Syariah No. 6202199559 a.n. MA Bi'rul Ulum</b>. Mohon konfirmasi dan kirimkan bukti transfer melalui WhatsApp ke nomor <b>0838-3313-3913 (Admin Madrasah)</b>.</p>
       <p style="text-align: justify; text-indent: 50px;"><i>Apabila Bapak/Ibu telah melakukan pembayaran sebelum surat ini diterima, mohon surat tagihan ini diabaikan.</i> Demikian surat pemberitahuan ini kami sampaikan. Atas perhatian dan kerjasamanya, kami ucapkan terima kasih.</p>
       <p><i>Wassalamu'alaikum Wr. Wb.</i></p>
-      <table style="width: 100%; margin-top: 15px; text-align: center; page-break-inside: avoid;">
-        <tr>
-          <td style="width: 50%;"><br>Bendahara Madrasah,<br><br><br><br><b><u>Ririn Jauharin, S.Ak.</u></b></td>
-          <td style="width: 50%;">Mengetahui,<br>Kepala Madrasah,<br><br><br><br><b><u>Yusuf Muzaidi, S.Pd.</u></b></td>
-        </tr>
-      </table>
+      ${(() => {
+        const bendaharaInfo = typeof getInfoBendahara === 'function' ? getInfoBendahara() : { nama: 'Ririn Jauharin, S.Ak.', urlTtd: '' };
+        const ttdBendaharaHtml = bendaharaInfo.urlTtd
+          ? `<div style="height: 60px; display: flex; align-items: center; justify-content: center; margin: 4px 0;"><img src="${bendaharaInfo.urlTtd}" style="max-height: 55px; max-width: 140px; object-fit: contain;" alt="TTD Bendahara"></div>`
+          : `<br><br><br><br>`;
+        return `
+        <table style="width: 100%; margin-top: 15px; text-align: center; page-break-inside: avoid;">
+          <tr>
+            <td style="width: 50%;"><br>Bendahara Madrasah,<br>${ttdBendaharaHtml}<b><u>${bendaharaInfo.nama}</u></b></td>
+            <td style="width: 50%;">Mengetahui,<br>Kepala Madrasah,<br><br><br><br><b><u>Yusuf Muzaidi, S.Pd.</u></b></td>
+          </tr>
+        </table>
+        `;
+      })()}
     </div>
     `;
 }

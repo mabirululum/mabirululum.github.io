@@ -94,7 +94,7 @@ function toggleSidebarAccordion(event, targetId, btnElement) {
 // 2. FUNGSI PINDAH TAB / MENU & AUTO-OPEN
 // ==========================================
 function switchAdminTab(tab) {
-	const views = ['dashboard', 'datasiswa', 'pemasukan', 'atribut', 'cetak', 'bantuan', 'infaq', 'pengeluaran', 'pengeluaran-non', 'hr-tendik', 'hr-ekstra-bbqs', 'tarif', 'master_atribut', 'master_guru', 'restore', 'user', 'pengaturan'];
+	const views = ['dashboard', 'datasiswa', 'pemasukan', 'atribut', 'cetak', 'bantuan', 'infaq', 'pengeluaran', 'pengeluaran-non', 'hr-tendik', 'hr-ekstra-bbqs', 'hr-sumatif', 'hr-ujian', 'hr-panitia', 'tarif', 'master_atribut', 'master_guru', 'restore', 'user', 'pengaturan'];
 	const titles = {
 		'dashboard': 'Dashboard Utama',
 		'datasiswa': 'Direktori Data Siswa',
@@ -106,6 +106,9 @@ function switchAdminTab(tab) {
 		'pengeluaran-non': 'Pengeluaran Non Operasional',
 		'hr-tendik': 'Daftar Honorarium Guru',
 		'hr-ekstra-bbqs': 'Daftar Honorarium Ekstra & BBQS',
+		'hr-sumatif': 'Daftar Honorarium Sumatif',
+		'hr-ujian': 'Daftar Honorarium Ujian Madrasah',
+		'hr-panitia': 'Daftar Honorarium Panitia Sumatif & Ujian',
 		'infaq': 'Manajemen Kas Infaq',
 		'tarif': 'Manajemen Tarif Siswa',
 		'master_atribut': 'Manajemen Tarif Atribut Siswa',
@@ -251,6 +254,13 @@ function renderAdminView(admin) {
       else if (isAdmin) { const isViewPemasukan = el.closest('#admin-view-pemasukan') !== null; isViewPemasukan ? el.classList.remove('hidden') : el.classList.add('hidden'); } 
       else el.classList.remove('hidden');
   });
+
+  if (typeof currentUserData === 'undefined' || !currentUserData) currentUserData = admin;
+  const bendaharaInfo = typeof getInfoBendahara === 'function' ? getInfoBendahara() : { nama: admin.nama };
+  const elHr = document.getElementById('print-hr-bendahara');
+  if (elHr) elHr.innerText = bendaharaInfo.nama;
+  const elBbqs = document.getElementById('print-bbqs-bendahara');
+  if (elBbqs) elBbqs.innerText = bendaharaInfo.nama;
 
   switchAdminTab('dashboard'); loadDashboardStats(); loadAdminDataSiswaTable(); loadAdminTable(); loadAdminAtributTable(); loadAdminBantuanTable(); loadAdminPengeluaranTable(); loadAdminPengeluaranNonTable(); loadAdminInfaqTable(); cekStatusBulanIni(); renderChangelog(); cekStatusBulanIniBBQS();
   if (isSuperAdmin) { loadAdminUserTable(); loadAdminTarifTable(); loadAdminMasterAtributTable(); loadAdminMasterGuruTable(); loadAdminTarifTunjanganTable(); updateRestoreBadges(); }

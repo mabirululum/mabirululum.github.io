@@ -54,7 +54,8 @@ async function loadDataFromSupabase(konteks = 'admin', filterNis = null) {
         	username: r.username,
         	password: r.password,
         	nama: r.nama_admin,
-        	role: r.role
+        	role: r.role,
+        	urlTtd: r.url_ttd || ''
         }));
         dbSiswa = (siswaData || []).map(r => ({
         	nis: r.nis,
@@ -281,6 +282,7 @@ function mapToSupabase(tipe, data) {
         payload.password = data.password;
         payload.nama_admin = data.nama;
         payload.role = data.role;
+        payload.url_ttd = data.urlTtd || null;
     } else if (tipe === 'atribut') {
         payload.id_transaksi = data.id; 
         payload.id_nota_referensi = data.idRef || null; 

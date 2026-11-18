@@ -565,6 +565,26 @@ function cetakKwitansi(idTransaksi) {
 	document.getElementById('p-grandtotal').innerText = formatRp(trx.nominal);
 	document.getElementById('p-terbilang').innerText = terbilang(trx.nominal);
 	document.getElementById('p-tgl-cetak').innerText = getNowDateIndo();
+
+	// TTD & Petugas Penerima Dinamis
+	const adminNow = typeof getCurrentAdmin === 'function' ? getCurrentAdmin() : null;
+	const namaPetugas = adminNow?.nama || 'Petugas Administrasi';
+	const ttdPetugas = adminNow?.url_ttd || adminNow?.urlTtd || '';
+
+	const elPetugas = document.getElementById('p-kwitansi-petugas');
+	if (elPetugas) elPetugas.innerText = namaPetugas;
+
+	const elTtd = document.getElementById('p-kwitansi-ttd');
+	if (elTtd) {
+		if (ttdPetugas) {
+			elTtd.src = ttdPetugas;
+			elTtd.classList.remove('hidden');
+		} else {
+			elTtd.src = '';
+			elTtd.classList.add('hidden');
+		}
+	}
+
 	window.print();
 	resetPencarianPemasukan();
 }

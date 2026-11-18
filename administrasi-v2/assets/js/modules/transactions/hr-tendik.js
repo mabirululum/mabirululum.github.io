@@ -879,6 +879,8 @@ function unduhExcelHR() {
     dataExcel.push([]);
     dataExcel.push([]);
     dataExcel.push(["", "", "Yusuf Muzaidi, S.Pd", "", "", "", "", "", "Ririn Jauharin, S.Ak", "", ""]);
+    const namaTuKeuanganTendik = typeof getInfoBendahara === 'function' ? getInfoBendahara().nama : 'Ririn Jauharin, S.Ak';
+    dataExcel.push(["", "", "Yusuf Muzaidi, S.Pd", "", "", "", "", "", namaTuKeuanganTendik, "", ""]);
 
     const worksheet = XLSX.utils.aoa_to_sheet(dataExcel);
 

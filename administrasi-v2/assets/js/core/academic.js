@@ -171,19 +171,19 @@ function calculateSiswaBilling(siswaProfile, tarifList, bayarList) {
 		excludeKeywords = [];
 
 	if (currentMonth >= 6 && currentMonth <= 9) {
-		examName = "PTS 1 (Semester Ganjil)";
+		examName = "STS 1 (Semester Ganjil)";
 		maxSppIndex = 3;
-		excludeKeywords = ['PAS 1', 'PTS 2', 'PAS 2'];
+		excludeKeywords = ['SAS 1', 'STS 2', 'SAS 2'];
 	} else if (currentMonth >= 10 && currentMonth <= 11) {
-		examName = "PAS 1 (Semester Ganjil)";
+		examName = "SAS 1 (Semester Ganjil)";
 		maxSppIndex = 5;
-		excludeKeywords = ['PTS 2', 'PAS 2'];
+		excludeKeywords = ['STS 2', 'SAS 2'];
 	} else if (currentMonth >= 0 && currentMonth <= 2) {
-		examName = "PTS 2 (Semester Genap)";
+		examName = "STS 2 (Semester Genap)";
 		maxSppIndex = 8;
-		excludeKeywords = ['PAS 2'];
+		excludeKeywords = ['SAS 2'];
 	} else {
-		examName = "PAS 2 / Kenaikan Kelas";
+		examName = "SAS 2 / Kenaikan Kelas";
 		maxSppIndex = 11;
 		excludeKeywords = [];
 	}

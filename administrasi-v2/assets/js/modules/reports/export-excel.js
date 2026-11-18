@@ -134,9 +134,11 @@ function generateFileExcel(labelPeriode, tahunAjaran, tglCetak, totalPem, totalP
   addRow(["", "", "", ""]);
   
   // Nama Terang (Merge kolom A-B untuk Kepala, C-D untuk Bendahara)
+  const namaBendahara1 = typeof getInfoBendahara === 'function' ? getInfoBendahara().nama : 'Ririn Jauharin, S.Ak.';
   addRow([
     { v: "       Yusuf Muzaidi, S.Pd.", s: styleTTDBold }, "", 
-    { v: "                                                  Ririn Jauharin, S.Ak.", s: styleTTDBold }, ""
+    // { v: "                                                  Ririn Jauharin, S.Ak.", s: styleTTDBold }, ""
+    { v: `                                                  ${namaBendahara1}`, s: styleTTDBold }, ""
   ]);
   mergeRow(r-1, r-1, 0, 1);
   mergeRow(r-1, r-1, 2, 3);
@@ -482,9 +484,11 @@ function generateFileNonOpsExcel(kategori, tahunAjaran, tglCetak, dataPengeluara
   addRow(["", "", "", "", ""]);
   addRow(["", "", "", "", ""]);
   
+  const namaBendahara2 = typeof getInfoBendahara === 'function' ? getInfoBendahara().nama : 'Ririn Jauharin, S.Ak.';
   addRow([
     { v: "Yusuf Muzaidi, S.Pd.", s: styleTTDBold }, "", "", 
-    { v: "                                              Ririn Jauharin, S.Ak.", s: styleTTDBold }, ""
+    // { v: "                                              Ririn Jauharin, S.Ak.", s: styleTTDBold }, ""
+    { v: `                                              ${namaBendahara2}`, s: styleTTDBold }, ""
   ]);
   mergeRow(r-1, r-1, 0, 1);
   mergeRow(r-1, r-1, 3, 4);
@@ -654,9 +658,11 @@ function generateBukuBesarExcel(tahunAjaran, tglCetak, dataPemSiswa, dataPemBant
     
     addRow(emptyRow()); addRow(emptyRow()); addRow(emptyRow());
     
+    const namaBendaharaGlobal = typeof getInfoBendahara === 'function' ? getInfoBendahara().nama : 'Ririn Jauharin, S.Ak.';
     let rowNama = emptyRow();
     rowNama[colKepala] = { v: "Yusuf Muzaidi, S.Pd.", s: { font: fontBold } };
     rowNama[colBendahara] = { v: "Ririn Jauharin, S.Ak.", s: { font: fontBold } };
+    rowNama[colBendahara] = { v: namaBendaharaGlobal, s: { font: fontBold } };
     addRow(rowNama);
   };
 
@@ -664,6 +670,7 @@ function generateBukuBesarExcel(tahunAjaran, tglCetak, dataPemSiswa, dataPemBant
   const cetakTTD_4Col = (addRow, mergeRow, getRow) => {
     const stPinggirTTD = { font: fontNormal, alignment: { vertical: "center" } };
     const stPinggirTebalTTD = { font: fontBold, alignment: { vertical: "center" } };
+    const namaBendaharaGlobal = typeof getInfoBendahara === 'function' ? getInfoBendahara().nama : 'Ririn Jauharin, S.Ak.';
     
     addRow(["", "", "", ""]);
     
@@ -680,6 +687,7 @@ function generateBukuBesarExcel(tahunAjaran, tglCetak, dataPemSiswa, dataPemBant
     
     currR = getRow();
     addRow([{ v: "     Yusuf Muzaidi, S.Pd.", s: stPinggirTebalTTD }, "", { v: "                                                                    Ririn Jauharin, S.Ak.", s: stPinggirTebalTTD }, ""]);
+    addRow([{ v: "     Yusuf Muzaidi, S.Pd.", s: stPinggirTebalTTD }, "", { v: `                                                                    ${namaBendaharaGlobal}`, s: stPinggirTebalTTD }, ""]);
     mergeRow(currR, currR, 0, 1); // Merge Kolom A & B
     mergeRow(currR, currR, 2, 3); // Merge Kolom C & D
   };

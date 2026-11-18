@@ -48,7 +48,8 @@ function submitUser(e) {
 		username: username,
 		nama: document.getElementById('user-nama').value.trim(),
 		password: document.getElementById('user-password').value,
-		role: document.getElementById('user-role').value
+		role: document.getElementById('user-role').value,
+		urlTtd: document.getElementById('user-url-ttd') ? document.getElementById('user-url-ttd').value.trim() : ''
 	};
 
 	if (!data.isEdit && dbAdmin.find(u => String(u.username).trim().toLowerCase() === String(username).trim().toLowerCase())) {

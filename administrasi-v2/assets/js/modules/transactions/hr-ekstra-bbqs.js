@@ -325,6 +325,8 @@ function unduhExcelBBQS() {
     dataExcel.push([]);
     dataExcel.push([]);
     dataExcel.push(["", "", "Yusuf Muzaidi, S.Pd", "", "", "Ririn Jauharin, S.Ak", "", ""]);
+    const namaTuKeuangan1 = typeof getInfoBendahara === 'function' ? getInfoBendahara().nama : 'Ririn Jauharin, S.Ak';
+    dataExcel.push(["", "", "Yusuf Muzaidi, S.Pd", "", "", namaTuKeuangan1, "", ""]);
 
     const worksheet = XLSX.utils.aoa_to_sheet(dataExcel);
 
@@ -1035,6 +1037,8 @@ function unduhExcelEkstra() {
 		dataExcel.push([]);
 		dataExcel.push([]);
 		dataExcel.push(["", "", "Yusuf Muzaidi, S.Pd", "", "", "Ririn Jauharin, S.Ak", "", ""]);
+		const namaTuKeuangan2 = typeof getInfoBendahara === 'function' ? getInfoBendahara().nama : 'Ririn Jauharin, S.Ak';
+		dataExcel.push(["", "", "Yusuf Muzaidi, S.Pd", "", "", namaTuKeuangan2, "", ""]);
 
 		const worksheet = XLSX.utils.aoa_to_sheet(dataExcel);
 

@@ -29,32 +29,9 @@
     <script> if (typeof tailwind === 'undefined') { document.write('<script src="/assets/js/tailwind.min.js"><\/script>'); }
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script> if (typeof tailwind === 'undefined') { document.write('<script src="/assets/js/tailwind.browser.min.js"><\/script>'); }
-    </script>
-
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web" crossorigin="anonymous"></script>
     <script> if (typeof PhosphorIcons === 'undefined') { document.write('<link rel="stylesheet" href="/assets/css/phosphor.css">'); }
-    </script>
-
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script> if (typeof Chart === 'undefined') { document.write('<script src="/assets/js/chart.min.js"><\/script>'); }
-    </script>
-
-    <!-- Chartjs Plugin Datalabels -->
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
-    <script> if (typeof ChartDataLabels === 'undefined') { document.write('<script src="/assets/js/chartjs-plugin-datalabels.min.js"><\/script>'); }
-    </script>
-
-    <!-- html2canvas -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script> if (typeof html2canvas === 'undefined') { document.write('<script src="/assets/js/html2canvas.min.js"><\/script>'); }
-    </script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js" integrity="sha512-01CJ9/g7e8cUmY0DFTMcUw/ikS799FHiOA0eyHsUWfOetgbx/t6oV4otQ5zXKQyIrQGTHSmRVPIgrgLcZi/WMA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script> if (typeof dom2image === 'undefined') { document.write('<script src="/assets/js/dom-to-image.js"><\/script>'); }
     </script>
 
     <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
@@ -153,9 +130,11 @@
                     <!-- Gambar Stempel (diatur rotasi sedikit agar natural) -->
                     <img src="/assets/Stempel MABU Cetak.png" class="absolute w-16 h-16 opacity-90 z-10" style="left: 35%; transform: translateX(-50%) rotate(-8deg);" alt="Stempel MABU">
                     <!-- Gambar TTD (diatur di atas stempel z-10) -->
-                    <img src="/assets/TTD-RIRIN.png" class="absolute w-20 h-auto z-0" style="left: 40%; transform: translateX(-20%); top: -5px;" alt="TTD Ririn">
+                    <!-- <img src="/assets/TTD-RIRIN.png" class="absolute w-20 h-auto z-0" style="left: 40%; transform: translateX(-20%); top: -5px;" alt="TTD Ririn"> -->
+                    <img id="p-kwitansi-ttd" src="" class="absolute w-20 h-auto z-0 hidden" style="left: 40%; transform: translateX(-20%); top: -5px;" alt="TTD Petugas">
                 </div>
-                <p class="font-bold underline relative z-20">Ririn Jauharin, S.Ak.</p>
+                <!-- <p class="font-bold underline relative z-20">Ririn Jauharin, S.Ak.</p> -->
+                <p id="p-kwitansi-petugas" class="font-bold underline relative z-20">Petugas Administrasi</p>
             </div>
         </div>
     </div>
@@ -271,15 +250,11 @@
                     </button>
                     <div id="acc-hr" class="hidden flex-col mt-1 space-y-1 bg-slate-900/50 rounded-lg">
                         <div id="nav-hr-tendik-container">
-                            <button id="nav-hr-tendik" data-tab="hr-tendik" class="btn-menu w-full flex items-center pl-11 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium">
-                                <i class="ph ph-chalkboard-teacher text-lg mr-2"></i> HR Guru
-                            </button>
-                            <button id="nav-hr-ekstra-bbqs" data-tab="hr-ekstra-bbqs" class="btn-menu w-full flex items-center pl-11 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium">
-                                <i class="ph ph-chalkboard-teacher text-lg mr-2"></i> HR Ekstra & BBQS
-                            </button>
-                            <button id="nav-hr-sumatif" data-tab="hr-sumatif" disabled class="btn-menu w-full flex items-center pl-11 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium">
-                                <i class="ph ph-chalkboard-teacher text-lg mr-2"></i> HR Sumatif
-                            </button>
+                            <button id="nav-hr-tendik" data-tab="hr-tendik" class="btn-menu w-full flex items-center pl-11 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium"><i class="ph ph-chalkboard-teacher text-lg mr-2"></i> HR Guru</button>
+                            <button id="nav-hr-ekstra-bbqs" data-tab="hr-ekstra-bbqs" class="btn-menu w-full flex items-center pl-11 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium"><i class="ph ph-sparkle text-lg mr-2"></i> HR Ekstra & BBQS</button>
+                            <button id="nav-hr-sumatif" data-tab="hr-sumatif" class="btn-menu w-full flex items-center pl-11 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium"><i class="ph ph-notepad text-lg mr-2"></i> HR Sumatif</button>
+                            <button id="nav-hr-ujian" data-tab="hr-ujian" class="btn-menu w-full flex items-center pl-11 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium"><i class="ph ph-exam text-lg mr-2"></i> HR Ujian</button>
+                            <button id="nav-hr-panitia" data-tab="hr-panitia" class="btn-menu w-full flex items-center pl-11 pr-4 py-2 rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors text-xs font-medium"><i class="ph ph-users-three text-lg mr-2"></i> HR Panitia</button>
                         </div>
                     </div>
                 </div>
@@ -1542,7 +1517,8 @@
                             </div>
                             <div class="text-center">
                                 <p class="mb-20">Surabaya, <span class="print-tanggal">........................</span><br>Bendahara</p>
-                                <p class="font-bold underline">Nama Bendahara</p>
+                                <!-- <p class="font-bold underline">Nama Bendahara</p> -->
+                                <p id="print-hr-bendahara" class="font-bold underline">Nama Bendahara</p>
                                 <p>NIP. -</p>
                             </div>
                         </div>
@@ -1872,9 +1848,131 @@
                             </div>
                             <div class="text-center">
                                 <p class="mb-20">Gedangan, <span class="print-tanggal">........................</span><br>TU Keuangan</p>
-                                <p class="font-bold underline">Ririn Jauharin, S.Ak</p>
+                                <!-- <p class="font-bold underline">Ririn Jauharin, S.Ak</p> -->
+                                <p id="print-bbqs-bendahara" class="font-bold underline">Ririn Jauharin, S.Ak</p>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======================================================== -->
+            <!-- 1. VIEW: HR SUMATIF                                      -->
+            <!-- ======================================================== -->
+            <div id="admin-view-hr-sumatif" class="hidden flex-1 overflow-y-auto p-4 md:p-8 bg-gray-50 flex-col">
+                <!-- Header Sub-Tabs Rencana -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 shrink-0 mb-4">
+                    <div class="flex gap-6 border-b border-gray-100 overflow-x-auto">
+                        <button class="pb-3 text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 transition-colors shrink-0">
+                            <i class="ph ph-calendar-check mr-1.5"></i> STS Ganjil
+                        </button>
+                        <button class="pb-3 text-sm font-bold border-b-2 border-transparent text-gray-400 cursor-not-allowed transition-colors shrink-0">
+                            <i class="ph ph-calendar-check mr-1.5"></i> SAS Ganjil
+                        </button>
+                        <button class="pb-3 text-sm font-bold border-b-2 border-transparent text-gray-400 cursor-not-allowed transition-colors shrink-0">
+                            <i class="ph ph-calendar-check mr-1.5"></i> STS Genap
+                        </button>
+                        <button class="pb-3 text-sm font-bold border-b-2 border-transparent text-gray-400 cursor-not-allowed transition-colors shrink-0">
+                            <i class="ph ph-calendar-check mr-1.5"></i> SAT Genap
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Coming Soon Card -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 md:p-12 text-center max-w-2xl mx-auto my-auto">
+                    <div class="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <i class="ph ph-notepad text-3xl"></i>
+                    </div>
+                    <span class="inline-block px-3 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-full mb-3">
+                        Tahap Perancangan
+                    </span>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Modul Honorarium Sumatif</h3>
+                    <p class="text-sm text-gray-500 mb-6 leading-relaxed">
+                        Modul ini disiapkan untuk perhitungan honor pembuatan naskah, koreksi, dan pengawasan penilaian tengah serta akhir semester.
+                    </p>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-semibold text-gray-600">
+                        <div class="p-2.5 rounded-lg bg-gray-50 border border-gray-100">STS Ganjil</div>
+                        <div class="p-2.5 rounded-lg bg-gray-50 border border-gray-100">SAS Ganjil</div>
+                        <div class="p-2.5 rounded-lg bg-gray-50 border border-gray-100">STS Genap</div>
+                        <div class="p-2.5 rounded-lg bg-gray-50 border border-gray-100">SAT Genap</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======================================================== -->
+            <!-- 2. VIEW: HR UJIAN                                        -->
+            <!-- ======================================================== -->
+            <div id="admin-view-hr-ujian" class="hidden flex-1 overflow-y-auto p-4 md:p-8 bg-gray-50 flex-col">
+                <!-- Header Sub-Tabs Rencana -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 shrink-0 mb-4">
+                    <div class="flex gap-6 border-b border-gray-100 overflow-x-auto">
+                        <button class="pb-3 text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 transition-colors shrink-0">
+                            <i class="ph ph-graduation-cap mr-1.5"></i> Asesmen Madrasah (AM)
+                        </button>
+                        <button class="pb-3 text-sm font-bold border-b-2 border-transparent text-gray-400 cursor-not-allowed transition-colors shrink-0">
+                            <i class="ph ph-certificate mr-1.5"></i> Ujian UAMNU
+                        </button>
+                        <button class="pb-3 text-sm font-bold border-b-2 border-transparent text-gray-400 cursor-not-allowed transition-colors shrink-0">
+                            <i class="ph ph-flask mr-1.5"></i> Ujian Praktik
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Coming Soon Card -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 md:p-12 text-center max-w-2xl mx-auto my-auto">
+                    <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <i class="ph ph-exam text-3xl"></i>
+                    </div>
+                    <span class="inline-block px-3 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-full mb-3">
+                        Tahap Perancangan
+                    </span>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Modul Honorarium Ujian Akhir</h3>
+                    <p class="text-sm text-gray-500 mb-6 leading-relaxed">
+                        Pengelolaan honorarium terintegrasi untuk Asesmen Madrasah (AM), Ujian Akhir Ma'arif NU (UAMNU), hingga pelaksanaan Ujian Praktik tingkat akhir.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs font-semibold text-gray-600">
+                        <div class="p-2.5 rounded-lg bg-gray-50 border border-gray-100">Asesmen Madrasah</div>
+                        <div class="p-2.5 rounded-lg bg-gray-50 border border-gray-100">UAMNU</div>
+                        <div class="p-2.5 rounded-lg bg-gray-50 border border-gray-100">Ujian Praktik</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======================================================== -->
+            <!-- 3. VIEW: HR PANITIA                                      -->
+            <!-- ======================================================== -->
+            <div id="admin-view-hr-panitia" class="hidden flex-1 overflow-y-auto p-4 md:p-8 bg-gray-50 flex-col">
+                <!-- Header Sub-Tabs Rencana -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 shrink-0 mb-4">
+                    <div class="flex gap-6 border-b border-gray-100 overflow-x-auto">
+                        <button class="pb-3 text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 transition-colors shrink-0">
+                            <i class="ph ph-users-three mr-1.5"></i> Panitia Sumatif
+                        </button>
+                        <button class="pb-3 text-sm font-bold border-b-2 border-transparent text-gray-400 cursor-not-allowed transition-colors shrink-0">
+                            <i class="ph ph-users-three mr-1.5"></i> Panitia AM & UAMNU
+                        </button>
+                        <button class="pb-3 text-sm font-bold border-b-2 border-transparent text-gray-400 cursor-not-allowed transition-colors shrink-0">
+                            <i class="ph ph-flag-banner mr-1.5"></i> Panitia PHBI & Matsama
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Coming Soon Card -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 md:p-12 text-center max-w-2xl mx-auto my-auto">
+                    <div class="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <i class="ph ph-users-three text-3xl"></i>
+                    </div>
+                    <span class="inline-block px-3 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-full mb-3">
+                        Tahap Perancangan
+                    </span>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Modul Kepanitiaan Madrasah</h3>
+                    <p class="text-sm text-gray-500 mb-6 leading-relaxed">
+                        Distribusi honorarium Surat Keputusan (SK) kepanitiaan: Penanggung Jawab, Ketua, Sekretaris, Bendahara, hingga Seksi Acara/Konsumsi.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs font-semibold text-gray-600">
+                        <div class="p-2.5 rounded-lg bg-gray-50 border border-gray-100">Panitia STS/SAS/SAT</div>
+                        <div class="p-2.5 rounded-lg bg-gray-50 border border-gray-100">Panitia AM / UAMNU</div>
+                        <div class="p-2.5 rounded-lg bg-gray-50 border border-gray-100">Matsama & Kegiatan Khusus</div>
                     </div>
                 </div>
             </div>
@@ -2302,6 +2400,11 @@
                                         <option value="Kepala Sekolah">Kepala Sekolah (View Only)</option>
                                     </select>
                                 </div>
+                                <div>
+                                    <label class="block text-sm mb-1">URL Tanda Tangan (Cloudinary)</label>
+                                    <input type="url" id="user-url-ttd" placeholder="https://res.cloudinary.com/.../ttd.png" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 text-sm">
+                                    <p class="text-xs text-gray-400 mt-1">Opsional: Link PNG transparan di Cloudinary</p>
+                                </div>
                                 <div class="flex space-x-2 pt-2">
                                     <button type="button" id="btn-cancel-user" data-btn="user" class="btnCancel hidden w-1/3 bg-gray-100 py-2.5 rounded-lg">Batal</button>
                                     <button type="submit" id="btn-submit-user" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2.5 rounded-lg">Simpan Data</button>
@@ -2323,6 +2426,7 @@
                                         <th class="p-4 whitespace-nowrap">Username</th>
                                         <th class="p-4 whitespace-nowrap">Nama Lengkap</th>
                                         <th class="p-4 whitespace-nowrap">Role</th>
+                                        <th class="p-4 whitespace-nowrap">TTD Cloudinary</th>
                                         <th class="p-4 text-center admin-action-th whitespace-nowrap">Aksi</th>
                                     </tr>
                                 </thead>
@@ -2519,6 +2623,15 @@
             </div>
         </div>
     </div>
+    <!-- Library Eksternal (Dimuat di akhir agar tidak memblokir render halaman awal) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script> if (typeof Chart === 'undefined') { document.write('<script src="/assets/js/chart.min.js"><\/script>'); } </script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script> if (typeof ChartDataLabels === 'undefined') { document.write('<script src="/assets/js/chartjs-plugin-datalabels.min.js"><\/script>'); } </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script> if (typeof html2canvas === 'undefined') { document.write('<script src="/assets/js/html2canvas.min.js"><\/script>'); } </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js" integrity="sha512-01CJ9/g7e8cUmY0DFTMcUw/ikS799FHiOA0eyHsUWfOetgbx/t6oV4otQ5zXKQyIrQGTHSmRVPIgrgLcZi/WMA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script> if (typeof dom2image === 'undefined') { document.write('<script src="/assets/js/dom-to-image.js"><\/script>'); } </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
