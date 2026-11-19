@@ -46,6 +46,35 @@
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans h-[100dvh] overflow-hidden">
 
+    <!-- ==================== SPLASH SCREEN / INITIAL PRELOADER ==================== -->
+    <div id="app-splash-screen" class="fixed inset-0 bg-slate-900 z-[9999] flex flex-col items-center justify-center p-6 select-none transition-opacity duration-500" style="position: fixed; inset: 0; background-color: #0f172a; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: system-ui, -apple-system, sans-serif;">
+        <div class="flex flex-col items-center max-w-sm text-center">
+            <!-- Logo dengan Animasi Denyut Halus -->
+            <div class="relative mb-5" style="margin-bottom: 1.25rem; position: relative;">
+                <div class="absolute -inset-2 bg-blue-500/20 rounded-full blur-xl animate-pulse"></div>
+                <img src="https://res.cloudinary.com/dkfcuwuas/image/upload/q_auto,f_auto/icon-mabu_yuwogg.png" onerror="this.onerror=null; this.src='/administrasi/assets/img/icon-mabu.webp';" alt="Logo MA Bi'rul Ulum" class="w-24 h-24 relative z-10 rounded-full shadow-2xl ring-4 ring-blue-500/30" style="width: 96px; height: 96px; border-radius: 9999px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+            </div>
+            
+            <!-- Judul Sistem -->
+            <h1 class="text-2xl font-bold text-white tracking-wide mb-1" style="color: #ffffff; font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem;">SIAMA MABU</h1>
+            <p class="text-sm font-medium text-blue-200 mb-6" style="color: #bfdbfe; font-size: 0.875rem; margin-bottom: 1.5rem;">Sistem Administrasi MA Bi'rul Ulum</p>
+
+            <!-- Loading Spinner & Teks Status -->
+            <div class="flex items-center gap-3 px-4 py-2 bg-slate-800/80 border border-slate-700/60 rounded-full backdrop-blur-sm shadow-inner mb-4" style="background-color: rgba(30, 41, 59, 0.8); border: 1px solid rgba(51, 65, 85, 0.6); border-radius: 9999px; padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                <i class="ph ph-spinner-gap text-blue-400 text-xl animate-spin" style="color: #60a5fa; font-size: 1.25rem;"></i>
+                <span id="splash-status-text" class="text-xs font-medium text-slate-300 tracking-wider" style="color: #cbd5e1; font-size: 0.75rem; letter-spacing: 0.05em;">Menyiapkan modul sistem...</span>
+            </div>
+
+            <!-- Bar Garis Progress Animasi -->
+            <div class="w-48 h-1 bg-slate-800 rounded-full overflow-hidden" style="width: 12rem; height: 4px; background-color: #1e293b; border-radius: 9999px; overflow: hidden;">
+                <div class="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full animate-pulse w-full" style="height: 100%; width: 100%; background: linear-gradient(to right, #3b82f6, #6366f1); border-radius: 9999px;"></div>
+            </div>
+            
+            <!-- Subtitle -->
+            <p class="text-[11px] text-slate-500 mt-6 tracking-wider" style="color: #64748b; font-size: 11px; margin-top: 1.5rem; letter-spacing: 0.05em;">Memuat modul & basis data terpusat</p>
+        </div>
+    </div>
+
     <!-- Loading Overlay -->
     <div id="loading-overlay" class="fixed inset-0 bg-slate-900/60 z-[100] hidden flex-col items-center justify-center backdrop-blur-sm transition-opacity">
         <i class="ph ph-spinner-gap text-5xl text-white animate-spin mb-3"></i>
