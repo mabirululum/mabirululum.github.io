@@ -38,7 +38,7 @@
       "badgeText": "PENDAFTARAN DITUTUP",
       "title": "Pendaftaran SPMB Gelombang 2 Telah Berakhir",
       "description": "Pendaftaran reguler resmi ditutup. Untuk informasi pengumuman hasil seleksi, daftar ulang, atau konfirmasi kuota tambahan/susulan, silakan langsung menghubungi Panitia SPMB.",
-      "contactUrl": "https://wa.me/6283832515321?text=Halo%20Panitia%20SPMB%20MA%20Bi%27rul%20Ulum%2C%20apakah%20masih%20tersedia%20informasi%20sisa%20kuota%20atau%20pendaftaran%20susulan%3F",
+      "contactUrl": "https://wa.me/6283856832842?text=Halo%20Panitia%20SPMB%20MA%20Bi%27rul%20Ulum%2C%20apakah%20masih%20tersedia%20informasi%20sisa%20kuota%20atau%20pendaftaran%20susulan%3F",
       "btnText": "Hubungi Panitia (Cek Info Kuota)"
     }
   },
@@ -56,8 +56,8 @@
     {
       "id": "drive-brosur",
       "title": "Brosur SPMB Resmi",
-      "subtitle": "Download Dokumen & Info Rincian Biaya",
-      "url": "https://drive.google.com/file/d/1jH0X-2yWYa816c_l5fRN2RQ6boKgUioU/view?usp=sharing",
+      "subtitle": "Download Brosur SPMB",
+      "url": "https://drive.google.com/file/d/18ERhF74pY-J__y3k8qWmof9DQDlxnakb/view?usp=sharing",
       "icon": "fa-brands fa-google-drive",
       "badge": "Google Drive",
       "featured": false,
